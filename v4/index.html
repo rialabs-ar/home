@@ -376,6 +376,14 @@
 </head>
 <body>
 
+<!-- ─── VERSION HEADER ──────────────────────────────────── -->
+<div id="ver-header" style="position:fixed;top:0;right:0;z-index:99999;padding:12px 18px;display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace,system-ui;font-size:11px;letter-spacing:1px;">
+  <a href="/v1/" style="color:#5a5650;text-decoration:none;padding:4px 8px;border-radius:4px;transition:color 0.2s;">V1</a>
+  <a href="/v2/" style="color:#5a5650;text-decoration:none;padding:4px 8px;border-radius:4px;transition:color 0.2s;">V2</a>
+  <a href="/v3/" style="color:#5a5650;text-decoration:none;padding:4px 8px;border-radius:4px;transition:color 0.2s;">V3</a>
+  <span style="color:#f0a020;font-weight:400;">V4</span>
+</div>
+
 <!-- ════════════════════ HERO ════════════════════ -->
 <section class="hero">
   <div class="wordmark">
@@ -409,7 +417,7 @@
   <div class="sep"></div>
 
   <div class="hero-copy">
-    <p class="hero-tagline"><strong>Inteligencia artificial</strong> aplicada a tus procesos</p>
+    <p class="hero-tagline"><strong>Inteligencia artificial</strong> aplicada</p>
   </div>
 
   <!-- ── Animated illustration: process transformation ── -->
@@ -646,10 +654,6 @@
     </p>
   </div>
 
-  <div class="scroll-hint">
-    <span>scroll</span>
-    <div class="tick"></div>
-  </div>
 </section>
 
 <!-- ════════════════════ 01: SOFTWARE A MEDIDA ════════════════════ -->
@@ -929,6 +933,7 @@
       la gestión del recorrido de vehículos dentro de la locación.
       Visión artificial al servicio de la operación real.
     </p>
+    <a href="https://byte-analitico-v2.netlify.app" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-family:'DM Mono',monospace;font-size:12px;font-weight:300;letter-spacing:2px;color:var(--goldh);text-decoration:none;transition:color 0.3s;">Ver Byte Analítico <span style="font-size:14px;">→</span></a>
   </div>
   <div class="section-visual">
     <svg viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -980,15 +985,16 @@
 <!-- ════════════════════ CONTACTO ════════════════════ -->
 <div class="divider"><div class="divider-line"></div></div>
 
-<section class="content-section" style="display:flex;justify-content:center;padding:6rem 3rem;">
-  <div class="contact-line">
+<section class="content-section" style="display:flex;flex-direction:column;align-items:center;padding:6rem 3rem;gap:1.5rem;">
+  <span style="font-family:'DM Mono',monospace;font-size:18px;font-weight:300;letter-spacing:4px;color:var(--muted);text-transform:uppercase;">Hablemos</span>
+  <div class="contact-line" style="margin-top:0;">
     <a href="mailto:hola@rialabs.ar">hola@rialabs.ar</a>
   </div>
 </section>
 
 <!-- ════════════════════ FOOTER ════════════════════ -->
 <footer class="site-footer">
-  <a href="https://byte-analitico-v2.netlify.app" target="_blank" rel="noopener">Byte Analítico →</a>
+  <span>Powered by <a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:#4a8fd4;">Byte</a> & <a href="https://vrio.ar" target="_blank" rel="noopener" style="color:var(--goldh);">VRIO</a></span>
   <span>© 2025 RIA Labs · Rosario, Argentina</span>
 </footer>
 
