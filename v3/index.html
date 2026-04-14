@@ -3,906 +3,1007 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RIA Labs — Software e Inteligencia Artificial</title>
-<meta name="description" content="Transformamos los procesos de tu empresa con inteligencia artificial y software a medida. Nacidos de Byte y VRIO. Rosario, Argentina.">
+<title>RIA Labs</title>
+<meta name="description" content="RIA Labs — Software a medida · Consultoría en IA — Rosario, Argentina.">
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@200;300;400;500;600&family=DM+Mono:wght@300&display=swap" rel="stylesheet">
+<!-- Favicon: eclipse ring -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='38' fill='none' stroke='%23c8860a' stroke-width='5' opacity='0.7'/%3E%3Ccircle cx='50' cy='50' r='38' fill='none' stroke='%23EF9F27' stroke-width='2' opacity='0.5'/%3E%3Cpath d='M 36 22 A 38 38 0 0 0 22 60' fill='none' stroke='%23EF9F27' stroke-width='3' stroke-linecap='round' opacity='0.9'/%3E%3Ccircle cx='36' cy='18' r='2.5' fill='%23EF9F27' opacity='0.8'/%3E%3C/svg%3E">
 <style>
-  :root {
-    --bg:      #0b0a14;
-    --bg2:     #100f1e;
-    --bg3:     #0d0c1a;
-    --gold:    #c8860a;
-    --gold-hi: #f0a020;
-    --gold-lo: #7a5008;
-    --blue:    #4a8fd4;
-    --blue-lo: #1e4a78;
-    --white:   #f0ece0;
-    --muted:   #8a8478;
-    --border:  rgba(200,134,10,0.14);
-    --border2: rgba(255,255,255,0.055);
-  }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--white); overflow-x: hidden; }
-  body::before {
-    content: ''; position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.025; pointer-events: none; z-index: 9999;
+
+  :root {
+    --bg:    #0b0a14;
+    --bg2:   #0e0d1a;
+    --gold:  #c8860a;
+    --goldh: #EF9F27;
+    --goldd: rgba(200,134,10,0.15);
+    --white: #f0ece0;
+    --muted: #5a5650;
+    --dim:   #2e2c3a;
+    --ghost: rgba(240,236,224,0.05);
   }
 
-  /* NAV */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 22px 52px; display: flex; align-items: center; justify-content: space-between; transition: all 0.35s; }
-  nav.scrolled { background: rgba(11,10,20,0.94); border-bottom: 1px solid var(--border2); backdrop-filter: blur(14px); padding-top: 14px; padding-bottom: 14px; }
-  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .nav-wm { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; color: var(--white); }
-  .nav-wm em { font-style: normal; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 300; letter-spacing: 2px; color: var(--gold-hi); margin-left: 4px; vertical-align: 2px; }
-  .nav-links { display: flex; gap: 36px; list-style: none; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 0.8px; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--white); }
-  .nav-cta { background: transparent; border: 1px solid var(--gold); color: var(--gold-hi); padding: 8px 22px; font-family: 'DM Sans', sans-serif; font-size: 13px; letter-spacing: 1px; cursor: pointer; text-decoration: none; transition: all 0.2s; }
-  .nav-cta:hover { background: var(--gold); color: var(--bg); }
+  html {
+    background: var(--bg);
+    scroll-behavior: smooth;
+  }
 
-  /* HERO */
-  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 130px 24px 90px; position: relative; overflow: hidden; }
-  .hero-glow { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); width: 700px; height: 350px; background: radial-gradient(ellipse, rgba(200,134,10,0.055) 0%, transparent 68%); pointer-events: none; }
-  .hero-eclipse { width: 120px; height: 120px; margin-bottom: 0px; position: relative; z-index: 2; }
-  .hero-ria { font-family: 'Bebas Neue', sans-serif; font-size: clamp(96px, 20vw, 196px); letter-spacing: 18px; line-height: 0.88; color: var(--white); position: relative; z-index: 2; animation: fadeUp 0.9s ease both; animation-delay: 0.05s; margin-top: 0; }
-  .hero-labs { font-size: clamp(15px, 2.2vw, 22px); font-weight: 300; letter-spacing: 10px; color: var(--gold-hi); margin-top: -2px; margin-bottom: 48px; animation: fadeUp 0.9s ease both; animation-delay: 0.2s; position: relative; z-index: 2; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Saira', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
 
-  .hero-headline { font-size: clamp(17px, 2.6vw, 24px); font-weight: 300; color: var(--muted); max-width: 600px; line-height: 1.65; margin-bottom: 52px; animation: fadeUp 0.9s ease both; animation-delay: 0.5s; position: relative; z-index: 2; }
-  .hero-headline strong { color: var(--white); font-weight: 400; }
-  .hero-ctas { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.9s ease both; animation-delay: 0.65s; position: relative; z-index: 2; }
-  .hero-origin { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; color: var(--muted); opacity: 0.35; white-space: nowrap; animation: fadeIn 2s ease 1.4s both; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.35; } }
+  /* Grain */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.02; pointer-events: none; z-index: 999;
+  }
 
-  /* BUTTONS */
-  .btn-gold { background: var(--gold); color: var(--bg); border: none; padding: 14px 38px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 1.5px; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s; }
-  .btn-gold:hover { background: var(--gold-hi); }
-  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border2); padding: 14px 38px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; letter-spacing: 1.5px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
-  .btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.18); }
+  /* ── HERO ─────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 40px;
+    position: relative;
+  }
 
-  /* LAYOUT */
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 48px; }
-  .section { padding: 112px 0; }
-  .divider { height: 1px; background: var(--border2); }
-  .lbl { font-size: 10px; font-weight: 400; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
-  .lbl::before { content: ''; width: 20px; height: 1px; background: var(--gold); display: inline-block; }
-  .ttl { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 5.5vw, 68px); letter-spacing: 3px; line-height: 1; color: var(--white); margin-bottom: 22px; }
-  .bdy { font-size: 17px; font-weight: 300; line-height: 1.78; color: var(--muted); max-width: 620px; }
-  .bdy strong { color: var(--white); font-weight: 400; }
+  /* Subtle radial glow */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -60%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(200,134,10,0.04) 0%, transparent 65%);
+    pointer-events: none;
+  }
 
-  /* STAT BAR */
-  .stat-bar { background: var(--bg2); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 40px 0; }
-  .stat-inner { max-width: 1180px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: repeat(4,1fr); }
-  .stat { padding: 0 32px; }
-  .stat + .stat { border-left: 1px solid var(--border2); }
-  .stat-n { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 2px; color: var(--gold-hi); line-height: 1; }
-  .stat-l { font-size: 12px; font-weight: 300; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+  /* ── WORDMARK: 3-row stack ────────────────── */
+  .wordmark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    animation: rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    z-index: 1;
+  }
 
-  /* SERVICES */
-  .svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 68px; background: var(--border2); }
-  .svc { background: var(--bg); padding: 44px 38px; position: relative; overflow: hidden; transition: background 0.3s; }
-  .svc:hover { background: var(--bg2); }
-  .svc::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 0; background: var(--gold); transition: height 0.35s ease; }
-  .svc:hover::before { height: 100%; }
-  .svc-n { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; color: var(--gold-lo); letter-spacing: 2px; margin-bottom: 22px; }
-  .svc-t { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; color: var(--white); margin-bottom: 14px; }
-  .svc-b { font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--muted); }
+  /* Row 1: Eclipse */
+  .eclipse-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: -6px; /* slight visual tuck toward the text */
+  }
 
-  /* CASE */
-  .case-wrap { background: var(--bg3); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 100px 0; }
-  .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 56px; }
-  .case-pill { display: inline-block; font-size: 10px; font-weight: 400; letter-spacing: 3px; color: var(--gold); border: 1px solid var(--border); padding: 4px 12px; margin-bottom: 18px; }
-  .case-name { font-family: 'Bebas Neue', sans-serif; font-size: 56px; letter-spacing: 4px; line-height: 1; color: var(--white); margin-bottom: 18px; }
-  .case-name span { color: var(--gold-hi); }
-  .case-b { font-size: 15px; font-weight: 300; line-height: 1.78; color: var(--muted); margin-bottom: 28px; }
-  .case-b strong { color: var(--white); font-weight: 400; }
-  .case-res { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border2); }
-  .c-r { background: var(--bg3); padding: 18px 22px; }
-  .c-rn { font-family: 'Bebas Neue', sans-serif; font-size: 34px; letter-spacing: 2px; color: var(--gold-hi); line-height: 1; }
-  .c-rl { font-size: 12px; font-weight: 300; color: var(--muted); margin-top: 4px; }
+  .eclipse-row svg {
+    width: clamp(80px, 12vw, 140px);
+    height: auto;
+    display: block;
+  }
 
-  /* TERMINAL */
-  .term { background: #07060f; border: 1px solid var(--border2); position: relative; overflow: hidden; }
-  .term::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--gold-lo), transparent); }
-  .term-bar { padding: 12px 16px; border-bottom: 1px solid var(--border2); display: flex; align-items: center; gap: 6px; }
-  .t-d { width: 8px; height: 8px; border-radius: 50%; }
-  .t-d1 { background: rgba(200,134,10,0.5); } .t-d2 { background: var(--border2); } .t-d3 { background: var(--border2); }
-  .t-ttl { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; color: var(--muted); letter-spacing: 1px; margin: 0 auto; }
-  .t-row { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 12px; font-family: 'DM Mono', monospace; font-weight: 300; }
-  .t-row:last-child { border-bottom: none; }
-  .t-id { color: var(--gold); min-width: 88px; }
-  .t-bge { font-size: 10px; letter-spacing: 1px; padding: 2px 8px; }
-  .b-act { background: rgba(200,134,10,0.12); color: var(--gold-hi); }
-  .b-don { background: rgba(74,143,212,0.1); color: var(--blue); }
-  .b-pen { background: rgba(255,255,255,0.04); color: var(--muted); }
-  .t-tm { color: var(--muted); margin-left: auto; font-size: 11px; }
-  .term-ft { padding: 10px 16px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; color: var(--muted); opacity: 0.4; border-top: 1px solid var(--border2); }
+  /* Row 2: RIA */
+  .ria-row {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    line-height: 0.92;
+  }
 
-  /* PROCESS */
-  .proc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-  .proc-steps { margin-top: 48px; }
-  .p-step { display: flex; gap: 22px; padding: 26px 0; border-bottom: 1px solid var(--border2); }
-  .p-step:first-child { border-top: 1px solid var(--border2); }
-  .p-n { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; color: var(--gold); letter-spacing: 1px; min-width: 26px; padding-top: 3px; }
-  .p-step h4 { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 5px; }
-  .p-step p { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.65; }
-  .proc-met { position: sticky; top: 110px; display: flex; flex-direction: column; gap: 16px; }
-  .p-met { border: 1px solid var(--border2); padding: 26px 28px; position: relative; overflow: hidden; transition: border-color 0.3s; }
-  .p-met:hover { border-color: var(--border); }
-  .p-met::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); opacity: 0.22; }
-  .p-met-n { font-family: 'Bebas Neue', sans-serif; font-size: 50px; letter-spacing: 2px; color: var(--gold-hi); line-height: 1; }
-  .p-met-l { font-size: 13px; font-weight: 300; color: var(--muted); margin-top: 5px; }
+  .ria {
+    font-family: 'Saira', sans-serif;
+    font-weight: 500;
+    font-size: clamp(80px, 16vw, 170px);
+    letter-spacing: 0.08em;
+    color: var(--white);
+  }
 
-  /* PRINCIPLES */
-  .princ-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 60px; background: var(--border2); }
-  .pr { background: var(--bg); padding: 36px 30px; position: relative; overflow: hidden; transition: background 0.3s; }
-  .pr:hover { background: var(--bg2); }
-  .pr-ghost { font-family: 'Bebas Neue', sans-serif; font-size: 68px; letter-spacing: 2px; color: rgba(200,134,10,0.06); position: absolute; top: 12px; right: 16px; line-height: 1; }
-  .pr-bar { width: 22px; height: 2px; background: var(--gold); margin-bottom: 18px; transition: width 0.3s; }
-  .pr:hover .pr-bar { width: 44px; }
-  .pr-t { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 12px; }
-  .pr-b { font-size: 13px; font-weight: 300; line-height: 1.7; color: var(--muted); }
+  /* Row 3: Labs */
+  .labs-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 2px;
+  }
 
-  /* MARKET */
-  .mkt-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 60px; background: var(--border2); }
-  .mkt { background: var(--bg); padding: 36px 30px; transition: background 0.3s; }
-  .mkt:hover { background: var(--bg2); }
-  .mkt-n { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--gold-hi); line-height: 1; margin-bottom: 10px; }
-  .mkt-t { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 8px; }
-  .mkt-b { font-size: 13px; font-weight: 300; line-height: 1.65; color: var(--muted); }
+  .labs {
+    font-family: 'Saira', sans-serif;
+    font-weight: 300;
+    font-size: clamp(14px, 2vw, 20px);
+    letter-spacing: 0.45em;
+    color: var(--goldh);
+    text-transform: uppercase;
+  }
 
-  /* TEAM */
-  .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 60px; background: var(--border2); }
-  .founder { background: var(--bg); padding: 48px 40px; }
-  .f-init { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; color: var(--gold); margin-bottom: 20px; }
-  .f-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--white); margin-bottom: 4px; }
-  .f-role { font-size: 11px; font-weight: 300; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
-  .f-bio { font-size: 15px; font-weight: 300; line-height: 1.72; color: var(--muted); margin-bottom: 24px; }
-  .f-co { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 3px; color: var(--white); opacity: 0.5; margin-bottom: 4px; }
-  .f-col { font-size: 12px; font-weight: 300; color: var(--muted); }
+  /* ── SEPARATOR ───────────────────────────── */
+  .sep {
+    width: 1px;
+    height: 52px;
+    background: linear-gradient(to bottom, transparent, var(--dim), transparent);
+    margin: 44px 0;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.4s forwards;
+  }
 
-  /* CONTACT */
-  .contact { text-align: center; padding: 140px 48px; position: relative; overflow: hidden; }
-  .contact::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 900px; height: 450px; background: radial-gradient(ellipse, rgba(200,134,10,0.038) 0%, transparent 68%); pointer-events: none; }
-  .c-pre { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; }
-  .c-ttl { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px,9vw,108px); letter-spacing: 6px; line-height: 1; color: var(--white); margin-bottom: 20px; }
-  .c-sub { font-size: 17px; font-weight: 300; color: var(--muted); max-width: 500px; margin: 0 auto 44px; line-height: 1.72; }
-  .c-email { display: inline-block; font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 300; color: var(--blue); letter-spacing: 2px; text-decoration: none; border-bottom: 1px solid var(--blue-lo); padding-bottom: 2px; margin-bottom: 44px; transition: color 0.2s, border-color 0.2s; }
-  .c-email:hover { color: var(--white); border-color: var(--muted); }
-  .c-loc { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; color: var(--muted); opacity: 0.35; margin-top: 36px; }
+  /* ── HERO COPY ───────────────────────────── */
+  .hero-copy {
+    text-align: center;
+    max-width: 500px;
+    opacity: 0;
+    animation: rise 1s ease 1.6s forwards;
+    z-index: 1;
+  }
 
-  /* FOOTER */
-  footer { border-top: 1px solid var(--border2); padding: 32px 52px; display: flex; align-items: center; justify-content: space-between; }
-  .f-logo { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 4px; color: var(--muted); }
-  .f-logo em { font-style: normal; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 2px; color: var(--gold-lo); margin-left: 5px; vertical-align: 1px; }
-  .f-copy { font-size: 11px; font-weight: 300; color: var(--muted); opacity: 0.35; }
-  .f-links { display: flex; gap: 22px; list-style: none; }
-  .f-links a { font-size: 12px; font-weight: 300; color: var(--muted); text-decoration: none; opacity: 0.35; transition: opacity 0.2s; }
-  .f-links a:hover { opacity: 1; }
+  .hero-tagline {
+    font-size: clamp(13px, 1.4vw, 16px);
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
 
-  /* REVEAL */
-  .rev { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
-  .rev.vis { opacity: 1; transform: translateY(0); }
-  .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s} .d4{transition-delay:.32s} .d5{transition-delay:.4s}
+  .hero-tagline strong {
+    color: var(--white);
+    font-weight: 400;
+  }
 
+  .hero-origin {
+    font-size: clamp(11px, 1.1vw, 13px);
+    font-weight: 300;
+    color: var(--dim);
+    margin-top: 12px;
+    letter-spacing: 0.05em;
+    line-height: 1.7;
+  }
 
-  /* ── ILUSTRACIÓN ANIMADA ──────────────────────────────── */
-  .ilus-camera { opacity: 0; animation: ilusFadeUp 1.4s ease forwards; animation-delay: 1.2s; }
-  .ilus-lines  { opacity: 0; animation: ilusFadeIn 1s ease forwards; animation-delay: 3.2s; }
-  .ilus-mind   { opacity: 0; animation: ilusFadeUp 1.4s ease forwards; animation-delay: 4.8s; }
-  .ilus-text1  { opacity: 0; animation: ilusFadeIn 1.2s ease forwards; animation-delay: 2.4s; }
-  .ilus-text2  { opacity: 0; animation: ilusFadeIn 1.2s ease forwards; animation-delay: 6.2s; }
-  @keyframes ilusFadeUp {
-    from { opacity: 0; transform: translateY(12px); }
+  .hero-origin strong {
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* ── HERO ILLUSTRATION ───────────────────── */
+  .hero-illustration {
+    width: 100%;
+    max-width: 600px;
+    opacity: 0;
+    animation: fadeIn 1.2s ease 2s forwards;
+    z-index: 1;
+    margin: 32px 0;
+  }
+
+  .hero-illustration svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ── HERO CONTACT ────────────────────────── */
+  .contact-line {
+    margin-top: 52px;
+    opacity: 0;
+    animation: fadeIn 1s ease 2.2s forwards;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 1;
+  }
+
+  .contact-line::before,
+  .contact-line::after {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--dim);
+  }
+
+  .contact-line a {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; font-weight: 300;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .contact-line a:hover { color: var(--white); }
+
+  /* ── SCROLL HINT ─────────────────────────── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    animation: fadeIn 1s ease 2.8s forwards;
+  }
+
+  .scroll-hint span {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 3px;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  .scroll-hint .tick {
+    width: 1px; height: 24px;
+    background: linear-gradient(to bottom, var(--dim), transparent);
+    animation: scroll-tick 2.5s ease-in-out infinite;
+  }
+
+  @keyframes scroll-tick {
+    0%, 100% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 0.8; transform: translateY(6px); }
+  }
+
+  /* ── CONTENT SECTIONS ────────────────────── */
+  .content-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  .content-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .content-section.reverse { direction: rtl; }
+  .content-section.reverse > * { direction: ltr; }
+
+  .section-text {}
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-weight: 300;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.35;
+    color: var(--white);
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.01em;
+  }
+
+  .section-title em {
+    font-style: normal;
+    color: var(--goldh);
+  }
+
+  .section-body {
+    font-weight: 300;
+    font-size: 0.88rem;
+    line-height: 1.9;
+    color: var(--muted);
+  }
+
+  .section-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .section-visual svg {
+    width: 100%;
+    max-width: 340px;
+    height: auto;
+  }
+
+  /* ── DIVIDERS ────────────────────────────── */
+  .divider {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  .divider-line {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--ghost), transparent);
+  }
+
+  /* ── FOOTER ──────────────────────────────── */
+  .site-footer {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--ghost);
+  }
+
+  .site-footer span,
+  .site-footer a {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 2.5px;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .site-footer a:hover { color: var(--muted); }
+
+  /* ── ANIMATIONS ──────────────────────────── */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  @keyframes ilusFadeIn {
+
+  @keyframes fadeIn {
     from { opacity: 0; }
     to   { opacity: 1; }
   }
-  /* Líneas de datos: se dibujan de izquierda a derecha */
-  .data-line {
-    stroke-dasharray: 120;
-    stroke-dashoffset: 120;
-    animation: drawLine 1.2s ease forwards;
-  }
-  .data-line:nth-child(1) { animation-delay: 3.4s; }
-  .data-line:nth-child(2) { animation-delay: 3.65s; }
-  .data-line:nth-child(3) { animation-delay: 3.9s; }
-  .data-line:nth-child(4) { animation-delay: 3.65s; }
-  .data-line:nth-child(5) { animation-delay: 3.4s; }
-  @keyframes drawLine {
-    to { stroke-dashoffset: 0; }
-  }
-  /* Flujo continuo en las líneas una vez dibujadas */
-  .data-line.flowing {
-    stroke-dasharray: 6 5;
-    stroke-dashoffset: 0;
-    animation: flowDash 2.2s linear infinite;
-  }
-  .data-line.flowing:nth-child(3) { animation-duration: 1.6s; }
-  @keyframes flowDash {
-    to { stroke-dashoffset: -22; }
-  }
-  /* Pulso en nodos activos */
-  @keyframes nodePulse {
-    0%,100% { opacity: 1; r: 2.5; }
-    50%      { opacity: 0.6; r: 4; }
-  }
 
-
-  /* ── LIVE FEED ANIMADO ───────────────────────────────── */
-  @keyframes livePulse {
-    0%,100% { opacity:1; transform:scale(1); }
-    50%      { opacity:0.3; transform:scale(0.7); }
-  }
-  #live-dot { animation: livePulse 1.4s ease-in-out infinite; }
-  @keyframes rowIn {
-    from { opacity:0; transform:translateX(-8px); }
-    to   { opacity:1; transform:translateX(0); }
-  }
-  .row-new { animation: rowIn 0.45s ease forwards; }
-  @keyframes scanBar {
-    from { left: 0; }
-    to   { left: 100%; }
-  }
-  .t-row-live {
-    display:flex; align-items:center; gap:10px;
-    padding:10px 16px;
-    border-bottom:1px solid rgba(255,255,255,0.03);
-    font-size:12px; font-family:'DM Mono',monospace; font-weight:300;
-    transition: background 0.4s;
-    cursor: default;
-  }
-  .t-row-live:last-child { border-bottom: none; }
-  .t-row-live:hover { background: rgba(200,134,10,0.05); }
-  .t-row-live.highlight { background: rgba(200,134,10,0.1); transition: background 0s; }
-
-  @media(max-width:860px){
-    nav{padding:16px 24px;} .nav-links{display:none;}
-    .wrap{padding:0 24px;} .section{padding:80px 0;}
-    .svc-grid,.case-grid,.proc-grid,.team-grid,.mkt-grid,.princ-grid{grid-template-columns:1fr;}
-    .stat-inner{grid-template-columns:1fr 1fr;}
-    .stat+.stat{border-left:none; border-top:1px solid var(--border2);}
-    .proc-met{position:static;}
-    footer{flex-direction:column;gap:14px;text-align:center;padding:28px 24px;}
-    .f-links{display:none;} .contact{padding:100px 24px;}
+  /* ── RESPONSIVE ──────────────────────────── */
+  @media (max-width: 700px) {
+    .content-section {
+      grid-template-columns: 1fr;
+      padding: 5rem 1.5rem;
+      gap: 2.5rem;
+    }
+    .content-section.reverse { direction: ltr; }
+    .section-visual svg { max-width: 260px; }
+    .hero { padding: 0 24px; }
+    .site-footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; }
   }
 </style>
 </head>
 <body>
 
 <!-- ─── VERSION HEADER ──────────────────────────────────── -->
-<div id="ver-header" style="position:fixed;top:60px;left:0;z-index:99999;padding:8px 16px;display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace,system-ui;font-size:11px;letter-spacing:1px;background:rgba(11,10,20,0.85);backdrop-filter:blur(8px);border-radius:0 6px 6px 0;border:1px solid rgba(255,255,255,0.05);border-left:none;">
+<div id="ver-header" style="position:fixed;top:12px;left:0;z-index:99999;padding:8px 16px;display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace,system-ui;font-size:11px;letter-spacing:1px;background:rgba(11,10,20,0.85);backdrop-filter:blur(8px);border-radius:0 6px 6px 0;border:1px solid rgba(255,255,255,0.05);border-left:none;">
   <a href="/v1/" style="color:#5a5650;text-decoration:none;padding:4px 8px;border-radius:4px;transition:color 0.2s;">V1</a>
   <a href="/v2/" style="color:#5a5650;text-decoration:none;padding:4px 8px;border-radius:4px;transition:color 0.2s;">V2</a>
   <span style="color:#f0a020;font-weight:400;">V3</span>
-  <a href="/v4/" style="color:#5a5650;text-decoration:none;padding:4px 8px;border-radius:4px;transition:color 0.2s;">V4</a>
 </div>
 
-<nav id="nav">
-  <a href="#" class="nav-logo">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <!-- halo dorado difuso -->
-      <circle cx="12" cy="14" r="10" fill="none" stroke="#2a1200" stroke-width="5" opacity="0.65"/>
-      <circle cx="12" cy="14" r="9.5" fill="none" stroke="#412402" stroke-width="3" opacity="0.5"/>
-      <circle cx="12" cy="14" r="9" fill="none" stroke="#633806" stroke-width="1.5" opacity="0.35"/>
-      <circle cx="12" cy="14" r="8.5" fill="none" stroke="#BA7517" stroke-width="0.7" opacity="0.22"/>
-      <!-- disco posterior cálido -->
-      <circle cx="12" cy="14" r="8" fill="#1c1810"/>
-      <!-- disco frontal desplazado arriba — mismo radio -->
-      <circle cx="12" cy="10" r="8" fill="#0b0a14"/>
-    </svg>
-    <span class="nav-wm">RIA <em>Labs</em></span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#proceso">Método</a></li>
-    <li><a href="#caso">Caso real</a></li>
-    <li><a href="#equipo">Equipo</a></li>
-  </ul>
-  <a href="#contacto" class="nav-cta">Conversemos</a>
-</nav>
+<!-- ════════════════════ HERO ════════════════════ -->
+<section class="hero">
+  <div class="wordmark">
+    <!-- Row 1: Eclipse -->
+    <div class="eclipse-row">
+      <svg viewBox="0 0 120 120" fill="none">
+        <circle cx="60" cy="68" r="52" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.55"/>
+        <circle cx="60" cy="68" r="50" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
+        <circle cx="60" cy="68" r="48" fill="none" stroke="#3d1c00" stroke-width="9"  opacity="0.32"/>
+        <circle cx="60" cy="68" r="46" fill="none" stroke="#633806" stroke-width="5"  opacity="0.24"/>
+        <circle cx="60" cy="68" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
+        <circle cx="60" cy="68" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
+        <path d="M 22 90 A 42 42 0 0 0 98 90" fill="none" stroke="#EF9F27" stroke-width="5" opacity="0.07" stroke-linecap="round"/>
+        <circle cx="60" cy="68" r="38" fill="#1c1810"/>
+        <circle r="38" fill="#0b0a14">
+          <animate attributeName="cx" values="60;67;60;53;60" keyTimes="0;0.25;0.5;0.75;1" dur="16s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"/>
+          <animate attributeName="cy" values="56;61;66;61;56" keyTimes="0;0.25;0.5;0.75;1" dur="16s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"/>
+        </circle>
+      </svg>
+    </div>
+    <!-- Row 2: RIA -->
+    <div class="ria-row">
+      <span class="ria">RIA</span>
+    </div>
+    <!-- Row 3: Labs -->
+    <div class="labs-row">
+      <span class="labs">Labs</span>
+    </div>
+  </div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-glow"></div>
-  <!-- Eclipse: disco posterior cálido oscuro, halo dorado difuso, disco frontal tapa casi todo dejando arco inferior -->
-  <!-- Contenedor que posiciona el eclipse alineado con la I del wordmark RIA -->
-  <div style="position:relative;z-index:2;width:clamp(340px,60vw,600px);height:140px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:-8px;">
-    <!-- El eclipse flota sobre la posición de la I: RIA tiene R(~33%), I(~50%), A(~66%) del ancho -->
-    <!-- En texto centrado con letter-spacing 18px, la I cae aprox en el centro exacto -->
-    <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);" width="120" height="120" viewBox="0 0 120 120" fill="none">
-      <!-- Halo exterior muy difuso — atmósfera del cuerpo posterior -->
-      <circle cx="60" cy="68" r="52" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.55"/>
-      <circle cx="60" cy="68" r="50" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
-      <circle cx="60" cy="68" r="48" fill="none" stroke="#3d1c00" stroke-width="9" opacity="0.32"/>
-      <circle cx="60" cy="68" r="46" fill="none" stroke="#633806" stroke-width="5" opacity="0.24"/>
-      <circle cx="60" cy="68" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
-      <circle cx="60" cy="68" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
-      <!-- Refuerzo del halo en la zona inferior — donde el eclipse "abre" -->
-      <path d="M 22 90 A 42 42 0 0 0 98 90" fill="none" stroke="#EF9F27" stroke-width="6" opacity="0.06" stroke-linecap="round"/>
-      <path d="M 26 94 A 38 38 0 0 0 94 94" fill="none" stroke="#FAC775" stroke-width="4" opacity="0.05" stroke-linecap="round"/>
-      <!-- Disco posterior — tono cálido oscuro, mismo radio que el frontal -->
-      <circle cx="60" cy="68" r="38" fill="#1c1810"/>
-      <!-- Disco frontal — orbita lentamente alrededor del posterior -->
-      <!-- Centro base: cx=60, cy=46 (20px arriba del posterior) -->
-      <!-- La animación mueve el disco en una órbita de radio 8px, 14s por vuelta -->
-      <circle r="38" fill="#0b0a14">
-        <animate
-          attributeName="cx"
-          values="60;68;60;52;60"
-          keyTimes="0;0.25;0.5;0.75;1"
-          dur="14s"
-          repeatCount="indefinite"
-          calcMode="spline"
-          keySplines="0.45 0 0.55 1; 0.45 0 0.55 1; 0.45 0 0.55 1; 0.45 0 0.55 1"/>
-        <animate
-          attributeName="cy"
-          values="46;52;58;52;46"
-          keyTimes="0;0.25;0.5;0.75;1"
-          dur="14s"
-          repeatCount="indefinite"
-          calcMode="spline"
-          keySplines="0.45 0 0.55 1; 0.45 0 0.55 1; 0.45 0 0.55 1; 0.45 0 0.55 1"/>
+  <div class="sep"></div>
+
+  <div class="hero-copy">
+    <p class="hero-tagline"><strong>Inteligencia artificial</strong> aplicada</p>
+  </div>
+
+  <!-- ── Animated illustration: process transformation ── -->
+  <div class="hero-illustration">
+    <svg viewBox="0 0 600 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Gradient for the transformation lens -->
+        <radialGradient id="lens" cx="50%" cy="50%" r="50%">
+          <stop offset="60%" stop-color="transparent"/>
+          <stop offset="80%" stop-color="#c8860a" stop-opacity="0.06"/>
+          <stop offset="100%" stop-color="#EF9F27" stop-opacity="0.12"/>
+        </radialGradient>
+      </defs>
+
+      <!-- ═══ LEFT: chaotic input processes ═══ -->
+
+      <!-- Scattered document fragments -->
+      <rect x="18" y="55" width="22" height="28" rx="2" fill="none" stroke="#5a5650" stroke-width="0.7" opacity="0.4" transform="rotate(-12 29 69)">
+        <animate attributeName="opacity" values="0.2;0.5;0.2" dur="5s" repeatCount="indefinite"/>
+      </rect>
+      <line x1="22" y1="62" x2="36" y2="62" stroke="#5a5650" stroke-width="0.5" opacity="0.3" transform="rotate(-12 29 69)"/>
+      <line x1="22" y1="67" x2="33" y2="67" stroke="#5a5650" stroke-width="0.5" opacity="0.2" transform="rotate(-12 29 69)"/>
+
+      <rect x="55" y="100" width="18" height="24" rx="2" fill="none" stroke="#5a5650" stroke-width="0.7" opacity="0.3" transform="rotate(8 64 112)">
+        <animate attributeName="opacity" values="0.15;0.45;0.15" dur="6s" begin="1s" repeatCount="indefinite"/>
+      </rect>
+
+      <rect x="80" y="38" width="20" height="26" rx="2" fill="none" stroke="#5a5650" stroke-width="0.7" opacity="0.35" transform="rotate(-5 90 51)">
+        <animate attributeName="opacity" values="0.2;0.5;0.2" dur="4.5s" begin="0.5s" repeatCount="indefinite"/>
+      </rect>
+
+      <!-- Chaotic data points drifting -->
+      <circle cx="45" cy="45" r="2" fill="#5a5650" opacity="0.3">
+        <animate attributeName="cx" values="45;52;45" dur="7s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="45;40;45" dur="7s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.15;0.4;0.15" dur="7s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="70" cy="75" r="1.5" fill="#5a5650" opacity="0.25">
+        <animate attributeName="cx" values="70;78;70" dur="6s" begin="1s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="75;80;75" dur="6s" begin="1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="35" cy="120" r="2" fill="#5a5650" opacity="0.2">
+        <animate attributeName="cx" values="35;42;35" dur="8s" begin="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.1;0.35;0.1" dur="8s" begin="2s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Tangled connection lines -->
+      <path d="M 30 90 Q 55 70, 50 110 T 90 85" stroke="#5a5650" stroke-width="0.6" fill="none" opacity="0.2">
+        <animate attributeName="d" values="M 30 90 Q 55 70, 50 110 T 90 85;M 30 95 Q 60 65, 55 115 T 95 80;M 30 90 Q 55 70, 50 110 T 90 85" dur="9s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 60 50 Q 40 80, 85 65 T 100 100" stroke="#5a5650" stroke-width="0.5" fill="none" opacity="0.15">
+        <animate attributeName="d" values="M 60 50 Q 40 80, 85 65 T 100 100;M 55 55 Q 45 75, 80 70 T 105 95;M 60 50 Q 40 80, 85 65 T 100 100" dur="8s" begin="1s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- Manual/human icon -->
+      <circle cx="100" cy="130" r="5" fill="none" stroke="#5a5650" stroke-width="0.6" opacity="0.25"/>
+      <line x1="100" y1="135" x2="100" y2="148" stroke="#5a5650" stroke-width="0.6" opacity="0.25"/>
+      <line x1="93" y1="141" x2="107" y2="141" stroke="#5a5650" stroke-width="0.6" opacity="0.25"/>
+
+      <!-- Label -->
+      <text x="60" y="170" font-family="'DM Mono', monospace" font-size="7" fill="#5a5650" text-anchor="middle" letter-spacing="2" opacity="0.3">PROCESOS</text>
+
+      <!-- ═══ FLOW PARTICLES: left → center ═══ -->
+      <!-- Particles getting pulled toward the lens -->
+      <circle r="1.5" fill="#5a5650">
+        <animate attributeName="cx" values="110;220;260" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="60;75;90" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.3;0.5;0" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="1.5;2;0.5" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1.5" fill="#5a5650">
+        <animate attributeName="cx" values="95;210;260" dur="4.5s" begin="1.2s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="110;95;90" dur="4.5s" begin="1.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.2;0.5;0" dur="4.5s" begin="1.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1" fill="#5a5650">
+        <animate attributeName="cx" values="120;230;265" dur="3.8s" begin="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="45;70;90" dur="3.8s" begin="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.2;0.4;0" dur="3.8s" begin="2.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1.2" fill="#5a5650">
+        <animate attributeName="cx" values="85;215;260" dur="5s" begin="0.6s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="130;105;90" dur="5s" begin="0.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.15;0.4;0" dur="5s" begin="0.6s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- ═══ CENTER: AI transformation lens ═══ -->
+
+      <!-- Lens glow -->
+      <circle cx="300" cy="90" r="55" fill="url(#lens)"/>
+
+      <!-- Concentric rings (processing) -->
+      <circle cx="300" cy="90" r="40" fill="none" stroke="#c8860a" stroke-width="0.5" opacity="0.12">
+        <animate attributeName="r" values="40;43;40" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.08;0.18;0.08" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="300" cy="90" r="28" fill="none" stroke="#EF9F27" stroke-width="0.6" opacity="0.15">
+        <animate attributeName="r" values="28;25;28" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.1;0.22;0.1" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="300" cy="90" r="14" fill="none" stroke="#EF9F27" stroke-width="0.8" opacity="0.2">
+        <animate attributeName="r" values="14;16;14" dur="3s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Core node -->
+      <circle cx="300" cy="90" r="5" fill="#EF9F27" opacity="0.15">
+        <animate attributeName="r" values="5;7;5" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.1;0.25;0.1" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="300" cy="90" r="2" fill="#EF9F27" opacity="0.4"/>
+
+      <!-- Rotating processing arcs -->
+      <g opacity="0.2">
+        <animateTransform attributeName="transform" type="rotate" values="0 300 90;360 300 90" dur="20s" repeatCount="indefinite"/>
+        <path d="M 300 55 A 35 35 0 0 1 335 90" fill="none" stroke="#EF9F27" stroke-width="0.8" stroke-linecap="round"/>
+        <path d="M 300 125 A 35 35 0 0 1 265 90" fill="none" stroke="#EF9F27" stroke-width="0.8" stroke-linecap="round"/>
+      </g>
+      <g opacity="0.12">
+        <animateTransform attributeName="transform" type="rotate" values="360 300 90;0 300 90" dur="14s" repeatCount="indefinite"/>
+        <path d="M 280 58 A 38 38 0 0 1 338 78" fill="none" stroke="#c8860a" stroke-width="0.5" stroke-linecap="round"/>
+        <path d="M 320 122 A 38 38 0 0 1 262 102" fill="none" stroke="#c8860a" stroke-width="0.5" stroke-linecap="round"/>
+      </g>
+
+      <!-- Label -->
+      <text x="300" y="155" font-family="'DM Mono', monospace" font-size="7" fill="#EF9F27" text-anchor="middle" letter-spacing="2" opacity="0.25">IA</text>
+
+      <!-- ═══ FLOW PARTICLES: center → right ═══ -->
+      <!-- Particles emerging transformed — now gold, structured -->
+      <circle r="1.5" fill="#EF9F27">
+        <animate attributeName="cx" values="340;440;500" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="90;70;55" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.5;0.3" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1.5" fill="#EF9F27">
+        <animate attributeName="cx" values="340;430;490" dur="4.5s" begin="1s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="90;100;115" dur="4.5s" begin="1s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.5;0.3" dur="4.5s" begin="1s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1.2" fill="#EF9F27">
+        <animate attributeName="cx" values="340;450;510" dur="3.8s" begin="2s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="90;85;80" dur="3.8s" begin="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.45;0.25" dur="3.8s" begin="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1" fill="#EF9F27">
+        <animate attributeName="cx" values="340;445;505" dur="5s" begin="0.5s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="90;110;130" dur="5s" begin="0.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.4;0.2" dur="5s" begin="0.5s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- ═══ RIGHT: structured output ═══ -->
+
+      <!-- Clean connected nodes -->
+      <circle cx="480" cy="55" r="4" fill="none" stroke="#EF9F27" stroke-width="0.8" opacity="0.35">
+        <animate attributeName="opacity" values="0.2;0.45;0.2" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="530" cy="70" r="4" fill="none" stroke="#EF9F27" stroke-width="0.8" opacity="0.3">
+        <animate attributeName="opacity" values="0.2;0.45;0.2" dur="4s" begin="0.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="510" cy="100" r="4" fill="none" stroke="#EF9F27" stroke-width="0.8" opacity="0.35">
+        <animate attributeName="opacity" values="0.2;0.45;0.2" dur="4s" begin="1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="560" cy="90" r="4" fill="none" stroke="#EF9F27" stroke-width="0.8" opacity="0.3">
+        <animate attributeName="opacity" values="0.2;0.45;0.2" dur="4s" begin="1.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="490" cy="130" r="4" fill="none" stroke="#EF9F27" stroke-width="0.8" opacity="0.3">
+        <animate attributeName="opacity" values="0.2;0.45;0.2" dur="4s" begin="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="545" cy="125" r="4" fill="none" stroke="#EF9F27" stroke-width="0.8" opacity="0.35">
+        <animate attributeName="opacity" values="0.2;0.45;0.2" dur="4s" begin="0.8s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Clean connection lines between nodes -->
+      <line x1="480" y1="55" x2="530" y2="70" stroke="#EF9F27" stroke-width="0.5" opacity="0.15">
+        <animate attributeName="opacity" values="0.08;0.22;0.08" dur="4s" repeatCount="indefinite"/>
+      </line>
+      <line x1="530" y1="70" x2="510" y2="100" stroke="#EF9F27" stroke-width="0.5" opacity="0.15">
+        <animate attributeName="opacity" values="0.08;0.22;0.08" dur="4s" begin="0.3s" repeatCount="indefinite"/>
+      </line>
+      <line x1="530" y1="70" x2="560" y2="90" stroke="#EF9F27" stroke-width="0.5" opacity="0.15">
+        <animate attributeName="opacity" values="0.08;0.22;0.08" dur="4s" begin="0.6s" repeatCount="indefinite"/>
+      </line>
+      <line x1="510" y1="100" x2="490" y2="130" stroke="#EF9F27" stroke-width="0.5" opacity="0.15">
+        <animate attributeName="opacity" values="0.08;0.22;0.08" dur="4s" begin="0.9s" repeatCount="indefinite"/>
+      </line>
+      <line x1="510" y1="100" x2="545" y2="125" stroke="#EF9F27" stroke-width="0.5" opacity="0.15">
+        <animate attributeName="opacity" values="0.08;0.22;0.08" dur="4s" begin="1.2s" repeatCount="indefinite"/>
+      </line>
+      <line x1="560" y1="90" x2="545" y2="125" stroke="#EF9F27" stroke-width="0.5" opacity="0.15">
+        <animate attributeName="opacity" values="0.08;0.22;0.08" dur="4s" begin="1.5s" repeatCount="indefinite"/>
+      </line>
+      <line x1="480" y1="55" x2="510" y2="100" stroke="#EF9F27" stroke-width="0.4" opacity="0.1">
+        <animate attributeName="opacity" values="0.05;0.15;0.05" dur="5s" repeatCount="indefinite"/>
+      </line>
+
+      <!-- Data flowing through the network -->
+      <circle r="1.2" fill="#EF9F27" opacity="0.5">
+        <animate attributeName="cx" values="480;530;560" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="55;70;90" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1" fill="#EF9F27" opacity="0.4">
+        <animate attributeName="cx" values="530;510;490" dur="3.5s" begin="1s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="70;100;130" dur="3.5s" begin="1s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.4;0.25;0.4" dur="3.5s" begin="1s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Structured output bars (dashboard feel) -->
+      <rect x="565" y="52" width="20" height="3" rx="1" fill="#EF9F27" opacity="0.15">
+        <animate attributeName="width" values="12;20;12" dur="5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.1;0.25;0.1" dur="5s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="565" y="60" width="15" height="3" rx="1" fill="#EF9F27" opacity="0.1">
+        <animate attributeName="width" values="15;10;15" dur="4s" begin="1s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.08;0.18;0.08" dur="4s" begin="1s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="565" y="68" width="18" height="3" rx="1" fill="#EF9F27" opacity="0.12">
+        <animate attributeName="width" values="10;18;10" dur="4.5s" begin="0.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.06;0.16;0.06" dur="4.5s" begin="0.5s" repeatCount="indefinite"/>
+      </rect>
+
+      <!-- Label -->
+      <text x="530" y="170" font-family="'DM Mono', monospace" font-size="7" fill="#EF9F27" text-anchor="middle" letter-spacing="2" opacity="0.25">RESULTADOS</text>
+
+      <!-- ═══ Subtle center-line axis ═══ -->
+      <line x1="130" y1="90" x2="260" y2="90" stroke="#2e2c3a" stroke-width="0.4" opacity="0.2" stroke-dasharray="2 4"/>
+      <line x1="340" y1="90" x2="460" y2="90" stroke="#2e2c3a" stroke-width="0.4" opacity="0.2" stroke-dasharray="2 4"/>
+
+    </svg>
+  </div>
+
+  <div class="hero-copy">
+    <p class="hero-origin">
+      Nacidos de <strong>Byte</strong> — 25 años en seguridad — y <strong>VRIO</strong> — software disruptivo. Rosario, Argentina.
+    </p>
+  </div>
+
+</section>
+
+<!-- ════════════════════ 01: SOFTWARE A MEDIDA ════════════════════ -->
+<div class="divider"><div class="divider-line"></div></div>
+
+<section class="content-section" id="sec-soft">
+  <div class="section-text">
+    <div class="section-label">01 — Software a medida</div>
+    <h2 class="section-title">Código que se adapta a <em>tu lógica</em></h2>
+    <p class="section-body">
+      Sin plantillas. Sin compromisos. Diseñamos arquitecturas desde cero
+      que responden a la particularidad de cada operación. Sistemas que escalan
+      con el negocio, no contra él.
+    </p>
+  </div>
+  <div class="section-visual">
+    <svg viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Connection lines that pulse -->
+      <line x1="75" y1="70" x2="150" y2="110" stroke="#c8860a" stroke-width="0.8" opacity="0.2">
+        <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite"/>
+      </line>
+      <line x1="225" y1="70" x2="150" y2="110" stroke="#c8860a" stroke-width="0.8" opacity="0.2">
+        <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+      </line>
+      <line x1="75" y1="150" x2="150" y2="110" stroke="#c8860a" stroke-width="0.8" opacity="0.2">
+        <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" begin="1s" repeatCount="indefinite"/>
+      </line>
+      <line x1="225" y1="150" x2="150" y2="110" stroke="#c8860a" stroke-width="0.8" opacity="0.2">
+        <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+      </line>
+      <!-- Outer lines -->
+      <line x1="30" y1="50" x2="75" y2="70" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3">
+        <animate attributeName="opacity" values="0.15;0.4;0.15" dur="4s" repeatCount="indefinite"/>
+      </line>
+      <line x1="270" y1="50" x2="225" y2="70" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3">
+        <animate attributeName="opacity" values="0.15;0.4;0.15" dur="4s" begin="1s" repeatCount="indefinite"/>
+      </line>
+      <line x1="30" y1="170" x2="75" y2="150" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3">
+        <animate attributeName="opacity" values="0.15;0.4;0.15" dur="4s" begin="2s" repeatCount="indefinite"/>
+      </line>
+      <line x1="270" y1="170" x2="225" y2="150" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3">
+        <animate attributeName="opacity" values="0.15;0.4;0.15" dur="4s" begin="3s" repeatCount="indefinite"/>
+      </line>
+      <!-- Corner nodes -->
+      <rect x="20" y="42" width="20" height="16" rx="2" fill="none" stroke="#2e2c3a" stroke-width="0.8" opacity="0.3"/>
+      <rect x="260" y="42" width="20" height="16" rx="2" fill="none" stroke="#2e2c3a" stroke-width="0.8" opacity="0.3"/>
+      <rect x="20" y="162" width="20" height="16" rx="2" fill="none" stroke="#2e2c3a" stroke-width="0.8" opacity="0.3"/>
+      <rect x="260" y="162" width="20" height="16" rx="2" fill="none" stroke="#2e2c3a" stroke-width="0.8" opacity="0.3"/>
+      <!-- Mid nodes -->
+      <rect x="60" y="60" width="30" height="20" rx="3" fill="none" stroke="#5a5650" stroke-width="0.8">
+        <animate attributeName="stroke" values="#5a5650;#c8860a;#5a5650" dur="3s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="210" y="60" width="30" height="20" rx="3" fill="none" stroke="#5a5650" stroke-width="0.8">
+        <animate attributeName="stroke" values="#5a5650;#c8860a;#5a5650" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="60" y="140" width="30" height="20" rx="3" fill="none" stroke="#5a5650" stroke-width="0.8">
+        <animate attributeName="stroke" values="#5a5650;#c8860a;#5a5650" dur="3s" begin="1s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="210" y="140" width="30" height="20" rx="3" fill="none" stroke="#5a5650" stroke-width="0.8">
+        <animate attributeName="stroke" values="#5a5650;#c8860a;#5a5650" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+      </rect>
+      <!-- Central hub -->
+      <circle cx="150" cy="110" r="22" fill="none" stroke="#EF9F27" stroke-width="1" opacity="0.3">
+        <animate attributeName="r" values="22;24;22" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.2;0.4;0.2" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="150" cy="110" r="8" fill="#EF9F27" opacity="0.08">
+        <animate attributeName="r" values="8;10;8" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="150" cy="110" r="3" fill="#EF9F27" opacity="0.3"/>
+      <!-- Data packets traveling -->
+      <circle r="2" fill="#EF9F27" opacity="0.5">
+        <animate attributeName="cx" values="75;150" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="70;110" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.6;0" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="2" fill="#EF9F27" opacity="0.5">
+        <animate attributeName="cx" values="225;150" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="70;110" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.6;0" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="2" fill="#EF9F27" opacity="0.5">
+        <animate attributeName="cx" values="75;150" dur="2s" begin="1.4s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="150;110" dur="2s" begin="1.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.6;0" dur="2s" begin="1.4s" repeatCount="indefinite"/>
       </circle>
     </svg>
   </div>
-  <h1 class="hero-ria">RIA</h1>
-  <p class="hero-labs">Labs</p>
+</section>
 
-  <!-- Ilustración animada: cámara → datos → mente -->
-  <div style="position:relative;z-index:2;width:100%;max-width:680px;margin-bottom:52px;">
-    <svg id="hero-ilus" width="100%" viewBox="0 0 680 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+<div class="divider"><div class="divider-line"></div></div>
 
-      <!-- Grid de fondo -->
-      <line x1="0" y1="65" x2="680" y2="65" stroke="#1a1828" stroke-width="0.5"/>
-      <line x1="0" y1="130" x2="680" y2="130" stroke="#1a1828" stroke-width="0.5"/>
-      <line x1="0" y1="195" x2="680" y2="195" stroke="#1a1828" stroke-width="0.5"/>
-      <line x1="170" y1="0" x2="170" y2="260" stroke="#1a1828" stroke-width="0.5"/>
-      <line x1="340" y1="0" x2="340" y2="260" stroke="#1a1828" stroke-width="0.5"/>
-      <line x1="510" y1="0" x2="510" y2="260" stroke="#1a1828" stroke-width="0.5"/>
-
-      <!-- ══ CÁMARA (aparece primero) ══ -->
-      <g class="ilus-camera">
-        <!-- Brazo de montaje -->
-        <rect x="72" y="72" width="6" height="36" rx="2" fill="#2a2838"/>
-        <rect x="62" y="68" width="26" height="6" rx="3" fill="#2a2838"/>
-        <!-- Cuerpo cámara -->
-        <path d="M58 108 L122 108 L118 140 L62 140 Z" fill="#1e1c2e" stroke="#3a3850" stroke-width="1"/>
-        <rect x="60" y="110" width="60" height="26" rx="3" fill="#16151f" stroke="#2e2c3e" stroke-width="0.8"/>
-        <!-- Lente -->
-        <circle cx="90" cy="123" r="10" fill="#12111a" stroke="#3a3850" stroke-width="1.2"/>
-        <circle cx="90" cy="123" r="6.5" fill="#0d0c14" stroke="#2a2838" stroke-width="0.8"/>
-        <circle cx="90" cy="123" r="3.5" fill="#1a1828"/>
-        <circle cx="87" cy="120" r="1.5" fill="#4a4868" opacity="0.6"/>
-        <!-- LED -->
-        <circle cx="112" cy="115" r="2" fill="#c8860a" opacity="0.8"/>
-        <!-- Cono visión -->
-        <path d="M100 123 L200 82 L200 164 Z" fill="#c8860a" opacity="0.04"/>
-        <line x1="100" y1="123" x2="200" y2="82" stroke="#c8860a" stroke-width="0.5" opacity="0.18" stroke-dasharray="4 5"/>
-        <line x1="100" y1="123" x2="200" y2="164" stroke="#c8860a" stroke-width="0.5" opacity="0.18" stroke-dasharray="4 5"/>
-        <!-- Texto oración 1 -->
-        <text class="ilus-text1" x="90" y="174" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="300" fill="#8a8478" letter-spacing="0.3">Tu infraestructura visual ya existe.</text>
-      </g>
-
-      <!-- ══ LÍNEAS DE DATOS (aparecen después, animadas con dashoffset) ══ -->
-      <g class="ilus-lines">
-        <path class="data-line" d="M200 90 C240 90, 262 105, 295 112" fill="none" stroke="#c8860a" stroke-width="0.8" opacity="0.4" stroke-dasharray="3 5"/>
-        <path class="data-line" d="M200 108 C242 108, 268 116, 308 120" fill="none" stroke="#c8860a" stroke-width="1" opacity="0.5" stroke-dasharray="4 4"/>
-        <path class="data-line" d="M200 123 C246 123, 272 124, 316 126" fill="none" stroke="#EF9F27" stroke-width="1.5" opacity="0.55" stroke-dasharray="5 3"/>
-        <path class="data-line" d="M200 138 C242 138, 268 132, 308 130" fill="none" stroke="#c8860a" stroke-width="1" opacity="0.5" stroke-dasharray="4 4"/>
-        <path class="data-line" d="M200 156 C240 156, 262 142, 295 137" fill="none" stroke="#c8860a" stroke-width="0.8" opacity="0.4" stroke-dasharray="3 5"/>
-        <!-- Partículas en las líneas -->
-        <circle cx="248" cy="90" r="1.5" fill="#c8860a" opacity="0.6"/>
-        <circle cx="258" cy="108" r="1.5" fill="#EF9F27" opacity="0.7"/>
-        <circle cx="262" cy="123" r="2" fill="#EF9F27" opacity="0.8"/>
-        <circle cx="258" cy="138" r="1.5" fill="#EF9F27" opacity="0.7"/>
-        <circle cx="248" cy="156" r="1.5" fill="#c8860a" opacity="0.6"/>
-      </g>
-
-      <!-- ══ CONSTELACIÓN / MENTE (nodos que se encienden) ══ -->
-      <g class="ilus-mind">
-        <!-- Conexiones base -->
-        <line x1="370" y1="78" x2="430" y2="102" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="370" y1="78" x2="390" y2="138" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="430" y1="102" x2="480" y2="80" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="430" y1="102" x2="460" y2="142" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="430" y1="102" x2="400" y2="170" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="480" y1="80" x2="540" y2="102" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="480" y1="80" x2="510" y2="128" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="460" y1="142" x2="510" y2="128" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="460" y1="142" x2="440" y2="184" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="540" y1="102" x2="580" y2="130" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="540" y1="102" x2="560" y2="70" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="510" y1="128" x2="540" y2="166" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="390" y1="138" x2="400" y2="170" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="400" y1="170" x2="440" y2="184" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="580" y1="130" x2="618" y2="118" stroke="#3a3050" stroke-width="0.8"/>
-        <line x1="580" y1="130" x2="600" y2="166" stroke="#3a3050" stroke-width="0.8"/>
-        <!-- Conexiones activas doradas -->
-        <line x1="430" y1="102" x2="510" y2="128" stroke="#c8860a" stroke-width="1" opacity="0.38"/>
-        <line x1="480" y1="80" x2="460" y2="142" stroke="#EF9F27" stroke-width="1.2" opacity="0.42"/>
-        <line x1="510" y1="128" x2="580" y2="130" stroke="#c8860a" stroke-width="1" opacity="0.32"/>
-        <line x1="370" y1="78" x2="480" y2="80" stroke="#EF9F27" stroke-width="1" opacity="0.28"/>
-        <!-- Conexiones de entrada desde flujo de datos -->
-        <path d="M316 120 C340 120, 356 104, 370 78" fill="none" stroke="#EF9F27" stroke-width="1.2" opacity="0.5"/>
-        <path d="M316 126 C340 128, 360 134, 390 138" fill="none" stroke="#c8860a" stroke-width="1" opacity="0.38"/>
-        <!-- Nodos -->
-        <circle cx="370" cy="78" r="5" fill="#26215C" stroke="#7F77DD" stroke-width="1"/>
-        <circle cx="370" cy="78" r="2.5" fill="#7F77DD"/>
-        <circle cx="390" cy="138" r="4" fill="#1a1828" stroke="#534AB7" stroke-width="0.8"/>
-        <circle cx="390" cy="138" r="2" fill="#534AB7"/>
-        <!-- Nodo central principal -->
-        <circle cx="430" cy="102" r="9" fill="#1c1828" stroke="#c8860a" stroke-width="1.2"/>
-        <circle cx="430" cy="102" r="5" fill="#2a1800"/>
-        <circle cx="430" cy="102" r="2.5" fill="#c8860a"/>
-        <!-- Nodo activo 2 -->
-        <circle cx="480" cy="80" r="7" fill="#1a1828" stroke="#EF9F27" stroke-width="1"/>
-        <circle cx="480" cy="80" r="3.5" fill="#221600"/>
-        <circle cx="480" cy="80" r="1.8" fill="#EF9F27"/>
-        <!-- Nodo activo 3 -->
-        <circle cx="510" cy="128" r="6" fill="#1a1828" stroke="#c8860a" stroke-width="0.8"/>
-        <circle cx="510" cy="128" r="3" fill="#1e1400"/>
-        <circle cx="510" cy="128" r="1.5" fill="#c8860a"/>
-        <!-- Nodos periféricos -->
-        <circle cx="540" cy="102" r="5" fill="#1a1828" stroke="#534AB7" stroke-width="0.8"/>
-        <circle cx="540" cy="102" r="2.5" fill="#534AB7"/>
-        <circle cx="460" cy="142" r="5" fill="#26215C" stroke="#7F77DD" stroke-width="0.8"/>
-        <circle cx="460" cy="142" r="2.5" fill="#7F77DD"/>
-        <circle cx="560" cy="70" r="3.5" fill="#1a1828" stroke="#3a3050" stroke-width="0.8"/>
-        <circle cx="560" cy="70" r="1.5" fill="#444"/>
-        <circle cx="580" cy="130" r="4.5" fill="#1a1828" stroke="#534AB7" stroke-width="0.8"/>
-        <circle cx="580" cy="130" r="2" fill="#534AB7"/>
-        <circle cx="618" cy="118" r="3" fill="#1a1828" stroke="#3a3050" stroke-width="0.8"/>
-        <circle cx="618" cy="118" r="1.2" fill="#444"/>
-        <circle cx="400" cy="170" r="4" fill="#1a1828" stroke="#3a3050" stroke-width="0.8"/>
-        <circle cx="400" cy="170" r="1.8" fill="#444"/>
-        <circle cx="440" cy="184" r="4" fill="#1a1828" stroke="#534AB7" stroke-width="0.6"/>
-        <circle cx="440" cy="184" r="1.8" fill="#534AB7"/>
-        <circle cx="540" cy="166" r="4" fill="#1a1828" stroke="#3a3050" stroke-width="0.8"/>
-        <circle cx="540" cy="166" r="1.8" fill="#444"/>
-        <circle cx="600" cy="166" r="3.5" fill="#1a1828" stroke="#3a3050" stroke-width="0.6"/>
-        <!-- Texto oración 2 -->
-        <text class="ilus-text2" x="500" y="218" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="400" fill="#f0ece0" letter-spacing="0.3">Nosotros la hacemos pensar.</text>
-      </g>
-
-      <!-- Divisor central sutil -->
-      <line x1="340" y1="70" x2="340" y2="190" stroke="#2a2838" stroke-width="0.5" stroke-dasharray="2 6"/>
+<!-- ════════════════════ 02: CONSULTORÍA EN IA ════════════════════ -->
+<section class="content-section reverse" id="sec-consult">
+  <div class="section-text">
+    <div class="section-label">02 — Consultoría en IA</div>
+    <h2 class="section-title">Optimizamos lo que ya <em>funciona</em></h2>
+    <p class="section-body">
+      Identificamos los procesos que pueden beneficiarse de inteligencia
+      artificial y los convertimos en operaciones más productivas, precisas
+      y menos costosas. Sin reemplazar equipos — potenciándolos.
+    </p>
+  </div>
+  <div class="section-visual">
+    <svg viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Before: chaotic wave on left -->
+      <path d="M 15 110 Q 25 70, 35 95 T 55 120 T 75 85 T 95 130 T 115 90 T 135 115" stroke="#5a5650" stroke-width="1" fill="none" opacity="0.5">
+        <animate attributeName="d"
+          values="M 15 110 Q 25 70, 35 95 T 55 120 T 75 85 T 95 130 T 115 90 T 135 115;
+                  M 15 110 Q 25 130, 35 80 T 55 90 T 75 140 T 95 75 T 115 125 T 135 115;
+                  M 15 110 Q 25 70, 35 95 T 55 120 T 75 85 T 95 130 T 115 90 T 135 115"
+          dur="3s" repeatCount="indefinite"/>
+      </path>
+      <!-- Transformation zone -->
+      <rect x="138" y="85" width="24" height="50" rx="3" fill="none" stroke="#EF9F27" stroke-width="0.8" opacity="0.25">
+        <animate attributeName="opacity" values="0.15;0.4;0.15" dur="2s" repeatCount="indefinite"/>
+      </rect>
+      <line x1="150" y1="92" x2="150" y2="128" stroke="#EF9F27" stroke-width="0.5" opacity="0.2"/>
+      <!-- After: clean wave on right -->
+      <path d="M 165 110 Q 185 80, 205 110 T 245 110 T 285 110" stroke="#EF9F27" stroke-width="1.2" fill="none" opacity="0.4">
+        <animate attributeName="d"
+          values="M 165 110 Q 185 80, 205 110 T 245 110 T 285 110;
+                  M 165 110 Q 185 140, 205 110 T 245 110 T 285 110;
+                  M 165 110 Q 185 80, 205 110 T 245 110 T 285 110"
+          dur="3s" repeatCount="indefinite"/>
+      </path>
+      <!-- Labels -->
+      <text x="60" y="180" fill="#5a5650" font-size="8" font-family="'DM Mono', monospace" text-anchor="middle" letter-spacing="1" opacity="0.4">ANTES</text>
+      <text x="230" y="180" fill="#EF9F27" font-size="8" font-family="'DM Mono', monospace" text-anchor="middle" letter-spacing="1" opacity="0.3">DESPUÉS</text>
+      <!-- Arrow -->
+      <line x1="100" y1="195" x2="200" y2="195" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3"/>
+      <polyline points="196,192 202,195 196,198" fill="none" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3"/>
+      <!-- Floating efficiency dots on right side -->
+      <circle cx="190" cy="100" r="1.5" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.4;0" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="230" cy="105" r="1.5" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.4;0" dur="3s" begin="1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="260" cy="108" r="1.5" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.4;0" dur="3s" begin="2s" repeatCount="indefinite"/>
+      </circle>
     </svg>
   </div>
-  <div class="hero-ctas">
-    <a href="#contacto" class="btn-gold">Empecemos</a>
-    <a href="#caso" class="btn-ghost">Ver caso real →</a>
-  </div>
-  <p class="hero-origin">Byte × VRIO · Rosario, Argentina · Sistema activo</p>
-</div>
+</section>
 
-<!-- STAT BAR -->
-<div class="stat-bar">
-  <div class="stat-inner">
-    <div class="stat rev"><div class="stat-n">70%</div><div class="stat-l">de las pymes argentinas sin estrategia de IA</div></div>
-    <div class="stat rev d1"><div class="stat-n">~100%</div><div class="stat-l">de las cámaras instaladas sin generar valor de negocio</div></div>
-    <div class="stat rev d2"><div class="stat-n">25+</div><div class="stat-l">años de experiencia en infraestructura de seguridad</div></div>
-    <div class="stat rev d3"><div class="stat-n">5 sem</div><div class="stat-l">del diagnóstico al primer MVP funcionando en producción</div></div>
-  </div>
-</div>
+<div class="divider"><div class="divider-line"></div></div>
 
-<!-- SERVICIOS -->
-<section class="section" id="servicios">
-  <div class="wrap">
-    <p class="lbl rev">Servicios</p>
-    <h2 class="ttl rev d1">Lo que<br>construimos</h2>
-    <p class="bdy rev d2">No adaptamos plataformas genéricas. <strong>Diseñamos y construimos la solución exacta</strong> que tu proceso necesita — con el stack más simple, rápido y efectivo posible.</p>
-    <div class="svc-grid">
-      <div class="svc rev">
-        <p class="svc-n">01 · Visión artificial</p>
-        <h3 class="svc-t">OCR e inteligencia visual</h3>
-        <p class="svc-b">Reconocimiento de patentes, análisis de flujos, detección de comportamientos y conteo automatizado. Convertimos la información visual que ya capturás en datos accionables de negocio — en tiempo real, sin intervención humana.</p>
-      </div>
-      <div class="svc rev d1">
-        <p class="svc-n">02 · Desarrollo a medida</p>
-        <h3 class="svc-t">Software propio desde cero</h3>
-        <p class="svc-b">Construimos la arquitectura exacta que tu problema requiere. Nada de adaptaciones sobre herramientas de terceros. Cada línea de código tiene un propósito claro y una métrica que la justifica.</p>
-      </div>
-      <div class="svc rev d2">
-        <p class="svc-n">03 · Consultoría estratégica</p>
-        <h3 class="svc-t">Diagnóstico y estrategia IA</h3>
-        <p class="svc-b">Auditamos tu infraestructura y tus procesos, identificamos dónde la IA genera el mayor impacto y diseñamos el camino más corto para llegar ahí. Primer diagnóstico sin costo, sin tecnicismos.</p>
-      </div>
-      <div class="svc rev d3">
-        <p class="svc-n">04 · SaaS y evolución</p>
-        <h3 class="svc-t">Sistemas que mejoran con uso</h3>
-        <p class="svc-b">Monitoreo permanente, actualización continua de modelos de IA, ampliación de funcionalidades y soporte técnico mensual. La solución crece con el negocio. Cuanto más opera, más inteligente se vuelve.</p>
-      </div>
-    </div>
+<!-- ════════════════════ 03: NUESTRO ORIGEN ════════════════════ -->
+<section class="content-section" id="sec-origin">
+  <div class="section-text">
+    <div class="section-label">03 — Origen</div>
+    <h2 class="section-title">Dos trayectorias, <em>una visión</em></h2>
+    <p class="section-body">
+      RIA Labs nace de la convergencia entre <strong>Byte</strong> — 25 años construyendo
+      infraestructura de seguridad — y <strong>VRIO</strong> — ingeniería de software disruptivo.
+      Lo que nos une es la convicción de que la tecnología tiene que resolver
+      problemas reales, no crear nuevos.
+    </p>
+  </div>
+  <div class="section-visual">
+    <!-- Animated: two streams converging into one -->
+    <svg viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Stream A (Byte): top-left, grey/security -->
+      <text x="30" y="40" font-family="'DM Mono', monospace" font-size="8" fill="#5a5650" letter-spacing="1.5" opacity="0.35">BYTE</text>
+      <line x1="30" y1="48" x2="68" y2="48" stroke="#5a5650" stroke-width="0.5" opacity="0.2"/>
+
+      <!-- Stream A particles flowing down-right -->
+      <circle r="2" fill="#5a5650">
+        <animate attributeName="cx" values="45;100;150" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="55;80;110" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.4;0.3;0" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1.5" fill="#5a5650">
+        <animate attributeName="cx" values="55;110;150" dur="4.5s" begin="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="60;85;110" dur="4.5s" begin="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.35;0.25;0" dur="4.5s" begin="1.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1.2" fill="#5a5650">
+        <animate attributeName="cx" values="38;95;150" dur="3.8s" begin="3s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="50;78;110" dur="3.8s" begin="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.3;0.2;0" dur="3.8s" begin="3s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Stream A path guide -->
+      <path d="M 50 55 Q 100 75, 145 108" stroke="#5a5650" stroke-width="0.5" fill="none" opacity="0.1" stroke-dasharray="3 5"/>
+
+      <!-- Stream B (VRIO): bottom-left, grey/software -->
+      <text x="30" y="195" font-family="'DM Mono', monospace" font-size="8" fill="#5a5650" letter-spacing="1.5" opacity="0.35">VRIO</text>
+      <line x1="30" y1="183" x2="62" y2="183" stroke="#5a5650" stroke-width="0.5" opacity="0.2"/>
+
+      <!-- Stream B particles flowing up-right -->
+      <circle r="2" fill="#5a5650">
+        <animate attributeName="cx" values="45;100;150" dur="4s" begin="0.5s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="175;145;110" dur="4s" begin="0.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.4;0.3;0" dur="4s" begin="0.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1.5" fill="#5a5650">
+        <animate attributeName="cx" values="55;110;150" dur="4.5s" begin="2s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="170;140;110" dur="4.5s" begin="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.35;0.25;0" dur="4.5s" begin="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1.2" fill="#5a5650">
+        <animate attributeName="cx" values="40;98;150" dur="3.8s" begin="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="178;148;110" dur="3.8s" begin="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.3;0.2;0" dur="3.8s" begin="3.5s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Stream B path guide -->
+      <path d="M 50 175 Q 100 150, 145 112" stroke="#5a5650" stroke-width="0.5" fill="none" opacity="0.1" stroke-dasharray="3 5"/>
+
+      <!-- Convergence point: RIA -->
+      <circle cx="150" cy="110" r="28" fill="none" stroke="#EF9F27" stroke-width="0.6" opacity="0.12">
+        <animate attributeName="r" values="28;32;28" dur="5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.08;0.18;0.08" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="150" cy="110" r="16" fill="none" stroke="#EF9F27" stroke-width="0.8" opacity="0.2">
+        <animate attributeName="r" values="16;14;16" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="150" cy="110" r="5" fill="#EF9F27" opacity="0.12">
+        <animate attributeName="r" values="5;7;5" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.08;0.2;0.08" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="150" cy="110" r="2" fill="#EF9F27" opacity="0.4"/>
+
+      <!-- Output: transformed gold particles emerging right -->
+      <circle r="2" fill="#EF9F27">
+        <animate attributeName="cx" values="155;220;275" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="110;85;65" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.5;0.25" dur="3.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="2" fill="#EF9F27">
+        <animate attributeName="cx" values="155;215;270" dur="4s" begin="1.2s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="110;120;135" dur="4s" begin="1.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.5;0.25" dur="4s" begin="1.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1.5" fill="#EF9F27">
+        <animate attributeName="cx" values="155;225;280" dur="3.8s" begin="2.4s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="110;100;95" dur="3.8s" begin="2.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.4;0.2" dur="3.8s" begin="2.4s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Output path guides -->
+      <path d="M 155 108 Q 215 80, 275 65" stroke="#EF9F27" stroke-width="0.4" fill="none" opacity="0.08" stroke-dasharray="3 5"/>
+      <path d="M 155 112 Q 215 130, 270 140" stroke="#EF9F27" stroke-width="0.4" fill="none" opacity="0.08" stroke-dasharray="3 5"/>
+
+      <!-- RIA label at convergence -->
+      <text x="150" y="155" font-family="'Saira', sans-serif" font-size="9" fill="#EF9F27" text-anchor="middle" letter-spacing="3" opacity="0.25" font-weight="500">RIA LABS</text>
+
+      <!-- Output results: small structured elements -->
+      <rect x="258" y="58" width="16" height="3" rx="1" fill="#EF9F27" opacity="0.15">
+        <animate attributeName="opacity" values="0.08;0.22;0.08" dur="4s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="258" y="65" width="11" height="3" rx="1" fill="#EF9F27" opacity="0.1">
+        <animate attributeName="opacity" values="0.06;0.18;0.06" dur="4s" begin="0.8s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="255" y="130" width="14" height="3" rx="1" fill="#EF9F27" opacity="0.12">
+        <animate attributeName="opacity" values="0.06;0.2;0.06" dur="4s" begin="1.5s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="255" y="137" width="18" height="3" rx="1" fill="#EF9F27" opacity="0.1">
+        <animate attributeName="opacity" values="0.05;0.16;0.05" dur="4s" begin="2.2s" repeatCount="indefinite"/>
+      </rect>
+    </svg>
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="divider"><div class="divider-line"></div></div>
 
-<!-- CASO REAL -->
-<div class="case-wrap" id="caso">
-  <div class="wrap">
-    <p class="lbl rev">Caso en producción</p>
-    <div class="case-grid">
-      <div>
-        <span class="case-pill rev">Validado · Rosario, Argentina</span>
-        <h2 class="case-name rev d1">Byte<br><span>Analítico</span></h2>
-        <p class="case-b rev d2">Una concesionaria oficial de autos no sabía dónde estaba cada vehículo dentro de su predio. El stock se gestionaba a mano. Las búsquedas consumían tiempo. Los errores eran frecuentes y costosos.</p>
-        <p class="case-b rev d3">Instalamos una cámara estratégica y construimos un sistema de <strong>reconocimiento de patentes por OCR enriquecido con IA</strong>. Hoy el sistema mapea en tiempo real el recorrido de cada vehículo, automatiza el registro de movimientos y genera reportes que antes no existían — desde la infraestructura que el cliente ya tenía instalada.</p>
-        <div class="case-res rev d4">
-          <div class="c-r"><div class="c-rn">100%</div><div class="c-rl">Trazabilidad vehicular en tiempo real</div></div>
-          <div class="c-r"><div class="c-rn">0</div><div class="c-rl">Registros manuales de movimientos</div></div>
-          <div class="c-r"><div class="c-rn">−60%</div><div class="c-rl">Tiempo de búsqueda de vehículos en planta</div></div>
-          <div class="c-r"><div class="c-rn">1</div><div class="c-rl">Cámara — todo lo que necesitó el sistema</div></div>
-        </div>
-      </div>
-      <div class="rev d2">
-
-        <!-- Live feed header con métricas en vivo -->
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span id="live-dot" style="width:7px;height:7px;border-radius:50%;background:#c8860a;display:inline-block;"></span>
-            <span style="font-family:'DM Mono',monospace;font-size:10px;font-weight:300;color:var(--gold);letter-spacing:2px;">SISTEMA ACTIVO</span>
-          </div>
-          <div style="display:flex;gap:16px;">
-            <div style="text-align:right;">
-              <div id="cnt-playa" style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--gold-hi);line-height:1;">0</div>
-              <div style="font-size:9px;font-weight:300;color:var(--muted);letter-spacing:1px;">en playa</div>
-            </div>
-            <div style="text-align:right;">
-              <div id="cnt-hoy" style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--blue);line-height:1;">0</div>
-              <div style="font-size:9px;font-weight:300;color:var(--muted);letter-spacing:1px;">hoy</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Scanner de OCR — barra que barre la patente -->
-        <div id="scanner-wrap" style="background:#07060f;border:1px solid var(--border2);padding:16px;margin-bottom:2px;position:relative;overflow:hidden;display:none;">
-          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:2px;margin-bottom:8px;">OCR · LEYENDO PATENTE</div>
-          <div style="position:relative;display:inline-block;">
-            <span id="scanner-plate" style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:8px;color:white;"></span>
-            <div id="scanner-bar" style="position:absolute;top:0;left:0;width:3px;height:100%;background:#EF9F27;opacity:0.8;transition:left 0.05s linear;"></div>
-          </div>
-          <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);">
-            <span id="scanner-status">analizando...</span>
-          </div>
-        </div>
-
-        <!-- Terminal de filas -->
-        <div class="term">
-          <div class="term-bar">
-            <div class="t-d t-d1"></div><div class="t-d t-d2"></div><div class="t-d t-d3"></div>
-            <span class="t-ttl">byte_analitico · live_feed</span>
-            <span id="feed-time" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);opacity:0.5;margin-left:auto;"></span>
-          </div>
-          <div id="live-rows" style="min-height:180px;"></div>
-          <div class="term-ft">
-            <span id="feed-status">inicializando sistema...</span>
-          </div>
-        </div>
-
-        <p style="font-size:12px;font-weight:300;color:var(--muted);margin-top:16px;line-height:1.6;">Este no es solo un producto — es la demostración de lo que RIA Labs construye para cualquier empresa que ya tenga cámaras instaladas.</p>
-      </div>
-    </div>
+<!-- ════════════════════ 04: BYTE ANALÍTICO ════════════════════ -->
+<section class="content-section reverse" id="sec-byte">
+  <div class="section-text">
+    <div class="section-label">04 — En producción</div>
+    <h2 class="section-title">Byte Analítico — <em>visión en acción</em></h2>
+    <p class="section-body">
+      Nuestro primer producto. Organiza la información interna
+      de concesionarios oficiales a partir de cámaras de video, automatizando
+      la gestión del recorrido de vehículos dentro de la locación.
+      Visión artificial al servicio de la operación real.
+    </p>
+    <a href="https://byte-analitico-v2.netlify.app" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-family:'DM Mono',monospace;font-size:12px;font-weight:300;letter-spacing:2px;color:var(--goldh);text-decoration:none;transition:color 0.3s;">Ver Byte Analítico <span style="font-size:14px;">→</span></a>
   </div>
-</div>
-
-<!-- PROCESO -->
-<section class="section" id="proceso">
-  <div class="wrap">
-    <div class="proc-grid">
-      <div>
-        <p class="lbl rev">Metodología</p>
-        <h2 class="ttl rev d1">Cómo<br>trabajamos</h2>
-        <p class="bdy rev d2">Un proceso diseñado para moverse rápido sin improvisar. <strong>Del diagnóstico al MVP en producción en 5 semanas.</strong></p>
-        <div class="proc-steps">
-          <div class="p-step rev"><span class="p-n">01</span><div><h4>Diagnóstico gratuito</h4><p>Auditamos cámaras, red, servidores y procesos del negocio. Mapeamos qué flujos pueden potenciarse con visión artificial e IA. Sin costo, sin compromiso.</p></div></div>
-          <div class="p-step rev d1"><span class="p-n">02</span><div><h4>Diseño de la solución</h4><p>Definimos la arquitectura más simple que resuelve el problema real. Priorizamos por impacto y velocidad. Presentamos métricas de éxito antes de empezar a construir.</p></div></div>
-          <div class="p-step rev d2"><span class="p-n">03</span><div><h4>Activación e integración</h4><p>Setup del sistema de IA sobre la infraestructura existente. El cliente ve resultados reales antes del primer mes de servicio. Sin reemplazar lo que ya tiene instalado.</p></div></div>
-          <div class="p-step rev d3"><span class="p-n">04</span><div><h4>MVP funcional en 5 semanas</h4><p>El sistema está operativo. Acompañamos el lanzamiento y capacitamos al equipo. No cerramos el proyecto hasta que el cambio está consolidado en la organización.</p></div></div>
-          <div class="p-step rev d4"><span class="p-n">05</span><div><h4>Evolución continua</h4><p>Monitoreo permanente, mejoras del modelo e incorporación de nuevos procesos. Cuanto más opera el sistema, más inteligente se vuelve. La solución crece con el negocio.</p></div></div>
-        </div>
-      </div>
-      <div class="proc-met">
-        <div class="p-met rev"><div class="p-met-n">5</div><div class="p-met-l">Semanas del diagnóstico al primer sistema en producción</div></div>
-        <div class="p-met rev d1"><div class="p-met-n">1</div><div class="p-met-l">Interlocutor técnico dedicado. Sin intermediarios, sin ruido.</div></div>
-        <div class="p-met rev d2"><div class="p-met-n">100%</div><div class="p-met-l">Software propio. Nunca adaptaciones sobre plataformas de terceros.</div></div>
-      </div>
-    </div>
+  <div class="section-visual">
+    <svg viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Floor grid -->
+      <line x1="30" y1="180" x2="270" y2="180" stroke="#2e2c3a" stroke-width="0.5" opacity="0.4"/>
+      <line x1="30" y1="150" x2="270" y2="150" stroke="#2e2c3a" stroke-width="0.5" opacity="0.2"/>
+      <line x1="30" y1="120" x2="270" y2="120" stroke="#2e2c3a" stroke-width="0.5" opacity="0.1"/>
+      <line x1="70" y1="100" x2="70" y2="190" stroke="#2e2c3a" stroke-width="0.5" opacity="0.15"/>
+      <line x1="150" y1="100" x2="150" y2="190" stroke="#2e2c3a" stroke-width="0.5" opacity="0.15"/>
+      <line x1="230" y1="100" x2="230" y2="190" stroke="#2e2c3a" stroke-width="0.5" opacity="0.15"/>
+      <!-- Camera icon -->
+      <circle cx="40" cy="35" r="8" fill="none" stroke="#5a5650" stroke-width="0.8"/>
+      <circle cx="40" cy="35" r="3" fill="#5a5650" opacity="0.3"/>
+      <!-- Camera FOV cone -->
+      <path d="M 40 43 L 20 180 L 280 180 L 260 43" fill="#EF9F27" opacity="0.02" stroke="#EF9F27" stroke-width="0.3" opacity="0.08"/>
+      <!-- Vehicle 1 -->
+      <rect rx="2" width="16" height="8" fill="#EF9F27" opacity="0.3">
+        <animate attributeName="x" values="50;220;220;50;50" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="165;165;145;145;165" dur="12s" repeatCount="indefinite"/>
+      </rect>
+      <!-- Vehicle 1 trail -->
+      <line stroke="#EF9F27" stroke-width="0.5" opacity="0.1" stroke-dasharray="3 3">
+        <animate attributeName="x1" values="58;228;228;58;58" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="y1" values="169;169;149;149;169" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="x2" values="50;50;220;220;50" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="y2" values="169;169;169;149;149" dur="12s" repeatCount="indefinite"/>
+      </line>
+      <!-- Vehicle 2 -->
+      <rect rx="2" width="16" height="8" fill="#c8860a" opacity="0.2">
+        <animate attributeName="x" values="200;80;80;200;200" dur="10s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="155;155;170;170;155" dur="10s" repeatCount="indefinite"/>
+      </rect>
+      <!-- Tracking ID -->
+      <text font-family="'DM Mono', monospace" font-size="7" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.5;0.5;0" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="x" values="50;220;220;50" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="161;161;141;141" dur="12s" repeatCount="indefinite"/>
+        ID-0417
+      </text>
+      <!-- LIVE indicator -->
+      <text x="220" y="35" font-family="'DM Mono', monospace" font-size="8" fill="#5a5650" opacity="0.3" letter-spacing="1">LIVE</text>
+      <circle cx="212" cy="33" r="2" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.5;0" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
   </div>
 </section>
 
-<div class="divider"></div>
+<!-- ════════════════════ CONTACTO ════════════════════ -->
+<div class="divider"><div class="divider-line"></div></div>
 
-<!-- PRINCIPIOS -->
-<section class="section">
-  <div class="wrap">
-    <p class="lbl rev">Principios</p>
-    <h2 class="ttl rev d1">La forma<br>en que pensamos</h2>
-    <div class="princ-grid">
-      <div class="pr rev"><span class="pr-ghost">1</span><div class="pr-bar"></div><h4 class="pr-t">El problema primero, la tecnología después</h4><p class="pr-b">No llegamos con una solución buscando un problema. La IA es el medio, no el fin. Si la mejor solución es simple, así la hacemos.</p></div>
-      <div class="pr rev d1"><span class="pr-ghost">2</span><div class="pr-bar"></div><h4 class="pr-t">Velocidad sin improvisación</h4><p class="pr-b">Construimos rápido porque tenemos un proceso claro. La velocidad viene de la experiencia acumulada en dos empresas con años de trabajo real en campo.</p></div>
-      <div class="pr rev d2"><span class="pr-ghost">3</span><div class="pr-bar"></div><h4 class="pr-t">Simplicidad como estándar de calidad</h4><p class="pr-b">Un sistema que nadie usa no sirve. Diseñamos para que el equipo del cliente adopte naturalmente. La complejidad no es señal de calidad — la adopción sí.</p></div>
-      <div class="pr rev d3"><span class="pr-ghost">4</span><div class="pr-bar"></div><h4 class="pr-t">Resultados medibles desde el día uno</h4><p class="pr-b">Definimos métricas de éxito antes de escribir la primera línea de código. Al final de cada ciclo, hay números concretos. No trabajamos en la oscuridad.</p></div>
-      <div class="pr rev d4"><span class="pr-ghost">5</span><div class="pr-bar"></div><h4 class="pr-t">Ingeniería creativa con rigor técnico</h4><p class="pr-b">VRIO aporta los nuevos paradigmas y la artesanía de sistemas. Byte aporta la solidez operativa de 25 años en el terreno. Los dos son necesarios.</p></div>
-      <div class="pr rev d5"><span class="pr-ghost">6</span><div class="pr-bar"></div><h4 class="pr-t">Transferencia real de conocimiento</h4><p class="pr-b">El objetivo no es que nos necesites para siempre. Documentamos, capacitamos y aseguramos la autonomía total del equipo del cliente.</p></div>
-    </div>
+<section class="content-section" style="display:flex;flex-direction:column;align-items:center;padding:6rem 3rem;gap:1.5rem;">
+  <span style="font-family:'DM Mono',monospace;font-size:18px;font-weight:300;letter-spacing:4px;color:var(--muted);text-transform:uppercase;">Hablemos</span>
+  <div class="contact-line" style="margin-top:0;">
+    <a href="mailto:hola@rialabs.ar">hola@rialabs.ar</a>
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- MERCADO -->
-<section class="section">
-  <div class="wrap">
-    <p class="lbl rev">Mercado</p>
-    <h2 class="ttl rev d1">Un nicho sin<br>competencia directa</h2>
-    <p class="bdy rev d2">Hay empresas que venden hardware de seguridad. Hay estudios que hacen software a medida. <strong>No hay nadie que conecte las dos cosas en un servicio concreto para pymes argentinas.</strong> Ese espacio es nuestro.</p>
-    <div class="mkt-grid">
-      <div class="mkt rev"><div class="mkt-n">Concesionarias</div><h4 class="mkt-t">Control vehicular</h4><p class="mkt-b">Patentes, registro de visitas, análisis de tráfico en playa. Caso ya implementado y funcionando en producción.</p></div>
-      <div class="mkt rev d1"><div class="mkt-n">Logística</div><h4 class="mkt-t">Depósitos y flota</h4><p class="mkt-b">Trazabilidad de movimientos, control de stock visual, acceso vehicular y auditoría continua sin intervención humana.</p></div>
-      <div class="mkt rev d2"><div class="mkt-n">Retail</div><h4 class="mkt-t">Comercios y supermercados</h4><p class="mkt-b">Flujo de clientes, zonas de permanencia, detección de anomalías y optimización de operaciones en tiempo real.</p></div>
-      <div class="mkt rev d3"><div class="mkt-n">Industria</div><h4 class="mkt-t">Fábricas y procesos</h4><p class="mkt-b">Control productivo, seguridad operativa, auditoría visual continua y cumplimiento de protocolos de forma automática.</p></div>
-      <div class="mkt rev d4"><div class="mkt-n">Countries</div><h4 class="mkt-t">Propiedades y accesos</h4><p class="mkt-b">Acceso inteligente, alertas en tiempo real, registro histórico vehicular y reportes de seguridad perimetral.</p></div>
-      <div class="mkt rev d5"><div class="mkt-n">Servicios</div><h4 class="mkt-t">Estaciones y patio</h4><p class="mkt-b">Control de patio, registro de patentes, tiempos de atención y detección de situaciones anómalas en tiempo real.</p></div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- EQUIPO -->
-<section class="section" id="equipo">
-  <div class="wrap">
-    <p class="lbl rev">El equipo</p>
-    <h2 class="ttl rev d1">Dos empresas<br>consolidadas</h2>
-    <p class="bdy rev d2">RIA Labs nace de la convergencia de dos trayectorias distintas y complementarias. <strong>La combinación que no existe en el mercado argentino.</strong></p>
-    <div class="team-grid">
-      <div class="founder rev d1">
-        <div class="f-init">SA</div>
-        <div class="f-name">Sebastián Acedo</div>
-        <div class="f-role">Co-fundador · Infraestructura & Seguridad</div>
-        <p class="f-bio">Más de 25 años de trayectoria al frente de Byte, diseñando e implementando infraestructuras de seguridad para empresas e instituciones de la región. Especialista en sistemas CCTV, circuitos cerrados de televisión y redes de monitoreo de alta complejidad. Aporta el acceso directo a clientes con infraestructura CCTV instalada, la solidez operativa y el conocimiento profundo de los entornos físicos reales.</p>
-        <div class="f-co">Byte · Compu-Byte</div>
-        <div class="f-col">Seguridad electrónica e integración de sistemas · compu-byte.com.ar</div>
-      </div>
-      <div class="founder rev d2">
-        <div class="f-init">MG</div>
-        <div class="f-name">Matías Gallego</div>
-        <div class="f-role">Co-fundador · Software & Estrategia</div>
-        <p class="f-bio">Al frente de VRIO Estudio, dedicado al desarrollo de software disruptivo y la creación de soluciones tecnológicas de alta complejidad. Nuevos paradigmas, ingeniería creativa y estrategia disruptiva aplicados a problemas reales. Aporta la capacidad técnica de desarrollo, la arquitectura de sistemas de IA, la visión de producto y la filosofía de innovación que define el alma de RIA Labs.</p>
-        <div class="f-co">VRIO Estudio</div>
-        <div class="f-col">Software as an art form · vrio.ar</div>
-      </div>
-    </div>
-    <div style="margin-top:2px;background:var(--bg2);border:1px solid var(--border2);padding:36px 40px;" class="rev">
-      <p style="font-size:15px;font-weight:300;line-height:1.75;color:var(--muted);max-width:760px;">La combinación de <strong style="color:var(--white);font-weight:400;">acceso directo a clientes con infraestructura de CCTV instalada</strong> y <strong style="color:var(--white);font-weight:400;">capacidad de desarrollo propio de soluciones de IA</strong> — en el mismo equipo — no existe en el mercado argentino. Esa es la ventaja que no se puede replicar.</p>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACTO -->
-<div class="contact" id="contacto">
-  <p class="c-pre rev">¿Listo para empezar?</p>
-  <h2 class="c-ttl rev d1">Hablemos.</h2>
-  <p class="c-sub rev d2">Contanos el problema. En una primera conversación, sin costo, te mostramos qué puede ver tu negocio que hoy no está viendo.</p>
-  <a href="/cdn-cgi/l/email-protection#ef8780838eaf8d969b8a8e818e83869b868c80c18e9d" class="c-email rev d3"><span class="__cf_email__" data-cfemail="1d7572717c5d7f6469787c737c717469747e72337c6f">[email&#160;protected]</span></a><br>
-  <a href="/cdn-cgi/l/email-protection#f49c9b9895b4968d8091959a95989d809d979bda9586" class="btn-gold rev d4">Escribinos</a>
-  <p class="c-loc rev d5">Rosario, Santa Fe · Argentina · Sistema activo</p>
-</div>
-
-<footer>
-  <div class="f-logo">RIA <em>Labs</em></div>
-  <p class="f-copy">© 2025 RIA Labs — Byte × VRIO · Rosario, Argentina</p>
-  <ul class="f-links">
-    <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#proceso">Método</a></li>
-    <li><a href="#caso">Caso</a></li>
-    <li><a href="#equipo">Equipo</a></li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer class="site-footer">
+  <span>Powered by <a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:#4a8fd4;">Byte</a> & <a href="https://vrio.ar" target="_blank" rel="noopener" style="color:var(--goldh);">VRIO</a></span>
+  <span>© 2025 RIA Labs · Rosario, Argentina</span>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // Ilustración: convertir líneas a flowing después de que se dibujen
-  setTimeout(() => {
-    document.querySelectorAll('.data-line').forEach((el, i) => {
-      setTimeout(() => {
-        el.classList.add('flowing');
-      }, i * 120);
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
-  }, 5400);
-
-  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50), {passive:true});
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); } });
-  }, {threshold:0.08, rootMargin:'0px 0px -32px 0px'});
-  document.querySelectorAll('.rev').forEach(el => obs.observe(el));
-
-  // ── LIVE FEED ENGINE ─────────────────────────────────────────────
-  (function() {
-    const plates = [
-      'AB 142 DC','KL 087 MN','GH 319 PQ','RS 201 XY','TU 055 VW',
-      'EF 774 IJ','MN 388 OP','QR 512 ST','UV 663 WX','YZ 091 AB',
-      'CD 247 EF','IJ 830 KL','PQ 174 RS','WX 459 YZ','BC 726 DE',
-      'FG 333 HI','LM 581 NO','ST 904 UV','ZA 162 BC','DE 477 FG'
-    ];
-    const brands = ['Toyota','Ford','Volkswagen','Chevrolet','Renault','Peugeot','Honda','Fiat'];
-    let vehicles = [];
-    let totalHoy = 0;
-
-    function randomPlate() { return plates[Math.floor(Math.random() * plates.length)]; }
-    function randomBrand()  { return brands[Math.floor(Math.random() * brands.length)]; }
-    function timeStr() {
-      const n = new Date();
-      return n.getHours().toString().padStart(2,'0') + ':' +
-             n.getMinutes().toString().padStart(2,'0') + ':' +
-             n.getSeconds().toString().padStart(2,'0');
-    }
-    function minutesAgo(n) {
-      if (n === 0) return 'ahora';
-      if (n < 60)  return 'hace ' + n + ' min';
-      return 'hace ' + Math.floor(n/60) + 'h ' + (n%60) + 'min';
-    }
-    function stateLabel(s) {
-      const m = {
-        ingresando: { text:'INGRESANDO',   cls:'b-pen' },
-        playa:      { text:'EN PLAYA',     cls:'b-act' },
-        servicio:   { text:'EN SERVICIO',  cls:'b-act' },
-        entregado:  { text:'ENTREGADO',    cls:'b-don' },
-        saliendo:   { text:'SALIENDO',     cls:'b-pen' },
-      };
-      return m[s] || { text: s.toUpperCase(), cls:'b-pen' };
-    }
-
-    function renderRows() {
-      const c = document.getElementById('live-rows');
-      if (!c) return;
-      const sorted = [...vehicles]
-        .sort((a,b) => {
-          const o = { ingresando:0, playa:1, servicio:1, saliendo:2, entregado:3 };
-          return (o[a.state]||2) - (o[b.state]||2);
-        }).slice(0, 7);
-      c.innerHTML = sorted.map((v,i) => {
-        const lbl = stateLabel(v.state);
-        const uid = 'r' + v.id.toString().replace('.','').replace('-','');
-        return '<div class="t-row-live" id="' + uid + '" style="opacity:0;animation:rowIn 0.4s ease ' + (i*0.06) + 's forwards;">' +
-          '<span class="t-id">' + v.plate + '</span>' +
-          '<span style="font-size:10px;color:var(--muted);min-width:80px;">' + v.brand + '</span>' +
-          '<span class="t-bge ' + lbl.cls + '">' + lbl.text + '</span>' +
-          '<span class="t-tm">' + minutesAgo(v.mins) + '</span>' +
-          '</div>';
-      }).join('');
-    }
-
-    function updateCounters() {
-      const inYard = vehicles.filter(v => v.state === 'playa' || v.state === 'servicio').length;
-      const p = document.getElementById('cnt-playa');
-      const h = document.getElementById('cnt-hoy');
-      if (p) p.textContent = inYard;
-      if (h) h.textContent = totalHoy;
-    }
-
-    function runScanner(plate, onDone) {
-      const wrap   = document.getElementById('scanner-wrap');
-      const plateEl = document.getElementById('scanner-plate');
-      const bar    = document.getElementById('scanner-bar');
-      const status = document.getElementById('scanner-status');
-      if (!wrap || !plateEl) { onDone(); return; }
-      wrap.style.display = 'block';
-      plateEl.textContent = '';
-      if (bar) bar.style.left = '0';
-      if (status) status.textContent = 'analizando imagen...';
-      let i = 0;
-      const reveal = setInterval(() => {
-        plateEl.textContent = plate.slice(0, i+1);
-        if (bar) bar.style.left = ((i / plate.length) * 100) + '%';
-        i++;
-        if (i >= plate.length) {
-          clearInterval(reveal);
-          if (status) status.textContent = '✓ patente identificada · confianza 98.7%';
-          setTimeout(() => { wrap.style.display = 'none'; onDone(); }, 900);
-        }
-      }, 75);
-    }
-
-    function vehicleEnters() {
-      const plate = randomPlate();
-      const brand = randomBrand();
-      if (vehicles.some(v => v.plate === plate && v.state !== 'entregado')) return;
-      const fs = document.getElementById('feed-status');
-      if (fs) fs.textContent = 'cámara detecta movimiento · leyendo patente...';
-      runScanner(plate, () => {
-        const v = { plate, brand, state:'ingresando', mins:0, id:Date.now() + Math.random() };
-        vehicles.unshift(v);
-        totalHoy++;
-        renderRows(); updateCounters();
-        if (fs) fs.textContent = plate + ' · ingreso registrado · ' + timeStr();
-        setTimeout(() => {
-          v.state = 'playa'; v.mins = 1;
-          renderRows(); updateCounters();
-          if (fs) fs.textContent = plate + ' · ubicado en playa · OCR + IA';
-        }, 3200);
-      });
-    }
-
-    function vehicleStateChange() {
-      const active = vehicles.filter(v => v.state === 'playa' || v.state === 'servicio');
-      if (active.length === 0) return;
-      const v = active[Math.floor(Math.random() * active.length)];
-      const fs = document.getElementById('feed-status');
-      if (v.state === 'playa') {
-        v.state = 'servicio';
-        if (fs) fs.textContent = v.plate + ' · ingresó a taller · ' + timeStr();
-      } else {
-        v.state = Math.random() > 0.4 ? 'entregado' : 'playa';
-        if (fs) fs.textContent = v.state === 'entregado'
-          ? v.plate + ' · entregado al cliente · ' + timeStr()
-          : v.plate + ' · volvió a playa · ' + timeStr();
-      }
-      renderRows(); updateCounters();
-      // flash en la fila
-      setTimeout(() => {
-        const uid = 'r' + v.id.toString().replace('.','').replace('-','');
-        const row = document.getElementById(uid);
-        if (row) { row.classList.add('highlight'); setTimeout(() => row.classList.remove('highlight'), 600); }
-      }, 50);
-    }
-
-    function initVehicles() {
-      vehicles = [
-        { plate:'AB 142 DC', brand:'Toyota',     state:'playa',    mins:42, id:1 },
-        { plate:'KL 087 MN', brand:'Ford',       state:'servicio', mins:18, id:2 },
-        { plate:'GH 319 PQ', brand:'Volkswagen', state:'playa',    mins:95, id:3 },
-        { plate:'EF 774 IJ', brand:'Chevrolet',  state:'entregado',mins:127,id:4 },
-        { plate:'RS 201 XY', brand:'Renault',    state:'playa',    mins:8,  id:5 },
-        { plate:'MN 388 OP', brand:'Peugeot',    state:'servicio', mins:33, id:6 },
-      ];
-      totalHoy = 14;
-      renderRows(); updateCounters();
-      const fs = document.getElementById('feed-status');
-      if (fs) fs.textContent = 'sistema activo · OCR + IA · actualización en tiempo real';
-    }
-
-    let started = false;
-    const feedObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting && !started) {
-          started = true;
-          initVehicles();
-          setInterval(() => { const ft = document.getElementById('feed-time'); if(ft) ft.textContent = timeStr(); }, 1000);
-          setInterval(() => { vehicles.forEach(v => { if(v.state !== 'entregado') v.mins++; }); }, 60000);
-          setInterval(() => {
-            vehicles = vehicles.filter(v => !(v.state === 'entregado' && v.mins > 180));
-          }, 90000);
-          // Evento principal
-          const tick = () => {
-            const r = Math.random();
-            if (r < 0.42) vehicleEnters();
-            else vehicleStateChange();
-            setTimeout(tick, 3500 + Math.random() * 2500);
-          };
-          setTimeout(tick, 2000);
-          // Segundo ticker
-          const tick2 = () => {
-            if (Math.random() < 0.5) vehicleStateChange();
-            setTimeout(tick2, 6000 + Math.random() * 4000);
-          };
-          setTimeout(tick2, 5000);
-        }
-      });
-    }, { threshold: 0.2 });
-
-    const feedEl = document.getElementById('live-rows');
-    if (feedEl) feedObs.observe(feedEl);
-  })();
-  // ─────────────────────────────────────────────────────────────────
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.content-section').forEach(el => observer.observe(el));
 </script>
 
 </body>
