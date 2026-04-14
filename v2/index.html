@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIA Labs — Software e Inteligencia Artificial</title>
+<meta name="description" content="Transformamos los procesos de tu empresa con inteligencia artificial y software a medida. Nacidos de Byte y VRIO. Rosario, Argentina.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0b0a14;
+    --bg2:     #100f1e;
+    --bg3:     #0d0c1a;
+    --gold:    #c8860a;
+    --gold-hi: #f0a020;
+    --gold-lo: #7a5008;
+    --blue:    #4a8fd4;
+    --blue-lo: #1e4a78;
+    --white:   #f0ece0;
+    --muted:   #8a8478;
+    --border:  rgba(200,134,10,0.14);
+    --border2: rgba(255,255,255,0.055);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--white); overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.025; pointer-events: none; z-index: 9999;
+  }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 22px 52px; display: flex; align-items: center; justify-content: space-between; transition: all 0.35s; }
+  nav.scrolled { background: rgba(11,10,20,0.94); border-bottom: 1px solid var(--border2); backdrop-filter: blur(14px); padding-top: 14px; padding-bottom: 14px; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-wm { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; color: var(--white); }
+  .nav-wm em { font-style: normal; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 300; letter-spacing: 2px; color: var(--gold-hi); margin-left: 4px; vertical-align: 2px; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 0.8px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta { background: transparent; border: 1px solid var(--gold); color: var(--gold-hi); padding: 8px 22px; font-family: 'DM Sans', sans-serif; font-size: 13px; letter-spacing: 1px; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+  .nav-cta:hover { background: var(--gold); color: var(--bg); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 130px 24px 90px; position: relative; overflow: hidden; }
+  .hero-glow { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); width: 700px; height: 350px; background: radial-gradient(ellipse, rgba(200,134,10,0.055) 0%, transparent 68%); pointer-events: none; }
+  .hero-eclipse { width: 120px; height: 120px; margin-bottom: 0px; position: relative; z-index: 2; }
+  .hero-ria { font-family: 'Bebas Neue', sans-serif; font-size: clamp(96px, 20vw, 196px); letter-spacing: 18px; line-height: 0.88; color: var(--white); position: relative; z-index: 2; animation: fadeUp 0.9s ease both; animation-delay: 0.05s; margin-top: 0; }
+  .hero-labs { font-size: clamp(15px, 2.2vw, 22px); font-weight: 300; letter-spacing: 10px; color: var(--gold-hi); margin-top: -2px; margin-bottom: 48px; animation: fadeUp 0.9s ease both; animation-delay: 0.2s; position: relative; z-index: 2; }
+
+  .hero-headline { font-size: clamp(17px, 2.6vw, 24px); font-weight: 300; color: var(--muted); max-width: 600px; line-height: 1.65; margin-bottom: 52px; animation: fadeUp 0.9s ease both; animation-delay: 0.5s; position: relative; z-index: 2; }
+  .hero-headline strong { color: var(--white); font-weight: 400; }
+  .hero-ctas { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.9s ease both; animation-delay: 0.65s; position: relative; z-index: 2; }
+  .hero-origin { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; color: var(--muted); opacity: 0.35; white-space: nowrap; animation: fadeIn 2s ease 1.4s both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.35; } }
+
+  /* BUTTONS */
+  .btn-gold { background: var(--gold); color: var(--bg); border: none; padding: 14px 38px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 1.5px; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s; }
+  .btn-gold:hover { background: var(--gold-hi); }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border2); padding: 14px 38px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; letter-spacing: 1.5px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
+  .btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.18); }
+
+  /* LAYOUT */
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 48px; }
+  .section { padding: 112px 0; }
+  .divider { height: 1px; background: var(--border2); }
+  .lbl { font-size: 10px; font-weight: 400; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .lbl::before { content: ''; width: 20px; height: 1px; background: var(--gold); display: inline-block; }
+  .ttl { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 5.5vw, 68px); letter-spacing: 3px; line-height: 1; color: var(--white); margin-bottom: 22px; }
+  .bdy { font-size: 17px; font-weight: 300; line-height: 1.78; color: var(--muted); max-width: 620px; }
+  .bdy strong { color: var(--white); font-weight: 400; }
+
+  /* STAT BAR */
+  .stat-bar { background: var(--bg2); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 40px 0; }
+  .stat-inner { max-width: 1180px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: repeat(4,1fr); }
+  .stat { padding: 0 32px; }
+  .stat + .stat { border-left: 1px solid var(--border2); }
+  .stat-n { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 2px; color: var(--gold-hi); line-height: 1; }
+  .stat-l { font-size: 12px; font-weight: 300; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+  /* SERVICES */
+  .svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 68px; background: var(--border2); }
+  .svc { background: var(--bg); padding: 44px 38px; position: relative; overflow: hidden; transition: background 0.3s; }
+  .svc:hover { background: var(--bg2); }
+  .svc::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 0; background: var(--gold); transition: height 0.35s ease; }
+  .svc:hover::before { height: 100%; }
+  .svc-n { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; color: var(--gold-lo); letter-spacing: 2px; margin-bottom: 22px; }
+  .svc-t { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; color: var(--white); margin-bottom: 14px; }
+  .svc-b { font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--muted); }
+
+  /* CASE */
+  .case-wrap { background: var(--bg3); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 100px 0; }
+  .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 56px; }
+  .case-pill { display: inline-block; font-size: 10px; font-weight: 400; letter-spacing: 3px; color: var(--gold); border: 1px solid var(--border); padding: 4px 12px; margin-bottom: 18px; }
+  .case-name { font-family: 'Bebas Neue', sans-serif; font-size: 56px; letter-spacing: 4px; line-height: 1; color: var(--white); margin-bottom: 18px; }
+  .case-name span { color: var(--gold-hi); }
+  .case-b { font-size: 15px; font-weight: 300; line-height: 1.78; color: var(--muted); margin-bottom: 28px; }
+  .case-b strong { color: var(--white); font-weight: 400; }
+  .case-res { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border2); }
+  .c-r { background: var(--bg3); padding: 18px 22px; }
+  .c-rn { font-family: 'Bebas Neue', sans-serif; font-size: 34px; letter-spacing: 2px; color: var(--gold-hi); line-height: 1; }
+  .c-rl { font-size: 12px; font-weight: 300; color: var(--muted); margin-top: 4px; }
+
+  /* TERMINAL */
+  .term { background: #07060f; border: 1px solid var(--border2); position: relative; overflow: hidden; }
+  .term::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--gold-lo), transparent); }
+  .term-bar { padding: 12px 16px; border-bottom: 1px solid var(--border2); display: flex; align-items: center; gap: 6px; }
+  .t-d { width: 8px; height: 8px; border-radius: 50%; }
+  .t-d1 { background: rgba(200,134,10,0.5); } .t-d2 { background: var(--border2); } .t-d3 { background: var(--border2); }
+  .t-ttl { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; color: var(--muted); letter-spacing: 1px; margin: 0 auto; }
+  .t-row { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 12px; font-family: 'DM Mono', monospace; font-weight: 300; }
+  .t-row:last-child { border-bottom: none; }
+  .t-id { color: var(--gold); min-width: 88px; }
+  .t-bge { font-size: 10px; letter-spacing: 1px; padding: 2px 8px; }
+  .b-act { background: rgba(200,134,10,0.12); color: var(--gold-hi); }
+  .b-don { background: rgba(74,143,212,0.1); color: var(--blue); }
+  .b-pen { background: rgba(255,255,255,0.04); color: var(--muted); }
+  .t-tm { color: var(--muted); margin-left: auto; font-size: 11px; }
+  .term-ft { padding: 10px 16px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; color: var(--muted); opacity: 0.4; border-top: 1px solid var(--border2); }
+
+  /* PROCESS */
+  .proc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .proc-steps { margin-top: 48px; }
+  .p-step { display: flex; gap: 22px; padding: 26px 0; border-bottom: 1px solid var(--border2); }
+  .p-step:first-child { border-top: 1px solid var(--border2); }
+  .p-n { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; color: var(--gold); letter-spacing: 1px; min-width: 26px; padding-top: 3px; }
+  .p-step h4 { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 5px; }
+  .p-step p { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.65; }
+  .proc-met { position: sticky; top: 110px; display: flex; flex-direction: column; gap: 16px; }
+  .p-met { border: 1px solid var(--border2); padding: 26px 28px; position: relative; overflow: hidden; transition: border-color 0.3s; }
+  .p-met:hover { border-color: var(--border); }
+  .p-met::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); opacity: 0.22; }
+  .p-met-n { font-family: 'Bebas Neue', sans-serif; font-size: 50px; letter-spacing: 2px; color: var(--gold-hi); line-height: 1; }
+  .p-met-l { font-size: 13px; font-weight: 300; color: var(--muted); margin-top: 5px; }
+
+  /* PRINCIPLES */
+  .princ-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 60px; background: var(--border2); }
+  .pr { background: var(--bg); padding: 36px 30px; position: relative; overflow: hidden; transition: background 0.3s; }
+  .pr:hover { background: var(--bg2); }
+  .pr-ghost { font-family: 'Bebas Neue', sans-serif; font-size: 68px; letter-spacing: 2px; color: rgba(200,134,10,0.06); position: absolute; top: 12px; right: 16px; line-height: 1; }
+  .pr-bar { width: 22px; height: 2px; background: var(--gold); margin-bottom: 18px; transition: width 0.3s; }
+  .pr:hover .pr-bar { width: 44px; }
+  .pr-t { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 12px; }
+  .pr-b { font-size: 13px; font-weight: 300; line-height: 1.7; color: var(--muted); }
+
+  /* MARKET */
+  .mkt-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 60px; background: var(--border2); }
+  .mkt { background: var(--bg); padding: 36px 30px; transition: background 0.3s; }
+  .mkt:hover { background: var(--bg2); }
+  .mkt-n { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--gold-hi); line-height: 1; margin-bottom: 10px; }
+  .mkt-t { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 8px; }
+  .mkt-b { font-size: 13px; font-weight: 300; line-height: 1.65; color: var(--muted); }
+
+  /* TEAM */
+  .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 60px; background: var(--border2); }
+  .founder { background: var(--bg); padding: 48px 40px; }
+  .f-init { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; color: var(--gold); margin-bottom: 20px; }
+  .f-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--white); margin-bottom: 4px; }
+  .f-role { font-size: 11px; font-weight: 300; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
+  .f-bio { font-size: 15px; font-weight: 300; line-height: 1.72; color: var(--muted); margin-bottom: 24px; }
+  .f-co { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 3px; color: var(--white); opacity: 0.5; margin-bottom: 4px; }
+  .f-col { font-size: 12px; font-weight: 300; color: var(--muted); }
+
+  /* CONTACT */
+  .contact { text-align: center; padding: 140px 48px; position: relative; overflow: hidden; }
+  .contact::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 900px; height: 450px; background: radial-gradient(ellipse, rgba(200,134,10,0.038) 0%, transparent 68%); pointer-events: none; }
+  .c-pre { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; }
+  .c-ttl { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px,9vw,108px); letter-spacing: 6px; line-height: 1; color: var(--white); margin-bottom: 20px; }
+  .c-sub { font-size: 17px; font-weight: 300; color: var(--muted); max-width: 500px; margin: 0 auto 44px; line-height: 1.72; }
+  .c-email { display: inline-block; font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 300; color: var(--blue); letter-spacing: 2px; text-decoration: none; border-bottom: 1px solid var(--blue-lo); padding-bottom: 2px; margin-bottom: 44px; transition: color 0.2s, border-color 0.2s; }
+  .c-email:hover { color: var(--white); border-color: var(--muted); }
+  .c-loc { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; color: var(--muted); opacity: 0.35; margin-top: 36px; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border2); padding: 32px 52px; display: flex; align-items: center; justify-content: space-between; }
+  .f-logo { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 4px; color: var(--muted); }
+  .f-logo em { font-style: normal; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 2px; color: var(--gold-lo); margin-left: 5px; vertical-align: 1px; }
+  .f-copy { font-size: 11px; font-weight: 300; color: var(--muted); opacity: 0.35; }
+  .f-links { display: flex; gap: 22px; list-style: none; }
+  .f-links a { font-size: 12px; font-weight: 300; color: var(--muted); text-decoration: none; opacity: 0.35; transition: opacity 0.2s; }
+  .f-links a:hover { opacity: 1; }
+
+  /* REVEAL */
+  .rev { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .rev.vis { opacity: 1; transform: translateY(0); }
+  .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s} .d4{transition-delay:.32s} .d5{transition-delay:.4s}
+
+
+  /* ── ILUSTRACIÓN ANIMADA ──────────────────────────────── */
+  .ilus-camera { opacity: 0; animation: ilusFadeUp 1.4s ease forwards; animation-delay: 1.2s; }
+  .ilus-lines  { opacity: 0; animation: ilusFadeIn 1s ease forwards; animation-delay: 3.2s; }
+  .ilus-mind   { opacity: 0; animation: ilusFadeUp 1.4s ease forwards; animation-delay: 4.8s; }
+  .ilus-text1  { opacity: 0; animation: ilusFadeIn 1.2s ease forwards; animation-delay: 2.4s; }
+  .ilus-text2  { opacity: 0; animation: ilusFadeIn 1.2s ease forwards; animation-delay: 6.2s; }
+  @keyframes ilusFadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes ilusFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  /* Líneas de datos: se dibujan de izquierda a derecha */
+  .data-line {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+    animation: drawLine 1.2s ease forwards;
+  }
+  .data-line:nth-child(1) { animation-delay: 3.4s; }
+  .data-line:nth-child(2) { animation-delay: 3.65s; }
+  .data-line:nth-child(3) { animation-delay: 3.9s; }
+  .data-line:nth-child(4) { animation-delay: 3.65s; }
+  .data-line:nth-child(5) { animation-delay: 3.4s; }
+  @keyframes drawLine {
+    to { stroke-dashoffset: 0; }
+  }
+  /* Flujo continuo en las líneas una vez dibujadas */
+  .data-line.flowing {
+    stroke-dasharray: 6 5;
+    stroke-dashoffset: 0;
+    animation: flowDash 2.2s linear infinite;
+  }
+  .data-line.flowing:nth-child(3) { animation-duration: 1.6s; }
+  @keyframes flowDash {
+    to { stroke-dashoffset: -22; }
+  }
+  /* Pulso en nodos activos */
+  @keyframes nodePulse {
+    0%,100% { opacity: 1; r: 2.5; }
+    50%      { opacity: 0.6; r: 4; }
+  }
+
+  @media(max-width:860px){
+    nav{padding:16px 24px;} .nav-links{display:none;}
+    .wrap{padding:0 24px;} .section{padding:80px 0;}
+    .svc-grid,.case-grid,.proc-grid,.team-grid,.mkt-grid,.princ-grid{grid-template-columns:1fr;}
+    .stat-inner{grid-template-columns:1fr 1fr;}
+    .stat+.stat{border-left:none; border-top:1px solid var(--border2);}
+    .proc-met{position:static;}
+    footer{flex-direction:column;gap:14px;text-align:center;padding:28px 24px;}
+    .f-links{display:none;} .contact{padding:100px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <!-- halo dorado difuso -->
+      <circle cx="12" cy="14" r="10" fill="none" stroke="#2a1200" stroke-width="5" opacity="0.65"/>
+      <circle cx="12" cy="14" r="9.5" fill="none" stroke="#412402" stroke-width="3" opacity="0.5"/>
+      <circle cx="12" cy="14" r="9" fill="none" stroke="#633806" stroke-width="1.5" opacity="0.35"/>
+      <circle cx="12" cy="14" r="8.5" fill="none" stroke="#BA7517" stroke-width="0.7" opacity="0.22"/>
+      <!-- disco posterior cálido -->
+      <circle cx="12" cy="14" r="8" fill="#1c1810"/>
+      <!-- disco frontal desplazado arriba — mismo radio -->
+      <circle cx="12" cy="10" r="8" fill="#0b0a14"/>
+    </svg>
+    <span class="nav-wm">RIA <em>Labs</em></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#proceso">Método</a></li>
+    <li><a href="#caso">Caso real</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Conversemos</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <!-- Eclipse: disco posterior cálido oscuro, halo dorado difuso, disco frontal tapa casi todo dejando arco inferior -->
+  <!-- Contenedor que posiciona el eclipse alineado con la I del wordmark RIA -->
+  <div style="position:relative;z-index:2;width:clamp(340px,60vw,600px);height:140px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:-8px;">
+    <!-- El eclipse flota sobre la posición de la I: RIA tiene R(~33%), I(~50%), A(~66%) del ancho -->
+    <!-- En texto centrado con letter-spacing 18px, la I cae aprox en el centro exacto -->
+    <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);" width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <!-- Halo exterior muy difuso — atmósfera del cuerpo posterior -->
+      <circle cx="60" cy="68" r="52" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.55"/>
+      <circle cx="60" cy="68" r="50" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
+      <circle cx="60" cy="68" r="48" fill="none" stroke="#3d1c00" stroke-width="9" opacity="0.32"/>
+      <circle cx="60" cy="68" r="46" fill="none" stroke="#633806" stroke-width="5" opacity="0.24"/>
+      <circle cx="60" cy="68" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
+      <circle cx="60" cy="68" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
+      <!-- Refuerzo del halo en la zona inferior — donde el eclipse "abre" -->
+      <path d="M 22 90 A 42 42 0 0 0 98 90" fill="none" stroke="#EF9F27" stroke-width="6" opacity="0.06" stroke-linecap="round"/>
+      <path d="M 26 94 A 38 38 0 0 0 94 94" fill="none" stroke="#FAC775" stroke-width="4" opacity="0.05" stroke-linecap="round"/>
+      <!-- Disco posterior — tono cálido oscuro, mismo radio que el frontal -->
+      <circle cx="60" cy="68" r="38" fill="#1c1810"/>
+      <!-- Disco frontal — orbita lentamente alrededor del posterior -->
+      <!-- Centro base: cx=60, cy=46 (20px arriba del posterior) -->
+      <!-- La animación mueve el disco en una órbita de radio 8px, 14s por vuelta -->
+      <circle r="38" fill="#0b0a14">
+        <animate
+          attributeName="cx"
+          values="60;68;60;52;60"
+          keyTimes="0;0.25;0.5;0.75;1"
+          dur="14s"
+          repeatCount="indefinite"
+          calcMode="spline"
+          keySplines="0.45 0 0.55 1; 0.45 0 0.55 1; 0.45 0 0.55 1; 0.45 0 0.55 1"/>
+        <animate
+          attributeName="cy"
+          values="46;52;58;52;46"
+          keyTimes="0;0.25;0.5;0.75;1"
+          dur="14s"
+          repeatCount="indefinite"
+          calcMode="spline"
+          keySplines="0.45 0 0.55 1; 0.45 0 0.55 1; 0.45 0 0.55 1; 0.45 0 0.55 1"/>
+      </circle>
+    </svg>
+  </div>
+  <h1 class="hero-ria">RIA</h1>
+  <p class="hero-labs">Labs</p>
+
+  <!-- Ilustración animada: cámara → datos → mente -->
+  <div style="position:relative;z-index:2;width:100%;max-width:680px;margin-bottom:52px;">
+    <svg id="hero-ilus" width="100%" viewBox="0 0 680 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- Grid de fondo -->
+      <line x1="0" y1="65" x2="680" y2="65" stroke="#1a1828" stroke-width="0.5"/>
+      <line x1="0" y1="130" x2="680" y2="130" stroke="#1a1828" stroke-width="0.5"/>
+      <line x1="0" y1="195" x2="680" y2="195" stroke="#1a1828" stroke-width="0.5"/>
+      <line x1="170" y1="0" x2="170" y2="260" stroke="#1a1828" stroke-width="0.5"/>
+      <line x1="340" y1="0" x2="340" y2="260" stroke="#1a1828" stroke-width="0.5"/>
+      <line x1="510" y1="0" x2="510" y2="260" stroke="#1a1828" stroke-width="0.5"/>
+
+      <!-- ══ CÁMARA (aparece primero) ══ -->
+      <g class="ilus-camera">
+        <!-- Brazo de montaje -->
+        <rect x="72" y="72" width="6" height="36" rx="2" fill="#2a2838"/>
+        <rect x="62" y="68" width="26" height="6" rx="3" fill="#2a2838"/>
+        <!-- Cuerpo cámara -->
+        <path d="M58 108 L122 108 L118 140 L62 140 Z" fill="#1e1c2e" stroke="#3a3850" stroke-width="1"/>
+        <rect x="60" y="110" width="60" height="26" rx="3" fill="#16151f" stroke="#2e2c3e" stroke-width="0.8"/>
+        <!-- Lente -->
+        <circle cx="90" cy="123" r="10" fill="#12111a" stroke="#3a3850" stroke-width="1.2"/>
+        <circle cx="90" cy="123" r="6.5" fill="#0d0c14" stroke="#2a2838" stroke-width="0.8"/>
+        <circle cx="90" cy="123" r="3.5" fill="#1a1828"/>
+        <circle cx="87" cy="120" r="1.5" fill="#4a4868" opacity="0.6"/>
+        <!-- LED -->
+        <circle cx="112" cy="115" r="2" fill="#c8860a" opacity="0.8"/>
+        <!-- Cono visión -->
+        <path d="M100 123 L200 82 L200 164 Z" fill="#c8860a" opacity="0.04"/>
+        <line x1="100" y1="123" x2="200" y2="82" stroke="#c8860a" stroke-width="0.5" opacity="0.18" stroke-dasharray="4 5"/>
+        <line x1="100" y1="123" x2="200" y2="164" stroke="#c8860a" stroke-width="0.5" opacity="0.18" stroke-dasharray="4 5"/>
+        <!-- Texto oración 1 -->
+        <text class="ilus-text1" x="90" y="174" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="300" fill="#8a8478" letter-spacing="0.3">Tu infraestructura visual ya existe.</text>
+      </g>
+
+      <!-- ══ LÍNEAS DE DATOS (aparecen después, animadas con dashoffset) ══ -->
+      <g class="ilus-lines">
+        <path class="data-line" d="M200 90 C240 90, 262 105, 295 112" fill="none" stroke="#c8860a" stroke-width="0.8" opacity="0.4" stroke-dasharray="3 5"/>
+        <path class="data-line" d="M200 108 C242 108, 268 116, 308 120" fill="none" stroke="#c8860a" stroke-width="1" opacity="0.5" stroke-dasharray="4 4"/>
+        <path class="data-line" d="M200 123 C246 123, 272 124, 316 126" fill="none" stroke="#EF9F27" stroke-width="1.5" opacity="0.55" stroke-dasharray="5 3"/>
+        <path class="data-line" d="M200 138 C242 138, 268 132, 308 130" fill="none" stroke="#c8860a" stroke-width="1" opacity="0.5" stroke-dasharray="4 4"/>
+        <path class="data-line" d="M200 156 C240 156, 262 142, 295 137" fill="none" stroke="#c8860a" stroke-width="0.8" opacity="0.4" stroke-dasharray="3 5"/>
+        <!-- Partículas en las líneas -->
+        <circle cx="248" cy="90" r="1.5" fill="#c8860a" opacity="0.6"/>
+        <circle cx="258" cy="108" r="1.5" fill="#EF9F27" opacity="0.7"/>
+        <circle cx="262" cy="123" r="2" fill="#EF9F27" opacity="0.8"/>
+        <circle cx="258" cy="138" r="1.5" fill="#EF9F27" opacity="0.7"/>
+        <circle cx="248" cy="156" r="1.5" fill="#c8860a" opacity="0.6"/>
+      </g>
+
+      <!-- ══ CONSTELACIÓN / MENTE (nodos que se encienden) ══ -->
+      <g class="ilus-mind">
+        <!-- Conexiones base -->
+        <line x1="370" y1="78" x2="430" y2="102" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="370" y1="78" x2="390" y2="138" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="430" y1="102" x2="480" y2="80" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="430" y1="102" x2="460" y2="142" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="430" y1="102" x2="400" y2="170" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="480" y1="80" x2="540" y2="102" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="480" y1="80" x2="510" y2="128" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="460" y1="142" x2="510" y2="128" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="460" y1="142" x2="440" y2="184" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="540" y1="102" x2="580" y2="130" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="540" y1="102" x2="560" y2="70" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="510" y1="128" x2="540" y2="166" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="390" y1="138" x2="400" y2="170" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="400" y1="170" x2="440" y2="184" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="580" y1="130" x2="618" y2="118" stroke="#3a3050" stroke-width="0.8"/>
+        <line x1="580" y1="130" x2="600" y2="166" stroke="#3a3050" stroke-width="0.8"/>
+        <!-- Conexiones activas doradas -->
+        <line x1="430" y1="102" x2="510" y2="128" stroke="#c8860a" stroke-width="1" opacity="0.38"/>
+        <line x1="480" y1="80" x2="460" y2="142" stroke="#EF9F27" stroke-width="1.2" opacity="0.42"/>
+        <line x1="510" y1="128" x2="580" y2="130" stroke="#c8860a" stroke-width="1" opacity="0.32"/>
+        <line x1="370" y1="78" x2="480" y2="80" stroke="#EF9F27" stroke-width="1" opacity="0.28"/>
+        <!-- Conexiones de entrada desde flujo de datos -->
+        <path d="M316 120 C340 120, 356 104, 370 78" fill="none" stroke="#EF9F27" stroke-width="1.2" opacity="0.5"/>
+        <path d="M316 126 C340 128, 360 134, 390 138" fill="none" stroke="#c8860a" stroke-width="1" opacity="0.38"/>
+        <!-- Nodos -->
+        <circle cx="370" cy="78" r="5" fill="#26215C" stroke="#7F77DD" stroke-width="1"/>
+        <circle cx="370" cy="78" r="2.5" fill="#7F77DD"/>
+        <circle cx="390" cy="138" r="4" fill="#1a1828" stroke="#534AB7" stroke-width="0.8"/>
+        <circle cx="390" cy="138" r="2" fill="#534AB7"/>
+        <!-- Nodo central principal -->
+        <circle cx="430" cy="102" r="9" fill="#1c1828" stroke="#c8860a" stroke-width="1.2"/>
+        <circle cx="430" cy="102" r="5" fill="#2a1800"/>
+        <circle cx="430" cy="102" r="2.5" fill="#c8860a"/>
+        <!-- Nodo activo 2 -->
+        <circle cx="480" cy="80" r="7" fill="#1a1828" stroke="#EF9F27" stroke-width="1"/>
+        <circle cx="480" cy="80" r="3.5" fill="#221600"/>
+        <circle cx="480" cy="80" r="1.8" fill="#EF9F27"/>
+        <!-- Nodo activo 3 -->
+        <circle cx="510" cy="128" r="6" fill="#1a1828" stroke="#c8860a" stroke-width="0.8"/>
+        <circle cx="510" cy="128" r="3" fill="#1e1400"/>
+        <circle cx="510" cy="128" r="1.5" fill="#c8860a"/>
+        <!-- Nodos periféricos -->
+        <circle cx="540" cy="102" r="5" fill="#1a1828" stroke="#534AB7" stroke-width="0.8"/>
+        <circle cx="540" cy="102" r="2.5" fill="#534AB7"/>
+        <circle cx="460" cy="142" r="5" fill="#26215C" stroke="#7F77DD" stroke-width="0.8"/>
+        <circle cx="460" cy="142" r="2.5" fill="#7F77DD"/>
+        <circle cx="560" cy="70" r="3.5" fill="#1a1828" stroke="#3a3050" stroke-width="0.8"/>
+        <circle cx="560" cy="70" r="1.5" fill="#444"/>
+        <circle cx="580" cy="130" r="4.5" fill="#1a1828" stroke="#534AB7" stroke-width="0.8"/>
+        <circle cx="580" cy="130" r="2" fill="#534AB7"/>
+        <circle cx="618" cy="118" r="3" fill="#1a1828" stroke="#3a3050" stroke-width="0.8"/>
+        <circle cx="618" cy="118" r="1.2" fill="#444"/>
+        <circle cx="400" cy="170" r="4" fill="#1a1828" stroke="#3a3050" stroke-width="0.8"/>
+        <circle cx="400" cy="170" r="1.8" fill="#444"/>
+        <circle cx="440" cy="184" r="4" fill="#1a1828" stroke="#534AB7" stroke-width="0.6"/>
+        <circle cx="440" cy="184" r="1.8" fill="#534AB7"/>
+        <circle cx="540" cy="166" r="4" fill="#1a1828" stroke="#3a3050" stroke-width="0.8"/>
+        <circle cx="540" cy="166" r="1.8" fill="#444"/>
+        <circle cx="600" cy="166" r="3.5" fill="#1a1828" stroke="#3a3050" stroke-width="0.6"/>
+        <!-- Texto oración 2 -->
+        <text class="ilus-text2" x="500" y="218" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" font-weight="400" fill="#f0ece0" letter-spacing="0.3">Nosotros la hacemos pensar.</text>
+      </g>
+
+      <!-- Divisor central sutil -->
+      <line x1="340" y1="70" x2="340" y2="190" stroke="#2a2838" stroke-width="0.5" stroke-dasharray="2 6"/>
+    </svg>
+  </div>
+  <div class="hero-ctas">
+    <a href="#contacto" class="btn-gold">Empecemos</a>
+    <a href="#caso" class="btn-ghost">Ver caso real →</a>
+  </div>
+  <p class="hero-origin">Byte × VRIO · Rosario, Argentina · Sistema activo</p>
+</div>
+
+<!-- STAT BAR -->
+<div class="stat-bar">
+  <div class="stat-inner">
+    <div class="stat rev"><div class="stat-n">70%</div><div class="stat-l">de las pymes argentinas sin estrategia de IA</div></div>
+    <div class="stat rev d1"><div class="stat-n">~100%</div><div class="stat-l">de las cámaras instaladas sin generar valor de negocio</div></div>
+    <div class="stat rev d2"><div class="stat-n">25+</div><div class="stat-l">años de experiencia en infraestructura de seguridad</div></div>
+    <div class="stat rev d3"><div class="stat-n">5 sem</div><div class="stat-l">del diagnóstico al primer MVP funcionando en producción</div></div>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<section class="section" id="servicios">
+  <div class="wrap">
+    <p class="lbl rev">Servicios</p>
+    <h2 class="ttl rev d1">Lo que<br>construimos</h2>
+    <p class="bdy rev d2">No adaptamos plataformas genéricas. <strong>Diseñamos y construimos la solución exacta</strong> que tu proceso necesita — con el stack más simple, rápido y efectivo posible.</p>
+    <div class="svc-grid">
+      <div class="svc rev">
+        <p class="svc-n">01 · Visión artificial</p>
+        <h3 class="svc-t">OCR e inteligencia visual</h3>
+        <p class="svc-b">Reconocimiento de patentes, análisis de flujos, detección de comportamientos y conteo automatizado. Convertimos la información visual que ya capturás en datos accionables de negocio — en tiempo real, sin intervención humana.</p>
+      </div>
+      <div class="svc rev d1">
+        <p class="svc-n">02 · Desarrollo a medida</p>
+        <h3 class="svc-t">Software propio desde cero</h3>
+        <p class="svc-b">Construimos la arquitectura exacta que tu problema requiere. Nada de adaptaciones sobre herramientas de terceros. Cada línea de código tiene un propósito claro y una métrica que la justifica.</p>
+      </div>
+      <div class="svc rev d2">
+        <p class="svc-n">03 · Consultoría estratégica</p>
+        <h3 class="svc-t">Diagnóstico y estrategia IA</h3>
+        <p class="svc-b">Auditamos tu infraestructura y tus procesos, identificamos dónde la IA genera el mayor impacto y diseñamos el camino más corto para llegar ahí. Primer diagnóstico sin costo, sin tecnicismos.</p>
+      </div>
+      <div class="svc rev d3">
+        <p class="svc-n">04 · SaaS y evolución</p>
+        <h3 class="svc-t">Sistemas que mejoran con uso</h3>
+        <p class="svc-b">Monitoreo permanente, actualización continua de modelos de IA, ampliación de funcionalidades y soporte técnico mensual. La solución crece con el negocio. Cuanto más opera, más inteligente se vuelve.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CASO REAL -->
+<div class="case-wrap" id="caso">
+  <div class="wrap">
+    <p class="lbl rev">Caso en producción</p>
+    <div class="case-grid">
+      <div>
+        <span class="case-pill rev">Validado · Rosario, Argentina</span>
+        <h2 class="case-name rev d1">Byte<br><span>Analítico</span></h2>
+        <p class="case-b rev d2">Una concesionaria oficial de autos no sabía dónde estaba cada vehículo dentro de su predio. El stock se gestionaba a mano. Las búsquedas consumían tiempo. Los errores eran frecuentes y costosos.</p>
+        <p class="case-b rev d3">Instalamos una cámara estratégica y construimos un sistema de <strong>reconocimiento de patentes por OCR enriquecido con IA</strong>. Hoy el sistema mapea en tiempo real el recorrido de cada vehículo, automatiza el registro de movimientos y genera reportes que antes no existían — desde la infraestructura que el cliente ya tenía instalada.</p>
+        <div class="case-res rev d4">
+          <div class="c-r"><div class="c-rn">100%</div><div class="c-rl">Trazabilidad vehicular en tiempo real</div></div>
+          <div class="c-r"><div class="c-rn">0</div><div class="c-rl">Registros manuales de movimientos</div></div>
+          <div class="c-r"><div class="c-rn">−60%</div><div class="c-rl">Tiempo de búsqueda de vehículos en planta</div></div>
+          <div class="c-r"><div class="c-rn">1</div><div class="c-rl">Cámara — todo lo que necesitó el sistema</div></div>
+        </div>
+      </div>
+      <div class="rev d2">
+        <div class="term">
+          <div class="term-bar">
+            <div class="t-d t-d1"></div><div class="t-d t-d2"></div><div class="t-d t-d3"></div>
+            <span class="t-ttl">byte_analitico · live_feed</span>
+          </div>
+          <div class="t-row"><span class="t-id">AB 142 DC</span><span class="t-bge b-act">EN PLAYA</span><span class="t-tm">hace 2 min</span></div>
+          <div class="t-row"><span class="t-id">KL 087 MN</span><span class="t-bge b-don">ENTREGADO</span><span class="t-tm">10:34</span></div>
+          <div class="t-row"><span class="t-id">GH 319 PQ</span><span class="t-bge b-act">EN PLAYA</span><span class="t-tm">hace 8 min</span></div>
+          <div class="t-row"><span class="t-id">TU 055 VW</span><span class="t-bge b-pen">INGRESANDO</span><span class="t-tm">ahora</span></div>
+          <div class="t-row"><span class="t-id">EF 774 IJ</span><span class="t-bge b-don">ENTREGADO</span><span class="t-tm">09:15</span></div>
+          <div class="t-row"><span class="t-id">RS 201 XY</span><span class="t-bge b-act">EN PLAYA</span><span class="t-tm">hace 1 hr</span></div>
+          <div class="term-ft">sistema activo · OCR + IA · actualización en tiempo real</div>
+        </div>
+        <p style="font-size:12px;font-weight:300;color:var(--muted);margin-top:16px;line-height:1.6;">Este no es solo un producto — es la demostración de lo que RIA Labs construye para cualquier empresa que ya tenga cámaras instaladas.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESO -->
+<section class="section" id="proceso">
+  <div class="wrap">
+    <div class="proc-grid">
+      <div>
+        <p class="lbl rev">Metodología</p>
+        <h2 class="ttl rev d1">Cómo<br>trabajamos</h2>
+        <p class="bdy rev d2">Un proceso diseñado para moverse rápido sin improvisar. <strong>Del diagnóstico al MVP en producción en 5 semanas.</strong></p>
+        <div class="proc-steps">
+          <div class="p-step rev"><span class="p-n">01</span><div><h4>Diagnóstico gratuito</h4><p>Auditamos cámaras, red, servidores y procesos del negocio. Mapeamos qué flujos pueden potenciarse con visión artificial e IA. Sin costo, sin compromiso.</p></div></div>
+          <div class="p-step rev d1"><span class="p-n">02</span><div><h4>Diseño de la solución</h4><p>Definimos la arquitectura más simple que resuelve el problema real. Priorizamos por impacto y velocidad. Presentamos métricas de éxito antes de empezar a construir.</p></div></div>
+          <div class="p-step rev d2"><span class="p-n">03</span><div><h4>Activación e integración</h4><p>Setup del sistema de IA sobre la infraestructura existente. El cliente ve resultados reales antes del primer mes de servicio. Sin reemplazar lo que ya tiene instalado.</p></div></div>
+          <div class="p-step rev d3"><span class="p-n">04</span><div><h4>MVP funcional en 5 semanas</h4><p>El sistema está operativo. Acompañamos el lanzamiento y capacitamos al equipo. No cerramos el proyecto hasta que el cambio está consolidado en la organización.</p></div></div>
+          <div class="p-step rev d4"><span class="p-n">05</span><div><h4>Evolución continua</h4><p>Monitoreo permanente, mejoras del modelo e incorporación de nuevos procesos. Cuanto más opera el sistema, más inteligente se vuelve. La solución crece con el negocio.</p></div></div>
+        </div>
+      </div>
+      <div class="proc-met">
+        <div class="p-met rev"><div class="p-met-n">5</div><div class="p-met-l">Semanas del diagnóstico al primer sistema en producción</div></div>
+        <div class="p-met rev d1"><div class="p-met-n">1</div><div class="p-met-l">Interlocutor técnico dedicado. Sin intermediarios, sin ruido.</div></div>
+        <div class="p-met rev d2"><div class="p-met-n">100%</div><div class="p-met-l">Software propio. Nunca adaptaciones sobre plataformas de terceros.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRINCIPIOS -->
+<section class="section">
+  <div class="wrap">
+    <p class="lbl rev">Principios</p>
+    <h2 class="ttl rev d1">La forma<br>en que pensamos</h2>
+    <div class="princ-grid">
+      <div class="pr rev"><span class="pr-ghost">1</span><div class="pr-bar"></div><h4 class="pr-t">El problema primero, la tecnología después</h4><p class="pr-b">No llegamos con una solución buscando un problema. La IA es el medio, no el fin. Si la mejor solución es simple, así la hacemos.</p></div>
+      <div class="pr rev d1"><span class="pr-ghost">2</span><div class="pr-bar"></div><h4 class="pr-t">Velocidad sin improvisación</h4><p class="pr-b">Construimos rápido porque tenemos un proceso claro. La velocidad viene de la experiencia acumulada en dos empresas con años de trabajo real en campo.</p></div>
+      <div class="pr rev d2"><span class="pr-ghost">3</span><div class="pr-bar"></div><h4 class="pr-t">Simplicidad como estándar de calidad</h4><p class="pr-b">Un sistema que nadie usa no sirve. Diseñamos para que el equipo del cliente adopte naturalmente. La complejidad no es señal de calidad — la adopción sí.</p></div>
+      <div class="pr rev d3"><span class="pr-ghost">4</span><div class="pr-bar"></div><h4 class="pr-t">Resultados medibles desde el día uno</h4><p class="pr-b">Definimos métricas de éxito antes de escribir la primera línea de código. Al final de cada ciclo, hay números concretos. No trabajamos en la oscuridad.</p></div>
+      <div class="pr rev d4"><span class="pr-ghost">5</span><div class="pr-bar"></div><h4 class="pr-t">Ingeniería creativa con rigor técnico</h4><p class="pr-b">VRIO aporta los nuevos paradigmas y la artesanía de sistemas. Byte aporta la solidez operativa de 25 años en el terreno. Los dos son necesarios.</p></div>
+      <div class="pr rev d5"><span class="pr-ghost">6</span><div class="pr-bar"></div><h4 class="pr-t">Transferencia real de conocimiento</h4><p class="pr-b">El objetivo no es que nos necesites para siempre. Documentamos, capacitamos y aseguramos la autonomía total del equipo del cliente.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MERCADO -->
+<section class="section">
+  <div class="wrap">
+    <p class="lbl rev">Mercado</p>
+    <h2 class="ttl rev d1">Un nicho sin<br>competencia directa</h2>
+    <p class="bdy rev d2">Hay empresas que venden hardware de seguridad. Hay estudios que hacen software a medida. <strong>No hay nadie que conecte las dos cosas en un servicio concreto para pymes argentinas.</strong> Ese espacio es nuestro.</p>
+    <div class="mkt-grid">
+      <div class="mkt rev"><div class="mkt-n">Concesionarias</div><h4 class="mkt-t">Control vehicular</h4><p class="mkt-b">Patentes, registro de visitas, análisis de tráfico en playa. Caso ya implementado y funcionando en producción.</p></div>
+      <div class="mkt rev d1"><div class="mkt-n">Logística</div><h4 class="mkt-t">Depósitos y flota</h4><p class="mkt-b">Trazabilidad de movimientos, control de stock visual, acceso vehicular y auditoría continua sin intervención humana.</p></div>
+      <div class="mkt rev d2"><div class="mkt-n">Retail</div><h4 class="mkt-t">Comercios y supermercados</h4><p class="mkt-b">Flujo de clientes, zonas de permanencia, detección de anomalías y optimización de operaciones en tiempo real.</p></div>
+      <div class="mkt rev d3"><div class="mkt-n">Industria</div><h4 class="mkt-t">Fábricas y procesos</h4><p class="mkt-b">Control productivo, seguridad operativa, auditoría visual continua y cumplimiento de protocolos de forma automática.</p></div>
+      <div class="mkt rev d4"><div class="mkt-n">Countries</div><h4 class="mkt-t">Propiedades y accesos</h4><p class="mkt-b">Acceso inteligente, alertas en tiempo real, registro histórico vehicular y reportes de seguridad perimetral.</p></div>
+      <div class="mkt rev d5"><div class="mkt-n">Servicios</div><h4 class="mkt-t">Estaciones y patio</h4><p class="mkt-b">Control de patio, registro de patentes, tiempos de atención y detección de situaciones anómalas en tiempo real.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EQUIPO -->
+<section class="section" id="equipo">
+  <div class="wrap">
+    <p class="lbl rev">El equipo</p>
+    <h2 class="ttl rev d1">Dos empresas<br>consolidadas</h2>
+    <p class="bdy rev d2">RIA Labs nace de la convergencia de dos trayectorias distintas y complementarias. <strong>La combinación que no existe en el mercado argentino.</strong></p>
+    <div class="team-grid">
+      <div class="founder rev d1">
+        <div class="f-init">SA</div>
+        <div class="f-name">Sebastián Acedo</div>
+        <div class="f-role">Co-fundador · Infraestructura & Seguridad</div>
+        <p class="f-bio">Más de 25 años de trayectoria al frente de Byte, diseñando e implementando infraestructuras de seguridad para empresas e instituciones de la región. Especialista en sistemas CCTV, circuitos cerrados de televisión y redes de monitoreo de alta complejidad. Aporta el acceso directo a clientes con infraestructura CCTV instalada, la solidez operativa y el conocimiento profundo de los entornos físicos reales.</p>
+        <div class="f-co">Byte · Compu-Byte</div>
+        <div class="f-col">Seguridad electrónica e integración de sistemas · compu-byte.com.ar</div>
+      </div>
+      <div class="founder rev d2">
+        <div class="f-init">MG</div>
+        <div class="f-name">Matías Gallego</div>
+        <div class="f-role">Co-fundador · Software & Estrategia</div>
+        <p class="f-bio">Al frente de VRIO Estudio, dedicado al desarrollo de software disruptivo y la creación de soluciones tecnológicas de alta complejidad. Nuevos paradigmas, ingeniería creativa y estrategia disruptiva aplicados a problemas reales. Aporta la capacidad técnica de desarrollo, la arquitectura de sistemas de IA, la visión de producto y la filosofía de innovación que define el alma de RIA Labs.</p>
+        <div class="f-co">VRIO Estudio</div>
+        <div class="f-col">Software as an art form · vrio.ar</div>
+      </div>
+    </div>
+    <div style="margin-top:2px;background:var(--bg2);border:1px solid var(--border2);padding:36px 40px;" class="rev">
+      <p style="font-size:15px;font-weight:300;line-height:1.75;color:var(--muted);max-width:760px;">La combinación de <strong style="color:var(--white);font-weight:400;">acceso directo a clientes con infraestructura de CCTV instalada</strong> y <strong style="color:var(--white);font-weight:400;">capacidad de desarrollo propio de soluciones de IA</strong> — en el mismo equipo — no existe en el mercado argentino. Esa es la ventaja que no se puede replicar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<div class="contact" id="contacto">
+  <p class="c-pre rev">¿Listo para empezar?</p>
+  <h2 class="c-ttl rev d1">Hablemos.</h2>
+  <p class="c-sub rev d2">Contanos el problema. En una primera conversación, sin costo, te mostramos qué puede ver tu negocio que hoy no está viendo.</p>
+  <a href="/cdn-cgi/l/email-protection#ef8780838eaf8d969b8a8e818e83869b868c80c18e9d" class="c-email rev d3"><span class="__cf_email__" data-cfemail="1d7572717c5d7f6469787c737c717469747e72337c6f">[email&#160;protected]</span></a><br>
+  <a href="/cdn-cgi/l/email-protection#f49c9b9895b4968d8091959a95989d809d979bda9586" class="btn-gold rev d4">Escribinos</a>
+  <p class="c-loc rev d5">Rosario, Santa Fe · Argentina · Sistema activo</p>
+</div>
+
+<footer>
+  <div class="f-logo">RIA <em>Labs</em></div>
+  <p class="f-copy">© 2025 RIA Labs — Byte × VRIO · Rosario, Argentina</p>
+  <ul class="f-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#proceso">Método</a></li>
+    <li><a href="#caso">Caso</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Ilustración: convertir líneas a flowing después de que se dibujen
+  setTimeout(() => {
+    document.querySelectorAll('.data-line').forEach((el, i) => {
+      setTimeout(() => {
+        el.classList.add('flowing');
+      }, i * 120);
+    });
+  }, 5400);
+
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50), {passive:true});
+  const obs = new Inters

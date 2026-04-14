@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIA Labs — Inteligencia Artificial Enriquecida</title>
+<meta name="description" content="Consultora de software e inteligencia artificial. Entendemos tu negocio, creamos la solución. Rápido, simple, con impacto real.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0a14;
+    --bg2: #100f1e;
+    --gold: #c8860a;
+    --gold-bright: #f0a020;
+    --gold-dim: #7a5008;
+    --blue: #4a90d9;
+    --blue-dim: #2a5a8a;
+    --white: #f2ede0;
+    --white-dim: #9a9488;
+    --border: rgba(200,134,10,0.15);
+    --border-dim: rgba(255,255,255,0.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── NOISE OVERLAY ─────────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.028;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── NAV ───────────────────────────────────────────────── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(11,10,20,0.92);
+    border-bottom-color: var(--border-dim);
+    backdrop-filter: blur(12px);
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-eclipse {
+    position: relative;
+    width: 28px;
+    height: 28px;
+  }
+  .nav-logo-eclipse svg { width: 28px; height: 28px; }
+
+  .nav-logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--white);
+  }
+  .nav-logo-text span {
+    color: var(--gold-bright);
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    margin-left: 4px;
+    vertical-align: 2px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--white-dim);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold-bright);
+    padding: 8px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .nav-cta:hover {
+    background: var(--gold);
+    color: var(--bg);
+  }
+
+  /* ─── HERO ──────────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Radial glow behind eclipse */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(200,134,10,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Eclipse SVG grande */
+  .hero-eclipse {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 2;
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .hero-wordmark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(88px, 18vw, 180px);
+    letter-spacing: 16px;
+    line-height: 0.9;
+    color: var(--white);
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 1s ease both;
+    animation-delay: 0.1s;
+  }
+
+  .hero-labs {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(16px, 2.5vw, 24px);
+    font-weight: 300;
+    letter-spacing: 10px;
+    color: var(--gold-bright);
+    margin-top: -4px;
+    margin-bottom: 32px;
+    animation: fadeUp 1s ease both;
+    animation-delay: 0.25s;
+    z-index: 2;
+    position: relative;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(12px, 1.4vw, 14px);
+    font-weight: 300;
+    letter-spacing: 3px;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin-bottom: 56px;
+    animation: fadeUp 1s ease both;
+    animation-delay: 0.4s;
+    z-index: 2;
+    position: relative;
+  }
+
+  .hero-tagline {
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: 300;
+    color: var(--white-dim);
+    max-width: 640px;
+    line-height: 1.7;
+    margin-bottom: 56px;
+    animation: fadeUp 1s ease both;
+    animation-delay: 0.55s;
+    z-index: 2;
+    position: relative;
+  }
+  .hero-tagline strong {
+    color: var(--white);
+    font-weight: 400;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 1s ease both;
+    animation-delay: 0.7s;
+    z-index: 2;
+    position: relative;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--bg);
+    border: none;
+    padding: 14px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-bright); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--white-dim);
+    border: 1px solid var(--border-dim);
+    padding: 14px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-secondary:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.3;
+    animation: fadeIn 2s ease 1.5s both;
+  }
+  .scroll-hint span {
+    font-size: 10px;
+    letter-spacing: 3px;
+    font-weight: 300;
+  }
+  .scroll-hint-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--white), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 0.3; }
+  }
+
+  /* ─── SECTION BASE ──────────────────────────────────────── */
+  section {
+    padding: 120px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+    display: inline-block;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 6vw, 72px);
+    letter-spacing: 4px;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  .section-body {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--white-dim);
+    max-width: 640px;
+  }
+  .section-body strong { color: var(--white); font-weight: 400; }
+
+  /* ─── DIVIDER ───────────────────────────────────────────── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border-dim);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ─── QUÉ HACEMOS ───────────────────────────────────────── */
+  .what-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 72px;
+    background: var(--border-dim);
+  }
+
+  .what-card {
+    background: var(--bg);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .what-card:hover { background: var(--bg2); }
+
+  .what-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px;
+    height: 0;
+    background: var(--gold);
+    transition: height 0.4s ease;
+  }
+  .what-card:hover::before { height: 100%; }
+
+  .what-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--gold-dim);
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+
+  .what-icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 20px;
+    opacity: 0.6;
+  }
+
+  .what-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .what-text {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--white-dim);
+  }
+
+  /* ─── CÓMO TRABAJAMOS ───────────────────────────────────── */
+  .how-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .how-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 48px;
+  }
+
+  .how-step {
+    display: flex;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border-dim);
+    position: relative;
+  }
+  .how-step:first-child { border-top: 1px solid var(--border-dim); }
+
+  .how-step-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 1px;
+    min-width: 28px;
+    padding-top: 2px;
+  }
+
+  .how-step-content h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+  }
+
+  .how-step-content p {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--white-dim);
+    line-height: 1.65;
+  }
+
+  .how-visual {
+    position: sticky;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .how-metric {
+    border: 1px solid var(--border-dim);
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .how-metric:hover { border-color: var(--border); }
+  .how-metric::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+
+  .how-metric-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 54px;
+    letter-spacing: 2px;
+    color: var(--gold-bright);
+    line-height: 1;
+  }
+  .how-metric-label {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--white-dim);
+    letter-spacing: 0.5px;
+    margin-top: 6px;
+  }
+
+  /* ─── PRODUCTO CASO ─────────────────────────────────────── */
+  .case-section {
+    background: var(--bg2);
+    padding: 100px 0;
+    border-top: 1px solid var(--border-dim);
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  .case-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  .case-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 64px;
+  }
+
+  .case-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: var(--gold);
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    margin-bottom: 20px;
+  }
+
+  .case-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 4px;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+  .case-name span { color: var(--gold-bright); }
+
+  .case-body {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--white-dim);
+    margin-bottom: 36px;
+  }
+  .case-body strong { color: var(--white); font-weight: 400; }
+
+  .case-results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border-dim);
+  }
+
+  .case-result {
+    background: var(--bg2);
+    padding: 20px 24px;
+  }
+
+  .case-result-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 2px;
+    color: var(--gold-bright);
+    line-height: 1;
+  }
+
+  .case-result-label {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--white-dim);
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  .case-visual {
+    position: relative;
+  }
+
+  .case-screen {
+    background: #0a0918;
+    border: 1px solid var(--border-dim);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .case-screen::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  }
+
+  .screen-header {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .screen-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border-dim);
+  }
+  .screen-dot:first-child { background: rgba(200,134,10,0.4); }
+
+  .screen-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-dim);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+  }
+  .screen-row:last-child { border-bottom: none; }
+
+  .screen-id {
+    color: var(--gold);
+    min-width: 80px;
+  }
+  .screen-status {
+    padding: 2px 8px;
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+  .status-active { background: rgba(200,134,10,0.15); color: var(--gold-bright); }
+  .status-done { background: rgba(74,144,217,0.1); color: var(--blue); }
+  .status-pending { background: rgba(255,255,255,0.05); color: var(--white-dim); }
+
+  .screen-time { color: var(--white-dim); margin-left: auto; }
+
+  /* ─── ORIGEN ────────────────────────────────────────────── */
+  .origin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 64px;
+    background: var(--border-dim);
+  }
+
+  .origin-card {
+    background: var(--bg);
+    padding: 52px 44px;
+    position: relative;
+  }
+
+  .origin-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 4px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .origin-type {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    font-weight: 300;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+
+  .origin-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--white-dim);
+    margin-bottom: 28px;
+  }
+
+  .origin-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .origin-tag {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: var(--white-dim);
+    border: 1px solid var(--border-dim);
+    padding: 4px 12px;
+  }
+
+  /* ─── METODOLOGÍA ───────────────────────────────────────── */
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+    background: var(--border-dim);
+  }
+
+  .method-card {
+    background: var(--bg);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .method-card:hover { background: var(--bg2); }
+
+  .method-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    letter-spacing: 2px;
+    color: rgba(200,134,10,0.07);
+    line-height: 1;
+    position: absolute;
+    top: 16px; right: 20px;
+  }
+
+  .method-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 14px;
+    letter-spacing: 0.3px;
+  }
+
+  .method-text {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--white-dim);
+  }
+
+  .method-bar {
+    width: 24px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 20px;
+    transition: width 0.3s;
+  }
+  .method-card:hover .method-bar { width: 48px; }
+
+  /* ─── CONTACTO ──────────────────────────────────────────── */
+  .contact-section {
+    text-align: center;
+    padding: 140px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(200,134,10,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .contact-pre {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .contact-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 100px);
+    letter-spacing: 6px;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  .contact-sub {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--white-dim);
+    max-width: 520px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+  }
+
+  .contact-email {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--blue);
+    letter-spacing: 2px;
+    text-decoration: none;
+    border-bottom: 1px solid var(--blue-dim);
+    padding-bottom: 2px;
+    margin-bottom: 48px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .contact-email:hover { color: var(--white); border-color: var(--white-dim); }
+
+  /* ─── FOOTER ────────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border-dim);
+    padding: 36px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 4px;
+    color: var(--white-dim);
+  }
+  .footer-logo span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: var(--gold-dim);
+    margin-left: 6px;
+    vertical-align: 1px;
+  }
+
+  .footer-copy {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--white-dim);
+    opacity: 0.4;
+    letter-spacing: 0.5px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--white-dim);
+    text-decoration: none;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+  }
+  .footer-links a:hover { opacity: 1; }
+
+  /* ─── SCROLL REVEAL ─────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+
+  /* ─── RESPONSIVE ────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .what-grid,
+    .how-section,
+    .case-layout,
+    .origin-grid,
+    .method-grid { grid-template-columns: 1fr; gap: 2px; }
+    .how-visual { position: static; }
+    .case-inner { padding: 0 24px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+    .footer-links { display: none; }
+    .contact-section { padding: 100px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─────────────────────────────────────────────── -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <!-- Mini eclipse SVG -->
+    <svg class="nav-logo-eclipse" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- halo capas -->
+      <circle cx="14" cy="14" r="13" stroke="#2a1200" stroke-width="5" opacity="0.7"/>
+      <circle cx="14" cy="14" r="12" stroke="#412402" stroke-width="3.5" opacity="0.55"/>
+      <circle cx="14" cy="14" r="11" stroke="#633806" stroke-width="2" opacity="0.4"/>
+      <circle cx="14" cy="14" r="10.5" stroke="#BA7517" stroke-width="1" opacity="0.3"/>
+      <!-- disco -->
+      <circle cx="14" cy="14" r="8" fill="#0b0a14"/>
+      <!-- destellos horizontales -->
+      <line x1="1" y1="14" x2="6" y2="14" stroke="white" stroke-width="0.5" opacity="0.25"/>
+      <line x1="22" y1="14" x2="27" y2="14" stroke="white" stroke-width="0.5" opacity="0.25"/>
+      <line x1="2" y1="14" x2="5" y2="14" stroke="white" stroke-width="1" opacity="0.2"/>
+      <line x1="23" y1="14" x2="26" y2="14" stroke="white" stroke-width="1" opacity="0.2"/>
+      <!-- destello vertical -->
+      <line x1="14" y1="1" x2="14" y2="5" stroke="white" stroke-width="0.5" opacity="0.2"/>
+      <line x1="14" y1="23" x2="14" y2="27" stroke="white" stroke-width="0.5" opacity="0.15"/>
+    </svg>
+    <span class="nav-logo-text">RIA <span>Labs.</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#que-hacemos">Servicios</a></li>
+    <li><a href="#como-trabajamos">Método</a></li>
+    <li><a href="#caso">Caso real</a></li>
+    <li><a href="#origen">Nosotros</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Conversemos</a>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────── -->
+<div class="hero">
+
+  <!-- Eclipse grande -->
+  <svg class="hero-eclipse" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- destellos horizontales -->
+    <line x1="4" y1="40" x2="18" y2="40" stroke="white" stroke-width="0.5" opacity="0.2"/>
+    <line x1="62" y1="40" x2="76" y2="40" stroke="white" stroke-width="0.5" opacity="0.2"/>
+    <line x1="6" y1="40" x2="16" y2="40" stroke="white" stroke-width="1.2" opacity="0.2"/>
+    <line x1="64" y1="40" x2="74" y2="40" stroke="white" stroke-width="1.2" opacity="0.2"/>
+    <line x1="8" y1="40" x2="14" y2="40" stroke="white" stroke-width="2.5" opacity="0.18"/>
+    <line x1="66" y1="40" x2="72" y2="40" stroke="white" stroke-width="2.5" opacity="0.18"/>
+    <line x1="10" y1="40" x2="13" y2="40" stroke="white" stroke-width="4" opacity="0.13"/>
+    <line x1="67" y1="40" x2="70" y2="40" stroke="white" stroke-width="4" opacity="0.13"/>
+    <!-- destello vertical -->
+    <line x1="40" y1="4" x2="40" y2="18" stroke="white" stroke-width="0.6" opacity="0.25"/>
+    <line x1="40" y1="4" x2="40" y2="13" stroke="white" stroke-width="1.5" opacity="0.2"/>
+    <line x1="40" y1="62" x2="40" y2="76" stroke="white" stroke-width="0.6" opacity="0.18"/>
+    <!-- halos -->
+    <circle cx="40" cy="40" r="36" stroke="#1a0900" stroke-width="10" opacity="0.65"/>
+    <circle cx="40" cy="40" r="33" stroke="#2a1200" stroke-width="7" opacity="0.55"/>
+    <circle cx="40" cy="40" r="31" stroke="#3d1c00" stroke-width="4.5" opacity="0.42"/>
+    <circle cx="40" cy="40" r="29" stroke="#633806" stroke-width="2.5" opacity="0.35"/>
+    <circle cx="40" cy="40" r="27.5" stroke="#854F0B" stroke-width="1.5" opacity="0.28"/>
+    <circle cx="40" cy="40" r="26.5" stroke="#BA7517" stroke-width="1" opacity="0.2"/>
+    <circle cx="40" cy="40" r="25.5" stroke="#EF9F27" stroke-width="0.6" opacity="0.14"/>
+    <!-- disco -->
+    <circle cx="40" cy="40" r="20" fill="#0b0a14"/>
+  </svg>
+
+  <h1 class="hero-wordmark">RIA</h1>
+  <p class="hero-labs">Labs.</p>
+  <p class="hero-subtitle">Inteligencia Artificial Enriquecida</p>
+
+  <p class="hero-tagline">
+    Entendemos tu negocio.<br>
+    <strong>Creamos el software que lo transforma.</strong>
+  </p>
+
+  <div class="hero-ctas">
+    <a href="#contacto" class="btn-primary">Empecemos</a>
+    <a href="#caso" class="btn-secondary">Ver caso real →</a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-hint-line"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── QUÉ HACEMOS ──────────────────────────────────────── -->
+<section id="que-hacemos">
+  <p class="section-label reveal">Servicios</p>
+  <h2 class="section-title reveal reveal-delay-1">Lo que<br>hacemos</h2>
+  <p class="section-body reveal reveal-delay-2">
+    No vendemos plataformas genéricas ni prometemos disrupciones vacías.
+    <strong>Diagnosticamos, diseñamos y construimos</strong> — software simple, rápido y con impacto medible desde el primer día.
+  </p>
+
+  <div class="what-grid">
+    <div class="what-card reveal reveal-delay-1">
+      <p class="what-number">01 / Consultoría</p>
+      <h3 class="what-title">Diagnóstico IA</h3>
+      <p class="what-text">Analizamos los procesos internos de tu empresa e identificamos con precisión dónde la inteligencia artificial genera valor real. Sin humo: te decimos qué cambiar, cómo y cuánto cuesta.</p>
+    </div>
+    <div class="what-card reveal reveal-delay-2">
+      <p class="what-number">02 / Desarrollo</p>
+      <h3 class="what-title">Software a medida</h3>
+      <p class="what-text">Construimos soluciones propias desde cero. No adaptamos herramientas de terceros: diseñamos la arquitectura exacta que tu problema necesita, con el stack más simple y eficiente posible.</p>
+    </div>
+    <div class="what-card reveal reveal-delay-3">
+      <p class="what-number">03 / Automatización</p>
+      <h3 class="what-title">Procesos inteligentes</h3>
+      <p class="what-text">Convertimos flujos manuales, lentos y dependientes de personas en procesos automatizados, medibles y escalables. OCR, visión computacional, modelos de lenguaje — las herramientas al servicio del resultado.</p>
+    </div>
+    <div class="what-card reveal reveal-delay-4">
+      <p class="what-number">04 / Integración</p>
+      <h3 class="what-title">Adopción real</h3>
+      <p class="what-text">Implementamos, capacitamos y acompañamos hasta que el cambio está consolidado. La tecnología sin adopción no vale nada. Nos quedamos hasta que el equipo trabaja diferente.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── CASO REAL ────────────────────────────────────────── -->
+<div class="case-section" id="caso">
+  <div class="case-inner">
+    <p class="section-label reveal">Caso real</p>
+    <div class="case-layout">
+      <div>
+        <span class="case-tag reveal">Producto en producción</span>
+        <h2 class="case-name reveal reveal-delay-1">Byte<br><span>Analítico</span></h2>
+        <p class="case-body reveal reveal-delay-2">
+          Una concesionaria oficial de autos tenía un problema concreto: <strong>nadie sabía exactamente dónde estaba cada vehículo dentro del predio</strong> en ningún momento del día. El stock se gestionaba a mano, las búsquedas tomaban tiempo, los errores eran frecuentes.
+        </p>
+        <p class="case-body reveal reveal-delay-3">
+          Instalamos cámaras estratégicas y construimos un sistema de <strong>reconocimiento de patentes por OCR enriquecido con IA</strong>. Hoy el sistema mapea en tiempo real el recorrido de cada vehículo dentro del predio, automatiza la gestión del stock y genera reportes que antes no existían.
+        </p>
+        <div class="case-results reveal reveal-delay-4">
+          <div class="case-result">
+            <div class="case-result-num">100%</div>
+            <div class="case-result-label">Trazabilidad de vehículos en tiempo real</div>
+          </div>
+          <div class="case-result">
+            <div class="case-result-num">0</div>
+            <div class="case-result-label">Intervención manual en el registro de movimientos</div>
+          </div>
+          <div class="case-result">
+            <div class="case-result-num">−60%</div>
+            <div class="case-result-label">Tiempo de búsqueda de vehículos en planta</div>
+          </div>
+          <div class="case-result">
+            <div class="case-result-num">+1</div>
+            <div class="case-result-label">Cámara · Todo lo que necesitó el sistema para funcionar</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-visual reveal reveal-delay-2">
+        <div class="case-screen">
+          <div class="screen-header">
+            <div class="screen-dot"></div>
+            <div class="screen-dot"></div>
+            <div class="screen-dot"></div>
+          </div>
+          <div class="screen-row">
+            <span class="screen-id">AB 142 DC</span>
+            <span class="screen-status status-active">EN PLAYA</span>
+            <span class="screen-time">hace 2 min</span>
+          </div>
+          <div class="screen-row">
+            <span class="screen-id">KL 087 MN</span>
+            <span class="screen-status status-done">ENTREGADO</span>
+            <span class="screen-time">10:34</span>
+          </div>
+          <div class="screen-row">
+            <span class="screen-id">GH 319 PQ</span>
+            <span class="screen-status status-active">EN PLAYA</span>
+            <span class="screen-time">hace 8 min</span>
+          </div>
+          <div class="screen-row">
+            <span class="screen-id">TU 055 VW</span>
+            <span class="screen-status status-pending">INGRESANDO</span>
+            <span class="screen-time">ahora</span>
+          </div>
+          <div class="screen-row">
+            <span class="screen-id">EF 774 IJ</span>
+            <span class="screen-status status-done">ENTREGADO</span>
+            <span class="screen-time">09:15</span>
+          </div>
+          <div class="screen-row">
+            <span class="screen-id">RS 201 XY</span>
+            <span class="screen-status status-active">EN PLAYA</span>
+            <span class="screen-time">hace 1 hr</span>
+          </div>
+        </div>
+        <p style="font-size:11px;font-weight:300;color:var(--white-dim);opacity:0.4;margin-top:12px;letter-spacing:0.5px;font-family:'DM Mono',monospace;">
+          Sistema en producción · Actualización en tiempo real
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CÓMO TRABAJAMOS ──────────────────────────────────── -->
+<section id="como-trabajamos">
+  <div class="how-section">
+    <div>
+      <p class="section-label reveal">Metodología</p>
+      <h2 class="section-title reveal reveal-delay-1">Cómo<br>trabajamos</h2>
+      <p class="section-body reveal reveal-delay-2">
+        Un proceso diseñado para moverse rápido, sin improvisar.
+        <strong>Del diagnóstico al software funcionando</strong> en semanas, no meses.
+      </p>
+
+      <div class="how-steps">
+        <div class="how-step reveal">
+          <span class="how-step-num">01</span>
+          <div class="how-step-content">
+            <h4>Inmersión en el negocio</h4>
+            <p>Antes de escribir una línea de código, entendemos los procesos, los dolores, las personas y los datos. Hacemos las preguntas que nadie hace.</p>
+          </div>
+        </div>
+        <div class="how-step reveal reveal-delay-1">
+          <span class="how-step-num">02</span>
+          <div class="how-step-content">
+            <h4>Diagnóstico y diseño de solución</h4>
+            <p>Mapeamos las oportunidades, priorizamos por impacto y velocidad, y diseñamos la solución más simple que resuelve el problema real. Nada más, nada menos.</p>
+          </div>
+        </div>
+        <div class="how-step reveal reveal-delay-2">
+          <span class="how-step-num">03</span>
+          <div class="how-step-content">
+            <h4>Desarrollo en ciclos cortos</h4>
+            <p>Construimos en iteraciones de dos semanas. Cada ciclo termina con algo funcionando que el cliente puede usar, probar y criticar. El feedback entra al siguiente ciclo.</p>
+          </div>
+        </div>
+        <div class="how-step reveal reveal-delay-3">
+          <span class="how-step-num">04</span>
+          <div class="how-step-content">
+            <h4>Implementación y adopción</h4>
+            <p>Acompañamos el lanzamiento, capacitamos al equipo y medimos los resultados. No cerramos el proyecto hasta que el cambio está instalado en la organización.</p>
+          </div>
+        </div>
+        <div class="how-step reveal reveal-delay-4">
+          <span class="how-step-num">05</span>
+          <div class="how-step-content">
+            <h4>Evolución continua</h4>
+            <p>Los mejores sistemas se mejoran con uso. Monitoreamos los resultados, detectamos nuevas oportunidades y proponemos las siguientes iteraciones.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="how-visual">
+      <div class="how-metric reveal">
+        <div class="how-metric-num">2–4</div>
+        <div class="how-metric-label">Semanas del diagnóstico al primer entregable funcional</div>
+      </div>
+      <div class="how-metric reveal reveal-delay-1">
+        <div class="how-metric-num">1</div>
+        <div class="how-metric-label">Interlocutor dedicado por proyecto. Sin intermediarios, sin ruido.</div>
+      </div>
+      <div class="how-metric reveal reveal-delay-2">
+        <div class="how-metric-num">100%</div>
+        <div class="how-metric-label">Software propio. Nada de adaptaciones sobre plataformas de terceros.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── METODOLOGÍA DETALLADA ────────────────────────────── -->
+<section>
+  <p class="section-label reveal">Principios</p>
+  <h2 class="section-title reveal reveal-delay-1">La forma<br>en que pensamos</h2>
+
+  <div class="method-grid">
+    <div class="method-card reveal">
+      <span class="method-num">1</span>
+      <div class="method-bar"></div>
+      <h4 class="method-title">El problema primero, la tecnología después</h4>
+      <p class="method-text">No llegamos con una solución buscando un problema. Llegamos con preguntas. La tecnología es el medio, no el fin. Si la mejor solución es simple, así la hacemos.</p>
+    </div>
+    <div class="method-card reveal reveal-delay-1">
+      <span class="method-num">2</span>
+      <div class="method-bar"></div>
+      <h4 class="method-title">Velocidad sin improvisación</h4>
+      <p class="method-text">Construimos rápido porque tenemos un proceso claro, no porque improvisemos. Cada decisión técnica tiene un fundamento. La velocidad viene de la experiencia, no del apuro.</p>
+    </div>
+    <div class="method-card reveal reveal-delay-2">
+      <span class="method-num">3</span>
+      <div class="method-bar"></div>
+      <h4 class="method-title">Simplicidad como estándar de calidad</h4>
+      <p class="method-text">Un sistema que nadie usa no sirve. Diseñamos para que el equipo del cliente adopte naturalmente. Menos fricción, más impacto. La complejidad no es señal de calidad.</p>
+    </div>
+    <div class="method-card reveal reveal-delay-3">
+      <span class="method-num">4</span>
+      <div class="method-bar"></div>
+      <h4 class="method-title">Resultados medibles desde el día uno</h4>
+      <p class="method-text">Definimos métricas de éxito antes de empezar a construir. Al final de cada ciclo, hay números que muestran el impacto. No trabajamos en la oscuridad.</p>
+    </div>
+    <div class="method-card reveal reveal-delay-4">
+      <span class="method-num">5</span>
+      <div class="method-bar"></div>
+      <h4 class="method-title">Creatividad con rigor técnico</h4>
+      <p class="method-text">Las mejores soluciones son originales. Combinamos experiencia técnica sólida con una mirada fresca sobre cada problema. No copiamos recetas: diseñamos la solución para tu caso.</p>
+    </div>
+    <div class="method-card reveal reveal-delay-5">
+      <span class="method-num">6</span>
+      <div class="method-bar"></div>
+      <h4 class="method-title">Transferencia real del conocimiento</h4>
+      <p class="method-text">El objetivo no es que nos necesites para siempre, sino que tu equipo sepa operar lo que construimos. Documentamos, capacitamos y aseguramos la autonomía del cliente.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── ORIGEN ───────────────────────────────────────────── -->
+<section id="origen">
+  <p class="section-label reveal">Origen</p>
+  <h2 class="section-title reveal reveal-delay-1">Nacimos de<br>dos empresas</h2>
+  <p class="section-body reveal reveal-delay-2">
+    RIA Labs es la convergencia de dos trayectorias distintas y complementarias.
+    <strong>La solidez operativa de una empresa con años en el terreno</strong> y <strong>la capacidad de innovación de un estudio de software disruptivo.</strong>
+  </p>
+
+  <div class="origin-grid">
+    <div class="origin-card reveal reveal-delay-1">
+      <div class="origin-logo">Byte</div>
+      <div class="origin-type">Seguridad tecnológica</div>
+      <p class="origin-desc">Años de experiencia en soluciones de seguridad basadas en tecnología: cámaras, sensores, hardware de monitoreo. Una empresa que entiende profundamente los entornos físicos, los procesos operativos reales y la confiabilidad que los clientes necesitan. Sin capital humano innecesario — toda la inteligencia en los equipos.</p>
+      <div class="origin-tags">
+        <span class="origin-tag">Cámaras y visión</span>
+        <span class="origin-tag">Hardware industrial</span>
+        <span class="origin-tag">Procesos físicos</span>
+        <span class="origin-tag">Confiabilidad operativa</span>
+      </div>
+    </div>
+    <div class="origin-card reveal reveal-delay-2">
+      <div class="origin-logo">Vrio</div>
+      <div class="origin-type">Software disruptivo</div>
+      <p class="origin-desc">Un estudio de desarrollo de software con foco en la originalidad y el pensamiento no convencional. Productos construidos desde cero con altos estándares técnicos y una mirada crítica sobre las soluciones del mercado. La experiencia de haber resuelto problemas complejos con código limpio, rápido y bien diseñado.</p>
+      <div class="origin-tags">
+        <span class="origin-tag">Desarrollo a medida</span>
+        <span class="origin-tag">Arquitectura de software</span>
+        <span class="origin-tag">IA aplicada</span>
+        <span class="origin-tag">Diseño de producto</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── CONTACTO ─────────────────────────────────────────── -->
+<div class="contact-section" id="contacto">
+  <p class="contact-pre reveal">¿Listo para empezar?</p>
+  <h2 class="contact-title reveal reveal-delay-1">Hablemos.</h2>
+  <p class="contact-sub reveal reveal-delay-2">
+    Contanos el problema. En una primera conversación, sin costo, te decimos si tenemos algo para aportar y cómo lo enfocaríamos.
+  </p>
+  <a href="mailto:hola@rialabs.ai" class="contact-email reveal reveal-delay-3">hola@rialabs.ai</a>
+  <br>
+  <a href="mailto:hola@rialabs.ai" class="btn-primary reveal reveal-delay-4" style="margin-top:8px;">Escribinos</a>
+</div>
+
+<!-- ─── FOOTER ───────────────────────────────────────────── -->
+<footer>
+  <div class="footer-logo">RIA <span>Labs.</span></div>
+  <p class="footer-copy">© 2025 RIA Labs. Inteligencia Artificial Enriquecida.</p>
+  <ul class="footer-links">
+    <li><a href="#que-hacemos">Servicios</a></li>
+    <li><a href="#como-trabajamos">Método</a></li>
+    <li><a href="#caso">Caso</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
