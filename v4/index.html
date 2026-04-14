@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIA Labs</title>
+<meta name="description" content="RIA Labs — Software a medida · Consultoría en IA — Rosario, Argentina.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@200;300;400;500;600&family=DM+Mono:wght@300&display=swap" rel="stylesheet">
+<!-- Favicon: eclipse ring -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='38' fill='none' stroke='%23c8860a' stroke-width='5' opacity='0.7'/%3E%3Ccircle cx='50' cy='50' r='38' fill='none' stroke='%23EF9F27' stroke-width='2' opacity='0.5'/%3E%3Cpath d='M 36 22 A 38 38 0 0 0 22 60' fill='none' stroke='%23EF9F27' stroke-width='3' stroke-linecap='round' opacity='0.9'/%3E%3Ccircle cx='36' cy='18' r='2.5' fill='%23EF9F27' opacity='0.8'/%3E%3C/svg%3E">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:    #0b0a14;
+    --bg2:   #0e0d1a;
+    --gold:  #c8860a;
+    --goldh: #EF9F27;
+    --goldd: rgba(200,134,10,0.15);
+    --white: #f0ece0;
+    --muted: #5a5650;
+    --dim:   #2e2c3a;
+    --ghost: rgba(240,236,224,0.05);
+  }
+
+  html {
+    background: var(--bg);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Saira', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Grain */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.02; pointer-events: none; z-index: 999;
+  }
+
+  /* ── HERO ─────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 40px;
+    position: relative;
+  }
+
+  /* Subtle radial glow */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -60%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(200,134,10,0.04) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  /* ── WORDMARK ────────────────────────────── */
+  .wordmark {
+    text-align: center;
+    opacity: 0;
+    animation: rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eclipse-wrap {
+    opacity: 0;
+    animation: rise 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ria {
+    font-family: 'Saira', sans-serif;
+    font-weight: 500;
+    font-size: clamp(80px, 16vw, 170px);
+    letter-spacing: 0.08em;
+    line-height: 0.92;
+    color: var(--white);
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
+
+  .labs {
+    font-family: 'Saira', sans-serif;
+    font-weight: 300;
+    font-size: clamp(14px, 2vw, 20px);
+    letter-spacing: 0.45em;
+    color: var(--goldh);
+    display: block;
+    margin-top: 2px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── SEPARATOR ───────────────────────────── */
+  .sep {
+    width: 1px;
+    height: 52px;
+    background: linear-gradient(to bottom, transparent, var(--dim), transparent);
+    margin: 44px 0;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.4s forwards;
+  }
+
+  /* ── HERO COPY ───────────────────────────── */
+  .hero-copy {
+    text-align: center;
+    max-width: 500px;
+    opacity: 0;
+    animation: rise 1s ease 1.6s forwards;
+    z-index: 1;
+  }
+
+  .hero-copy p {
+    font-size: clamp(14px, 1.5vw, 17px);
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .hero-copy p strong {
+    color: var(--white);
+    font-weight: 400;
+  }
+
+  .hero-copy p + p { margin-top: 20px; }
+
+  /* ── HERO CONTACT ────────────────────────── */
+  .contact-line {
+    margin-top: 52px;
+    opacity: 0;
+    animation: fadeIn 1s ease 2.2s forwards;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 1;
+  }
+
+  .contact-line::before,
+  .contact-line::after {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--dim);
+  }
+
+  .contact-line a {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; font-weight: 300;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .contact-line a:hover { color: var(--white); }
+
+  /* ── SCROLL HINT ─────────────────────────── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    animation: fadeIn 1s ease 2.8s forwards;
+  }
+
+  .scroll-hint span {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 3px;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  .scroll-hint .tick {
+    width: 1px; height: 24px;
+    background: linear-gradient(to bottom, var(--dim), transparent);
+    animation: scroll-tick 2.5s ease-in-out infinite;
+  }
+
+  @keyframes scroll-tick {
+    0%, 100% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 0.8; transform: translateY(6px); }
+  }
+
+  /* ── CONTENT SECTIONS ────────────────────── */
+  .content-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  .content-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .content-section.reverse { direction: rtl; }
+  .content-section.reverse > * { direction: ltr; }
+
+  .section-text {}
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-weight: 300;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.35;
+    color: var(--white);
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.01em;
+  }
+
+  .section-title em {
+    font-style: normal;
+    color: var(--goldh);
+  }
+
+  .section-body {
+    font-weight: 300;
+    font-size: 0.88rem;
+    line-height: 1.9;
+    color: var(--muted);
+  }
+
+  .section-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .section-visual svg {
+    width: 100%;
+    max-width: 340px;
+    height: auto;
+  }
+
+  /* ── DIVIDERS ────────────────────────────── */
+  .divider {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  .divider-line {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--ghost), transparent);
+  }
+
+  /* ── FOOTER ──────────────────────────────── */
+  .site-footer {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--ghost);
+  }
+
+  .site-footer span,
+  .site-footer a {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 2.5px;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .site-footer a:hover { color: var(--muted); }
+
+  /* ── ANIMATIONS ──────────────────────────── */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ── RESPONSIVE ──────────────────────────── */
+  @media (max-width: 700px) {
+    .content-section {
+      grid-template-columns: 1fr;
+      padding: 5rem 1.5rem;
+      gap: 2.5rem;
+    }
+    .content-section.reverse { direction: ltr; }
+    .section-visual svg { max-width: 260px; }
+    .hero { padding: 0 24px; }
+    .site-footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<section class="hero">
+  <div class="wordmark" id="wordmark">
+    <div class="eclipse-wrap" id="eclipse">
+      <svg width="128" height="128" viewBox="0 0 120 120" fill="none">
+        <circle cx="60" cy="68" r="52" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.55"/>
+        <circle cx="60" cy="68" r="50" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
+        <circle cx="60" cy="68" r="48" fill="none" stroke="#3d1c00" stroke-width="9"  opacity="0.32"/>
+        <circle cx="60" cy="68" r="46" fill="none" stroke="#633806" stroke-width="5"  opacity="0.24"/>
+        <circle cx="60" cy="68" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
+        <circle cx="60" cy="68" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
+        <path d="M 22 90 A 42 42 0 0 0 98 90" fill="none" stroke="#EF9F27" stroke-width="5" opacity="0.07" stroke-linecap="round"/>
+        <circle cx="60" cy="68" r="38" fill="#1c1810"/>
+        <circle r="38" fill="#0b0a14">
+          <animate attributeName="cx" values="60;67;60;53;60" keyTimes="0;0.25;0.5;0.75;1" dur="16s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"/>
+          <animate attributeName="cy" values="56;61;66;61;56" keyTimes="0;0.25;0.5;0.75;1" dur="16s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"/>
+        </circle>
+      </svg>
+    </div>
+    <span class="ria" id="ria-text">RIA</span>
+    <span class="labs">Labs</span>
+  </div>
+
+  <div class="sep"></div>
+
+  <div class="hero-copy">
+    <p>
+      Construimos sistemas de <strong>inteligencia artificial aplicada</strong>
+      para empresas que necesitan ver lo que sus operaciones producen
+      pero todavía no pueden leer.
+    </p>
+    <p>
+      Nacidos de <strong>Byte</strong> — 25 años en seguridad e infraestructura —
+      y <strong>VRIO</strong> — ingeniería de software disruptivo.
+      Rosario, Argentina.
+    </p>
+  </div>
+
+  <div class="contact-line">
+    <a href="mailto:info@rialabs.com">info@rialabs.com</a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>scroll</span>
+    <div class="tick"></div>
+  </div>
+</section>
+
+<!-- ════════════════════ SECTION: IA APLICADA ════════════════════ -->
+<div class="divider"><div class="divider-line"></div></div>
+
+<section class="content-section" id="sec-ia">
+  <div class="section-text">
+    <div class="section-label">01 — Visión artificial</div>
+    <h2 class="section-title">Leemos lo que las <em>cámaras capturan</em></h2>
+    <p class="section-body">
+      Transformamos feeds de video en datos estructurados y accionables.
+      Patrones de movimiento, conteo, clasificación, anomalías — todo
+      procesado en tiempo real sin intervención humana.
+    </p>
+  </div>
+  <div class="section-visual">
+    <!-- Animated: scanning eye / signal processing -->
+    <svg viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Grid lines background -->
+      <line x1="0" y1="110" x2="300" y2="110" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3"/>
+      <line x1="150" y1="30" x2="150" y2="190" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3"/>
+      <!-- Signal wave -->
+      <path d="M 20 110 Q 50 60, 80 110 T 140 110 T 200 110 T 260 110" stroke="#c8860a" stroke-width="1.5" fill="none" opacity="0.4">
+        <animate attributeName="d"
+          values="M 20 110 Q 50 60, 80 110 T 140 110 T 200 110 T 260 110;
+                  M 20 110 Q 50 140, 80 110 T 140 110 T 200 110 T 260 110;
+                  M 20 110 Q 50 110, 80 80 T 140 130 T 200 90 T 260 110;
+                  M 20 110 Q 50 60, 80 110 T 140 110 T 200 110 T 260 110"
+          dur="8s" repeatCount="indefinite"/>
+      </path>
+      <!-- Scanning line -->
+      <line x1="0" y1="0" x2="0" y2="220" stroke="#EF9F27" stroke-width="1" opacity="0.15">
+        <animate attributeName="x1" values="0;300;0" dur="6s" repeatCount="indefinite"/>
+        <animate attributeName="x2" values="0;300;0" dur="6s" repeatCount="indefinite"/>
+      </line>
+      <!-- Data points appearing -->
+      <circle cx="80" cy="90" r="3" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.6;0" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="2;4;2" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="150" cy="120" r="3" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.6;0" dur="4s" begin="1.3s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="2;4;2" dur="4s" begin="1.3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="210" cy="95" r="3" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.6;0" dur="4s" begin="2.6s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="2;4;2" dur="4s" begin="2.6s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Eye shape -->
+      <ellipse cx="150" cy="110" rx="60" ry="35" fill="none" stroke="#f0ece0" stroke-width="0.8" opacity="0.12">
+        <animate attributeName="ry" values="35;25;35" dur="5s" repeatCount="indefinite"/>
+      </ellipse>
+      <circle cx="150" cy="110" r="12" fill="none" stroke="#EF9F27" stroke-width="0.8" opacity="0.25">
+        <animate attributeName="r" values="12;8;12" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="150" cy="110" r="4" fill="#EF9F27" opacity="0.15">
+        <animate attributeName="r" values="4;3;4" dur="5s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ════════════════════ SECTION: SOFTWARE ════════════════════ -->
+<section class="content-section reverse" id="sec-soft">
+  <div class="section-text">
+    <div class="section-label">02 — Software a medida</div>
+    <h2 class="section-title">Código que se adapta a <em>tu lógica</em></h2>
+    <p class="section-body">
+      Sin plantillas. Sin compromisos. Diseñamos arquitecturas desde cero
+      que responden a la particularidad de cada operación. Sistemas que escalan
+      con el negocio, no contra él.
+    </p>
+  </div>
+  <div class="section-visual">
+    <!-- Animated: architecture / nodes connecting -->
+    <svg viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Connection lines that pulse -->
+      <line x1="75" y1="70" x2="150" y2="110" stroke="#c8860a" stroke-width="0.8" opacity="0.2">
+        <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite"/>
+      </line>
+      <line x1="225" y1="70" x2="150" y2="110" stroke="#c8860a" stroke-width="0.8" opacity="0.2">
+        <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+      </line>
+      <line x1="75" y1="150" x2="150" y2="110" stroke="#c8860a" stroke-width="0.8" opacity="0.2">
+        <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" begin="1s" repeatCount="indefinite"/>
+      </line>
+      <line x1="225" y1="150" x2="150" y2="110" stroke="#c8860a" stroke-width="0.8" opacity="0.2">
+        <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+      </line>
+      <!-- Outer lines -->
+      <line x1="30" y1="50" x2="75" y2="70" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3">
+        <animate attributeName="opacity" values="0.15;0.4;0.15" dur="4s" repeatCount="indefinite"/>
+      </line>
+      <line x1="270" y1="50" x2="225" y2="70" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3">
+        <animate attributeName="opacity" values="0.15;0.4;0.15" dur="4s" begin="1s" repeatCount="indefinite"/>
+      </line>
+      <line x1="30" y1="170" x2="75" y2="150" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3">
+        <animate attributeName="opacity" values="0.15;0.4;0.15" dur="4s" begin="2s" repeatCount="indefinite"/>
+      </line>
+      <line x1="270" y1="170" x2="225" y2="150" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3">
+        <animate attributeName="opacity" values="0.15;0.4;0.15" dur="4s" begin="3s" repeatCount="indefinite"/>
+      </line>
+      <!-- Corner nodes -->
+      <rect x="20" y="42" width="20" height="16" rx="2" fill="none" stroke="#2e2c3a" stroke-width="0.8" opacity="0.3"/>
+      <rect x="260" y="42" width="20" height="16" rx="2" fill="none" stroke="#2e2c3a" stroke-width="0.8" opacity="0.3"/>
+      <rect x="20" y="162" width="20" height="16" rx="2" fill="none" stroke="#2e2c3a" stroke-width="0.8" opacity="0.3"/>
+      <rect x="260" y="162" width="20" height="16" rx="2" fill="none" stroke="#2e2c3a" stroke-width="0.8" opacity="0.3"/>
+      <!-- Mid nodes -->
+      <rect x="60" y="60" width="30" height="20" rx="3" fill="none" stroke="#5a5650" stroke-width="0.8">
+        <animate attributeName="stroke" values="#5a5650;#c8860a;#5a5650" dur="3s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="210" y="60" width="30" height="20" rx="3" fill="none" stroke="#5a5650" stroke-width="0.8">
+        <animate attributeName="stroke" values="#5a5650;#c8860a;#5a5650" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="60" y="140" width="30" height="20" rx="3" fill="none" stroke="#5a5650" stroke-width="0.8">
+        <animate attributeName="stroke" values="#5a5650;#c8860a;#5a5650" dur="3s" begin="1s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="210" y="140" width="30" height="20" rx="3" fill="none" stroke="#5a5650" stroke-width="0.8">
+        <animate attributeName="stroke" values="#5a5650;#c8860a;#5a5650" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+      </rect>
+      <!-- Central hub -->
+      <circle cx="150" cy="110" r="22" fill="none" stroke="#EF9F27" stroke-width="1" opacity="0.3">
+        <animate attributeName="r" values="22;24;22" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.2;0.4;0.2" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="150" cy="110" r="8" fill="#EF9F27" opacity="0.08">
+        <animate attributeName="r" values="8;10;8" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="150" cy="110" r="3" fill="#EF9F27" opacity="0.3"/>
+      <!-- Data packets traveling -->
+      <circle r="2" fill="#EF9F27" opacity="0.5">
+        <animate attributeName="cx" values="75;150" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="70;110" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.6;0" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="2" fill="#EF9F27" opacity="0.5">
+        <animate attributeName="cx" values="225;150" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="70;110" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.6;0" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="2" fill="#EF9F27" opacity="0.5">
+        <animate attributeName="cx" values="75;150" dur="2s" begin="1.4s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="150;110" dur="2s" begin="1.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.6;0" dur="2s" begin="1.4s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ════════════════════ SECTION: CONSULTORÍA ════════════════════ -->
+<section class="content-section" id="sec-consult">
+  <div class="section-text">
+    <div class="section-label">03 — Consultoría en IA</div>
+    <h2 class="section-title">Optimizamos lo que ya <em>funciona</em></h2>
+    <p class="section-body">
+      Identificamos los procesos que pueden beneficiarse de inteligencia
+      artificial y los convertimos en operaciones más productivas, precisas
+      y menos costosas. Sin reemplazar equipos — potenciándolos.
+    </p>
+  </div>
+  <div class="section-visual">
+    <!-- Animated: chaotic signal becoming ordered -->
+    <svg viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Before: chaotic wave on left -->
+      <path d="M 15 110 Q 25 70, 35 95 T 55 120 T 75 85 T 95 130 T 115 90 T 135 115" stroke="#5a5650" stroke-width="1" fill="none" opacity="0.5">
+        <animate attributeName="d"
+          values="M 15 110 Q 25 70, 35 95 T 55 120 T 75 85 T 95 130 T 115 90 T 135 115;
+                  M 15 110 Q 25 130, 35 80 T 55 90 T 75 140 T 95 75 T 115 125 T 135 115;
+                  M 15 110 Q 25 70, 35 95 T 55 120 T 75 85 T 95 130 T 115 90 T 135 115"
+          dur="3s" repeatCount="indefinite"/>
+      </path>
+      <!-- Transformation zone -->
+      <rect x="138" y="85" width="24" height="50" rx="3" fill="none" stroke="#EF9F27" stroke-width="0.8" opacity="0.25">
+        <animate attributeName="opacity" values="0.15;0.4;0.15" dur="2s" repeatCount="indefinite"/>
+      </rect>
+      <line x1="150" y1="92" x2="150" y2="128" stroke="#EF9F27" stroke-width="0.5" opacity="0.2"/>
+      <!-- After: clean wave on right -->
+      <path d="M 165 110 Q 185 80, 205 110 T 245 110 T 285 110" stroke="#EF9F27" stroke-width="1.2" fill="none" opacity="0.4">
+        <animate attributeName="d"
+          values="M 165 110 Q 185 80, 205 110 T 245 110 T 285 110;
+                  M 165 110 Q 185 140, 205 110 T 245 110 T 285 110;
+                  M 165 110 Q 185 80, 205 110 T 245 110 T 285 110"
+          dur="3s" repeatCount="indefinite"/>
+      </path>
+      <!-- Labels -->
+      <text x="60" y="180" fill="#5a5650" font-size="8" font-family="'DM Mono', monospace" text-anchor="middle" letter-spacing="1" opacity="0.4">CAOS</text>
+      <text x="230" y="180" fill="#EF9F27" font-size="8" font-family="'DM Mono', monospace" text-anchor="middle" letter-spacing="1" opacity="0.3">ORDEN</text>
+      <!-- Arrow -->
+      <line x1="100" y1="195" x2="200" y2="195" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3"/>
+      <polyline points="196,192 202,195 196,198" fill="none" stroke="#2e2c3a" stroke-width="0.5" opacity="0.3"/>
+      <!-- Floating efficiency dots on right side -->
+      <circle cx="190" cy="100" r="1.5" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.4;0" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="230" cy="105" r="1.5" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.4;0" dur="3s" begin="1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="260" cy="108" r="1.5" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.4;0" dur="3s" begin="2s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ════════════════════ SECTION: BYTE ANALÍTICO ════════════════════ -->
+<section class="content-section reverse" id="sec-byte">
+  <div class="section-text">
+    <div class="section-label">04 — Producto</div>
+    <h2 class="section-title">Byte Analítico — <em>visión en acción</em></h2>
+    <p class="section-body">
+      Nuestro primer producto en producción. Organiza la información interna
+      de concesionarios oficiales a partir de cámaras de video, automatizando
+      la gestión del recorrido de vehículos dentro de la locación.
+    </p>
+  </div>
+  <div class="section-visual">
+    <!-- Animated: vehicle tracking / camera feed -->
+    <svg viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Floor grid -->
+      <line x1="30" y1="180" x2="270" y2="180" stroke="#2e2c3a" stroke-width="0.5" opacity="0.4"/>
+      <line x1="30" y1="150" x2="270" y2="150" stroke="#2e2c3a" stroke-width="0.5" opacity="0.2"/>
+      <line x1="30" y1="120" x2="270" y2="120" stroke="#2e2c3a" stroke-width="0.5" opacity="0.1"/>
+      <line x1="70" y1="100" x2="70" y2="190" stroke="#2e2c3a" stroke-width="0.5" opacity="0.15"/>
+      <line x1="150" y1="100" x2="150" y2="190" stroke="#2e2c3a" stroke-width="0.5" opacity="0.15"/>
+      <line x1="230" y1="100" x2="230" y2="190" stroke="#2e2c3a" stroke-width="0.5" opacity="0.15"/>
+      <!-- Camera icon top-left -->
+      <circle cx="40" cy="35" r="8" fill="none" stroke="#5a5650" stroke-width="0.8"/>
+      <circle cx="40" cy="35" r="3" fill="#5a5650" opacity="0.3"/>
+      <!-- Camera FOV cone -->
+      <path d="M 40 43 L 20 180 L 280 180 L 260 43" fill="#EF9F27" opacity="0.02" stroke="#EF9F27" stroke-width="0.3" opacity="0.08"/>
+      <!-- Vehicle 1: moving dot -->
+      <rect rx="2" width="16" height="8" fill="#EF9F27" opacity="0.3">
+        <animate attributeName="x" values="50;220;220;50;50" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="165;165;145;145;165" dur="12s" repeatCount="indefinite"/>
+      </rect>
+      <!-- Vehicle 1 trail -->
+      <line stroke="#EF9F27" stroke-width="0.5" opacity="0.1" stroke-dasharray="3 3">
+        <animate attributeName="x1" values="58;228;228;58;58" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="y1" values="169;169;149;149;169" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="x2" values="50;50;220;220;50" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="y2" values="169;169;169;149;149" dur="12s" repeatCount="indefinite"/>
+      </line>
+      <!-- Vehicle 2 -->
+      <rect rx="2" width="16" height="8" fill="#c8860a" opacity="0.2">
+        <animate attributeName="x" values="200;80;80;200;200" dur="10s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="155;155;170;170;155" dur="10s" repeatCount="indefinite"/>
+      </rect>
+      <!-- Tracking ID labels -->
+      <text font-family="'DM Mono', monospace" font-size="7" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.5;0.5;0" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="x" values="50;220;220;50" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="161;161;141;141" dur="12s" repeatCount="indefinite"/>
+        ID-0417
+      </text>
+      <!-- Status readout -->
+      <text x="220" y="35" font-family="'DM Mono', monospace" font-size="8" fill="#5a5650" opacity="0.3" letter-spacing="1">LIVE</text>
+      <circle cx="212" cy="33" r="2" fill="#EF9F27" opacity="0">
+        <animate attributeName="opacity" values="0;0.5;0" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  </div>
+</section>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer class="site-footer">
+  <a href="https://byte-analitico-v2.netlify.app" target="_blank" rel="noopener">Byte Analítico →</a>
+  <span>© 2025 RIA Labs · Rosario, Argentina</span>
+</footer>
+
+<!-- ════════════════════ SCRIPTS ════════════════════ -->
+<script>
+  // ── Eclipse positioning (Range API, same as v5) ──
+  function positionEclipse() {
+    const riaEl    = document.getElementById('ria-text');
+    const eclipse  = document.getElementById('eclipse');
+    const wordmark = document.getElementById('wordmark');
+    if (!riaEl || !eclipse || !wordmark) return;
+
+    const range    = document.createRange();
+    const textNode = riaEl.firstChild;
+    if (!textNode) return;
+
+    range.setStart(textNode, 1);
+    range.setEnd(textNode, 2);
+    const iRect  = range.getBoundingClientRect();
+    const wRect  = wordmark.getBoundingClientRect();
+
+    const iCenterX = iRect.left + iRect.width / 2 - wRect.left;
+    const iTop     = iRect.top - wRect.top;
+    const eSize    = eclipse.offsetWidth;
+
+    eclipse.style.left = (iCenterX - eSize / 2) + 'px';
+    // Position so the bottom ~15% of the eclipse overlaps behind the text
+    eclipse.style.top  = (iTop - eSize * 0.78) + 'px';
+  }
+
+  document.fonts.ready.then(() => {
+    positionEclipse();
+    window.addEventListener('resize', positionEclipse);
+  });
+
+  // ── Scroll reveal ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.content-section').forEach(el => observer.observe(el));
+</script>
+
+<!-- Version Switcher -->
+<nav id="version-switcher" style="position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(11,10,20,0.95);backdrop-filter:blur(12px);border-top:1px solid rgba(200,134,10,0.25);padding:10px 0;font-family:'DM Sans',system-ui,sans-serif;">
+  <div style="max-width:700px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:0 16px;">
+    <span style="font-size:11px;color:#8a8478;letter-spacing:1px;margin-right:8px;">VERSIONES</span>
+    <a href="/v1/" style="padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;color:#8a8478;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">V1</a>
+    <a href="/v2/" style="padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;color:#8a8478;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">V2</a>
+    <a href="/v3/" style="padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;color:#8a8478;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">V3</a>
+    <a href="/v4/" style="padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;background:rgba(200,134,10,0.2);color:#f0a020;border:1px solid rgba(200,134,10,0.4);">V4</a>
+  </div>
+</nav>
+<div style="height:52px;"></div>
+
+</body>
+</html>

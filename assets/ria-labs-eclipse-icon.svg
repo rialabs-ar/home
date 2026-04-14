@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- RIA Labs Eclipse Icon — light version for favicon / brand -->
+  <!-- Transparent center, gold ring with crescent highlight -->
+  <circle cx="50" cy="50" r="38" fill="none" stroke="#c8860a" stroke-width="5" opacity="0.7"/>
+  <circle cx="50" cy="50" r="38" fill="none" stroke="#EF9F27" stroke-width="2" opacity="0.5"/>
+  <!-- Crescent highlight arc -->
+  <path d="M 36 22 A 38 38 0 0 0 22 60" fill="none" stroke="#EF9F27" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <!-- Bright accent -->
+  <circle cx="36" cy="18" r="2.5" fill="#EF9F27" opacity="0.8"/>
+</svg>

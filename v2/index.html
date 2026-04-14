@@ -653,4 +653,19 @@
   }, 5400);
 
   window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50), {passive:true});
-  const obs = new Inters
+</script>
+
+<!-- Version Switcher -->
+<nav id="version-switcher" style="position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(11,10,20,0.95);backdrop-filter:blur(12px);border-top:1px solid rgba(200,134,10,0.25);padding:10px 0;font-family:'DM Sans',system-ui,sans-serif;">
+  <div style="max-width:700px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:0 16px;">
+    <span style="font-size:11px;color:#8a8478;letter-spacing:1px;margin-right:8px;">VERSIONES</span>
+    <a href="/v1/" style="padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;color:#8a8478;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">V1</a>
+    <a href="/v2/" style="padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;background:rgba(200,134,10,0.2);color:#f0a020;border:1px solid rgba(200,134,10,0.4);">V2</a>
+    <a href="/v3/" style="padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;color:#8a8478;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">V3</a>
+    <a href="/v4/" style="padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;color:#8a8478;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">V4</a>
+  </div>
+</nav>
+<div style="height:52px;"></div>
+
+</body>
+</html>
