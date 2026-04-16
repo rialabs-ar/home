@@ -176,10 +176,12 @@
   .t-row { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 12px; font-family: 'DM Mono', monospace; font-weight: 300; }
   .t-row:last-child { border-bottom: none; }
   .t-id { color: var(--gold); min-width: 88px; }
+  .t-mdl { color: var(--muted); font-size: 11px; opacity: 0.7; min-width: 72px; }
   .t-bge { font-size: 10px; letter-spacing: 1px; padding: 2px 8px; }
   .b-act { background: rgba(200,134,10,0.12); color: var(--gold-hi); }
   .b-don { background: rgba(74,143,212,0.1); color: var(--blue); }
   .b-pen { background: rgba(255,255,255,0.04); color: var(--muted); }
+  .b-war { background: rgba(180,40,40,0.12); color: #e06060; }
   .t-tm { color: var(--muted); margin-left: auto; font-size: 11px; }
   .term-ft { padding: 10px 16px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; color: var(--muted); opacity: 0.4; border-top: 1px solid var(--border2); }
 
@@ -216,8 +218,25 @@
   .mkt-t { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 8px; }
   .mkt-b { font-size: 13px; font-weight: 300; line-height: 1.65; color: var(--muted); }
 
+  /* MARKET TOOLTIP */
+  #mkt-tip { position: fixed; pointer-events: none; background: rgba(11,10,20,0.97); border: 1px solid rgba(200,134,10,0.28); padding: 14px 18px; max-width: 230px; opacity: 0; transition: opacity 0.15s; z-index: 500; }
+  #mkt-tip.show { opacity: 1; }
+  .mkt-tip-t { font-family: 'Saira', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.5px; color: var(--gold-hi); margin-bottom: 6px; }
+  .mkt-tip-b { font-family: 'Saira', sans-serif; font-size: 12px; font-weight: 300; line-height: 1.6; color: var(--muted); }
+  #mkt-tip.center { max-width: 280px; border-color: rgba(200,134,10,0.45); }
+  #mkt-tip.center .mkt-tip-b { font-size: 13px; font-style: italic; color: var(--white); opacity: 0.75; line-height: 1.75; letter-spacing: 0.2px; }
+
+  /* RIA alchemical reveal */
+  #ria-alch-ring, #ria-alch-ring2 { opacity: 0; transition: opacity 0.6s, stroke 0.4s; }
+  #ria-center-blue { opacity: 0; transition: opacity 0.4s; }
+  #mkt-svg.ria-active #ria-alch-ring  { opacity: 0.28; stroke: #4a8fd4; }
+  #mkt-svg.ria-active #ria-alch-ring2 { opacity: 0.12; stroke: #7F77DD; }
+  #mkt-svg.ria-active #ria-center-blue { opacity: 1; }
+  .mkt-node { cursor: pointer; }
+  .mkt-node:hover .mkt-node-dot { stroke: #EF9F27 !important; opacity: 1; }
+
   /* TEAM */
-  .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 60px; background: var(--border2); }
+  .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 0; background: var(--border2); }
   .founder { background: var(--bg); padding: 48px 40px; }
   .f-init { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: 'Saira', sans-serif; font-weight: 500; font-size: 18px; letter-spacing: 2px; color: var(--gold); margin-bottom: 20px; }
   .f-name { font-family: 'Saira', sans-serif; font-weight: 500; font-size: 26px; letter-spacing: 1px; color: var(--white); margin-bottom: 4px; }
@@ -227,7 +246,7 @@
   .f-col { font-size: 12px; font-weight: 300; color: var(--muted); }
 
   /* CONTACT */
-  .contact { text-align: center; padding: 140px 48px; position: relative; overflow: hidden; }
+  .contact { text-align: center; padding: 0 48px 140px; position: relative; overflow: hidden; }
   .contact::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 900px; height: 450px; background: radial-gradient(ellipse, rgba(200,134,10,0.038) 0%, transparent 68%); pointer-events: none; }
   .c-pre { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; }
   .c-ttl { font-family: 'Saira', sans-serif; font-weight: 500; font-size: clamp(52px,9vw,108px); letter-spacing: 2px; line-height: 1; color: var(--white); margin-bottom: 20px; }
@@ -331,8 +350,9 @@
   </a>
   <ul class="nav-links">
     <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#proceso">Método</a></li>
     <li><a href="#caso">Caso real</a></li>
+    <li><a href="#metodologia">Metodología</a></li>
+    <li><a href="#mercado">Mercado</a></li>
     <li><a href="#equipo">Equipo</a></li>
   </ul>
   <a href="#contacto" class="nav-cta">Conversemos</a>
@@ -436,7 +456,7 @@
         <line x1="120" y1="118" x2="200" y2="156" stroke="#EF9F27" stroke-width="0.6" opacity="0.16" stroke-dasharray="4 5"/>
 
         <!-- Texto -->
-        <text class="ilus-text1" x="86" y="208" text-anchor="middle" font-family="'Saira',sans-serif" font-size="11" font-weight="300" fill="#8a8478" letter-spacing="0.3">Tu infraestructura ya existe.</text>
+        <text class="ilus-text1" x="340" y="228" text-anchor="middle" font-family="'Saira',sans-serif" font-size="11" font-weight="300" fill="#8a8478" letter-spacing="0.3">Tu infraestructura ya existe.</text>
       </g>
 
       <!-- ══ LÍNEAS DE DATOS (aparecen después, animadas con dashoffset) ══ -->
@@ -575,7 +595,7 @@
           <animate attributeName="opacity" values="0;0.8;0.8;0" keyTimes="0;0.08;0.88;1" calcMode="linear" dur="3.6s" begin="1.8s" repeatCount="indefinite"/>
         </circle>
         <!-- Texto oración 2 -->
-        <text class="ilus-text2" x="500" y="218" text-anchor="middle" font-family="'Saira',sans-serif" font-size="11" font-weight="400" fill="#f0ece0" letter-spacing="0.3">Nosotros la hacemos pensar.</text>
+        <text class="ilus-text2" x="340" y="246" text-anchor="middle" font-family="'Saira',sans-serif" font-size="11" font-weight="400" fill="#f0ece0" letter-spacing="0.3">Nosotros la hacemos pensar.</text>
       </g>
 
     </svg>
@@ -584,7 +604,7 @@
     <a href="#contacto" class="btn-gold">Empecemos</a>
     <a href="#caso" class="btn-ghost">Ver caso real →</a>
   </div>
-  <p class="hero-origin">Byte × VRIO · Rosario, Argentina</p>
+  <p class="hero-origin"><a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:#4a8fd4;text-decoration:none;">Byte</a> × <a href="https://vrio.ar" target="_blank" rel="noopener" style="color:var(--gold-hi);text-decoration:none;">VRIO</a></p>
 </div>
 
 <!-- STAT BAR -->
@@ -592,8 +612,8 @@
   <div class="stat-inner">
     <div class="stat rev"><div class="stat-n" data-countup data-target="70" data-suffix="%">70%</div><div class="stat-l">de las empresas argentinas sin estrategia de IA</div></div>
     <div class="stat rev d1"><div class="stat-n" data-countup data-target="100" data-suffix="%">100%</div><div class="stat-l">de los procesos operativos de una empresa con potencial de IA sin explotar</div></div>
-    <div class="stat rev d2"><div class="stat-n" data-countup data-target="25" data-suffix="+">25+</div><div class="stat-l">años de experiencia en infraestructura de seguridad</div></div>
-    <div class="stat rev d3"><div class="stat-n" data-countup data-target="5" data-suffix=" sem">5 sem</div><div class="stat-l">del diagnóstico al primer MVP funcionando en producción</div></div>
+    <div class="stat rev d2"><div class="stat-n" data-countup data-target="25" data-suffix="+">25+</div><div class="stat-l">años de experiencia en infraestructura y operaciones reales</div></div>
+    <div class="stat rev d3"><div class="stat-n" data-countup data-target="5" data-suffix=" sem">5 sem</div><div class="stat-l">del diagnóstico al primer sistema funcionando en producción</div></div>
   </div>
 </div>
 
@@ -601,28 +621,82 @@
 <section class="section" id="servicios">
   <div class="wrap">
     <p class="lbl rev">Servicios</p>
-    <h2 class="ttl rev d1">Lo que<br>construimos</h2>
-    <p class="bdy rev d2">No adaptamos plataformas genéricas. <strong>Diseñamos y construimos la solución exacta</strong> que tu proceso necesita — con el stack más simple, rápido y efectivo posible.</p>
+    <h2 class="ttl rev d1">Lo que<br>hacemos</h2>
+    <p class="bdy rev d2">No adaptamos plataformas genéricas. <strong>Diseñamos y construimos la solución exacta</strong> — con el stack más simple, rápido y efectivo posible. Vamos por partes...</p>
+    <!-- Pipeline SVG: 01 → 02 → 03 → 04 -->
+    <div class="rev d3" style="width:100%;margin-top:56px;margin-bottom:48px;overflow:hidden;">
+      <svg width="100%" viewBox="0 0 680 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Nodos -->
+        <circle cx="76"  cy="24" r="10" fill="#0f0e1a" stroke="#3a3050" stroke-width="1">
+          <animate attributeName="stroke" values="#3a3050;#c8860a;#3a3050" dur="4s" begin="0s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="76"  cy="24" r="4" fill="#c8860a" opacity="0.6"/>
+        <text x="76" y="43" text-anchor="middle" font-family="'DM Mono',monospace" font-size="8" fill="#5a5650" letter-spacing="1" opacity="0.6">01</text>
+
+        <circle cx="246" cy="24" r="10" fill="#0f0e1a" stroke="#3a3050" stroke-width="1">
+          <animate attributeName="stroke" values="#3a3050;#c8860a;#3a3050" dur="4s" begin="1s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="246" cy="24" r="4" fill="#c8860a" opacity="0.6"/>
+        <text x="246" y="43" text-anchor="middle" font-family="'DM Mono',monospace" font-size="8" fill="#5a5650" letter-spacing="1" opacity="0.6">02</text>
+
+        <circle cx="434" cy="24" r="10" fill="#0f0e1a" stroke="#3a3050" stroke-width="1">
+          <animate attributeName="stroke" values="#3a3050;#c8860a;#3a3050" dur="4s" begin="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="434" cy="24" r="4" fill="#c8860a" opacity="0.6"/>
+        <text x="434" y="43" text-anchor="middle" font-family="'DM Mono',monospace" font-size="8" fill="#5a5650" letter-spacing="1" opacity="0.6">03</text>
+
+        <circle cx="604" cy="24" r="10" fill="#0f0e1a" stroke="#3a3050" stroke-width="1">
+          <animate attributeName="stroke" values="#3a3050;#EF9F27;#3a3050" dur="4s" begin="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="604" cy="24" r="4" fill="#EF9F27" opacity="0.7"/>
+        <text x="604" y="43" text-anchor="middle" font-family="'DM Mono',monospace" font-size="8" fill="#5a5650" letter-spacing="1" opacity="0.6">04</text>
+
+        <!-- Líneas de conexión -->
+        <line x1="86" y1="24" x2="236" y2="24" stroke="#2a2838" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="256" y1="24" x2="424" y2="24" stroke="#2a2838" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="444" y1="24" x2="594" y2="24" stroke="#2a2838" stroke-width="1" stroke-dasharray="4 4"/>
+
+        <!-- Partícula 1: 01 → 02 -->
+        <circle r="2.5" fill="#EF9F27" opacity="0">
+          <animate attributeName="cx" values="86;236" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="24;24" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.05;0.9;1" calcMode="linear" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+        </circle>
+        <!-- Partícula 2: 02 → 03 -->
+        <circle r="2.5" fill="#EF9F27" opacity="0">
+          <animate attributeName="cx" values="256;424" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="24;24" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.05;0.9;1" calcMode="linear" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+        </circle>
+        <!-- Partícula 3: 03 → 04 -->
+        <circle r="2.5" fill="#EF9F27" opacity="0">
+          <animate attributeName="cx" values="444;594" dur="2s" begin="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="24;24" dur="2s" begin="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.05;0.9;1" calcMode="linear" dur="2s" begin="2.5s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+
     <div class="svc-grid">
       <div class="svc rev">
         <p class="svc-n">01 · Consultoría estratégica</p>
         <h3 class="svc-t">Diagnóstico y estrategia IA</h3>
-        <p class="svc-b">Auditamos tu infraestructura y tus procesos, identificamos dónde la IA genera el mayor impacto y diseñamos el camino más corto para llegar ahí. Primer diagnóstico sin costo, sin tecnicismos.</p>
+        <p class="svc-b">Auditamos tu infraestructura y tus procesos, identificamos dónde la IA genera el mayor impacto y diseñamos el camino más corto para llegar ahí.</p>
       </div>
       <div class="svc rev d1">
         <p class="svc-n">02 · IA generativa</p>
         <h3 class="svc-t">Lenguaje, documentos y conocimiento</h3>
-        <p class="svc-b">Asistentes internos, procesamiento automático de documentos, extracción de información y consultas en lenguaje natural sobre los datos del negocio. Sin reemplazar los sistemas que ya usás — los primeros resultados concretos pueden estar en semanas.</p>
+        <p class="svc-b">Asistentes internos, procesamiento automático de documentos, extracción de información y consultas en lenguaje natural sobre los datos del negocio. Sin reemplazar los sistemas que ya usás.</p>
       </div>
       <div class="svc rev d2">
         <p class="svc-n">03 · Desarrollo a medida</p>
         <h3 class="svc-t">Software propio desde cero</h3>
-        <p class="svc-b">Construimos la arquitectura exacta que tu problema requiere. Nada de adaptaciones sobre herramientas de terceros. Cada línea de código tiene un propósito claro y una métrica que la justifica.</p>
+        <p class="svc-b">Construimos la arquitectura que tu problema requiere. Sin soluciones genéricas. El cliente sabe en todo momento qué se está construyendo. Los primeros resultados pueden estar aplicados en semanas.</p>
       </div>
       <div class="svc rev d3">
         <p class="svc-n">04 · SaaS y escalabilidad</p>
         <h3 class="svc-t">Sistemas que crecen con el negocio</h3>
-        <p class="svc-b">Monitoreo permanente, actualización continua de modelos de IA y ampliación de funcionalidades a medida que escala la operación. Arquitectura diseñada para crecer: cuanto más opera el sistema, más inteligente se vuelve.</p>
+        <p class="svc-b">Monitoreo y actualización continua hasta que la arquitectura queda consolidada. El sistema crece a la par que escala la operación. Cuanto más opera, más inteligente se vuelve.</p>
       </div>
     </div>
   </div>
@@ -636,9 +710,9 @@
     <p class="lbl rev">Caso en producción</p>
     <div class="case-grid">
       <div>
-        <span class="case-pill rev">Validado · Rosario, Argentina</span>
+        <span class="case-pill rev">Rosario, Argentina</span>
         <h2 class="case-name rev d1">Byte<br><span>Analítico</span></h2>
-        <p class="case-b rev d2">Construimos para Seprio un sistema de <strong>reconocimiento de patentes por OCR enriquecido con IA</strong> que mapea en tiempo real el recorrido de cada vehículo dentro del predio, automatiza el registro de movimientos y genera reportes de gestión continuos — todo desde la infraestructura que el cliente ya tenía instalada.</p>
+        <p class="case-b rev d2">Construimos para Seprio — concesionaria oficial Fiat en Rosario — el sistema nervioso de toda su operación vehicular. Cada unidad que entra al predio queda identificada, trazada y gestionada en tiempo real hasta que el cliente se la lleva. <strong>Un nuevo sistema cambió la forma de trabajar, organizó la información y dotó al proceso de memoria y conocimiento.</strong></p>
         <div class="client-logo-wrap rev d3">
           <span class="client-cname">SEPRIO</span>
           <div class="fiat-badge">
@@ -655,51 +729,111 @@
             <div class="t-d t-d1"></div><div class="t-d t-d2"></div><div class="t-d t-d3"></div>
             <span class="t-ttl">byte_analitico · live_feed</span>
           </div>
-          <div class="t-row"><span class="t-id">AB 142 DC</span><span class="t-bge b-act">EN PLAYA</span><span class="t-tm">hace 2 min</span></div>
-          <div class="t-row"><span class="t-id">KL 087 MN</span><span class="t-bge b-don">ENTREGADO</span><span class="t-tm">10:34</span></div>
-          <div class="t-row"><span class="t-id">GH 319 PQ</span><span class="t-bge b-act">EN PLAYA</span><span class="t-tm">hace 8 min</span></div>
-          <div class="t-row"><span class="t-id">TU 055 VW</span><span class="t-bge b-pen">INGRESANDO</span><span class="t-tm">ahora</span></div>
-          <div class="t-row"><span class="t-id">EF 774 IJ</span><span class="t-bge b-don">ENTREGADO</span><span class="t-tm">09:15</span></div>
-          <div class="t-row"><span class="t-id">RS 201 XY</span><span class="t-bge b-act">EN PLAYA</span><span class="t-tm">hace 1 hr</span></div>
-          <div class="term-ft">sistema activo · OCR + IA · actualización en tiempo real</div>
+          <div class="t-row"><span class="t-id">AH 483 IL</span><span class="t-mdl">Cronos</span><span class="t-bge b-pen">INGRESO</span><span class="t-tm">10:46</span></div>
+          <div class="t-row"><span class="t-id">AG 870 KG</span><span class="t-mdl">Cronos</span><span class="t-bge b-act">LAVADO</span><span class="t-tm">10:03</span></div>
+          <div class="t-row"><span class="t-id">AH 587 VF</span><span class="t-mdl">Fiorino</span><span class="t-bge b-act">TALLER</span><span class="t-tm">09:36</span></div>
+          <div class="t-row"><span class="t-id">AF 323 MU</span><span class="t-mdl">Pulse</span><span class="t-bge b-act">DEPÓSITO</span><span class="t-tm">09:38</span></div>
+          <div class="t-row"><span class="t-id">AH 963 LF</span><span class="t-mdl">Cronos</span><span class="t-bge b-don">TERMINADO</span><span class="t-tm">09:29</span></div>
+          <div class="t-row"><span class="t-id">AL 112 AC</span><span class="t-mdl">—</span><span class="t-bge b-war">PROHIBIDO</span><span class="t-tm">10:16</span></div>
+          <div class="term-ft">1.100 vehículos activos · OCR + IA · tiempo real</div>
         </div>
-        <p style="font-size:12px;font-weight:300;color:var(--muted);margin-top:16px;line-height:1.6;">Este no es solo un producto — es la demostración de lo que RIA Labs construye para cualquier empresa que ya tenga cámaras instaladas.</p>
+        <!-- Vista cenital del predio -->
+        <div style="margin-top:20px;overflow:hidden;">
+          <svg width="100%" viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Predio: borde exterior -->
+            <rect x="10" y="10" width="280" height="160" fill="#0d0c18" stroke="#1e1c2a" stroke-width="1"/>
+            <!-- Entrada/salida (gap derecho) -->
+            <rect x="289" y="68" width="12" height="44" fill="#0b0a14"/>
+            <line x1="289" y1="68" x2="301" y2="68" stroke="#2a2838" stroke-width="0.5"/>
+            <line x1="289" y1="112" x2="301" y2="112" stroke="#2a2838" stroke-width="0.5"/>
+
+            <!-- Carril central (driveway) -->
+            <line x1="10" y1="90" x2="289" y2="90" stroke="#1a1828" stroke-width="0.5" stroke-dasharray="8 6"/>
+
+            <!-- Zonas de estacionamiento superior -->
+            <rect x="10" y="10" width="240" height="50" fill="#0f0e1a" opacity="0.5"/>
+            <line x1="10"  y1="60" x2="250" y2="60" stroke="#1e1c2a" stroke-width="0.5"/>
+            <line x1="58"  y1="10" x2="58"  y2="60" stroke="#1e1c2a" stroke-width="0.4"/>
+            <line x1="106" y1="10" x2="106" y2="60" stroke="#1e1c2a" stroke-width="0.4"/>
+            <line x1="154" y1="10" x2="154" y2="60" stroke="#1e1c2a" stroke-width="0.4"/>
+            <line x1="202" y1="10" x2="202" y2="60" stroke="#1e1c2a" stroke-width="0.4"/>
+
+            <!-- Zonas de estacionamiento inferior -->
+            <rect x="10" y="120" width="240" height="50" fill="#0f0e1a" opacity="0.5"/>
+            <line x1="10"  y1="120" x2="250" y2="120" stroke="#1e1c2a" stroke-width="0.5"/>
+            <line x1="58"  y1="120" x2="58"  y2="170" stroke="#1e1c2a" stroke-width="0.4"/>
+            <line x1="106" y1="120" x2="106" y2="170" stroke="#1e1c2a" stroke-width="0.4"/>
+            <line x1="154" y1="120" x2="154" y2="170" stroke="#1e1c2a" stroke-width="0.4"/>
+            <line x1="202" y1="120" x2="202" y2="170" stroke="#1e1c2a" stroke-width="0.4"/>
+
+            <!-- Cámara esquina superior derecha -->
+            <circle cx="268" cy="22" r="5" fill="#1a1828" stroke="#3a3050" stroke-width="0.8"/>
+            <circle cx="268" cy="22" r="2" fill="#3a3050">
+              <animate attributeName="fill" values="#3a3050;#EF9F27;#3a3050" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <!-- Cono FOV -->
+            <path d="M 268 22 L 230 10 L 230 68 Z" fill="#EF9F27" opacity="0.025"/>
+            <line x1="268" y1="22" x2="230" y2="10"  stroke="#EF9F27" stroke-width="0.4" opacity="0.12"/>
+            <line x1="268" y1="22" x2="230" y2="68" stroke="#EF9F27" stroke-width="0.4" opacity="0.12"/>
+            <!-- Label LIVE -->
+            <text x="268" y="14" text-anchor="middle" font-family="'DM Mono',monospace" font-size="5" fill="#EF9F27" letter-spacing="1" opacity="0.5">LIVE</text>
+
+            <!-- Autos estacionados (estáticos, fondo) -->
+            <rect x="16" y="18" width="34" height="16" rx="1.5" fill="none" stroke="#2a2838" stroke-width="0.7" opacity="0.5"/>
+            <rect x="64" y="18" width="34" height="16" rx="1.5" fill="none" stroke="#2a2838" stroke-width="0.7" opacity="0.4"/>
+            <rect x="16" y="128" width="34" height="16" rx="1.5" fill="none" stroke="#2a2838" stroke-width="0.7" opacity="0.45"/>
+            <rect x="112" y="128" width="34" height="16" rx="1.5" fill="none" stroke="#2a2838" stroke-width="0.7" opacity="0.4"/>
+            <rect x="160" y="128" width="34" height="16" rx="1.5" fill="none" stroke="#2a2838" stroke-width="0.7" opacity="0.35"/>
+
+            <!-- Auto 1: entra por la derecha, se estaciona arriba (gold) -->
+            <g>
+              <rect rx="1.5" width="34" height="16" fill="#1c1808" stroke="#EF9F27" stroke-width="0.8" opacity="0.85">
+                <animate attributeName="x" values="290;235;235;112;112;290" keyTimes="0;0.12;0.3;0.45;0.85;1" dur="14s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+                <animate attributeName="y" values="82;82;82;18;18;82" keyTimes="0;0.12;0.3;0.45;0.85;1" dur="14s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+              </rect>
+              <!-- Patente aparece cuando pasa por zona cámara (x≈235) -->
+              <text font-family="'DM Mono',monospace" font-size="5.5" fill="#EF9F27" letter-spacing="0.5" text-anchor="middle">
+                <animate attributeName="x" values="307;252;252;129;129;307" keyTimes="0;0.12;0.3;0.45;0.85;1" dur="14s" repeatCount="indefinite"/>
+                <animate attributeName="y" values="78;78;78;14;14;78" keyTimes="0;0.12;0.3;0.45;0.85;1" dur="14s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0;0.9;0.6;0.4;0;0" keyTimes="0;0.13;0.3;0.44;0.46;1" dur="14s" repeatCount="indefinite"/>
+                TU 055 VW
+              </text>
+            </g>
+
+            <!-- Auto 2: sale desde spot inferior izquierdo, sale por la derecha (muted) -->
+            <g>
+              <rect rx="1.5" width="34" height="16" fill="#14120a" stroke="#c8860a" stroke-width="0.6" opacity="0.6">
+                <animate attributeName="x" values="64;64;290;64" keyTimes="0;0.25;0.65;1" dur="18s" begin="3s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+                <animate attributeName="y" values="128;90;82;128" keyTimes="0;0.25;0.65;1" dur="18s" begin="3s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+              </rect>
+              <text font-family="'DM Mono',monospace" font-size="5.5" fill="#c8860a" letter-spacing="0.5" text-anchor="middle">
+                <animate attributeName="x" values="81;81;307;81" keyTimes="0;0.25;0.65;1" dur="18s" begin="3s" repeatCount="indefinite"/>
+                <animate attributeName="y" values="124;86;78;124" keyTimes="0;0.25;0.65;1" dur="18s" begin="3s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0;0;0.8;0" keyTimes="0;0.24;0.5;0.66" dur="18s" begin="3s" repeatCount="indefinite"/>
+                GH 319 PQ
+              </text>
+            </g>
+
+            <!-- Auto 3: mueve entre spots superiores (muy sutil) -->
+            <rect rx="1.5" width="34" height="16" fill="#100f1a" stroke="#534AB7" stroke-width="0.6" opacity="0.5">
+              <animate attributeName="x" values="160;160;208;208;160" keyTimes="0;0.3;0.5;0.8;1" dur="20s" begin="6s" repeatCount="indefinite"/>
+              <animate attributeName="y" values="18;90;90;18;18" keyTimes="0;0.3;0.5;0.8;1" dur="20s" begin="6s" repeatCount="indefinite"/>
+            </rect>
+
+            <!-- Label info -->
+            <text x="150" y="176" text-anchor="middle" font-family="'DM Mono',monospace" font-size="6" fill="#3a3850" letter-spacing="1.5">PREDIO · VISTA CENITAL</text>
+          </svg>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- PROCESO -->
-<section class="section" id="proceso">
-  <div class="wrap">
-    <div class="proc-grid">
-      <div>
-        <p class="lbl rev">Metodología</p>
-        <h2 class="ttl rev d1">Cómo<br>trabajamos</h2>
-        <p class="bdy rev d2">Un proceso diseñado para moverse rápido sin improvisar. <strong>Del diagnóstico al MVP en producción en 5 semanas.</strong></p>
-        <div class="proc-steps">
-          <div class="p-step rev"><span class="p-n">01</span><div><h4>Diagnóstico gratuito</h4><p>Entendemos cómo opera tu empresa: sus procesos, sus flujos de información y dónde se pierde tiempo o valor hoy. Mapeamos qué puede potenciarse con IA y qué ya tenés para hacerlo. Sin costo, sin compromiso.</p></div></div>
-          <div class="p-step rev d1"><span class="p-n">02</span><div><h4>Diseño de la solución</h4><p>Definimos la arquitectura más simple que resuelve el problema real. Priorizamos por impacto y velocidad. Presentamos métricas de éxito antes de empezar a construir.</p></div></div>
-          <div class="p-step rev d2"><span class="p-n">03</span><div><h4>Activación e integración</h4><p>Setup del sistema de IA sobre la infraestructura existente. El cliente ve resultados reales antes del primer mes de servicio. Sin reemplazar lo que ya tiene instalado.</p></div></div>
-          <div class="p-step rev d3"><span class="p-n">04</span><div><h4>MVP funcional en 5 semanas</h4><p>El sistema está operativo. Acompañamos el lanzamiento y capacitamos al equipo. No cerramos el proyecto hasta que el cambio está consolidado en la organización.</p></div></div>
-          <div class="p-step rev d4"><span class="p-n">05</span><div><h4>Evolución continua</h4><p>Monitoreo permanente, mejoras del modelo e incorporación de nuevos procesos. Cuanto más opera el sistema, más inteligente se vuelve. La solución crece con el negocio.</p></div></div>
-        </div>
-      </div>
-      <div class="proc-met">
-        <div class="p-met rev"><div class="p-met-n">5</div><div class="p-met-l">Semanas del diagnóstico al primer sistema en producción</div></div>
-        <div class="p-met rev d1"><div class="p-met-n">1</div><div class="p-met-l">Interlocutor técnico dedicado. Sin intermediarios, sin ruido.</div></div>
-        <div class="p-met rev d2"><div class="p-met-n">100%</div><div class="p-met-l">Software propio. Nunca adaptaciones sobre plataformas de terceros.</div></div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<div class="divider"></div>
-
-<!-- PRINCIPIOS -->
-<section class="section">
+<!-- METODOLOGÍA -->
+<section class="section" id="metodologia">
   <div class="wrap">
-    <p class="lbl rev">Principios</p>
+    <p class="lbl rev">Metodología</p>
     <h2 class="ttl rev d1">La forma<br>en que pensamos</h2>
     <div class="princ-grid">
       <div class="pr rev"><span class="pr-ghost">1</span><div class="pr-bar"></div><h4 class="pr-t">El problema primero, la tecnología después</h4><p class="pr-b">No llegamos con una solución buscando un problema. La IA es el medio, no el fin. Si la mejor solución es simple, así la hacemos.</p></div>
@@ -715,67 +849,265 @@
 <div class="divider"></div>
 
 <!-- MERCADO -->
-<section class="section">
+<section class="section" id="mercado">
   <div class="wrap">
     <p class="lbl rev">Mercado</p>
     <h2 class="ttl rev d1">Dónde opera<br>lo que construimos</h2>
     <p class="bdy rev d2">La mayoría de las soluciones de IA parten de cero. <strong>Nosotros partimos de lo que tu empresa ya tiene</strong> — sus procesos, sus datos, su infraestructura — y lo hacemos producir.</p>
-    <div class="mkt-grid">
-      <div class="mkt rev"><div class="mkt-n">Concesionarias</div><h4 class="mkt-t">Gestión y trazabilidad</h4><p class="mkt-b">Automatización del registro de stock, movimientos y atención al cliente. Procesos que hoy son manuales, operando solos.</p></div>
-      <div class="mkt rev d1"><div class="mkt-n">Logística</div><h4 class="mkt-t">Operaciones e inteligencia</h4><p class="mkt-b">Visibilidad en tiempo real sobre movimientos, stock y tiempos de entrega. Decisiones operativas con datos, no con intuición.</p></div>
-      <div class="mkt rev d2"><div class="mkt-n">Retail</div><h4 class="mkt-t">Inteligencia comercial</h4><p class="mkt-b">Análisis de comportamiento, optimización de operaciones y detección de oportunidades a partir de lo que ya pasa en el negocio.</p></div>
-      <div class="mkt rev d3"><div class="mkt-n">Industria</div><h4 class="mkt-t">Eficiencia operativa</h4><p class="mkt-b">Control de producción, cumplimiento de protocolos y auditoría continua de procesos. Menos fricción, más output.</p></div>
-      <div class="mkt rev d4"><div class="mkt-n">Propiedades</div><h4 class="mkt-t">Administración inteligente</h4><p class="mkt-b">Gestión de accesos, reportes automáticos y comunicación con residentes. Menos carga administrativa, más control.</p></div>
-      <div class="mkt rev d5"><div class="mkt-n">Servicios</div><h4 class="mkt-t">Flujos y atención</h4><p class="mkt-b">Automatización de operaciones, registros y reportes de gestión. Asistentes internos para equipos de atención al cliente.</p></div>
+
+    <!-- Diagrama radial de mercado -->
+    <div id="mkt-tip"><div class="mkt-tip-t"></div><div class="mkt-tip-b"></div></div>
+    <p class="rev d3" style="font-family:'DM Mono',monospace;font-size:11px;font-weight:300;color:var(--muted);opacity:0.45;letter-spacing:1.5px;text-align:center;margin-top:48px;margin-bottom:0;">· pasá el mouse sobre cada rubro ·</p>
+    <div class="rev d3" style="width:100%;margin-top:16px;margin-bottom:60px;display:flex;justify-content:center;">
+      <svg id="mkt-svg" width="100%" viewBox="0 0 480 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Nodo central con hover filosófico -->
+        <g class="mkt-node mkt-node-center"
+           data-title=""
+           data-desc="Lo que transforma a una empresa no es la tecnología que adopta — es el momento en que decide, por primera vez, mirarse de verdad."
+           data-center="1">
+          <circle cx="240" cy="110" r="32" fill="transparent"/>
+          <circle cx="240" cy="110" r="20" fill="none" stroke="#EF9F27" stroke-width="0.7" opacity="0.2">
+            <animate attributeName="r" values="20;24;20" dur="5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.2;0.35;0.2" dur="5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="240" cy="110" r="12" fill="#0f0e1a" stroke="#c8860a" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="240" cy="110" r="4" fill="#EF9F27" opacity="0.8">
+            <animate attributeName="r" values="4;5.5;4" dur="3s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+
+        <!-- RIA alchemical center reveal -->
+        <g id="ria-alch" pointer-events="none">
+          <circle id="ria-alch-ring2" cx="240" cy="110" r="40" fill="none" stroke="#EF9F27" stroke-width="0.35" stroke-dasharray="1 9">
+            <animateTransform attributeName="transform" type="rotate" from="0 240 110" to="-360 240 110" dur="32s" repeatCount="indefinite"/>
+          </circle>
+          <circle id="ria-alch-ring" cx="240" cy="110" r="28" fill="none" stroke="#EF9F27" stroke-width="0.55" stroke-dasharray="2 5">
+            <animateTransform attributeName="transform" type="rotate" from="0 240 110" to="360 240 110" dur="20s" repeatCount="indefinite"/>
+          </circle>
+          <circle id="ria-center-blue" cx="240" cy="110" r="13.5" fill="#0b0a14" stroke="#4a8fd4" stroke-width="1.1"/>
+          <g id="ria-particles"></g>
+        </g>
+
+        <!-- 1: Concesionarias -->
+        <g class="mkt-node" data-title="Gestión y trazabilidad" data-desc="Automatización del registro de stock, movimientos y atención al cliente. Procesos que hoy son manuales, operando solos.">
+          <circle cx="86" cy="45" r="18" fill="transparent"/>
+          <line x1="230" y1="99" x2="92" y2="48" stroke="#2a2838" stroke-width="0.6" stroke-dasharray="3 5"/>
+          <circle class="mkt-node-dot" cx="86" cy="45" r="5" fill="#0f0e1a" stroke="#3a3050" stroke-width="0.8">
+            <animate attributeName="stroke" values="#3a3050;#c8860a;#3a3050" dur="5s" begin="0s" repeatCount="indefinite"/>
+          </circle>
+          <text x="78" y="32" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="#5a5650" letter-spacing="0.5" opacity="0.7">Concesionarias</text>
+        </g>
+
+        <!-- 2: Seguridad -->
+        <g class="mkt-node" data-title="Monitoreo automatizado e inteligente" data-desc="Infraestructura de seguridad existente que deja de ser pasiva y empieza a actuar: detección automática de eventos, alertas inteligentes y reportes continuos sin intervención humana.">
+          <circle cx="54" cy="110" r="18" fill="transparent"/>
+          <line x1="228" y1="110" x2="72" y2="110" stroke="#2a2838" stroke-width="0.6" stroke-dasharray="3 5"/>
+          <circle class="mkt-node-dot" cx="54" cy="110" r="5" fill="#0f0e1a" stroke="#3a3050" stroke-width="0.8">
+            <animate attributeName="stroke" values="#3a3050;#c8860a;#3a3050" dur="5s" begin="0.8s" repeatCount="indefinite"/>
+          </circle>
+          <text x="46" y="98" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="#5a5650" letter-spacing="0.5" opacity="0.7">Seguridad</text>
+        </g>
+
+        <!-- 3: Logística -->
+        <g class="mkt-node" data-title="Operaciones e inteligencia" data-desc="Visibilidad en tiempo real sobre movimientos, stock y tiempos de entrega. Decisiones operativas con datos, no con intuición.">
+          <circle cx="86" cy="175" r="18" fill="transparent"/>
+          <line x1="230" y1="121" x2="92" y2="172" stroke="#2a2838" stroke-width="0.6" stroke-dasharray="3 5"/>
+          <circle class="mkt-node-dot" cx="86" cy="175" r="5" fill="#0f0e1a" stroke="#3a3050" stroke-width="0.8">
+            <animate attributeName="stroke" values="#3a3050;#c8860a;#3a3050" dur="5s" begin="1.6s" repeatCount="indefinite"/>
+          </circle>
+          <text x="78" y="192" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="#5a5650" letter-spacing="0.5" opacity="0.7">Logística</text>
+        </g>
+
+        <!-- 4: Retail -->
+        <g class="mkt-node" data-title="Inteligencia comercial" data-desc="Análisis de comportamiento, optimización de operaciones y detección de oportunidades a partir de lo que ya pasa en el negocio.">
+          <circle cx="394" cy="45" r="18" fill="transparent"/>
+          <line x1="250" y1="99" x2="388" y2="48" stroke="#2a2838" stroke-width="0.6" stroke-dasharray="3 5"/>
+          <circle class="mkt-node-dot" cx="394" cy="45" r="5" fill="#0f0e1a" stroke="#3a3050" stroke-width="0.8">
+            <animate attributeName="stroke" values="#3a3050;#c8860a;#3a3050" dur="5s" begin="2.4s" repeatCount="indefinite"/>
+          </circle>
+          <text x="402" y="32" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="#5a5650" letter-spacing="0.5" opacity="0.7">Retail</text>
+        </g>
+
+        <!-- 5: Industria -->
+        <g class="mkt-node" data-title="Eficiencia operativa" data-desc="Control de producción, cumplimiento de protocolos y auditoría continua de procesos. Menos fricción, más output.">
+          <circle cx="426" cy="110" r="18" fill="transparent"/>
+          <line x1="252" y1="110" x2="408" y2="110" stroke="#2a2838" stroke-width="0.6" stroke-dasharray="3 5"/>
+          <circle class="mkt-node-dot" cx="426" cy="110" r="5" fill="#0f0e1a" stroke="#3a3050" stroke-width="0.8">
+            <animate attributeName="stroke" values="#3a3050;#c8860a;#3a3050" dur="5s" begin="3.2s" repeatCount="indefinite"/>
+          </circle>
+          <text x="434" y="98" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="#5a5650" letter-spacing="0.5" opacity="0.7">Industria</text>
+        </g>
+
+        <!-- 6: Servicios -->
+        <g class="mkt-node" data-title="Flujos y atención" data-desc="Automatización de operaciones, registros y reportes de gestión. Asistentes internos para equipos de atención al cliente.">
+          <circle cx="394" cy="175" r="18" fill="transparent"/>
+          <line x1="250" y1="121" x2="388" y2="172" stroke="#2a2838" stroke-width="0.6" stroke-dasharray="3 5"/>
+          <circle class="mkt-node-dot" cx="394" cy="175" r="5" fill="#0f0e1a" stroke="#3a3050" stroke-width="0.8">
+            <animate attributeName="stroke" values="#3a3050;#c8860a;#3a3050" dur="5s" begin="4s" repeatCount="indefinite"/>
+          </circle>
+          <text x="402" y="192" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="#5a5650" letter-spacing="0.5" opacity="0.7">Servicios</text>
+        </g>
+
+        <!-- Partículas: centro → nodos (primarias) -->
+        <circle r="1.8" fill="#EF9F27" opacity="0">
+          <animate attributeName="cx" values="240;86" dur="2.5s" begin="0s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="110;45" dur="2.5s" begin="0s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.7;0.7;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="2.5s" begin="0s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.8" fill="#EF9F27" opacity="0">
+          <animate attributeName="cx" values="240;54" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="110;110" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.7;0.7;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.8" fill="#EF9F27" opacity="0">
+          <animate attributeName="cx" values="240;86" dur="2.5s" begin="1s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="110;175" dur="2.5s" begin="1s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.7;0.7;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="2.5s" begin="1s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.8" fill="#EF9F27" opacity="0">
+          <animate attributeName="cx" values="240;394" dur="2.5s" begin="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="110;45" dur="2.5s" begin="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.7;0.7;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="2.5s" begin="1.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.8" fill="#EF9F27" opacity="0">
+          <animate attributeName="cx" values="240;426" dur="2.5s" begin="2s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="110;110" dur="2.5s" begin="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.7;0.7;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="2.5s" begin="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.8" fill="#EF9F27" opacity="0">
+          <animate attributeName="cx" values="240;394" dur="2.5s" begin="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="110;175" dur="2.5s" begin="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.7;0.7;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="2.5s" begin="2.5s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- Partículas de retorno: nodos → centro -->
+        <circle r="1.4" fill="#c8860a" opacity="0">
+          <animate attributeName="cx" values="86;240" dur="3s" begin="1.25s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="45;110" dur="3s" begin="1.25s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="3s" begin="1.25s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.4" fill="#c8860a" opacity="0">
+          <animate attributeName="cx" values="54;240" dur="3s" begin="1.75s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="110;110" dur="3s" begin="1.75s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="3s" begin="1.75s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.4" fill="#c8860a" opacity="0">
+          <animate attributeName="cx" values="86;240" dur="3s" begin="2.25s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="175;110" dur="3s" begin="2.25s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="3s" begin="2.25s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.4" fill="#c8860a" opacity="0">
+          <animate attributeName="cx" values="394;240" dur="3s" begin="2.75s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="45;110" dur="3s" begin="2.75s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="3s" begin="2.75s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.4" fill="#c8860a" opacity="0">
+          <animate attributeName="cx" values="426;240" dur="3s" begin="3.25s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="110;110" dur="3s" begin="3.25s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="3s" begin="3.25s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.4" fill="#c8860a" opacity="0">
+          <animate attributeName="cx" values="394;240" dur="3s" begin="3.75s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="175;110" dur="3s" begin="3.75s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.05;0.88;1" calcMode="linear" dur="3s" begin="3.75s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
     </div>
+
   </div>
 </section>
 
 <div class="divider"></div>
 
 <!-- EQUIPO -->
-<section class="section" id="equipo">
+<section class="section" id="equipo" style="padding-bottom:0;">
   <div class="wrap">
+
     <p class="lbl rev">El equipo</p>
     <h2 class="ttl rev d1">Dos empresas<br>consolidadas</h2>
     <p class="bdy rev d2">RIA Labs nace de la convergencia de dos trayectorias distintas y complementarias. <strong>La combinación que no existe en el mercado argentino.</strong></p>
+
     <div class="team-grid">
       <div class="founder rev d1">
         <div class="f-init">SA</div>
         <div class="f-name">Sebastián Acedo</div>
         <div class="f-role">Co-fundador · Infraestructura & Seguridad</div>
         <p class="f-bio">Más de 25 años de trayectoria al frente de Byte, diseñando e implementando infraestructuras tecnológicas para empresas e instituciones de la región. Especialista en integración de sistemas, operaciones físicas y redes de alta complejidad. Aporta el acceso directo a clientes con infraestructura instalada, la solidez operativa y el conocimiento profundo de los entornos reales donde la tecnología tiene que funcionar.</p>
-        <div class="f-co">Byte · Compu-Byte</div>
-        <div class="f-col">Seguridad electrónica e integración de sistemas · compu-byte.com.ar</div>
+        <div class="f-co"><a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">Byte</a></div>
+        <div class="f-col">Seguridad electrónica e integración de sistemas · <a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:inherit;opacity:0.7;text-decoration:underline;text-underline-offset:3px;">compu-byte.com.ar</a></div>
       </div>
       <div class="founder rev d2">
         <div class="f-init">MG</div>
         <div class="f-name">Matías Gallego</div>
         <div class="f-role">Co-fundador · Software & Estrategia</div>
         <p class="f-bio">Al frente de VRIO Estudio, dedicado al desarrollo de software disruptivo y la creación de soluciones tecnológicas de alta complejidad. Nuevos paradigmas, ingeniería creativa y estrategia disruptiva aplicados a problemas reales. Aporta la capacidad técnica de desarrollo, la arquitectura de sistemas de IA, la visión de producto y la filosofía de innovación que define el alma de RIA Labs.</p>
-        <div class="f-co">VRIO Estudio</div>
-        <div class="f-col">Software as an art form · vrio.ar</div>
+        <div class="f-co"><a href="https://vrio.ar" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">VRIO Estudio</a></div>
+        <div class="f-col">Software as an art form · <a href="https://vrio.ar" target="_blank" rel="noopener" style="color:inherit;opacity:0.7;text-decoration:underline;text-underline-offset:3px;">vrio.ar</a></div>
       </div>
     </div>
-    <div style="margin-top:2px;background:var(--bg2);border:1px solid var(--border2);padding:36px 40px;" class="rev">
-      <p style="font-size:15px;font-weight:300;line-height:1.75;color:var(--muted);max-width:760px;">La combinación de <strong style="color:var(--white);font-weight:400;">acceso directo a clientes con infraestructura de CCTV instalada</strong> y <strong style="color:var(--white);font-weight:400;">capacidad de desarrollo propio de soluciones de IA</strong> — en el mismo equipo — no existe en el mercado argentino. Esa es la ventaja que no se puede replicar.</p>
-    </div>
+
   </div>
 </section>
+
+<!-- Órbita separadora -->
+<div style="display:flex;justify-content:center;padding:0;">
+  <svg id="equipo-orbit" width="540" height="286" viewBox="0 0 480 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="vrio-grad" cx="33%" cy="28%" r="68%">
+        <stop offset="0%"   stop-color="#f8d888"/>
+        <stop offset="38%"  stop-color="#EF9F27"/>
+        <stop offset="100%" stop-color="#4a2800"/>
+      </radialGradient>
+      <radialGradient id="byte-grad" cx="33%" cy="28%" r="68%">
+        <stop offset="0%"   stop-color="#b8ddf8"/>
+        <stop offset="38%"  stop-color="#4a8fd4"/>
+        <stop offset="100%" stop-color="#051628"/>
+      </radialGradient>
+      <radialGradient id="corona-bg" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="#EF9F27" stop-opacity="0"/>
+        <stop offset="54%"  stop-color="#EF9F27" stop-opacity="0"/>
+        <stop offset="70%"  stop-color="#EF9F27" stop-opacity="0.22"/>
+        <stop offset="84%"  stop-color="#EF9F27" stop-opacity="0.08"/>
+        <stop offset="100%" stop-color="#EF9F27" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="corona-glow-f" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <ellipse cx="240" cy="120" rx="110" ry="30" stroke="#c8860a" stroke-width="0.5" stroke-dasharray="3 10" opacity="0.16" transform="rotate(-12,240,120)"/>
+    <ellipse cx="240" cy="120" rx="74"  ry="26" stroke="#2a4878" stroke-width="0.5" stroke-dasharray="3 10" opacity="0.16" transform="rotate(18,240,120)"/>
+    <circle id="eq-vrio-back"  r="8" fill="url(#vrio-grad)" opacity="0"/>
+    <circle id="eq-vrio-shd-b" r="8" fill="#040210" opacity="0"/>
+    <circle id="eq-byte-back"  r="8" fill="url(#byte-grad)" opacity="0"/>
+    <circle id="eq-byte-shd-b" r="8" fill="#040210" opacity="0"/>
+    <circle cx="240" cy="120" r="66" fill="url(#corona-bg)"/>
+    <circle cx="240" cy="120" r="47" fill="none" stroke="#EF9F27" stroke-width="0.3" stroke-dasharray="0.8 15" opacity="0.22"/>
+    <circle cx="240" cy="120" r="41" fill="none" stroke="#EF9F27" stroke-width="0.45" stroke-dasharray="1.5 11" opacity="0.25"/>
+    <circle cx="240" cy="120" r="31" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.88" filter="url(#corona-glow-f)"/>
+    <circle cx="240" cy="120" r="28" fill="#06050f"/>
+    <circle cx="240" cy="120" r="27.5" fill="none" stroke="#c8860a" stroke-width="0.5" opacity="0.3"/>
+    <circle cx="240" cy="120" r="25" fill="#040310"/>
+    <circle id="eq-vrio-front"  r="8" fill="url(#vrio-grad)" opacity="0"/>
+    <circle id="eq-vrio-shd-f"  r="8" fill="#040210" opacity="0"/>
+    <circle id="eq-byte-front"  r="8" fill="url(#byte-grad)" opacity="0"/>
+    <circle id="eq-byte-shd-f"  r="8" fill="#040210" opacity="0"/>
+  </svg>
+</div>
 
 <!-- CONTACTO -->
 <div class="contact" id="contacto">
   <p class="c-pre rev">¿Listo para empezar?</p>
   <h2 class="c-ttl rev d1">Hablemos.</h2>
-  <p class="c-sub rev d2">Contanos el problema. En una primera conversación, sin costo, te mostramos qué puede ver tu negocio que hoy no está viendo.</p>
+  <p class="c-sub rev d2">Contanos el problema en una primera conversación y te mostramos qué puede ver tu negocio que hoy no está viendo.</p>
   <a href="mailto:hola@rialabs.ar" class="c-email rev d3">hola@rialabs.ar</a><br>
   <a href="mailto:hola@rialabs.ar" class="btn-gold rev d4">Escribinos</a>
-  <p class="c-loc rev d5">Rosario, Santa Fe · Argentina · Sistema activo</p>
+  <p class="c-loc rev d5">Rosario, Santa Fe · Argentina</p>
 </div>
 
 <footer>
   <div class="f-logo">RIA <em>Labs</em></div>
-  <p class="f-copy">© 2025 RIA Labs — Byte × VRIO · Rosario, Argentina</p>
+  <p class="f-copy">© 2025 RIA Labs — <a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:#4a8fd4;text-decoration:none;">Byte</a> × <a href="https://vrio.ar" target="_blank" rel="noopener" style="color:var(--gold-hi);text-decoration:none;">VRIO</a> · Rosario, Argentina</p>
   <ul class="f-links">
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#proceso">Método</a></li>
@@ -829,6 +1161,153 @@
     });
   }, {threshold: 0.3});
   document.querySelectorAll('[data-countup]').forEach(el => countupObs.observe(el));
+
+  // Market radial tooltip + RIA particle swarm
+  const mktTip      = document.getElementById('mkt-tip');
+  const mktTipT     = mktTip.querySelector('.mkt-tip-t');
+  const mktTipB     = mktTip.querySelector('.mkt-tip-b');
+  const mktSvg      = document.getElementById('mkt-svg');
+  const riaParts    = document.getElementById('ria-particles');
+  const NS          = 'http://www.w3.org/2000/svg';
+  const RIA_CX = 240, RIA_CY = 110, RIA_R = 18;
+  let spawnTimer = null, spawnCount = 0;
+
+  function spawnParticle() {
+    const angle1 = Math.random() * Math.PI * 2;
+    const angle2 = Math.random() * Math.PI * 2;
+    const d1 = Math.random() * RIA_R, d2 = Math.random() * RIA_R;
+    const x1 = RIA_CX + Math.cos(angle1) * d1;
+    const y1 = RIA_CY + Math.sin(angle1) * d1;
+    const x2 = RIA_CX + Math.cos(angle2) * d2;
+    const y2 = RIA_CY + Math.sin(angle2) * d2;
+    const color = Math.random() > 0.45 ? '#4a8fd4' : '#7F77DD';
+    const r = 0.55 + Math.random() * 0.55;
+    const dur = 700 + Math.random() * 700;
+
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('r', r);
+    c.setAttribute('cx', x1);
+    c.setAttribute('cy', y1);
+    c.setAttribute('fill', color);
+    c.setAttribute('opacity', 0);
+    riaParts.appendChild(c);
+
+    const t0 = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - t0) / dur, 1);
+      const ease = p < 0.5 ? 2*p*p : -1+(4-2*p)*p;
+      c.setAttribute('cx', x1 + (x2 - x1) * ease);
+      c.setAttribute('cy', y1 + (y2 - y1) * ease);
+      c.setAttribute('opacity', p < 0.25 ? p/0.25*0.9 : p > 0.75 ? (1-p)/0.25*0.9 : 0.9);
+      if (p < 1) requestAnimationFrame(tick);
+      else riaParts.removeChild(c);
+    })(t0);
+  }
+
+  function startSwarm() {
+    spawnCount = 0;
+    (function schedule() {
+      spawnParticle();
+      spawnCount++;
+      const delay = Math.max(40, 260 - spawnCount * 12);
+      spawnTimer = setTimeout(schedule, delay);
+    })();
+  }
+
+  function stopSwarm() {
+    clearTimeout(spawnTimer);
+    spawnTimer = null;
+    spawnCount = 0;
+  }
+
+  document.querySelectorAll('.mkt-node').forEach(node => {
+    node.addEventListener('mouseenter', () => {
+      if (node.dataset.center === '1') {
+        mktSvg.classList.add('ria-active');
+        startSwarm();
+        return;
+      }
+      mktTipT.textContent = node.dataset.title;
+      mktTipB.textContent = node.dataset.desc;
+      mktTip.classList.add('show');
+    });
+    node.addEventListener('mousemove', e => {
+      if (node.dataset.center === '1') return;
+      const x = e.clientX + 18;
+      const y = e.clientY - 10;
+      mktTip.style.left = Math.min(x, window.innerWidth - 300) + 'px';
+      mktTip.style.top  = Math.max(y, 8) + 'px';
+    });
+    node.addEventListener('mouseleave', () => {
+      mktSvg.classList.remove('ria-active');
+      stopSwarm();
+      mktTip.classList.remove('show', 'center');
+    });
+  });
+
+  // Equipo orbit animation — JS elliptical paths, spherical planets with orbital lighting
+  (function() {
+    const orbitSvg = document.getElementById('equipo-orbit');
+    if (!orbitSvg) return;
+    const CX = 240, CY = 120;
+    const planets = [
+      {
+        rx: 110, ry: 30,
+        tilt: -12 * Math.PI / 180,
+        period: 20000,
+        a0: 0,
+        dir: -1,
+        front: document.getElementById('eq-vrio-front'),
+        shdF:  document.getElementById('eq-vrio-shd-f'),
+        back:  document.getElementById('eq-vrio-back'),
+        shdB:  document.getElementById('eq-vrio-shd-b')
+      },
+      {
+        rx: 74, ry: 26,
+        tilt: 18 * Math.PI / 180,
+        period: 13000,
+        a0: Math.PI,
+        dir: 1,
+        front: document.getElementById('eq-byte-front'),
+        shdF:  document.getElementById('eq-byte-shd-f'),
+        back:  document.getElementById('eq-byte-back'),
+        shdB:  document.getElementById('eq-byte-shd-b')
+      }
+    ];
+    let t0 = null;
+    function orbitTick(now) {
+      if (!t0) t0 = now;
+      const elapsed = now - t0;
+      planets.forEach(function(p) {
+        const a  = p.a0 + p.dir * (elapsed / p.period) * Math.PI * 2;
+        const lx = p.rx * Math.cos(a);
+        const ly = p.ry * Math.sin(a);
+        const x  = CX + lx * Math.cos(p.tilt) - ly * Math.sin(p.tilt);
+        const y  = CY + lx * Math.sin(p.tilt) + ly * Math.cos(p.tilt);
+        // screenDy > 0 = south = near side (in front of eclipse plane)
+        const screenDy = lx * Math.sin(p.tilt) + ly * Math.cos(p.tilt);
+        const inFront  = screenDy >= 0;
+        // Shadow: 0 at south pole (fully lit), 0.74 at north pole (deep shadow)
+        // t ranges -1 (south/front) → +1 (north/back)
+        const t           = Math.max(-1, Math.min(1, -screenDy / 38));
+        const shadowOpacity = (t + 1) / 2 * 0.74;
+        function pos(el, px, py) { el.setAttribute('cx', px); el.setAttribute('cy', py); }
+        if (inFront) {
+          pos(p.front, x, y); p.front.setAttribute('opacity', 1);
+          pos(p.shdF,  x, y); p.shdF.setAttribute('opacity', shadowOpacity);
+          p.back.setAttribute('opacity', 0);
+          p.shdB.setAttribute('opacity', 0);
+        } else {
+          pos(p.back, x, y); p.back.setAttribute('opacity', 0.72);
+          pos(p.shdB, x, y); p.shdB.setAttribute('opacity', shadowOpacity);
+          p.front.setAttribute('opacity', 0);
+          p.shdF.setAttribute('opacity', 0);
+        }
+      });
+      requestAnimationFrame(orbitTick);
+    }
+    requestAnimationFrame(orbitTick);
+  })();
 </script>
 </body>
 </html>
