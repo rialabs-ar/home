@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 180" width="520" height="180">
+  <defs>
+    <radialGradient id="c1-vrio" cx="33%" cy="28%" r="68%">
+      <stop offset="0%"   stop-color="#f8d888"/>
+      <stop offset="38%"  stop-color="#EF9F27"/>
+      <stop offset="100%" stop-color="#4a2800"/>
+    </radialGradient>
+    <radialGradient id="c1-byte" cx="33%" cy="28%" r="68%">
+      <stop offset="0%"   stop-color="#b8ddf8"/>
+      <stop offset="38%"  stop-color="#4a8fd4"/>
+      <stop offset="100%" stop-color="#051628"/>
+    </radialGradient>
+    <radialGradient id="c1-corona" cx="50%" cy="50%" r="50%">
+      <stop offset="58%" stop-color="#EF9F27" stop-opacity="0"/>
+      <stop offset="78%" stop-color="#EF9F27" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#EF9F27" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="c1-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Byte (izquierda) -->
+  <circle cx="85" cy="90" r="14" fill="url(#c1-byte)"/>
+
+  <!-- Eclipse (centro) -->
+  <g transform="translate(260 90)">
+    <circle r="56" fill="url(#c1-corona)"/>
+    <circle r="48" fill="none" stroke="#c8860a" stroke-width="5.5" opacity="0.85" filter="url(#c1-glow)"/>
+    <circle r="48" fill="none" stroke="#EF9F27" stroke-width="2.2" opacity="0.95"/>
+    <circle r="42" fill="#07060f"/>
+  </g>
+
+  <!-- VRIO (derecha) -->
+  <circle cx="435" cy="90" r="14" fill="url(#c1-vrio)"/>
+</svg>

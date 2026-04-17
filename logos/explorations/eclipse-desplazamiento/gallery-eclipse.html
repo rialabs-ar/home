@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>RIA Labs — Exploración de desplazamiento del cuerpo eclipsante</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07060f;
+    --bg-card: #0d0b1a;
+    --bg-header: #0a0814;   /* fondo real del header en v4 */
+    --gold: #EF9F27;
+    --gold-hi: #f8d888;
+    --gold-deep: #c8860a;
+    --text: #f0ece0;
+    --text-dim: rgba(240,236,224,0.55);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 300;
+    line-height: 1.55;
+    padding: 60px 40px 120px;
+    min-height: 100vh;
+  }
+  header {
+    max-width: 1240px;
+    margin: 0 auto 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(239,159,39,0.18);
+  }
+  .eyebrow {
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 38px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    margin-bottom: 18px;
+  }
+  h1 em { color: var(--gold); font-style: normal; font-weight: 300; }
+  .lede {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 760px;
+    line-height: 1.65;
+  }
+  .lede strong { color: var(--text); font-weight: 500; }
+  .lede code {
+    font-family: 'SF Mono', Menlo, monospace;
+    background: rgba(239,159,39,0.1);
+    color: var(--gold);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  section.group {
+    max-width: 1240px;
+    margin: 0 auto 70px;
+  }
+  .group-header {
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(239,159,39,0.14);
+  }
+  .group-header .num {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .group-header h2 {
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.2px;
+    margin-bottom: 6px;
+  }
+  .group-header p {
+    font-size: 14px;
+    color: var(--text-dim);
+    max-width: 720px;
+  }
+
+  /* Grilla principal · barrido de magnitud */
+  .sweep {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 1000px) { .sweep { grid-template-columns: repeat(2, 1fr); } }
+
+  /* Grilla secundaria · variantes de dirección */
+  .directions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 1000px) { .directions { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid rgba(239,159,39,0.12);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover { border-color: rgba(239,159,39,0.4); transform: translateY(-2px); }
+  .card.highlight { border-color: rgba(239,159,39,0.32); box-shadow: 0 0 0 1px rgba(239,159,39,0.16); }
+
+  .preview-big {
+    background: var(--bg-header);
+    padding: 30px 20px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    border-bottom: 1px solid rgba(239,159,39,0.08);
+  }
+  .preview-big svg { width: 180px; height: 180px; }
+
+  .preview-nav {
+    background: var(--bg-header);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(239,159,39,0.08);
+  }
+  .preview-nav svg { width: 24px; height: 24px; flex-shrink: 0; }
+  .preview-nav .wm {
+    color: var(--text);
+    font-weight: 500;
+    letter-spacing: 2px;
+    font-size: 14px;
+  }
+  .preview-nav .wm em {
+    color: var(--gold);
+    font-style: normal;
+    font-weight: 300;
+    margin-left: 4px;
+  }
+  .preview-nav .ctx {
+    margin-left: auto;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .info { padding: 18px 20px 20px; flex: 1; display: flex; flex-direction: column; }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .tag .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold);
+  }
+  .tag.current .dot { background: var(--gold-hi); box-shadow: 0 0 10px rgba(248,216,136,0.5); }
+  .card h3 {
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 6px;
+    letter-spacing: -0.1px;
+  }
+  .card p {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .card .metric {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(239,159,39,0.08);
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 10.5px;
+    color: var(--text-dim);
+    opacity: 0.85;
+  }
+
+  /* Comparación directa contra el header actual */
+  .compare-strip {
+    max-width: 1240px;
+    margin: 0 auto 70px;
+    background: var(--bg-card);
+    border: 1px solid rgba(239,159,39,0.18);
+    border-radius: 14px;
+    padding: 30px 36px;
+  }
+  .compare-strip h3 {
+    font-size: 15px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    font-weight: 400;
+  }
+  .compare-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 22px;
+  }
+  .compare-cell {
+    text-align: center;
+  }
+  .compare-cell .simulated-nav {
+    background: var(--bg-header);
+    border: 1px solid rgba(239,159,39,0.08);
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .compare-cell svg { width: 28px; height: 28px; }
+  .compare-cell .wm {
+    color: var(--text);
+    font-weight: 500;
+    letter-spacing: 2px;
+    font-size: 15px;
+  }
+  .compare-cell .wm em {
+    color: var(--gold);
+    font-style: normal;
+    font-weight: 300;
+    margin-left: 4px;
+  }
+  .compare-cell .label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .compare-cell.highlight .label { color: var(--gold); }
+
+  footer {
+    max-width: 1240px;
+    margin: 60px auto 0;
+    padding-top: 36px;
+    border-top: 1px solid rgba(239,159,39,0.14);
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  footer code {
+    font-family: 'SF Mono', Menlo, monospace;
+    background: rgba(239,159,39,0.08);
+    color: var(--gold);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  /* Símbolos reutilizables · un único set de gradientes/filtros no necesario,
+     usamos flat fills como el header */
+</style>
+
+<!-- Definiciones de símbolos reutilizables ·
+     cada símbolo es el iso completo a escala 120×120.
+     Se referencian con <use xlink:href="#iso-XX"/> para evitar repetir markup. -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- Corona stack compartida · los anillos cálidos concéntricos (estilo header) -->
+    <g id="corona-stack">
+      <circle cx="60" cy="60" r="52" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.55"/>
+      <circle cx="60" cy="60" r="50" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
+      <circle cx="60" cy="60" r="48" fill="none" stroke="#3d1c00" stroke-width="9"  opacity="0.32"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#633806" stroke-width="5"  opacity="0.24"/>
+      <circle cx="60" cy="60" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
+      <circle cx="60" cy="60" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
+      <circle cx="60" cy="60" r="38" fill="#1c1810"/>
+    </g>
+
+    <!-- Isos completos (corona + luna desplazada) -->
+    <symbol id="iso-00" viewBox="0 0 120 120"><use href="#corona-stack"/><circle cx="60" cy="60" r="38" fill="#0b0a14"/></symbol>
+    <symbol id="iso-15" viewBox="0 0 120 120"><use href="#corona-stack"/><circle cx="60" cy="54" r="38" fill="#0b0a14"/></symbol>
+    <symbol id="iso-30" viewBox="0 0 120 120"><use href="#corona-stack"/><circle cx="60" cy="49" r="38" fill="#0b0a14"/></symbol>
+    <symbol id="iso-45" viewBox="0 0 120 120"><use href="#corona-stack"/><circle cx="60" cy="43" r="38" fill="#0b0a14"/></symbol>
+    <symbol id="iso-60" viewBox="0 0 120 120"><use href="#corona-stack"/><circle cx="60" cy="37" r="38" fill="#0b0a14"/></symbol>
+    <symbol id="iso-diag" viewBox="0 0 120 120"><use href="#corona-stack"/><circle cx="68" cy="52" r="38" fill="#0b0a14"/></symbol>
+    <symbol id="iso-inv" viewBox="0 0 120 120"><use href="#corona-stack"/><circle cx="60" cy="71" r="38" fill="#0b0a14"/></symbol>
+
+    <!-- Iso original del header (para referencia 1:1) -->
+    <symbol id="iso-header-actual" viewBox="0 0 24 24">
+      <circle cx="12" cy="14" r="10" fill="none" stroke="#2a1200" stroke-width="5" opacity="0.65"/>
+      <circle cx="12" cy="14" r="9.5" fill="none" stroke="#412402" stroke-width="3" opacity="0.5"/>
+      <circle cx="12" cy="14" r="9" fill="none" stroke="#633806" stroke-width="1.5" opacity="0.35"/>
+      <circle cx="12" cy="14" r="8.5" fill="none" stroke="#BA7517" stroke-width="0.7" opacity="0.22"/>
+      <circle cx="12" cy="14" r="8" fill="#1c1810"/>
+      <circle cx="12" cy="10" r="8" fill="#0b0a14"/>
+    </symbol>
+  </defs>
+</svg>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Exploración · isotipo del header</div>
+  <h1>Desplazamiento del cuerpo eclipsante <em>·</em> barrido 0–60%</h1>
+  <p class="lede">El isotipo actual del header tiene la luna <strong>desplazada 50% de su radio hacia arriba</strong> respecto del centro de la corona (<code>cy=10</code> vs <code>cy=14</code> en canvas 24×24). Esto está en el límite entre "eclipse total con resplandor" y "creciente abierto". Este barrido muestra cómo se lee el símbolo con menos (más contenido, más místico) y más (más abierto, más dinámico) desplazamiento, y qué pasa si la luna se mueve en diagonal o hacia abajo.</p>
+</header>
+
+<!-- ===================== TIRA DE COMPARACIÓN CONTRA EL HEADER ACTUAL ===================== -->
+<div class="compare-strip">
+  <h3>↓ Comparación directa · contexto del header</h3>
+  <div class="compare-row">
+    <div class="compare-cell">
+      <div class="simulated-nav">
+        <svg viewBox="0 0 24 24"><use href="#iso-header-actual"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+      </div>
+      <div class="label">Actual · 50% ↑</div>
+    </div>
+    <div class="compare-cell">
+      <div class="simulated-nav">
+        <svg viewBox="0 0 120 120"><use href="#iso-15"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+      </div>
+      <div class="label">15% ↑</div>
+    </div>
+    <div class="compare-cell highlight">
+      <div class="simulated-nav">
+        <svg viewBox="0 0 120 120"><use href="#iso-30"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+      </div>
+      <div class="label">30% ↑ · candidato</div>
+    </div>
+    <div class="compare-cell">
+      <div class="simulated-nav">
+        <svg viewBox="0 0 120 120"><use href="#iso-45"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+      </div>
+      <div class="label">45% ↑</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BARRIDO DE MAGNITUD ===================== -->
+<section class="group">
+  <div class="group-header">
+    <div class="num">A · BARRIDO VERTICAL</div>
+    <h2>Cuánto se desplaza la luna hacia arriba</h2>
+    <p>De eclipse total a creciente pronunciado. La luna siempre se mueve sobre el eje vertical, hacia arriba, dejando que la corona cálida asome por abajo.</p>
+  </div>
+
+  <div class="sweep">
+
+    <!-- 00 -->
+    <div class="card">
+      <div class="preview-big"><svg viewBox="0 0 120 120"><use href="#iso-00"/></svg></div>
+      <div class="preview-nav">
+        <svg viewBox="0 0 120 120"><use href="#iso-00"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+        <span class="ctx">24 px</span>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="dot"></span>0% · total</span>
+        <h3>Eclipse total</h3>
+        <p>Luna centrada sobre la corona. Solo asoma el anillo exterior difuso. Lectura: "planeta oscuro con aura". Más místico, menos dinámico.</p>
+        <div class="metric">cx=60  cy=60  ·  Δy = 0</div>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="card">
+      <div class="preview-big"><svg viewBox="0 0 120 120"><use href="#iso-15"/></svg></div>
+      <div class="preview-nav">
+        <svg viewBox="0 0 120 120"><use href="#iso-15"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+        <span class="ctx">24 px</span>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="dot"></span>15% · sutil</span>
+        <h3>Eclipse casi total</h3>
+        <p>Insinuación de creciente cálido en la base. Se percibe el desplazamiento pero no domina. El símbolo sigue siendo "eclipse" y no "creciente".</p>
+        <div class="metric">cx=60  cy=54  ·  Δy = −6</div>
+      </div>
+    </div>
+
+    <!-- 30 -->
+    <div class="card highlight">
+      <div class="preview-big"><svg viewBox="0 0 120 120"><use href="#iso-30"/></svg></div>
+      <div class="preview-nav">
+        <svg viewBox="0 0 120 120"><use href="#iso-30"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+        <span class="ctx">24 px</span>
+      </div>
+      <div class="info">
+        <span class="tag current"><span class="dot"></span>30% · moderado</span>
+        <h3>Balance clásico</h3>
+        <p>Creciente visible, corona viva. Suficiente para tener energía y narrativa de "amanecer", pero sin caer en creciente lunar. Candidato más balanceado.</p>
+        <div class="metric">cx=60  cy=49  ·  Δy = −11</div>
+      </div>
+    </div>
+
+    <!-- 45 -->
+    <div class="card">
+      <div class="preview-big"><svg viewBox="0 0 120 120"><use href="#iso-45"/></svg></div>
+      <div class="preview-nav">
+        <svg viewBox="0 0 120 120"><use href="#iso-45"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+        <span class="ctx">24 px</span>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="dot"></span>45% · header actual</span>
+        <h3>Equivalente al header</h3>
+        <p>La proporción que hoy está en la web (50% en canvas 24 ≈ 45% aquí). La luna casi asoma por el borde superior. Ya hay más creciente que eclipse.</p>
+        <div class="metric">cx=60  cy=43  ·  Δy = −17</div>
+      </div>
+    </div>
+
+    <!-- 60 -->
+    <div class="card">
+      <div class="preview-big"><svg viewBox="0 0 120 120"><use href="#iso-60"/></svg></div>
+      <div class="preview-nav">
+        <svg viewBox="0 0 120 120"><use href="#iso-60"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+        <span class="ctx">24 px</span>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="dot"></span>60% · pronunciado</span>
+        <h3>Creciente abierto</h3>
+        <p>La luna se asoma por el borde superior de la corona. Creciente marcado, dinámico. Leído como "fase lunar" más que como "eclipse".</p>
+        <div class="metric">cx=60  cy=37  ·  Δy = −23</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== VARIANTES DE DIRECCIÓN ===================== -->
+<section class="group">
+  <div class="group-header">
+    <div class="num">B · DIRECCIONES ALTERNATIVAS</div>
+    <h2>Cambiar el eje del desplazamiento</h2>
+    <p>Manteniendo la magnitud moderada (~30%), qué pasa si el eje no es vertical. Cada dirección cambia la "narrativa" del símbolo: diagonal sugiere movimiento; abajo invierte la lectura de amanecer a atardecer.</p>
+  </div>
+
+  <div class="directions">
+
+    <!-- diagonal -->
+    <div class="card">
+      <div class="preview-big"><svg viewBox="0 0 120 120"><use href="#iso-diag"/></svg></div>
+      <div class="preview-nav">
+        <svg viewBox="0 0 120 120"><use href="#iso-diag"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+        <span class="ctx">24 px</span>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="dot"></span>30% · diagonal ↗</span>
+        <h3>Diagonal arriba-derecha</h3>
+        <p>Luna desplazada ↗ · creciente abre abajo-izquierda. Sugiere órbita capturada en movimiento — conecta con la animación hero. Menos "eclipse puro", más "trayectoria".</p>
+        <div class="metric">cx=68  cy=52  ·  Δ = +8, −8</div>
+      </div>
+    </div>
+
+    <!-- invertido -->
+    <div class="card">
+      <div class="preview-big"><svg viewBox="0 0 120 120"><use href="#iso-inv"/></svg></div>
+      <div class="preview-nav">
+        <svg viewBox="0 0 120 120"><use href="#iso-inv"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+        <span class="ctx">24 px</span>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="dot"></span>30% · invertido ↓</span>
+        <h3>Luna hacia abajo</h3>
+        <p>Corona asoma por ARRIBA — creciente invertido. Lectura: "amanecer sobre luna" o "corona por arriba". Menos habitual en iconografía solar, más industrial/técnico.</p>
+        <div class="metric">cx=60  cy=71  ·  Δy = +11</div>
+      </div>
+    </div>
+
+    <!-- header actual (referencia) -->
+    <div class="card">
+      <div class="preview-big"><svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><use href="#iso-header-actual"/></svg></div>
+      <div class="preview-nav">
+        <svg viewBox="0 0 24 24"><use href="#iso-header-actual"/></svg>
+        <span class="wm">RIA <em>Labs</em></span>
+        <span class="ctx">actual</span>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="dot"></span>ref · header v4</span>
+        <h3>Header actual (referencia)</h3>
+        <p>El SVG exacto que está vivo en <code>v4/index.html</code>. Canvas 24×24, con solo 4 anillos de corona (versión reducida). Para comparar con las variantes escaladas.</p>
+        <div class="metric">24×24 · cy=10 · Δ=−4/8 = 50%</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p><strong style="color:var(--text);font-weight:500">7 variaciones · 5 magnitudes + 2 direcciones.</strong> Todas heredan el lenguaje visual del header actual: anillos cálidos concéntricos, sin gradientes radiales, flat como en <code>v4/index.html</code>.</p>
+  <p style="margin-top:12px">SVG fuentes en <code>explorations/eclipse-desplazamiento/iso-eclipse-{NN|diagonal|invertido}.svg</code>. Cada archivo es self-contained — se puede reemplazar en el header copiando el markup tal cual (ajustando viewBox de 120 a 24 es proporcional, los cx/cy escalan ×1/5).</p>
+  <p style="margin-top:12px">Próximos pasos: elegir magnitud + dirección · (opcional) trasladar la proporción a canvas 24 para el header · aplicar al hero wordmark animado también para consistencia.</p>
+</footer>
+
+</body>
+</html>

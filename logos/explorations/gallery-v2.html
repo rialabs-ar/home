@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>RIA Labs — Exploración v2 (Diagonal · Orbital)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root {
+    --bg: #07060f;
+    --bg-card: #0d0b1a;
+    --bg-alt: #f0ece0;
+    --gold: #EF9F27;
+    --gold-deep: #c8860a;
+    --blue: #4a8fd4;
+    --text: #f0ece0;
+    --text-dim: rgba(240,236,224,0.55);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 300;
+    line-height: 1.55;
+    padding: 60px 40px 120px;
+    min-height: 100vh;
+  }
+  header {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(239,159,39,0.18);
+  }
+  .eyebrow {
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 38px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    margin-bottom: 18px;
+  }
+  h1 em { color: var(--gold); font-style: normal; font-weight: 300; }
+  .lede {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 720px;
+    line-height: 1.65;
+  }
+  section.group {
+    max-width: 1200px;
+    margin: 0 auto 70px;
+  }
+  .group-header {
+    margin-bottom: 26px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(239,159,39,0.14);
+  }
+  .group-header .num {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .group-header h2 {
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: -0.3px;
+    margin-bottom: 6px;
+  }
+  .group-header p {
+    font-size: 14px;
+    color: var(--text-dim);
+    max-width: 680px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 900px) { .row { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid rgba(239,159,39,0.12);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .card:hover { border-color: rgba(239,159,39,0.4); transform: translateY(-2px); }
+
+  .preview-dark {
+    background: var(--bg);
+    padding: 30px 20px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 240px;
+    border-bottom: 1px solid rgba(239,159,39,0.08);
+  }
+  .preview-dark svg { max-width: 100%; height: auto; max-height: 200px; }
+
+  .preview-light {
+    background: var(--bg-alt);
+    padding: 18px 20px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 90px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .preview-light svg { max-width: 100%; height: auto; max-height: 70px; }
+
+  .info { padding: 22px 22px 24px; }
+  .tag {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .card h3 {
+    font-size: 17px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    letter-spacing: -0.1px;
+  }
+  .card p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .card .filename {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(239,159,39,0.08);
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 10.5px;
+    color: var(--text-dim);
+    opacity: 0.8;
+    word-break: break-all;
+  }
+
+  footer {
+    max-width: 1200px;
+    margin: 60px auto 0;
+    padding-top: 36px;
+    border-top: 1px solid rgba(239,159,39,0.14);
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer code {
+    font-family: 'SF Mono', Menlo, monospace;
+    background: rgba(239,159,39,0.08);
+    color: var(--gold);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+</style>
+
+<!-- Definiciones compartidas de gradientes/filtros -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <radialGradient id="g-vrio" cx="33%" cy="28%" r="68%">
+      <stop offset="0%" stop-color="#f8d888"/>
+      <stop offset="38%" stop-color="#EF9F27"/>
+      <stop offset="100%" stop-color="#4a2800"/>
+    </radialGradient>
+    <radialGradient id="g-byte" cx="33%" cy="28%" r="68%">
+      <stop offset="0%" stop-color="#b8ddf8"/>
+      <stop offset="38%" stop-color="#4a8fd4"/>
+      <stop offset="100%" stop-color="#051628"/>
+    </radialGradient>
+    <radialGradient id="g-corona" cx="50%" cy="50%" r="50%">
+      <stop offset="58%" stop-color="#EF9F27" stop-opacity="0"/>
+      <stop offset="78%" stop-color="#EF9F27" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#EF9F27" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="g-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+</svg>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Exploración v2 · planetas protagonistas</div>
+  <h1>Diagonal 45° <em>×</em> Captura orbital</h1>
+  <p class="lede">Segunda iteración sobre los dos conceptos más prometedores. Los planetas Byte y VRIO ahora tienen presencia real — no insinuados, sino cuerpos que comparten la escena con el eclipse. Tres variaciones por concepto, de menos a más protagonismo planetario.</p>
+</header>
+
+<!-- ===================== GRUPO DIAGONAL ===================== -->
+<section class="group">
+  <div class="group-header">
+    <div class="num">04 · DIAGONAL 45°</div>
+    <h2>Alineación inclinada</h2>
+    <p>Los tres cuerpos en un eje diagonal. Formato cuadrado o casi-cuadrado. Variaciones en el tamaño relativo de los planetas.</p>
+  </div>
+
+  <div class="row">
+
+    <!-- 04A -->
+    <div class="card">
+      <div class="preview-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+          <circle cx="60" cy="60" r="22" fill="url(#g-byte)"/>
+          <g transform="translate(150 150)">
+            <circle r="62" fill="url(#g-corona)"/>
+            <circle r="52" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g-glow)"/>
+            <circle r="52" fill="none" stroke="#EF9F27" stroke-width="2.4" opacity="0.95"/>
+            <circle r="46" fill="#07060f"/>
+          </g>
+          <circle cx="240" cy="240" r="22" fill="url(#g-vrio)"/>
+        </svg>
+      </div>
+      <div class="preview-light">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+          <circle cx="60" cy="60" r="22" fill="#4a8fd4"/>
+          <g transform="translate(150 150)">
+            <circle r="52" fill="none" stroke="#c8860a" stroke-width="2.6"/>
+            <circle r="46" fill="#07060f"/>
+          </g>
+          <circle cx="240" cy="240" r="22" fill="#EF9F27"/>
+        </svg>
+      </div>
+      <div class="info">
+        <span class="tag">04A · medios</span>
+        <h3>Planetas medios</h3>
+        <p>Ratio planeta/eclipse ~2.4×. Planetas claramente cuerpos, pero el eclipse sigue siendo el protagonista visual. Buen equilibrio, fácil de leer a cualquier escala.</p>
+        <div class="filename">concept-04a-diagonal-planetas-medios.svg</div>
+      </div>
+    </div>
+
+    <!-- 04B -->
+    <div class="card">
+      <div class="preview-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
+          <circle cx="60" cy="60" r="32" fill="url(#g-byte)"/>
+          <g transform="translate(160 160)">
+            <circle r="60" fill="url(#g-corona)"/>
+            <circle r="50" fill="none" stroke="#c8860a" stroke-width="5.5" opacity="0.85" filter="url(#g-glow)"/>
+            <circle r="50" fill="none" stroke="#EF9F27" stroke-width="2.2" opacity="0.95"/>
+            <circle r="44" fill="#07060f"/>
+          </g>
+          <circle cx="260" cy="260" r="32" fill="url(#g-vrio)"/>
+        </svg>
+      </div>
+      <div class="preview-light">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
+          <circle cx="60" cy="60" r="32" fill="#4a8fd4"/>
+          <g transform="translate(160 160)">
+            <circle r="50" fill="none" stroke="#c8860a" stroke-width="2.4"/>
+            <circle r="44" fill="#07060f"/>
+          </g>
+          <circle cx="260" cy="260" r="32" fill="#EF9F27"/>
+        </svg>
+      </div>
+      <div class="info">
+        <span class="tag">04B · tríada de pares</span>
+        <h3>Tres cuerpos casi iguales</h3>
+        <p>Planetas grandes (ratio ~1.4×). Narrativa de "tres piezas que convergen": no hay jerarquía clara, las tres marcas están en el mismo plano. Más audaz, más distribuido.</p>
+        <div class="filename">concept-04b-diagonal-triada-pares.svg</div>
+      </div>
+    </div>
+
+    <!-- 04C -->
+    <div class="card">
+      <div class="preview-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280">
+          <circle cx="75" cy="75" r="26" fill="url(#g-byte)"/>
+          <g transform="translate(140 140)">
+            <circle r="60" fill="url(#g-corona)"/>
+            <circle r="50" fill="none" stroke="#c8860a" stroke-width="5.5" opacity="0.85" filter="url(#g-glow)"/>
+            <circle r="50" fill="none" stroke="#EF9F27" stroke-width="2.2" opacity="0.95"/>
+            <circle r="44" fill="#07060f"/>
+          </g>
+          <circle cx="205" cy="205" r="26" fill="url(#g-vrio)"/>
+        </svg>
+      </div>
+      <div class="preview-light">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280">
+          <circle cx="75" cy="75" r="26" fill="#4a8fd4"/>
+          <g transform="translate(140 140)">
+            <circle r="50" fill="none" stroke="#c8860a" stroke-width="2.5"/>
+            <circle r="44" fill="#07060f"/>
+          </g>
+          <circle cx="205" cy="205" r="26" fill="#EF9F27"/>
+        </svg>
+      </div>
+      <div class="info">
+        <span class="tag">04C · cluster cercano</span>
+        <h3>Cluster compacto</h3>
+        <p>Planetas grandes y cercanos al eclipse, casi rozando la corona. Composición más densa y unida — sugiere mayor cohesión entre las tres marcas. Ocupa menos espacio sin perder presencia.</p>
+        <div class="filename">concept-04c-diagonal-cluster-cercano.svg</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== GRUPO ORBITAL ===================== -->
+<section class="group">
+  <div class="group-header">
+    <div class="num">05 · CAPTURA ORBITAL</div>
+    <h2>Momento de órbita</h2>
+    <p>Snapshot de los dos planetas orbitando el eclipse. Formato horizontal (el eclipse no está centrado simétricamente — los planetas ocupan el espacio). Tres maneras de capturar ese momento con los planetas bien visibles.</p>
+  </div>
+
+  <div class="row">
+
+    <!-- 05A -->
+    <div class="card">
+      <div class="preview-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240">
+          <circle cx="140" cy="70" r="22" fill="url(#g-byte)"/>
+          <g transform="translate(240 120)">
+            <circle r="68" fill="url(#g-corona)"/>
+            <circle r="58" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g-glow)"/>
+            <circle r="58" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.95"/>
+            <circle r="52" fill="#07060f"/>
+          </g>
+          <circle cx="340" cy="170" r="22" fill="url(#g-vrio)"/>
+        </svg>
+      </div>
+      <div class="preview-light">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240">
+          <circle cx="140" cy="70" r="22" fill="#4a8fd4"/>
+          <g transform="translate(240 120)">
+            <circle r="58" fill="none" stroke="#c8860a" stroke-width="2.8"/>
+            <circle r="52" fill="#07060f"/>
+          </g>
+          <circle cx="340" cy="170" r="22" fill="#EF9F27"/>
+        </svg>
+      </div>
+      <div class="info">
+        <span class="tag">05A · despejada</span>
+        <h3>Órbita despejada</h3>
+        <p>Byte a las 10 horas, VRIO a las 4 horas — ambos completamente afuera de la corona. Composición limpia, los tres cuerpos respiran. Lectura clara del sistema en órbita.</p>
+        <div class="filename">concept-05a-orbita-despejada.svg</div>
+      </div>
+    </div>
+
+    <!-- 05B -->
+    <div class="card">
+      <div class="preview-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240">
+          <g transform="translate(240 120)">
+            <circle r="68" fill="url(#g-corona)"/>
+            <circle r="58" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g-glow)"/>
+            <circle r="58" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.95"/>
+            <circle r="52" fill="#07060f"/>
+          </g>
+          <circle cx="195" cy="95" r="22" fill="url(#g-byte)"/>
+          <circle cx="290" cy="150" r="22" fill="url(#g-vrio)"/>
+        </svg>
+      </div>
+      <div class="preview-light">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240">
+          <g transform="translate(240 120)">
+            <circle r="58" fill="none" stroke="#c8860a" stroke-width="2.8"/>
+            <circle r="52" fill="#07060f"/>
+          </g>
+          <circle cx="195" cy="95" r="22" fill="#4a8fd4"/>
+          <circle cx="290" cy="150" r="22" fill="#EF9F27"/>
+        </svg>
+      </div>
+      <div class="info">
+        <span class="tag">05B · adelante</span>
+        <h3>Planetas por delante del eclipse</h3>
+        <p>Byte y VRIO orbitando delante de la cara del eclipse. La oclusión parcial del disco lunar refuerza la tridimensionalidad: los planetas están "más cerca" que la luna. Más cinematográfico.</p>
+        <div class="filename">concept-05b-orbita-planetas-adelante.svg</div>
+      </div>
+    </div>
+
+    <!-- 05C -->
+    <div class="card">
+      <div class="preview-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240">
+          <circle cx="130" cy="72" r="18" fill="url(#g-byte)"/>
+          <g transform="translate(240 120)">
+            <circle r="68" fill="url(#g-corona)"/>
+            <circle r="58" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g-glow)"/>
+            <circle r="58" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.95"/>
+            <circle r="52" fill="#07060f"/>
+          </g>
+          <circle cx="355" cy="180" r="28" fill="url(#g-vrio)"/>
+        </svg>
+      </div>
+      <div class="preview-light">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240">
+          <circle cx="130" cy="72" r="18" fill="#4a8fd4"/>
+          <g transform="translate(240 120)">
+            <circle r="58" fill="none" stroke="#c8860a" stroke-width="2.8"/>
+            <circle r="52" fill="#07060f"/>
+          </g>
+          <circle cx="355" cy="180" r="28" fill="#EF9F27"/>
+        </svg>
+      </div>
+      <div class="info">
+        <span class="tag">05C · perspectiva</span>
+        <h3>Perspectiva orbital</h3>
+        <p>Tamaños diferenciados: VRIO más grande y adelante (primer plano), Byte más chico y arriba-lejos (segundo plano). Simula un punto de vista inclinado sobre el sistema — profundidad sin líneas.</p>
+        <div class="filename">concept-05c-orbita-perspectiva.svg</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>Los 6 SVG individuales están en <code>logos/explorations/</code>. Cada card muestra arriba fondo oscuro (uso principal) y abajo fondo claro con versión plana sin gradientes (test de contraste y legibilidad monocromática).</p>
+  <p style="margin-top:18px;">Iteración anterior con 6 conceptos más amplios: <a href="gallery.html">→ galería original</a></p>
+</footer>
+
+</body>
+</html>

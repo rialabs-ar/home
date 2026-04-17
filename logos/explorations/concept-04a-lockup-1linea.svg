@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 380" width="300" height="380">
+  <defs>
+    <radialGradient id="c4a1-vrio" cx="33%" cy="28%" r="68%"><stop offset="0%" stop-color="#f8d888"/><stop offset="38%" stop-color="#EF9F27"/><stop offset="100%" stop-color="#4a2800"/></radialGradient>
+    <radialGradient id="c4a1-byte" cx="33%" cy="28%" r="68%"><stop offset="0%" stop-color="#b8ddf8"/><stop offset="38%" stop-color="#4a8fd4"/><stop offset="100%" stop-color="#051628"/></radialGradient>
+    <radialGradient id="c4a1-corona" cx="50%" cy="50%" r="50%"><stop offset="58%" stop-color="#EF9F27" stop-opacity="0"/><stop offset="78%" stop-color="#EF9F27" stop-opacity="0.32"/><stop offset="100%" stop-color="#EF9F27" stop-opacity="0"/></radialGradient>
+    <filter id="c4a1-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <style>
+      .wm-ria  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; fill: #f0ece0; }
+      .wm-labs { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; fill: #EF9F27; }
+    </style>
+  </defs>
+
+  <circle cx="60" cy="60" r="22" fill="url(#c4a1-byte)"/>
+  <g transform="translate(150 150)">
+    <circle r="62" fill="url(#c4a1-corona)"/>
+    <circle r="52" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#c4a1-glow)"/>
+    <circle r="52" fill="none" stroke="#EF9F27" stroke-width="2.4" opacity="0.95"/>
+    <circle r="46" fill="#07060f"/>
+  </g>
+  <circle cx="240" cy="240" r="22" fill="url(#c4a1-vrio)"/>
+
+  <text class="wm-ria" text-anchor="middle" x="150" y="348" font-size="56" letter-spacing="4">RIA<tspan class="wm-labs" font-size="26" letter-spacing="2" dx="10">Labs</tspan></text>
+</svg>

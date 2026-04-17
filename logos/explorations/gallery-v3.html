@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>RIA Labs — Exploración v3 (Lockups con wordmark)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07060f;
+    --bg-card: #0d0b1a;
+    --bg-alt: #f0ece0;
+    --gold: #EF9F27;
+    --gold-deep: #c8860a;
+    --blue: #4a8fd4;
+    --text: #f0ece0;
+    --text-dim: rgba(240,236,224,0.55);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 300;
+    line-height: 1.55;
+    padding: 60px 40px 120px;
+    min-height: 100vh;
+  }
+  header {
+    max-width: 1240px;
+    margin: 0 auto 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(239,159,39,0.18);
+  }
+  .eyebrow {
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 38px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    margin-bottom: 18px;
+  }
+  h1 em { color: var(--gold); font-style: normal; font-weight: 300; }
+  .lede {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 760px;
+    line-height: 1.65;
+  }
+
+  section.group {
+    max-width: 1240px;
+    margin: 0 auto 70px;
+  }
+  .group-header {
+    margin-bottom: 34px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(239,159,39,0.14);
+  }
+  .group-header .num {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .group-header h2 {
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: -0.3px;
+    margin-bottom: 6px;
+  }
+  .group-header p {
+    font-size: 14px;
+    color: var(--text-dim);
+    max-width: 720px;
+  }
+
+  /* Un bloque por variación (04A, 04B, 04C, 05A, 05B, 05C) */
+  .variation {
+    margin-bottom: 44px;
+  }
+  .variation-title {
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    padding-left: 4px;
+  }
+  .variation-title span {
+    color: var(--text-dim);
+    margin-left: 10px;
+    text-transform: none;
+    letter-spacing: 0.4px;
+    font-size: 13px;
+  }
+
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  @media (max-width: 900px) { .pair { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid rgba(239,159,39,0.12);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover { border-color: rgba(239,159,39,0.4); transform: translateY(-2px); }
+
+  .preview-dark {
+    background: var(--bg);
+    padding: 36px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+    border-bottom: 1px solid rgba(239,159,39,0.08);
+  }
+  .preview-dark.orbital { min-height: 220px; }
+  .preview-dark svg { max-width: 100%; height: auto; }
+  .preview-dark.diag svg { max-height: 340px; }
+  .preview-dark.orbital svg { max-height: 180px; }
+
+  .preview-light {
+    background: var(--bg-alt);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .preview-light.orbital { min-height: 90px; }
+  .preview-light svg { max-width: 100%; height: auto; }
+  .preview-light.diag svg { max-height: 140px; }
+  .preview-light.orbital svg { max-height: 68px; }
+
+  .info { padding: 20px 22px 22px; flex: 1; display: flex; flex-direction: column; }
+  .tag {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .card h3 {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    letter-spacing: -0.1px;
+  }
+  .card p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .card .filename {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(239,159,39,0.08);
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 10.5px;
+    color: var(--text-dim);
+    opacity: 0.8;
+    word-break: break-all;
+  }
+
+  footer {
+    max-width: 1240px;
+    margin: 60px auto 0;
+    padding-top: 36px;
+    border-top: 1px solid rgba(239,159,39,0.14);
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer code {
+    font-family: 'SF Mono', Menlo, monospace;
+    background: rgba(239,159,39,0.08);
+    color: var(--gold);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  /* estilo del wordmark dentro de los SVG inline */
+  .wm-ria  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; fill: #f0ece0; }
+  .wm-labs { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; fill: #EF9F27; }
+  /* versión light (fondo claro) */
+  .wm-ria-light  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; fill: #07060f; }
+  .wm-labs-light { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; fill: #c8860a; }
+</style>
+
+<!-- Definiciones compartidas de gradientes/filtros -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <radialGradient id="g3-vrio" cx="33%" cy="28%" r="68%">
+      <stop offset="0%" stop-color="#f8d888"/>
+      <stop offset="38%" stop-color="#EF9F27"/>
+      <stop offset="100%" stop-color="#4a2800"/>
+    </radialGradient>
+    <radialGradient id="g3-byte" cx="33%" cy="28%" r="68%">
+      <stop offset="0%" stop-color="#b8ddf8"/>
+      <stop offset="38%" stop-color="#4a8fd4"/>
+      <stop offset="100%" stop-color="#051628"/>
+    </radialGradient>
+    <radialGradient id="g3-corona" cx="50%" cy="50%" r="50%">
+      <stop offset="58%" stop-color="#EF9F27" stop-opacity="0"/>
+      <stop offset="78%" stop-color="#EF9F27" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#EF9F27" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="g3-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+</svg>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Exploración v3 · lockups con wordmark</div>
+  <h1>RIA Labs <em>+</em> marca visual</h1>
+  <p class="lede">Cada uno de los seis conceptos (diagonal 45° y captura orbital) en dos tratamientos tipográficos: <strong style="color:var(--text);font-weight:500">1 renglón</strong> (RIA Labs seguido, Labs como sufijo liviano) y <strong style="color:var(--text);font-weight:500">2 renglones</strong> (RIA grande, Labs debajo en caja ancha). Los diagonales apilan texto debajo de la composición; los orbitales lo ubican a la derecha.</p>
+</header>
+
+<!-- ===================== GRUPO 04 · DIAGONAL ===================== -->
+<section class="group">
+  <div class="group-header">
+    <div class="num">04 · DIAGONAL 45°</div>
+    <h2>Tres cuerpos en eje inclinado</h2>
+    <p>El wordmark cae centrado debajo de la composición. La caja es casi-cuadrada — funciona como avatar, perfil social, ícono de app con firma.</p>
+  </div>
+
+  <!-- 04A -->
+  <div class="variation">
+    <div class="variation-title">04A · planetas medios <span>ratio planeta/eclipse ~2.4× · balance</span></div>
+    <div class="pair">
+
+      <div class="card">
+        <div class="preview-dark diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 380">
+            <circle cx="60" cy="60" r="22" fill="url(#g3-byte)"/>
+            <g transform="translate(150 150)">
+              <circle r="62" fill="url(#g3-corona)"/>
+              <circle r="52" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="52" fill="none" stroke="#EF9F27" stroke-width="2.4" opacity="0.95"/>
+              <circle r="46" fill="#07060f"/>
+            </g>
+            <circle cx="240" cy="240" r="22" fill="url(#g3-vrio)"/>
+            <text class="wm-ria" text-anchor="middle" x="150" y="348" font-size="56" letter-spacing="4">RIA<tspan class="wm-labs" font-size="26" letter-spacing="2" dx="10">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="preview-light diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 380">
+            <circle cx="60" cy="60" r="22" fill="#4a8fd4"/>
+            <g transform="translate(150 150)">
+              <circle r="52" fill="none" stroke="#c8860a" stroke-width="2.6"/>
+              <circle r="46" fill="#07060f"/>
+            </g>
+            <circle cx="240" cy="240" r="22" fill="#EF9F27"/>
+            <text class="wm-ria-light" text-anchor="middle" x="150" y="348" font-size="56" letter-spacing="4">RIA<tspan class="wm-labs-light" font-size="26" letter-spacing="2" dx="10">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">1 renglón</span>
+          <h3>RIA Labs seguido</h3>
+          <p>"Labs" como sufijo liviano que acompaña. Más compacto, más "una sola marca que se llama RIA Labs".</p>
+          <div class="filename">concept-04a-lockup-1linea.svg</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-dark diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 430">
+            <circle cx="60" cy="60" r="22" fill="url(#g3-byte)"/>
+            <g transform="translate(150 150)">
+              <circle r="62" fill="url(#g3-corona)"/>
+              <circle r="52" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="52" fill="none" stroke="#EF9F27" stroke-width="2.4" opacity="0.95"/>
+              <circle r="46" fill="#07060f"/>
+            </g>
+            <circle cx="240" cy="240" r="22" fill="url(#g3-vrio)"/>
+            <text class="wm-ria"  text-anchor="middle" x="150" y="355" font-size="78" letter-spacing="6">RIA</text>
+            <text class="wm-labs" text-anchor="middle" x="150" y="405" font-size="34" letter-spacing="3">Labs</text>
+          </svg>
+        </div>
+        <div class="preview-light diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 430">
+            <circle cx="60" cy="60" r="22" fill="#4a8fd4"/>
+            <g transform="translate(150 150)">
+              <circle r="52" fill="none" stroke="#c8860a" stroke-width="2.6"/>
+              <circle r="46" fill="#07060f"/>
+            </g>
+            <circle cx="240" cy="240" r="22" fill="#EF9F27"/>
+            <text class="wm-ria-light"  text-anchor="middle" x="150" y="355" font-size="78" letter-spacing="6">RIA</text>
+            <text class="wm-labs-light" text-anchor="middle" x="150" y="405" font-size="34" letter-spacing="3">Labs</text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">2 renglones</span>
+          <h3>RIA sobre Labs</h3>
+          <p>"RIA" domina, "Labs" funciona como tagline/descriptor. Jerarquía más clara, lectura doble — se puede usar RIA solo cuando se necesita.</p>
+          <div class="filename">concept-04a-lockup-2lineas.svg</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 04B -->
+  <div class="variation">
+    <div class="variation-title">04B · tríada de pares <span>planetas ~1.4× · tres marcas al mismo nivel</span></div>
+    <div class="pair">
+
+      <div class="card">
+        <div class="preview-dark diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 400">
+            <circle cx="60" cy="60" r="32" fill="url(#g3-byte)"/>
+            <g transform="translate(160 160)">
+              <circle r="60" fill="url(#g3-corona)"/>
+              <circle r="50" fill="none" stroke="#c8860a" stroke-width="5.5" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="50" fill="none" stroke="#EF9F27" stroke-width="2.2" opacity="0.95"/>
+              <circle r="44" fill="#07060f"/>
+            </g>
+            <circle cx="260" cy="260" r="32" fill="url(#g3-vrio)"/>
+            <text class="wm-ria" text-anchor="middle" x="160" y="368" font-size="58" letter-spacing="4">RIA<tspan class="wm-labs" font-size="27" letter-spacing="2" dx="10">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="preview-light diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 400">
+            <circle cx="60" cy="60" r="32" fill="#4a8fd4"/>
+            <g transform="translate(160 160)">
+              <circle r="50" fill="none" stroke="#c8860a" stroke-width="2.4"/>
+              <circle r="44" fill="#07060f"/>
+            </g>
+            <circle cx="260" cy="260" r="32" fill="#EF9F27"/>
+            <text class="wm-ria-light" text-anchor="middle" x="160" y="368" font-size="58" letter-spacing="4">RIA<tspan class="wm-labs-light" font-size="27" letter-spacing="2" dx="10">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">1 renglón</span>
+          <h3>RIA Labs seguido</h3>
+          <p>Planetas protagonistas, wordmark que cierra abajo. La narrativa "tres empresas convergen" se mantiene con firma compacta.</p>
+          <div class="filename">concept-04b-lockup-1linea.svg</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-dark diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 460">
+            <circle cx="60" cy="60" r="32" fill="url(#g3-byte)"/>
+            <g transform="translate(160 160)">
+              <circle r="60" fill="url(#g3-corona)"/>
+              <circle r="50" fill="none" stroke="#c8860a" stroke-width="5.5" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="50" fill="none" stroke="#EF9F27" stroke-width="2.2" opacity="0.95"/>
+              <circle r="44" fill="#07060f"/>
+            </g>
+            <circle cx="260" cy="260" r="32" fill="url(#g3-vrio)"/>
+            <text class="wm-ria"  text-anchor="middle" x="160" y="380" font-size="80" letter-spacing="6">RIA</text>
+            <text class="wm-labs" text-anchor="middle" x="160" y="432" font-size="35" letter-spacing="3">Labs</text>
+          </svg>
+        </div>
+        <div class="preview-light diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 460">
+            <circle cx="60" cy="60" r="32" fill="#4a8fd4"/>
+            <g transform="translate(160 160)">
+              <circle r="50" fill="none" stroke="#c8860a" stroke-width="2.4"/>
+              <circle r="44" fill="#07060f"/>
+            </g>
+            <circle cx="260" cy="260" r="32" fill="#EF9F27"/>
+            <text class="wm-ria-light"  text-anchor="middle" x="160" y="380" font-size="80" letter-spacing="6">RIA</text>
+            <text class="wm-labs-light" text-anchor="middle" x="160" y="432" font-size="35" letter-spacing="3">Labs</text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">2 renglones</span>
+          <h3>RIA sobre Labs</h3>
+          <p>Composición con más presencia vertical. El bloque tipográfico actúa como cuarta pieza de la tríada, cierra la geometría.</p>
+          <div class="filename">concept-04b-lockup-2lineas.svg</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 04C -->
+  <div class="variation">
+    <div class="variation-title">04C · cluster cercano <span>planetas rozando el eclipse · tensión espacial</span></div>
+    <div class="pair">
+
+      <div class="card">
+        <div class="preview-dark diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 360">
+            <circle cx="75" cy="75" r="26" fill="url(#g3-byte)"/>
+            <g transform="translate(140 140)">
+              <circle r="60" fill="url(#g3-corona)"/>
+              <circle r="50" fill="none" stroke="#c8860a" stroke-width="5.5" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="50" fill="none" stroke="#EF9F27" stroke-width="2.2" opacity="0.95"/>
+              <circle r="44" fill="#07060f"/>
+            </g>
+            <circle cx="205" cy="205" r="26" fill="url(#g3-vrio)"/>
+            <text class="wm-ria" text-anchor="middle" x="140" y="330" font-size="54" letter-spacing="4">RIA<tspan class="wm-labs" font-size="25" letter-spacing="2" dx="9">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="preview-light diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 360">
+            <circle cx="75" cy="75" r="26" fill="#4a8fd4"/>
+            <g transform="translate(140 140)">
+              <circle r="50" fill="none" stroke="#c8860a" stroke-width="2.5"/>
+              <circle r="44" fill="#07060f"/>
+            </g>
+            <circle cx="205" cy="205" r="26" fill="#EF9F27"/>
+            <text class="wm-ria-light" text-anchor="middle" x="140" y="330" font-size="54" letter-spacing="4">RIA<tspan class="wm-labs-light" font-size="25" letter-spacing="2" dx="9">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">1 renglón</span>
+          <h3>RIA Labs seguido</h3>
+          <p>Los cuerpos casi se tocan — densidad + firma compacta debajo. Leer la marca a tamaño chico es cómodo.</p>
+          <div class="filename">concept-04c-lockup-1linea.svg</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-dark diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 410">
+            <circle cx="75" cy="75" r="26" fill="url(#g3-byte)"/>
+            <g transform="translate(140 140)">
+              <circle r="60" fill="url(#g3-corona)"/>
+              <circle r="50" fill="none" stroke="#c8860a" stroke-width="5.5" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="50" fill="none" stroke="#EF9F27" stroke-width="2.2" opacity="0.95"/>
+              <circle r="44" fill="#07060f"/>
+            </g>
+            <circle cx="205" cy="205" r="26" fill="url(#g3-vrio)"/>
+            <text class="wm-ria"  text-anchor="middle" x="140" y="335" font-size="74" letter-spacing="5">RIA</text>
+            <text class="wm-labs" text-anchor="middle" x="140" y="383" font-size="32" letter-spacing="3">Labs</text>
+          </svg>
+        </div>
+        <div class="preview-light diag">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 410">
+            <circle cx="75" cy="75" r="26" fill="#4a8fd4"/>
+            <g transform="translate(140 140)">
+              <circle r="50" fill="none" stroke="#c8860a" stroke-width="2.5"/>
+              <circle r="44" fill="#07060f"/>
+            </g>
+            <circle cx="205" cy="205" r="26" fill="#EF9F27"/>
+            <text class="wm-ria-light"  text-anchor="middle" x="140" y="335" font-size="74" letter-spacing="5">RIA</text>
+            <text class="wm-labs-light" text-anchor="middle" x="140" y="383" font-size="32" letter-spacing="3">Labs</text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">2 renglones</span>
+          <h3>RIA sobre Labs</h3>
+          <p>El cluster denso arriba + wordmark vertical abajo recuerda a monedas o sellos — muy vertical, ideal para placas.</p>
+          <div class="filename">concept-04c-lockup-2lineas.svg</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GRUPO 05 · ORBITAL ===================== -->
+<section class="group">
+  <div class="group-header">
+    <div class="num">05 · CAPTURA ORBITAL</div>
+    <h2>Planetas en movimiento junto al eclipse</h2>
+    <p>El wordmark se alinea a la derecha de la composición, en formato horizontal. Ideal para header de sitio, firma de email, membrete.</p>
+  </div>
+
+  <!-- 05A -->
+  <div class="variation">
+    <div class="variation-title">05A · órbita despejada <span>Byte arriba-izq · VRIO abajo-der · diagonal implícita</span></div>
+    <div class="pair">
+
+      <div class="card">
+        <div class="preview-dark orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240">
+            <circle cx="140" cy="70" r="22" fill="url(#g3-byte)"/>
+            <g transform="translate(240 120)">
+              <circle r="68" fill="url(#g3-corona)"/>
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="58" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.95"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="340" cy="170" r="22" fill="url(#g3-vrio)"/>
+            <text class="wm-ria" x="500" y="161" font-size="96" letter-spacing="7">RIA<tspan class="wm-labs" font-size="40" letter-spacing="4" dx="12">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="preview-light orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240">
+            <circle cx="140" cy="70" r="22" fill="#4a8fd4"/>
+            <g transform="translate(240 120)">
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="2.6"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="340" cy="170" r="22" fill="#EF9F27"/>
+            <text class="wm-ria-light" x="500" y="161" font-size="96" letter-spacing="7">RIA<tspan class="wm-labs-light" font-size="40" letter-spacing="4" dx="12">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">1 renglón</span>
+          <h3>RIA Labs seguido</h3>
+          <p>Lockup horizontal clásico. Planetas "despejados" de la corona — el eclipse respira y la tipografía domina la derecha.</p>
+          <div class="filename">concept-05a-lockup-1linea.svg</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-dark orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 240">
+            <circle cx="140" cy="70" r="22" fill="url(#g3-byte)"/>
+            <g transform="translate(240 120)">
+              <circle r="68" fill="url(#g3-corona)"/>
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="58" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.95"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="340" cy="170" r="22" fill="url(#g3-vrio)"/>
+            <text class="wm-ria"  x="500" y="138" font-size="118" letter-spacing="9">RIA</text>
+            <text class="wm-labs" x="500" y="202" font-size="52" letter-spacing="5">Labs</text>
+          </svg>
+        </div>
+        <div class="preview-light orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 240">
+            <circle cx="140" cy="70" r="22" fill="#4a8fd4"/>
+            <g transform="translate(240 120)">
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="2.6"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="340" cy="170" r="22" fill="#EF9F27"/>
+            <text class="wm-ria-light"  x="500" y="138" font-size="118" letter-spacing="9">RIA</text>
+            <text class="wm-labs-light" x="500" y="202" font-size="52" letter-spacing="5">Labs</text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">2 renglones</span>
+          <h3>RIA sobre Labs</h3>
+          <p>"RIA" gigante a la derecha del eclipse, "Labs" debajo como descriptor. Equilibra la diagonal de los planetas con masa tipográfica vertical.</p>
+          <div class="filename">concept-05a-lockup-2lineas.svg</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 05B -->
+  <div class="variation">
+    <div class="variation-title">05B · planetas adelante <span>los planetas tapan parcialmente el eclipse · 3D</span></div>
+    <div class="pair">
+
+      <div class="card">
+        <div class="preview-dark orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240">
+            <g transform="translate(240 120)">
+              <circle r="68" fill="url(#g3-corona)"/>
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="58" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.95"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="195" cy="95" r="22" fill="url(#g3-byte)"/>
+            <circle cx="290" cy="150" r="22" fill="url(#g3-vrio)"/>
+            <text class="wm-ria" x="500" y="161" font-size="96" letter-spacing="7">RIA<tspan class="wm-labs" font-size="40" letter-spacing="4" dx="12">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="preview-light orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240">
+            <g transform="translate(240 120)">
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="2.6"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="195" cy="95" r="22" fill="#4a8fd4"/>
+            <circle cx="290" cy="150" r="22" fill="#EF9F27"/>
+            <text class="wm-ria-light" x="500" y="161" font-size="96" letter-spacing="7">RIA<tspan class="wm-labs-light" font-size="40" letter-spacing="4" dx="12">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">1 renglón</span>
+          <h3>RIA Labs seguido</h3>
+          <p>Los planetas ocluyen parcialmente la corona — profundidad 3D. El wordmark horizontal cierra la escena sin competir con el volumen.</p>
+          <div class="filename">concept-05b-lockup-1linea.svg</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-dark orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 240">
+            <g transform="translate(240 120)">
+              <circle r="68" fill="url(#g3-corona)"/>
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="58" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.95"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="195" cy="95" r="22" fill="url(#g3-byte)"/>
+            <circle cx="290" cy="150" r="22" fill="url(#g3-vrio)"/>
+            <text class="wm-ria"  x="500" y="138" font-size="118" letter-spacing="9">RIA</text>
+            <text class="wm-labs" x="500" y="202" font-size="52" letter-spacing="5">Labs</text>
+          </svg>
+        </div>
+        <div class="preview-light orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 240">
+            <g transform="translate(240 120)">
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="2.6"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="195" cy="95" r="22" fill="#4a8fd4"/>
+            <circle cx="290" cy="150" r="22" fill="#EF9F27"/>
+            <text class="wm-ria-light"  x="500" y="138" font-size="118" letter-spacing="9">RIA</text>
+            <text class="wm-labs-light" x="500" y="202" font-size="52" letter-spacing="5">Labs</text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">2 renglones</span>
+          <h3>RIA sobre Labs</h3>
+          <p>El bloque tipográfico vertical equilibra el volumen de la escena planetaria. Combinación más "empresa establecida con subdivisiones".</p>
+          <div class="filename">concept-05b-lockup-2lineas.svg</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 05C -->
+  <div class="variation">
+    <div class="variation-title">05C · perspectiva <span>Byte lejos (r=18) · VRIO cerca (r=28) · profundidad</span></div>
+    <div class="pair">
+
+      <div class="card">
+        <div class="preview-dark orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240">
+            <circle cx="130" cy="72" r="18" fill="url(#g3-byte)"/>
+            <g transform="translate(240 120)">
+              <circle r="68" fill="url(#g3-corona)"/>
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="58" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.95"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="355" cy="180" r="28" fill="url(#g3-vrio)"/>
+            <text class="wm-ria" x="500" y="161" font-size="96" letter-spacing="7">RIA<tspan class="wm-labs" font-size="40" letter-spacing="4" dx="12">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="preview-light orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 240">
+            <circle cx="130" cy="72" r="18" fill="#4a8fd4"/>
+            <g transform="translate(240 120)">
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="2.6"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="355" cy="180" r="28" fill="#EF9F27"/>
+            <text class="wm-ria-light" x="500" y="161" font-size="96" letter-spacing="7">RIA<tspan class="wm-labs-light" font-size="40" letter-spacing="4" dx="12">Labs</tspan></text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">1 renglón</span>
+          <h3>RIA Labs seguido</h3>
+          <p>Planetas en distintos planos de profundidad. Firma liviana que no interfiere con la narrativa espacial.</p>
+          <div class="filename">concept-05c-lockup-1linea.svg</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="preview-dark orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 240">
+            <circle cx="130" cy="72" r="18" fill="url(#g3-byte)"/>
+            <g transform="translate(240 120)">
+              <circle r="68" fill="url(#g3-corona)"/>
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="6" opacity="0.85" filter="url(#g3-glow)"/>
+              <circle r="58" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.95"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="355" cy="180" r="28" fill="url(#g3-vrio)"/>
+            <text class="wm-ria"  x="500" y="138" font-size="118" letter-spacing="9">RIA</text>
+            <text class="wm-labs" x="500" y="202" font-size="52" letter-spacing="5">Labs</text>
+          </svg>
+        </div>
+        <div class="preview-light orbital">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 240">
+            <circle cx="130" cy="72" r="18" fill="#4a8fd4"/>
+            <g transform="translate(240 120)">
+              <circle r="58" fill="none" stroke="#c8860a" stroke-width="2.6"/>
+              <circle r="52" fill="#07060f"/>
+            </g>
+            <circle cx="355" cy="180" r="28" fill="#EF9F27"/>
+            <text class="wm-ria-light"  x="500" y="138" font-size="118" letter-spacing="9">RIA</text>
+            <text class="wm-labs-light" x="500" y="202" font-size="52" letter-spacing="5">Labs</text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="tag">2 renglones</span>
+          <h3>RIA sobre Labs</h3>
+          <p>VRIO cerca (grande, dorado) + Byte lejos (chico, frío) + bloque "RIA / Labs" sólido. La composición más cinematográfica del set.</p>
+          <div class="filename">concept-05c-lockup-2lineas.svg</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong style="color:var(--text);font-weight:500">12 lockups · 6 conceptos × 2 tratamientos tipográficos.</strong> Tipografía <code>Saira</code> (Google Fonts) — cargada desde CDN, se ve fiel al render final.</p>
+  <p style="margin-top:12px">SVG fuentes en <code>explorations/concept-XX{letra}-lockup-{1linea|2lineas}.svg</code>. Cada archivo es self-contained con sus propios gradientes y filtros (prefijos de ID para evitar colisiones cuando se inlinea).</p>
+  <p style="margin-top:12px">Próximos pasos: elegir concepto + tratamiento tipográfico · pulirlo · generar set completo (color, blanco, negro, outline) · renderizar PNGs · reemplazar el lockup oficial.</p>
+</footer>
+
+</body>
+</html>
