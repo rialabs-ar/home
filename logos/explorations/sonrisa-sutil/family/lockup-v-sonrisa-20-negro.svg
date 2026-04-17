@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 440" width="320" height="440">
+  <defs>
+    <style>
+      .ria-v  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; font-size: 128px; letter-spacing: 10px; fill: #000000; }
+      .labs-v { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 54px;  letter-spacing: 5px;  fill: #000000; }
+    </style>
+  </defs>
+
+  <!-- Eclipse · sonrisa 20% · negro · Δ=8 -->
+  <circle cx="160" cy="145.538" r="69.2308" fill="none" stroke="#000000" stroke-width="8.30769" opacity="0.08"/>
+  <circle cx="160" cy="145.538" r="63.6923" fill="none" stroke="#000000" stroke-width="4.15385" opacity="0.18"/>
+  <circle cx="160" cy="145.538" r="60.9231" fill="none" stroke="#000000" stroke-width="6.23077" opacity="0.95"/>
+  <circle cx="160" cy="145.538" r="55.3846" fill="none" stroke="#000000" stroke-width="0.830769" opacity="0.5"/>
+  <circle cx="160" cy="134.462" r="52.6154" fill="#ffffff"/>
+
+  <!-- Wordmark -->
+  <text class="ria-v"  x="160" y="316" text-anchor="middle">RIA</text>
+  <text class="labs-v" x="160" y="386" text-anchor="middle">Labs</text>
+</svg>

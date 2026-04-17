@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- RIA Labs · isotipo · sonrisa 10% · blanco · Δ=4 · centroide (60,60) -->
+  <circle cx="60" cy="62" r="50" fill="none" stroke="#ffffff" stroke-width="6" opacity="0.08"/>
+  <circle cx="60" cy="62" r="46" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.18"/>
+  <circle cx="60" cy="62" r="44" fill="none" stroke="#ffffff" stroke-width="4.5" opacity="0.95"/>
+  <circle cx="60" cy="62" r="40" fill="none" stroke="#ffffff" stroke-width="0.6" opacity="0.5"/>
+  <circle cx="60" cy="58" r="38" fill="#0a0814"/>
+</svg>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Familia sonrisa sutil · 3 niveles × 3 tipologías × 4 flavors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0a0814;
+      color: #f0ece0;
+      font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 300;
+      padding: 60px 48px 100px;
+      min-height: 100vh;
+    }
+    .head { max-width: 1400px; margin: 0 auto 48px; }
+    .kicker { color: #EF9F27; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; margin-bottom: 10px; }
+    h1 { font-size: 32px; font-weight: 300; letter-spacing: 0.5px; margin-bottom: 14px; }
+    .lede { color: rgba(240, 236, 224, 0.6); font-size: 14px; letter-spacing: 0.4px; max-width: 760px; line-height: 1.55; }
+
+    .section { max-width: 1400px; margin: 0 auto 48px; }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 18px 24px;
+      border-radius: 10px 10px 0 0;
+      margin-bottom: 0;
+    }
+    .section-head h2 {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #EF9F27;
+    }
+    .section-head .meta {
+      font-family: 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      color: rgba(240,236,224,0.4);
+      letter-spacing: 0.5px;
+    }
+
+    .typ-row {
+      display: grid;
+      grid-template-columns: 140px 1fr 1fr 1fr;
+      gap: 16px;
+      padding: 24px;
+      align-items: center;
+      border-top: 1px solid rgba(239,159,39,0.1);
+    }
+    .typ-row:first-of-type { border-top: none; }
+    .typ-label {
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(240,236,224,0.55);
+      font-weight: 500;
+    }
+    .cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px;
+      border-radius: 8px;
+      min-height: 180px;
+    }
+    .cell img { max-width: 100%; display: block; }
+    .cell .level {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      opacity: 0.7;
+    }
+
+    /* flavor wrappers with appropriate bg */
+    .flavor-color   { background: #0d0b1a; border: 1px solid rgba(239,159,39,0.14); border-radius: 10px; }
+    .flavor-blanco  { background: #0d0b1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; }
+    .flavor-negro   { background: #f5f2e8; border: 1px solid rgba(0,0,0,0.12); border-radius: 10px; color: #111; }
+    .flavor-outline-dark  { background: #0d0b1a; border: 1px solid rgba(239,159,39,0.14); border-radius: 10px; color: #f0ece0; }
+    .flavor-outline-light { background: #f5f2e8; border: 1px solid rgba(0,0,0,0.12); border-radius: 10px; color: #111; }
+
+    .flavor-negro .level { color: rgba(0,0,0,0.6); }
+    .flavor-outline-light .level { color: rgba(0,0,0,0.6); }
+
+    /* Sized cells for different typologies */
+    .cell.iso img { width: 120px; height: 120px; }
+    .cell.h img { width: 100%; height: auto; max-height: 120px; }
+    .cell.v img { height: 200px; width: auto; }
+
+    .note {
+      max-width: 1400px;
+      margin: 40px auto 0;
+      color: rgba(240, 236, 224, 0.5);
+      font-size: 12px;
+      line-height: 1.65;
+      padding: 24px 0;
+      border-top: 1px solid rgba(239, 159, 39, 0.12);
+    }
+
+    .legend {
+      max-width: 1400px;
+      margin: 0 auto 48px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .legend .chip {
+      padding: 14px 18px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(239,159,39,0.15);
+    }
+    .legend .chip b { color: #EF9F27; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; display: block; margin-bottom: 4px; }
+    .legend .chip span { color: rgba(240,236,224,0.5); font-size: 11px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <div class="head">
+    <div class="kicker">RIA Labs · Eclipse · Familia sonrisa sutil</div>
+    <h1>36 variantes · 3 niveles × 3 tipologías × 4 flavors</h1>
+    <p class="lede">Familia completa del concepto "sonrisa sutil" con la gramática de anillos apilados. Cada combinación preserva el centroide óptico; el desplazamiento se reparte mitad y mitad entre la corona (baja) y la luna (sube), revelando el arco inferior del aura cálida como una sonrisa.</p>
+  </div>
+
+  <div class="legend">
+    <div class="chip"><b>color</b><span>Gradiente cálido completo · fondo oscuro (#0a0814) · para web institucional</span></div>
+    <div class="chip"><b>blanco</b><span>Anillos blancos con opacidades · fondo oscuro · luna recortada con color del bg</span></div>
+    <div class="chip"><b>negro</b><span>Anillos negros con opacidades · fondo claro · luna recortada en blanco</span></div>
+    <div class="chip"><b>outline</b><span>Line-art monocromático · usa currentColor · se adapta a cualquier fondo</span></div>
+  </div>
+
+  <!-- ============ COLOR ============ -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Color</h2>
+      <span class="meta">· sobre fondo oscuro · gradiente cálido completo</span>
+    </div>
+    <div class="flavor-color">
+
+      <div class="typ-row">
+        <div class="typ-label">Isotipo</div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-10-color.png" alt="iso 10% color"><div class="level">10% · fina</div></div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-15-color.png" alt="iso 15% color"><div class="level">15% · cálida</div></div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-20-color.png" alt="iso 20% color"><div class="level">20% · clara</div></div>
+      </div>
+
+      <div class="typ-row">
+        <div class="typ-label">Lockup horizontal</div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-10-color.png" alt="lockup h 10% color"><div class="level">10%</div></div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-15-color.png" alt="lockup h 15% color"><div class="level">15%</div></div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-20-color.png" alt="lockup h 20% color"><div class="level">20%</div></div>
+      </div>
+
+      <div class="typ-row">
+        <div class="typ-label">Lockup vertical</div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-10-color.png" alt="lockup v 10% color"><div class="level">10%</div></div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-15-color.png" alt="lockup v 15% color"><div class="level">15%</div></div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-20-color.png" alt="lockup v 20% color"><div class="level">20%</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ BLANCO ============ -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Blanco</h2>
+      <span class="meta">· sobre fondo oscuro · anillos blancos + luna recortada</span>
+    </div>
+    <div class="flavor-blanco">
+
+      <div class="typ-row">
+        <div class="typ-label">Isotipo</div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-10-blanco.png" alt=""><div class="level">10%</div></div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-15-blanco.png" alt=""><div class="level">15%</div></div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-20-blanco.png" alt=""><div class="level">20%</div></div>
+      </div>
+
+      <div class="typ-row">
+        <div class="typ-label">Lockup horizontal</div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-10-blanco.png" alt=""><div class="level">10%</div></div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-15-blanco.png" alt=""><div class="level">15%</div></div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-20-blanco.png" alt=""><div class="level">20%</div></div>
+      </div>
+
+      <div class="typ-row">
+        <div class="typ-label">Lockup vertical</div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-10-blanco.png" alt=""><div class="level">10%</div></div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-15-blanco.png" alt=""><div class="level">15%</div></div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-20-blanco.png" alt=""><div class="level">20%</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ NEGRO ============ -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Negro</h2>
+      <span class="meta">· sobre fondo claro · anillos negros + luna blanca</span>
+    </div>
+    <div class="flavor-negro">
+
+      <div class="typ-row">
+        <div class="typ-label">Isotipo</div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-10-negro.png" alt=""><div class="level">10%</div></div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-15-negro.png" alt=""><div class="level">15%</div></div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-20-negro.png" alt=""><div class="level">20%</div></div>
+      </div>
+
+      <div class="typ-row">
+        <div class="typ-label">Lockup horizontal</div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-10-negro.png" alt=""><div class="level">10%</div></div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-15-negro.png" alt=""><div class="level">15%</div></div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-20-negro.png" alt=""><div class="level">20%</div></div>
+      </div>
+
+      <div class="typ-row">
+        <div class="typ-label">Lockup vertical</div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-10-negro.png" alt=""><div class="level">10%</div></div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-15-negro.png" alt=""><div class="level">15%</div></div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-20-negro.png" alt=""><div class="level">20%</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ OUTLINE ============ -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Outline</h2>
+      <span class="meta">· line-art · currentColor · mostrado sobre fondo claro</span>
+    </div>
+    <div class="flavor-outline-light">
+
+      <div class="typ-row">
+        <div class="typ-label">Isotipo</div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-10-outline.png" alt=""><div class="level">10%</div></div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-15-outline.png" alt=""><div class="level">15%</div></div>
+        <div class="cell iso"><img src="family-png/iso-sonrisa-20-outline.png" alt=""><div class="level">20%</div></div>
+      </div>
+
+      <div class="typ-row">
+        <div class="typ-label">Lockup horizontal</div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-10-outline.png" alt=""><div class="level">10%</div></div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-15-outline.png" alt=""><div class="level">15%</div></div>
+        <div class="cell h"><img src="family-png/lockup-h-sonrisa-20-outline.png" alt=""><div class="level">20%</div></div>
+      </div>
+
+      <div class="typ-row">
+        <div class="typ-label">Lockup vertical</div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-10-outline.png" alt=""><div class="level">10%</div></div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-15-outline.png" alt=""><div class="level">15%</div></div>
+        <div class="cell v"><img src="family-png/lockup-v-sonrisa-20-outline.png" alt=""><div class="level">20%</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="note">
+    Nomenclatura: <code>{tipología}-sonrisa-{nivel}-{flavor}.svg</code>. Ejemplo: <code>lockup-v-sonrisa-15-color.svg</code>.
+    Todos los archivos viven en <code>logos/explorations/sonrisa-sutil/family/</code>.
+    Los PNGs en <code>family-png/</code>. Si alguna combinación te convence como oficial, la promovemos a <code>/logos/ria-*.svg</code> reemplazando la gramática de glow actual por esta de anillos apilados, y actualizo <code>CONTENIDO.md</code>.
+  </p>
+
+</body>
+</html>

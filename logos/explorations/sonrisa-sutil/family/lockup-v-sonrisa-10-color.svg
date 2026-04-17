@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 440" width="320" height="440">
+  <defs>
+    <style>
+      .ria-v  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; font-size: 128px; letter-spacing: 10px; fill: #f0ece0; }
+      .labs-v { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 54px;  letter-spacing: 5px;  fill: #EF9F27; }
+    </style>
+  </defs>
+
+  <!-- Eclipse · sonrisa 10% · color · Δ=4 -->
+  <circle cx="160" cy="142.769" r="72" fill="none" stroke="#1a0900" stroke-width="30.4615" opacity="0.55"/>
+  <circle cx="160" cy="142.769" r="69.2308" fill="none" stroke="#2a1200" stroke-width="19.3846" opacity="0.42"/>
+  <circle cx="160" cy="142.769" r="66.4615" fill="none" stroke="#3d1c00" stroke-width="12.4615" opacity="0.32"/>
+  <circle cx="160" cy="142.769" r="63.6923" fill="none" stroke="#633806" stroke-width="6.92308" opacity="0.24"/>
+  <circle cx="160" cy="142.769" r="62.3077" fill="none" stroke="#854F0B" stroke-width="3.46154" opacity="0.18"/>
+  <circle cx="160" cy="142.769" r="60.9231" fill="none" stroke="#BA7517" stroke-width="1.66154" opacity="0.13"/>
+  <circle cx="160" cy="142.769" r="52.6154" fill="#1c1810"/>
+  <circle cx="160" cy="137.231" r="52.6154" fill="#0b0a14"/>
+
+  <!-- Wordmark -->
+  <text class="ria-v"  x="160" y="316" text-anchor="middle">RIA</text>
+  <text class="labs-v" x="160" y="386" text-anchor="middle">Labs</text>
+</svg>
