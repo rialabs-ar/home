@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 140" width="480" height="140">
+  <style>
+    .ria  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; font-size: 104px; letter-spacing: 8px; fill: #000000; }
+    .labs { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 44px; letter-spacing: 3px; fill: #000000; }
+  </style>
+  <text class="ria"  x="30" y="108">RIA</text>
+  <text class="labs" x="320" y="72">Labs</text>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420" width="320" height="420">
+  <defs>
+    <style>
+      .ria-v-o  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; font-size: 128px; letter-spacing: 10px; fill: none; stroke: currentColor; stroke-width: 1.4; paint-order: stroke; }
+      .labs-v-o { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 54px;  letter-spacing: 5px;  fill: none; stroke: currentColor; stroke-width: 0.9; paint-order: stroke; }
+    </style>
+  </defs>
+
+  <g transform="translate(160 120)">
+    <circle r="58" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <circle r="48" fill="none" stroke="currentColor" stroke-width="1.8"/>
+  </g>
+
+  <text class="ria-v-o"  x="160" y="296" text-anchor="middle">RIA</text>
+  <text class="labs-v-o" x="160" y="366" text-anchor="middle">Labs</text>
+</svg>
