@@ -351,12 +351,13 @@
 <nav id="nav">
   <a href="#" class="nav-logo">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="14" r="10" fill="none" stroke="#2a1200" stroke-width="5" opacity="0.65"/>
-      <circle cx="12" cy="14" r="9.5" fill="none" stroke="#412402" stroke-width="3" opacity="0.5"/>
-      <circle cx="12" cy="14" r="9" fill="none" stroke="#633806" stroke-width="1.5" opacity="0.35"/>
-      <circle cx="12" cy="14" r="8.5" fill="none" stroke="#BA7517" stroke-width="0.7" opacity="0.22"/>
-      <circle cx="12" cy="14" r="8" fill="#1c1810"/>
-      <circle cx="12" cy="10" r="8" fill="#0b0a14"/>
+      <!-- Isotipo con desplazamiento 30% (antes 50%) · centroide (12,12), Δ=2.4 -->
+      <circle cx="12" cy="13.2" r="10" fill="none" stroke="#2a1200" stroke-width="5" opacity="0.65"/>
+      <circle cx="12" cy="13.2" r="9.5" fill="none" stroke="#412402" stroke-width="3" opacity="0.5"/>
+      <circle cx="12" cy="13.2" r="9" fill="none" stroke="#633806" stroke-width="1.5" opacity="0.35"/>
+      <circle cx="12" cy="13.2" r="8.5" fill="none" stroke="#BA7517" stroke-width="0.7" opacity="0.22"/>
+      <circle cx="12" cy="13.2" r="8" fill="#1c1810"/>
+      <circle cx="12" cy="10.8" r="8" fill="#0b0a14"/>
     </svg>
     <span class="nav-wm">RIA <em>Labs</em></span>
   </a>
@@ -387,8 +388,9 @@
         <path d="M 22 90 A 42 42 0 0 0 98 90" fill="none" stroke="#EF9F27" stroke-width="5" opacity="0.07" stroke-linecap="round"/>
         <circle cx="60" cy="68" r="38" fill="#1c1810"/>
         <circle r="38" fill="#0b0a14">
-          <animate attributeName="cx" values="60;67;60;53;60" keyTimes="0;0.25;0.5;0.75;1" dur="16s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"/>
-          <animate attributeName="cy" values="56;61;66;61;56" keyTimes="0;0.25;0.5;0.75;1" dur="16s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"/>
+          <!-- Órbita circular radio 5 alrededor de (60,63) · abajo toca corona (60,68) = eclipse total · arriba Δ=10 ≈ 26% · contenida dentro del umbral del nav (30%) -->
+          <animate attributeName="cx" values="60;65;60;55;60" keyTimes="0;0.25;0.5;0.75;1" dur="16s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"/>
+          <animate attributeName="cy" values="58;63;68;63;58" keyTimes="0;0.25;0.5;0.75;1" dur="16s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"/>
         </circle>
       </svg>
     </div>
