@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sonrisa sutil · exploración de desplazamientos bajos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0a0814;
+      color: #f0ece0;
+      font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 300;
+      padding: 60px 48px 80px;
+      min-height: 100vh;
+    }
+    .head {
+      max-width: 1200px;
+      margin: 0 auto 48px;
+    }
+    .kicker {
+      color: #EF9F27;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+    .lede {
+      color: rgba(240, 236, 224, 0.6);
+      font-size: 14px;
+      letter-spacing: 0.4px;
+      max-width: 640px;
+      line-height: 1.55;
+    }
+
+    .grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .card {
+      background: #0d0b1a;
+      border: 1px solid rgba(239, 159, 39, 0.12);
+      border-radius: 10px;
+      padding: 28px 18px 20px;
+      text-align: center;
+    }
+    .card.current {
+      border-color: rgba(239, 159, 39, 0.35);
+      box-shadow: 0 0 0 1px rgba(239, 159, 39, 0.12) inset;
+    }
+    .card .iso {
+      width: 120px;
+      height: 120px;
+      display: inline-block;
+    }
+    .card .label {
+      color: #EF9F27;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-top: 16px;
+    }
+    .card.current .label {
+      color: #f8d888;
+    }
+    .card .delta {
+      color: rgba(240, 236, 224, 0.45);
+      font-family: 'SF Mono', Menlo, monospace;
+      font-size: 10px;
+      letter-spacing: 0.4px;
+      margin-top: 6px;
+    }
+
+    .nav-row {
+      max-width: 1200px;
+      margin: 0 auto 12px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+    .nav-sim {
+      background: #0d0b1a;
+      border: 1px solid rgba(239, 159, 39, 0.12);
+      border-radius: 10px;
+      padding: 22px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .nav-sim.current {
+      border-color: rgba(239, 159, 39, 0.35);
+    }
+    .nav-sim .iso-small {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+    .nav-sim .wordmark {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .nav-sim .ria {
+      font-weight: 500;
+      font-size: 18px;
+      letter-spacing: 3px;
+      color: #f0ece0;
+    }
+    .nav-sim .labs {
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      color: #EF9F27;
+    }
+
+    .section-title {
+      max-width: 1200px;
+      margin: 40px auto 12px;
+      color: #EF9F27;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .note {
+      max-width: 1200px;
+      margin: 40px auto 0;
+      color: rgba(240, 236, 224, 0.5);
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 20px 0;
+      border-top: 1px solid rgba(239, 159, 39, 0.12);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="head">
+    <div class="kicker">RIA Labs · Eclipse · Sonrisa sutil</div>
+    <h1>Desplazamientos bajos · dejar asomar la corona inferior</h1>
+    <p class="lede">Concepto: el cuerpo eclipsante apenas se desplaza hacia arriba, permitiendo que el borde inferior de la corona se lea como una sonrisa cálida. Variantes de 0% (total) a 30% (actual).</p>
+  </div>
+
+  <div class="section-title">Isotipo · 120×120</div>
+
+  <div class="grid">
+
+    <div class="card">
+      <svg class="iso" viewBox="0 0 120 120">
+        <!-- 0% eclipse total -->
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.55"/>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
+        <circle cx="60" cy="60" r="48" fill="none" stroke="#3d1c00" stroke-width="9"  opacity="0.32"/>
+        <circle cx="60" cy="60" r="46" fill="none" stroke="#633806" stroke-width="5"  opacity="0.24"/>
+        <circle cx="60" cy="60" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
+        <circle cx="60" cy="60" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
+        <circle cx="60" cy="60" r="38" fill="#1c1810"/>
+        <circle cx="60" cy="60" r="38" fill="#0b0a14"/>
+      </svg>
+      <div class="label">0% · total</div>
+      <div class="delta">Δ = 0 · sin sonrisa</div>
+    </div>
+
+    <div class="card">
+      <svg class="iso" viewBox="0 0 120 120">
+        <!-- 10% · Δ=4 (escala 120) · corona cy=62, luna cy=58 -->
+        <circle cx="60" cy="62" r="52" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.55"/>
+        <circle cx="60" cy="62" r="50" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
+        <circle cx="60" cy="62" r="48" fill="none" stroke="#3d1c00" stroke-width="9"  opacity="0.32"/>
+        <circle cx="60" cy="62" r="46" fill="none" stroke="#633806" stroke-width="5"  opacity="0.24"/>
+        <circle cx="60" cy="62" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
+        <circle cx="60" cy="62" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
+        <circle cx="60" cy="62" r="38" fill="#1c1810"/>
+        <circle cx="60" cy="58" r="38" fill="#0b0a14"/>
+      </svg>
+      <div class="label">10% · sonrisa fina</div>
+      <div class="delta">Δ = 4 · centroide (60,60)</div>
+    </div>
+
+    <div class="card">
+      <svg class="iso" viewBox="0 0 120 120">
+        <!-- 15% · Δ=6 · corona cy=63, luna cy=57 -->
+        <circle cx="60" cy="63" r="52" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.55"/>
+        <circle cx="60" cy="63" r="50" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
+        <circle cx="60" cy="63" r="48" fill="none" stroke="#3d1c00" stroke-width="9"  opacity="0.32"/>
+        <circle cx="60" cy="63" r="46" fill="none" stroke="#633806" stroke-width="5"  opacity="0.24"/>
+        <circle cx="60" cy="63" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
+        <circle cx="60" cy="63" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
+        <circle cx="60" cy="63" r="38" fill="#1c1810"/>
+        <circle cx="60" cy="57" r="38" fill="#0b0a14"/>
+      </svg>
+      <div class="label">15% · sonrisa cálida</div>
+      <div class="delta">Δ = 6 · centroide (60,60)</div>
+    </div>
+
+    <div class="card">
+      <svg class="iso" viewBox="0 0 120 120">
+        <!-- 20% · Δ=8 · corona cy=64, luna cy=56 -->
+        <circle cx="60" cy="64" r="52" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.55"/>
+        <circle cx="60" cy="64" r="50" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
+        <circle cx="60" cy="64" r="48" fill="none" stroke="#3d1c00" stroke-width="9"  opacity="0.32"/>
+        <circle cx="60" cy="64" r="46" fill="none" stroke="#633806" stroke-width="5"  opacity="0.24"/>
+        <circle cx="60" cy="64" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
+        <circle cx="60" cy="64" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
+        <circle cx="60" cy="64" r="38" fill="#1c1810"/>
+        <circle cx="60" cy="56" r="38" fill="#0b0a14"/>
+      </svg>
+      <div class="label">20% · sonrisa clara</div>
+      <div class="delta">Δ = 8 · centroide (60,60)</div>
+    </div>
+
+    <div class="card current">
+      <svg class="iso" viewBox="0 0 120 120">
+        <!-- 30% actual · Δ=12 · corona cy=66, luna cy=54 -->
+        <circle cx="60" cy="66" r="52" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.55"/>
+        <circle cx="60" cy="66" r="50" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
+        <circle cx="60" cy="66" r="48" fill="none" stroke="#3d1c00" stroke-width="9"  opacity="0.32"/>
+        <circle cx="60" cy="66" r="46" fill="none" stroke="#633806" stroke-width="5"  opacity="0.24"/>
+        <circle cx="60" cy="66" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
+        <circle cx="60" cy="66" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
+        <circle cx="60" cy="66" r="38" fill="#1c1810"/>
+        <circle cx="60" cy="54" r="38" fill="#0b0a14"/>
+      </svg>
+      <div class="label">30% · actual</div>
+      <div class="delta">Δ = 12 · en v4 hoy</div>
+    </div>
+
+  </div>
+
+  <div class="section-title">En contexto · nav real (24px canvas · 32px render)</div>
+
+  <div class="nav-row">
+
+    <div class="nav-sim">
+      <svg class="iso-small" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"  fill="none" stroke="#2a1200" stroke-width="5"   opacity="0.65"/>
+        <circle cx="12" cy="12" r="9.5" fill="none" stroke="#412402" stroke-width="3"   opacity="0.5"/>
+        <circle cx="12" cy="12" r="9"   fill="none" stroke="#633806" stroke-width="1.5" opacity="0.35"/>
+        <circle cx="12" cy="12" r="8.5" fill="none" stroke="#BA7517" stroke-width="0.7" opacity="0.22"/>
+        <circle cx="12" cy="12" r="8"   fill="#1c1810"/>
+        <circle cx="12" cy="12" r="8"   fill="#0b0a14"/>
+      </svg>
+      <div class="wordmark"><span class="ria">RIA</span><span class="labs">Labs</span></div>
+    </div>
+
+    <div class="nav-sim">
+      <svg class="iso-small" viewBox="0 0 24 24">
+        <circle cx="12" cy="12.4" r="10"  fill="none" stroke="#2a1200" stroke-width="5"   opacity="0.65"/>
+        <circle cx="12" cy="12.4" r="9.5" fill="none" stroke="#412402" stroke-width="3"   opacity="0.5"/>
+        <circle cx="12" cy="12.4" r="9"   fill="none" stroke="#633806" stroke-width="1.5" opacity="0.35"/>
+        <circle cx="12" cy="12.4" r="8.5" fill="none" stroke="#BA7517" stroke-width="0.7" opacity="0.22"/>
+        <circle cx="12" cy="12.4" r="8"   fill="#1c1810"/>
+        <circle cx="12" cy="11.6" r="8"   fill="#0b0a14"/>
+      </svg>
+      <div class="wordmark"><span class="ria">RIA</span><span class="labs">Labs</span></div>
+    </div>
+
+    <div class="nav-sim">
+      <svg class="iso-small" viewBox="0 0 24 24">
+        <circle cx="12" cy="12.6" r="10"  fill="none" stroke="#2a1200" stroke-width="5"   opacity="0.65"/>
+        <circle cx="12" cy="12.6" r="9.5" fill="none" stroke="#412402" stroke-width="3"   opacity="0.5"/>
+        <circle cx="12" cy="12.6" r="9"   fill="none" stroke="#633806" stroke-width="1.5" opacity="0.35"/>
+        <circle cx="12" cy="12.6" r="8.5" fill="none" stroke="#BA7517" stroke-width="0.7" opacity="0.22"/>
+        <circle cx="12" cy="12.6" r="8"   fill="#1c1810"/>
+        <circle cx="12" cy="11.4" r="8"   fill="#0b0a14"/>
+      </svg>
+      <div class="wordmark"><span class="ria">RIA</span><span class="labs">Labs</span></div>
+    </div>
+
+    <div class="nav-sim">
+      <svg class="iso-small" viewBox="0 0 24 24">
+        <circle cx="12" cy="12.8" r="10"  fill="none" stroke="#2a1200" stroke-width="5"   opacity="0.65"/>
+        <circle cx="12" cy="12.8" r="9.5" fill="none" stroke="#412402" stroke-width="3"   opacity="0.5"/>
+        <circle cx="12" cy="12.8" r="9"   fill="none" stroke="#633806" stroke-width="1.5" opacity="0.35"/>
+        <circle cx="12" cy="12.8" r="8.5" fill="none" stroke="#BA7517" stroke-width="0.7" opacity="0.22"/>
+        <circle cx="12" cy="12.8" r="8"   fill="#1c1810"/>
+        <circle cx="12" cy="11.2" r="8"   fill="#0b0a14"/>
+      </svg>
+      <div class="wordmark"><span class="ria">RIA</span><span class="labs">Labs</span></div>
+    </div>
+
+    <div class="nav-sim current">
+      <svg class="iso-small" viewBox="0 0 24 24">
+        <circle cx="12" cy="13.2" r="10"  fill="none" stroke="#2a1200" stroke-width="5"   opacity="0.65"/>
+        <circle cx="12" cy="13.2" r="9.5" fill="none" stroke="#412402" stroke-width="3"   opacity="0.5"/>
+        <circle cx="12" cy="13.2" r="9"   fill="none" stroke="#633806" stroke-width="1.5" opacity="0.35"/>
+        <circle cx="12" cy="13.2" r="8.5" fill="none" stroke="#BA7517" stroke-width="0.7" opacity="0.22"/>
+        <circle cx="12" cy="13.2" r="8"   fill="#1c1810"/>
+        <circle cx="12" cy="10.8" r="8"   fill="#0b0a14"/>
+      </svg>
+      <div class="wordmark"><span class="ria">RIA</span><span class="labs">Labs</span></div>
+    </div>
+
+  </div>
+
+  <p class="note">
+    La "sonrisa" aparece cuando la luna se desplaza hacia arriba: se revela un arco dorado en el borde inferior de la corona. A menor desplazamiento, más íntimo y contemplativo (casi eclipse total); a mayor desplazamiento, más luminoso y gestual. Todas las variantes preservan el centroide óptico en el centro del canvas (no hay corrimiento percibido del logo dentro del nav). Mi intuición: <strong style="color:#f8d888">15% / Δ=1.2</strong> sería el sweet spot — sonrisa nítida sin perder el peso del eclipse. <strong style="color:#f8d888">10%</strong> si querés algo apenas insinuado.
+  </p>
+
+</body>
+</html>
