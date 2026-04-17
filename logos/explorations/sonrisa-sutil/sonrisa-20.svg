@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- Sonrisa sutil 20% · Δ=1.6 · corona cy=12.8 · luna cy=11.2 · centroide (12,12) -->
+  <circle cx="12" cy="12.8" r="10"  fill="none" stroke="#2a1200" stroke-width="5"   opacity="0.65"/>
+  <circle cx="12" cy="12.8" r="9.5" fill="none" stroke="#412402" stroke-width="3"   opacity="0.5"/>
+  <circle cx="12" cy="12.8" r="9"   fill="none" stroke="#633806" stroke-width="1.5" opacity="0.35"/>
+  <circle cx="12" cy="12.8" r="8.5" fill="none" stroke="#BA7517" stroke-width="0.7" opacity="0.22"/>
+  <circle cx="12" cy="12.8" r="8"   fill="#1c1810"/>
+  <circle cx="12" cy="11.2" r="8"   fill="#0b0a14"/>
+</svg>

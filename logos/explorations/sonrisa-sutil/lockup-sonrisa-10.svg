@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 440" width="320" height="440">
+  <defs>
+    <style>
+      .ria-v  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; font-size: 128px; letter-spacing: 10px; fill: #f0ece0; }
+      .labs-v { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 54px;  letter-spacing: 5px;  fill: #EF9F27; }
+    </style>
+  </defs>
+
+  <!-- Eclipse · sonrisa 10% · Δ=4 · corona cy=142, luna cy=138 · centroide (160, 140) -->
+  <circle cx="160" cy="142" r="52" fill="none" stroke="#1a0900" stroke-width="22"  opacity="0.55"/>
+  <circle cx="160" cy="142" r="50" fill="none" stroke="#2a1200" stroke-width="14"  opacity="0.42"/>
+  <circle cx="160" cy="142" r="48" fill="none" stroke="#3d1c00" stroke-width="9"   opacity="0.32"/>
+  <circle cx="160" cy="142" r="46" fill="none" stroke="#633806" stroke-width="5"   opacity="0.24"/>
+  <circle cx="160" cy="142" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
+  <circle cx="160" cy="142" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
+  <circle cx="160" cy="142" r="38" fill="#1c1810"/>
+  <circle cx="160" cy="138" r="38" fill="#0b0a14"/>
+
+  <!-- RIA -->
+  <text class="ria-v"  x="160" y="316" text-anchor="middle">RIA</text>
+  <!-- Labs -->
+  <text class="labs-v" x="160" y="386" text-anchor="middle">Labs</text>
+</svg>

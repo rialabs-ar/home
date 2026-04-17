@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 520" width="1400" height="520">
+  <defs>
+    <style>
+      .bg { fill: #0a0814; }
+      .kicker { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; fill: #EF9F27; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; }
+      .title  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; fill: #f0ece0; font-size: 24px; letter-spacing: 0.5px; }
+      .label  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; fill: #EF9F27; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; text-anchor: middle; }
+      .label.current { fill: #f8d888; }
+      .delta  { font-family: 'SF Mono', Menlo, monospace; fill: rgba(240,236,224,0.5); font-size: 10px; text-anchor: middle; }
+      .panel  { fill: #0d0b1a; stroke: rgba(239,159,39,0.12); stroke-width: 1; rx: 10; }
+      .panel.current { stroke: rgba(239,159,39,0.35); stroke-width: 1.5; }
+    </style>
+
+    <g id="corona-base">
+      <circle cx="60" cy="0" r="52" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.55"/>
+      <circle cx="60" cy="0" r="50" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
+      <circle cx="60" cy="0" r="48" fill="none" stroke="#3d1c00" stroke-width="9"  opacity="0.32"/>
+      <circle cx="60" cy="0" r="46" fill="none" stroke="#633806" stroke-width="5"  opacity="0.24"/>
+      <circle cx="60" cy="0" r="45" fill="none" stroke="#854F0B" stroke-width="2.5" opacity="0.18"/>
+      <circle cx="60" cy="0" r="44" fill="none" stroke="#BA7517" stroke-width="1.2" opacity="0.13"/>
+      <circle cx="60" cy="0" r="38" fill="#1c1810"/>
+    </g>
+  </defs>
+
+  <rect class="bg" width="1400" height="520"/>
+
+  <text class="kicker" x="50" y="50">RIA Labs · Eclipse · Sonrisa sutil</text>
+  <text class="title"  x="50" y="82">Desplazamientos bajos · asomar la corona inferior</text>
+
+  <!-- 5 paneles equi-espaciados -->
+  <!-- Panel 0% -->
+  <rect class="panel" x="50" y="130" width="250" height="330"/>
+  <g transform="translate(175, 260)">
+    <use href="#corona-base" transform="translate(-60, 0)"/>
+    <circle cx="0" cy="0" r="38" fill="#0b0a14"/>
+  </g>
+  <text class="label"   x="175" y="420">0% · total</text>
+  <text class="delta"   x="175" y="440">Δ = 0 · sin sonrisa</text>
+
+  <!-- Panel 10% -->
+  <rect class="panel" x="320" y="130" width="250" height="330"/>
+  <g transform="translate(445, 260)">
+    <use href="#corona-base" transform="translate(-60, 2)"/>
+    <circle cx="0" cy="-2" r="38" fill="#0b0a14"/>
+  </g>
+  <text class="label"   x="445" y="420">10% · fina</text>
+  <text class="delta"   x="445" y="440">Δ = 4 · muy sutil</text>
+
+  <!-- Panel 15% -->
+  <rect class="panel" x="590" y="130" width="250" height="330"/>
+  <g transform="translate(715, 260)">
+    <use href="#corona-base" transform="translate(-60, 3)"/>
+    <circle cx="0" cy="-3" r="38" fill="#0b0a14"/>
+  </g>
+  <text class="label"   x="715" y="420">15% · cálida</text>
+  <text class="delta"   x="715" y="440">Δ = 6 · sweet spot</text>
+
+  <!-- Panel 20% -->
+  <rect class="panel" x="860" y="130" width="250" height="330"/>
+  <g transform="translate(985, 260)">
+    <use href="#corona-base" transform="translate(-60, 4)"/>
+    <circle cx="0" cy="-4" r="38" fill="#0b0a14"/>
+  </g>
+  <text class="label"   x="985" y="420">20% · clara</text>
+  <text class="delta"   x="985" y="440">Δ = 8</text>
+
+  <!-- Panel 30% actual -->
+  <rect class="panel current" x="1130" y="130" width="250" height="330"/>
+  <g transform="translate(1255, 260)">
+    <use href="#corona-base" transform="translate(-60, 6)"/>
+    <circle cx="0" cy="-6" r="38" fill="#0b0a14"/>
+  </g>
+  <text class="label current" x="1255" y="420">30% · actual</text>
+  <text class="delta"   x="1255" y="440">Δ = 12 · en v4 hoy</text>
+
+</svg>
