@@ -204,6 +204,16 @@
   .t-tm { color: var(--muted); margin-left: auto; font-size: 11px; }
   .term-ft { padding: 10px 16px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; color: var(--muted); opacity: 0.4; border-top: 1px solid var(--border2); }
 
+  /* CHAT MOCKUP (ria-comms) */
+  .chat { padding: 18px 18px 8px; display: flex; flex-direction: column; gap: 10px; }
+  .chat-msg { max-width: 78%; padding: 9px 13px; font-size: 12.5px; line-height: 1.5; font-weight: 300; color: var(--white); border: 1px solid var(--border2); position: relative; }
+  .chat-in  { align-self: flex-start; background: rgba(255,255,255,0.025); }
+  .chat-out { align-self: flex-end;   background: rgba(200,134,10,0.08); border-color: var(--border); }
+  .chat-sys { align-self: center; max-width: 92%; background: transparent; border: 1px dashed var(--border); color: var(--gold); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.4px; padding: 6px 12px; text-transform: uppercase; }
+  .chat-who { display: block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.2px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; opacity: 0.75; }
+  .chat-out .chat-who { color: var(--gold-hi); opacity: 0.85; }
+  .chat-tm  { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--muted); opacity: 0.55; margin-left: 8px; }
+
   /* PROCESS */
   .proc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
   .proc-steps { margin-top: 48px; }
@@ -363,7 +373,7 @@
   </a>
   <ul class="nav-links">
     <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#caso">Caso real</a></li>
+    <li><a href="#caso">Casos reales</a></li>
     <li><a href="#metodologia">Metodología</a></li>
     <li><a href="#mercado">Mercado</a></li>
     <li><a href="#equipo">Equipo</a></li>
@@ -616,7 +626,7 @@
   </div>
   <div class="hero-ctas">
     <a href="#contacto" class="btn-gold">Empecemos</a>
-    <a href="#caso" class="btn-ghost">Ver caso real →</a>
+    <a href="#caso" class="btn-ghost">Ver casos reales →</a>
   </div>
   <p class="hero-origin"><a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:#4a8fd4;text-decoration:none;">Byte</a> × <a href="https://vrio.ar" target="_blank" rel="noopener" style="color:var(--gold-hi);text-decoration:none;">VRIO</a></p>
 </div>
@@ -837,6 +847,50 @@
             <!-- Label info -->
             <text x="150" y="176" text-anchor="middle" font-family="'DM Mono',monospace" font-size="6" fill="#3a3850" letter-spacing="1.5">PREDIO · VISTA CENITAL</text>
           </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- CASO REAL · RIA COMMS -->
+<div class="case-wrap" id="caso-comms" style="border-top: none;">
+  <div class="wrap">
+    <p class="lbl rev">Caso en producción</p>
+    <div class="case-grid">
+      <div>
+        <span class="case-pill rev">Rosario, Argentina</span>
+        <h2 class="case-name rev d1">RIA<br><span>Comms</span></h2>
+        <p class="case-b rev d2">Construimos una capa de comunicación inteligente sobre WhatsApp. Cada lead que entra es clasificado, ruteado al responsable adecuado y acompañado por bots de management que dan visibilidad en tiempo real. <strong>La operación comercial pasa de ser una bandeja de mensajes a un proceso medido, con memoria y reportes.</strong> Byte y VRIO fueron los primeros equipos en usarlo en producción sobre sus propias operaciones.</p>
+        <div class="client-logo-wrap rev d3">
+          <span class="client-cname" style="color: var(--blue);">BYTE</span>
+          <span style="color: var(--muted); font-size: 28px; font-weight: 200; opacity: 0.6;">·</span>
+          <span class="client-cname" style="color: var(--gold-hi);">VRIO</span>
+        </div>
+      </div>
+      <div class="rev d2">
+        <div class="term">
+          <div class="term-bar">
+            <div class="t-d t-d1"></div><div class="t-d t-d2"></div><div class="t-d t-d3"></div>
+            <span class="t-ttl">ria_comms · whatsapp_thread</span>
+          </div>
+          <div class="chat">
+            <div class="chat-msg chat-in">
+              <span class="chat-who">Cliente · +54 341</span>
+              Hola, quería consultar por un sistema de cámaras para una oficina.<span class="chat-tm">10:42</span>
+            </div>
+            <div class="chat-msg chat-sys">lead · cctv corporativo · interés alto → asignado a Sebastián</div>
+            <div class="chat-msg chat-out">
+              <span class="chat-who">Sebastián · Byte</span>
+              ¡Hola! Podemos coordinar un relevamiento esta semana. ¿Dónde está la oficina?<span class="chat-tm">10:43</span>
+            </div>
+            <div class="chat-msg chat-in">
+              Centro de Rosario, 6 ambientes. Lunes me queda bien.<span class="chat-tm">10:45</span>
+            </div>
+            <div class="chat-msg chat-sys">/leads · 9 activos · 3 nuevos hoy · 0 sin asignar</div>
+          </div>
+          <div class="term-ft">Lead intake · auto-ruteo · audit log · tiempo real</div>
         </div>
       </div>
     </div>
@@ -1124,7 +1178,7 @@
   <ul class="f-links">
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#proceso">Método</a></li>
-    <li><a href="#caso">Caso</a></li>
+    <li><a href="#caso">Casos</a></li>
     <li><a href="#equipo">Equipo</a></li>
     <li><a href="#contacto">Contacto</a></li>
   </ul>

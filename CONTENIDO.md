@@ -117,7 +117,9 @@ Cuatro líneas de servicio, con evolución del enfoque entre versiones.
 
 ---
 
-## 5. Caso en producción
+## 5. Casos en producción
+
+> v4 incluye **dos** casos en producción: Byte Analítico (LPR + trazabilidad vehicular, cliente Seprio) y RIA Comms (comms inteligentes sobre WhatsApp, primeros usuarios Byte y VRIO sobre sus propias operaciones).
 
 ### 5.1 Byte Analítico — Seprio (concesionaria oficial Fiat, Rosario)
 
@@ -136,6 +138,25 @@ Cuatro líneas de servicio, con evolución del enfoque entre versiones.
 **Dato operativo mostrado en v4:** 1.100 vehículos activos · OCR + IA · tiempo real.
 
 **Link externo:** https://byte-analitico-v2.netlify.app (v3).
+
+### 5.2 RIA Comms — Primeros usuarios: Byte + VRIO (operación comercial sobre WhatsApp)
+
+**Descripción vigente (v4):**
+> Construimos una capa de comunicación inteligente sobre WhatsApp. Cada lead que entra es clasificado, ruteado al responsable adecuado y acompañado por bots de management que dan visibilidad en tiempo real. Un nuevo sistema pasa la operación comercial de ser una bandeja de mensajes a un proceso medido, con memoria y reportes. Byte y VRIO fueron los primeros equipos en usarlo en producción sobre sus propias operaciones.
+
+**Posicionamiento:** dogfooding — RIA Labs construyó el sistema y lo usó internamente (Byte para inbound de infraestructura/seguridad, VRIO para inbound de software) antes de ofrecerlo a clientes externos.
+
+**Mockup mostrado (terminal `ria_comms · whatsapp_thread`):**
+- Lead entrante consultando por un sistema de cámaras para una oficina.
+- Clasificación automática + auto-asignación a Sebastián (Byte).
+- Respuesta coordinando relevamiento.
+- Bot de management resumiendo `/leads · 9 activos · 3 nuevos hoy · 0 sin asignar`.
+
+**Dato operativo (footer del mockup):** Lead intake · auto-ruteo · audit log · tiempo real.
+
+**Marca / atribución mostrada:** badge "BYTE · VRIO" (BYTE en azul `--blue`, VRIO en dorado `--gold-hi`), respetando la paleta de los dos planetas del orbit animado del cierre del sitio.
+
+**Anchor:** `#caso-comms` (el bloque comparte estilos `.case-wrap` con el de Byte Analítico y aparece inmediatamente debajo).
 
 ---
 
@@ -302,7 +323,8 @@ RIA/
 ### 12.1 Anchors del sitio vigente (v4)
 
 - `#servicios` — "Lo que hacemos"
-- `#caso` — "Byte Analítico" (caso Seprio)
+- `#caso` — "Byte Analítico" (primer caso Seprio)
+- `#caso-comms` — "RIA Comms" (comms WhatsApp, primeros usuarios Byte + VRIO)
 - `#metodologia` — "La forma en que pensamos"
 - `#mercado` — "Dónde opera lo que construimos"
 - `#equipo` — "Dos empresas consolidadas"
@@ -310,7 +332,7 @@ RIA/
 
 ### 12.2 Nav bar (v4)
 
-Logo + enlaces a Servicios · Método · Mercado · Equipo · CTA "Conversemos".
+Logo + enlaces a Servicios · Casos reales · Método · Mercado · Equipo · CTA "Conversemos".
 
 ### 12.3 Footer (v4)
 
