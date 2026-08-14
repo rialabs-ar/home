@@ -167,6 +167,7 @@
   .lab-card::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 0; background: var(--c); transition: height 0.35s ease; }
   .lab-card:hover::before { height: 100%; }
   .lab-card:hover { background: var(--bg2); }
+  .lab-card.wide { grid-column: span 2; }
   .lab-state { font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; color: var(--c); opacity: 0.85; }
   .lab-name { font-family: 'Saira', sans-serif; font-weight: 500; font-size: 22px; letter-spacing: 0.5px; color: var(--white); margin: 12px 0; }
   .lab-desc { font-size: 14.5px; font-weight: 300; line-height: 1.7; color: var(--muted); }
@@ -228,9 +229,19 @@
   /* TEAM */
   .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 0; background: var(--border2); }
   .founder { background: var(--bg); padding: 48px 40px; }
-  .f-init { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: 'Saira', sans-serif; font-weight: 500; font-size: 18px; letter-spacing: 2px; color: var(--gold); margin-bottom: 20px; }
+  /* La foto ocupa el lugar que tenían las iniciales: la cara antes del nombre. Redonda, con el
+     mismo aro tenue del resto de la identidad. `object-fit: cover` porque los dos retratos
+     vienen de fuentes distintas y no comparten encuadre; el recorte cuadrado ya viene hecho. */
+  /* Foto e identidad en una fila: la cara a la izquierda, el nombre y el rol a su altura.
+     `flex: none` en la foto para que no se comprima cuando el nombre es largo. */
+  .f-head { display: flex; align-items: center; gap: 20px; margin-bottom: 22px; }
+  .f-photo { flex: none; width: 112px; height: 112px; border-radius: 50%; overflow: hidden; border: 1px solid var(--border); background: var(--bg3); position: relative; }
+  .f-photo img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* Iniciales debajo de la foto: si la imagen no carga, el círculo sigue diciendo quién es
+     en vez de quedar vacío. Es el mismo recurso que había antes de las fotos. */
+  .f-init { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Saira', sans-serif; font-weight: 500; font-size: 22px; letter-spacing: 2px; color: var(--gold); }
   .f-name { font-family: 'Saira', sans-serif; font-weight: 500; font-size: 26px; letter-spacing: 1px; color: var(--white); margin-bottom: 4px; }
-  .f-role { font-size: 11px; font-weight: 300; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
+  .f-role { font-size: 11px; font-weight: 300; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
   .f-bio { font-size: 15px; font-weight: 300; line-height: 1.72; color: var(--muted); margin-bottom: 24px; }
   .f-co { font-family: 'Saira', sans-serif; font-weight: 500; font-size: 16px; letter-spacing: 2px; color: var(--white); opacity: 0.5; margin-bottom: 4px; }
   .f-col { font-size: 12px; font-weight: 300; color: var(--muted); }
@@ -308,6 +319,9 @@
     nav{padding:16px 24px;} .nav-links{display:none;}
     .wrap{padding:0 24px;} .section{padding:80px 0;}
     .svc-grid,.proc-grid,.team-grid,.mkt-grid,.princ-grid,.lab-grid{grid-template-columns:1fr;}
+    /* Una sola columna: si el quinto siguiera pidiendo dos, la grilla inventaría
+       una columna implícita y las tarjetas quedarían a mitad de ancho. */
+    .lab-card.wide{grid-column:auto;}
     /* sin hover en touch: la flecha tiene que estar siempre visible para que se lea como link */
     .lab-more{opacity:0.9;transform:none;}
     .stat-inner{grid-template-columns:1fr 1fr;}
@@ -707,20 +721,28 @@
       </a>
       <a class="lab-card rev d1" href="/laboratorio/#p02" style="--c:#4a8fd4">
         <p class="lab-state">v1 cerrada · instalable</p>
-        <h3 class="lab-name">Analítica de video</h3>
-        <p class="lab-desc">Plataforma integral de monitoreo con motor de detección propio — rostro, patente, invasión de zona, cruce de línea, aforo. Una pantalla nueva no se programa: se configura.</p>
+        <h3 class="lab-name">Analítica de video · seguridad</h3>
+        <p class="lab-desc">La vertical de seguridad: plataforma integral de monitoreo con motor de detección propio — rostro, patente, invasión de zona, cruce de línea, aforo. Una pantalla nueva no se programa: se configura.</p>
         <span class="lab-more">Ver el proyecto →</span>
       </a>
-      <a class="lab-card rev d2" href="/laboratorio/#p03" style="--c:#4fd48f">
+      <a class="lab-card rev d2" href="/laboratorio/#p03" style="--c:#7F77DD">
+        <p class="lab-state">En producción · Byte + VRIO</p>
+        <h3 class="lab-name">RIA Comms</h3>
+        <p class="lab-desc">La conversación con el cliente deja de vivir en el WhatsApp personal de alguien y pasa a ser infraestructura: persistida, clasificada, ruteada al responsable y medida. Byte y VRIO la usan sobre su propia operación.</p>
+        <span class="lab-more">Ver el proyecto →</span>
+      </a>
+      <a class="lab-card rev d3" href="/laboratorio/#p04" style="--c:#4fd48f">
         <p class="lab-state">Prototipo · medido en calle</p>
         <h3 class="lab-name">Tránsito inteligente</h3>
         <p class="lab-desc">Un semáforo que reacciona al tránsito real leído por video, en vez de a una espira enterrada en el pavimento. Medido sobre una ochava de Rosario: −27 % de demora contra tiempo fijo.</p>
         <span class="lab-more">Ver el proyecto →</span>
       </a>
-      <a class="lab-card rev d3" href="/laboratorio/#p04" style="--c:#7F77DD">
-        <p class="lab-state">En producción · Byte + VRIO</p>
-        <h3 class="lab-name">RIA Comms</h3>
-        <p class="lab-desc">La conversación con el cliente deja de vivir en el WhatsApp personal de alguien y pasa a ser infraestructura: persistida, clasificada, ruteada al responsable y medida. Byte y VRIO la usan sobre su propia operación.</p>
+      <!-- El quinto ocupa las dos columnas: es el más nuevo y, con cinco tarjetas en una
+           grilla de dos, la alternativa era dejarlo solo al lado de un hueco. -->
+      <a class="lab-card wide rev d4" href="/laboratorio/#p05" style="--c:#2fd0c8">
+        <p class="lab-state">Midiendo 24/7 · piloto propio en Rosario</p>
+        <h3 class="lab-name">Sensores urbanos para la ciudad</h3>
+        <p class="lab-desc">El prototipo del semáforo creció hasta ser una plataforma: la misma cámara le mide cuatro verticales a un municipio —movilidad, espacio público, estacionamiento, ambiente— en una PC al lado del poste, sin nube y sin obra. El video se procesa y se descarta: es medición, no vigilancia.</p>
         <span class="lab-more">Ver el proyecto →</span>
       </a>
     </div>
@@ -930,17 +952,31 @@
 
     <div class="team-grid">
       <div class="founder rev d1">
-        <div class="f-init">SA</div>
-        <div class="f-name">Sebastián Acedo</div>
-        <div class="f-role">Co-fundador · Infraestructura & Seguridad</div>
+        <div class="f-head">
+          <div class="f-photo">
+            <span class="f-init">SA</span>
+            <img src="/assets/equipo-sebastian.jpg" width="360" height="360" loading="lazy" decoding="async" alt="Sebastián Acedo">
+          </div>
+          <div>
+            <div class="f-name">Sebastián Acedo</div>
+            <div class="f-role">Co-fundador · Infraestructura & Seguridad</div>
+          </div>
+        </div>
         <p class="f-bio">Más de 25 años de trayectoria al frente de Byte, diseñando e implementando infraestructuras tecnológicas para empresas e instituciones de la región. Especialista en integración de sistemas, operaciones físicas y redes de alta complejidad. Aporta el acceso directo a clientes con infraestructura instalada, la solidez operativa y el conocimiento profundo de los entornos reales donde la tecnología tiene que funcionar.</p>
         <div class="f-co"><a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">Byte</a></div>
         <div class="f-col">Seguridad electrónica e integración de sistemas · <a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:inherit;opacity:0.7;text-decoration:underline;text-underline-offset:3px;">compu-byte.com.ar</a></div>
       </div>
       <div class="founder rev d2">
-        <div class="f-init">MG</div>
-        <div class="f-name">Matías Gallego</div>
-        <div class="f-role">Co-fundador · Software & Estrategia</div>
+        <div class="f-head">
+          <div class="f-photo">
+            <span class="f-init">MG</span>
+            <img src="/assets/equipo-matias.jpg" width="360" height="360" loading="lazy" decoding="async" alt="Matías Gallego">
+          </div>
+          <div>
+            <div class="f-name">Matías Gallego</div>
+            <div class="f-role">Co-fundador · Software & Estrategia</div>
+          </div>
+        </div>
         <p class="f-bio">Al frente de VRIO Estudio, dedicado al desarrollo de software disruptivo y la creación de soluciones tecnológicas de alta complejidad. Nuevos paradigmas, ingeniería creativa y estrategia disruptiva aplicados a problemas reales. Aporta la capacidad técnica de desarrollo, la arquitectura de sistemas de IA, la visión de producto y la filosofía de innovación que define el alma de RIA Labs.</p>
         <div class="f-co"><a href="https://vrio.ar" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">VRIO Estudio</a></div>
         <div class="f-col">Software as an art form · <a href="https://vrio.ar" target="_blank" rel="noopener" style="color:inherit;opacity:0.7;text-decoration:underline;text-underline-offset:3px;">vrio.ar</a></div>

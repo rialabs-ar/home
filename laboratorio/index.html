@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Laboratorio — RIA Labs</title>
-<meta name="description" content="Lo que estamos construyendo: sistemas en producción y prototipos medidos en la calle. Analítica de video, control inteligente de tránsito, el sistema operativo de una concesionaria y una plataforma de comunicaciones. RIA Labs, Rosario.">
+<meta name="description" content="Lo que estamos construyendo: sistemas en producción y prototipos medidos en la calle. Analítica de video, control inteligente de tránsito, sensores urbanos para smart city, el sistema operativo de una concesionaria y una plataforma de comunicaciones. RIA Labs, Rosario.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta name="theme-color" content="#07060f">
@@ -99,12 +99,15 @@
   .pl-hit { fill: transparent; cursor: pointer; }
   .pl-lab { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.6px; text-transform: uppercase; text-anchor: middle; pointer-events: none; }
 
-  .lab-legend { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border2); max-width: 800px; margin: 20px auto 0; position: relative; z-index: 3; animation: fadeUp 0.9s ease both 0.8s; }
-  .lg-item { background: var(--bg); padding: 16px 18px; text-align: left; text-decoration: none; display: block; border-top: 1px solid transparent; transition: background 0.25s, border-color 0.25s; cursor: pointer; }
+  .lab-legend { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: var(--border2); max-width: 800px; margin: 20px auto 0; position: relative; z-index: 3; animation: fadeUp 0.9s ease both 0.8s; }
+  /* Columna flex y no bloque: con cinco proyectos hay nombres que ocupan dos renglones
+     ("Tránsito inteligente"), y el estado tiene que quedar alineado abajo en todas las
+     fichas igual — si no, la fila se ve desprolija justo en el elemento que compara. */
+  .lg-item { background: var(--bg); padding: 16px 18px; text-align: left; text-decoration: none; display: flex; flex-direction: column; border-top: 1px solid transparent; transition: background 0.25s, border-color 0.25s; cursor: pointer; }
   .lg-item:hover { background: var(--bg2); border-top-color: var(--c); }
   .lg-n { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--c); opacity: 0.8; }
-  .lg-nm { font-size: 14px; font-weight: 500; color: var(--white); margin-top: 6px; letter-spacing: 0.3px; }
-  .lg-st { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.4px; color: var(--muted); text-transform: uppercase; margin-top: 5px; opacity: 0.7; }
+  .lg-nm { font-size: 13.5px; font-weight: 500; color: var(--white); margin-top: 6px; letter-spacing: 0.2px; line-height: 1.3; }
+  .lg-st { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.4px; color: var(--muted); text-transform: uppercase; margin-top: auto; padding-top: 6px; opacity: 0.7; }
 
   .scroll-hint { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--muted); opacity: 0.3; text-transform: uppercase; }
 
@@ -204,7 +207,9 @@
   .sw-tabs { display: flex; gap: 2px; background: var(--border2); }
   .sw-tab { flex: 1; background: #07060f; border: none; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.4px; text-transform: uppercase; padding: 13px 10px; cursor: pointer; transition: all 0.25s; border-bottom: 2px solid transparent; }
   .sw-tab:hover { color: var(--white); background: #0d0c1a; }
-  .sw-tab.on { color: var(--blue); border-bottom-color: var(--blue); background: #0d0c1a; }
+  /* La pestaña activa toma el acento de SU proyecto (en el 02 eso da el mismo azul de antes;
+     en el 05, el teal). Un color fijo acá obligaría a duplicar la regla por sección. */
+  .sw-tab.on { color: var(--acc); border-bottom-color: var(--acc); background: #0d0c1a; }
   .cams { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border2); }
   .cam { background: #07060f; position: relative; transition: opacity 0.4s; }
   .cam.off { opacity: 0.24; }
@@ -247,6 +252,19 @@
   /* — artefacto 04: flujo comms — */
   #comms-svg { width: 100%; height: auto; display: block; }
 
+  /* — artefacto 05: capturas del sistema + contexto smart city —
+       Las capturas son del sistema corriendo, no maquetas: van sobre un fondo más negro que
+       el panel para que se lea como pantalla y no como ilustración. */
+  .shot-wrap { background: #05040c; }
+  .shot { width: 100%; height: auto; display: block; }
+  .teo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border2); }
+  .tc { background: #07060f; padding: 25px 23px; }
+  .tc-k { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2.2px; color: var(--acc); opacity: 0.8; text-transform: uppercase; }
+  .tc-t { font-size: 14.5px; font-weight: 500; color: var(--white); margin: 11px 0 9px; line-height: 1.38; }
+  .tc-b { font-size: 13px; font-weight: 300; line-height: 1.72; color: var(--muted); }
+  .tc-b strong { color: var(--white); font-weight: 400; }
+  .tc-b em { font-style: italic; }
+
   /* ── MÉTODO ──────────────────────────────── */
   .met-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border2); margin-top: 58px; }
   .met { background: var(--bg); padding: 34px 30px; position: relative; overflow: hidden; transition: background 0.3s; }
@@ -284,6 +302,7 @@
   @media(max-width: 1340px) { #rail { display: none; } }
   @media(max-width: 980px) {
     .cams { grid-template-columns: repeat(2, 1fr); }
+    .teo { grid-template-columns: repeat(2, 1fr); }
     .defrow { grid-template-columns: repeat(2, 1fr); }
     .nums { grid-template-columns: repeat(2, 1fr); }
     .vid-grid { grid-template-columns: 1fr; }
@@ -292,8 +311,11 @@
     nav { padding: 16px 24px; } .nav-links { display: none; }
     .wrap { padding: 0 24px; } .section, .proj { padding: 74px 0; }
     .mani { padding: 68px 0; } .mani-grid { grid-template-columns: 1fr; gap: 34px; }
-    .feat, .met-grid { grid-template-columns: 1fr; }
+    .feat, .met-grid, .teo { grid-template-columns: 1fr; }
+    /* Cinco proyectos en dos columnas dejan al último solo: que ocupe el ancho entero en vez
+       de quedar como un huérfano al lado de un hueco. */
     .lab-legend { grid-template-columns: repeat(2, 1fr); }
+    .lab-legend .lg-item:last-child { grid-column: span 2; }
     .art-body { padding: 18px 14px; }
     .lr { padding: 9px 14px; gap: 9px; font-size: 10.5px; flex-wrap: wrap; }
     .lr-s { min-width: 104px; } .lr-w { min-width: 66px; } .lr-plate { display: none; }
@@ -356,7 +378,7 @@
   <p class="lab-sub">Trabajamos como un laboratorio: una pregunta, un prototipo que corre sobre datos reales, y una medición que decide si sigue. <strong>Esto es lo que hay hoy sobre la mesa.</strong></p>
 
   <div id="lab-orbit-wrap">
-    <svg id="lab-orbit" viewBox="0 0 760 356" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama orbital de los cuatro proyectos del laboratorio">
+    <svg id="lab-orbit" viewBox="0 0 760 356" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama orbital de los cinco proyectos del laboratorio">
       <defs>
         <radialGradient id="aura" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stop-color="#c8860a" stop-opacity="0.16"/>
@@ -370,10 +392,13 @@
           <stop offset="0%" stop-color="#a8d0f5"/><stop offset="55%" stop-color="#4a8fd4"/><stop offset="100%" stop-color="#1e4a78"/>
         </radialGradient>
         <radialGradient id="sp-p03" cx="34%" cy="30%" r="72%">
-          <stop offset="0%" stop-color="#b6f5d6"/><stop offset="55%" stop-color="#4fd48f"/><stop offset="100%" stop-color="#1d6b45"/>
+          <stop offset="0%" stop-color="#c9c5f5"/><stop offset="55%" stop-color="#7F77DD"/><stop offset="100%" stop-color="#3a3480"/>
         </radialGradient>
         <radialGradient id="sp-p04" cx="34%" cy="30%" r="72%">
-          <stop offset="0%" stop-color="#c9c5f5"/><stop offset="55%" stop-color="#7F77DD"/><stop offset="100%" stop-color="#3a3480"/>
+          <stop offset="0%" stop-color="#b6f5d6"/><stop offset="55%" stop-color="#4fd48f"/><stop offset="100%" stop-color="#1d6b45"/>
+        </radialGradient>
+        <radialGradient id="sp-p05" cx="34%" cy="30%" r="72%">
+          <stop offset="0%" stop-color="#aef5ee"/><stop offset="55%" stop-color="#2fd0c8"/><stop offset="100%" stop-color="#12615d"/>
         </radialGradient>
       </defs>
 
@@ -382,8 +407,11 @@
       <!-- órbitas -->
       <ellipse class="orb" data-p="0" cx="380" cy="178" rx="322" ry="82" stroke="#EF9F27" transform="rotate(-9 380 178)"/>
       <ellipse class="orb" data-p="1" cx="380" cy="178" rx="248" ry="64" stroke="#4a8fd4" transform="rotate(15 380 178)"/>
-      <ellipse class="orb" data-p="2" cx="380" cy="178" rx="178" ry="47" stroke="#4fd48f" transform="rotate(-25 380 178)"/>
-      <ellipse class="orb" data-p="3" cx="380" cy="178" rx="116" ry="32" stroke="#7F77DD" transform="rotate(9 380 178)"/>
+      <ellipse class="orb" data-p="2" cx="380" cy="178" rx="116" ry="32" stroke="#7F77DD" transform="rotate(9 380 178)"/>
+      <ellipse class="orb" data-p="3" cx="380" cy="178" rx="178" ry="47" stroke="#4fd48f" transform="rotate(-25 380 178)"/>
+      <!-- El 05 no va en el anillo más chico (ahí no queda lugar libre entre el núcleo y el 04):
+           entra entre el 01 y el 02, con su propia inclinación para no confundirse con ninguno. -->
+      <ellipse class="orb" data-p="4" cx="380" cy="178" rx="290" ry="76" stroke="#2fd0c8" transform="rotate(34 380 178)"/>
 
       <g id="lab-back"></g>
 
@@ -415,11 +443,14 @@
     <a class="lg-item" href="#p02" data-p="1" style="--c:#4a8fd4">
       <div class="lg-n">02</div><div class="lg-nm">Analítica de video</div><div class="lg-st">v1 cerrada</div>
     </a>
-    <a class="lg-item" href="#p03" data-p="2" style="--c:#4fd48f">
-      <div class="lg-n">03</div><div class="lg-nm">Tránsito inteligente</div><div class="lg-st">prototipo medido</div>
+    <a class="lg-item" href="#p03" data-p="2" style="--c:#7F77DD">
+      <div class="lg-n">03</div><div class="lg-nm">RIA Comms</div><div class="lg-st">en producción</div>
     </a>
-    <a class="lg-item" href="#p04" data-p="3" style="--c:#7F77DD">
-      <div class="lg-n">04</div><div class="lg-nm">RIA Comms</div><div class="lg-st">en producción</div>
+    <a class="lg-item" href="#p04" data-p="3" style="--c:#4fd48f">
+      <div class="lg-n">04</div><div class="lg-nm">Tránsito inteligente</div><div class="lg-st">prototipo medido</div>
+    </a>
+    <a class="lg-item" href="#p05" data-p="4" style="--c:#2fd0c8">
+      <div class="lg-n">05</div><div class="lg-nm">Sensores urbanos</div><div class="lg-st">midiendo 24/7</div>
     </a>
   </div>
 
@@ -447,8 +478,9 @@
 <div id="rail">
   <a class="rail-i" href="#p01" style="--rc:#EF9F27"><span class="rail-d"></span><span class="rail-t">01 · Drivecore</span></a>
   <a class="rail-i" href="#p02" style="--rc:#4a8fd4"><span class="rail-d"></span><span class="rail-t">02 · Analítica</span></a>
-  <a class="rail-i" href="#p03" style="--rc:#4fd48f"><span class="rail-d"></span><span class="rail-t">03 · Tránsito</span></a>
-  <a class="rail-i" href="#p04" style="--rc:#7F77DD"><span class="rail-d"></span><span class="rail-t">04 · Comms</span></a>
+  <a class="rail-i" href="#p03" style="--rc:#7F77DD"><span class="rail-d"></span><span class="rail-t">03 · Comms</span></a>
+  <a class="rail-i" href="#p04" style="--rc:#4fd48f"><span class="rail-d"></span><span class="rail-t">04 · Tránsito</span></a>
+  <a class="rail-i" href="#p05" style="--rc:#2fd0c8"><span class="rail-d"></span><span class="rail-t">05 · Smartcity</span></a>
 </div>
 
 <!-- ══════════════ P01 · DRIVECORE ══════════════ -->
@@ -533,7 +565,7 @@
       <div class="rev">
         <p class="proj-num">Proyecto 02</p>
         <h2 class="proj-name">Analítica de <span>video</span></h2>
-        <p class="proj-kick">Plataforma integral de monitoreo · motor propio</p>
+        <p class="proj-kick">La vertical de seguridad · plataforma de monitoreo con motor propio</p>
       </div>
       <div class="rev d1" style="padding-top:38px;">
         <span class="badge badge-v1"><span class="dot"></span>v1 cerrada · instalable</span>
@@ -543,6 +575,8 @@
     <p class="proj-lead rev d2">Las plataformas de gestión de video del mercado son excelentes moviendo cámaras y pésimas entendiendo lo que pasa adentro del cuadro: para eso revenden analítica de terceros. <strong>Nosotros construimos las dos mitades</strong> — la plataforma de monitoreo <em>y</em> los modelos que detectan. Rostro, patente, objeto, invasión de zona, cruce de línea, aforo. Es nuestro código, corriendo en la placa del cliente.</p>
 
     <p class="proj-lead rev d2">La consecuencia de tener las dos mitades es la que importa: <strong>una pantalla de monitoreo deja de ser un desarrollo y pasa a ser una configuración</strong>. Un admin elige cámaras, elige qué plugin las mira, define cómo se compone un evento y qué veredicto sale. Sin SQL, sin redeploy, sin nosotros.</p>
+
+    <p class="proj-lead rev d2">Este es <strong>el lugar de la seguridad</strong> en el laboratorio: identidad, patente, perímetro, accesos. Está separado a propósito de la plataforma urbana del <a href="#p05" style="color:#2fd0c8;text-decoration:none;border-bottom:1px solid rgba(47,208,200,0.35)">proyecto 05</a>, que mide la calle y deja la seguridad ciudadana explícitamente afuera. Mismo motor de detección, dos productos, dos ventanillas — y esa frontera no es prolijidad nuestra: es lo que le permite a un municipio comprar medición sin abrir el debate de la vigilancia.</p>
 
     <!-- artefacto: pantalla configurable -->
     <div class="art rev d2">
@@ -601,12 +635,79 @@
   </div>
 </section>
 
-<!-- ══════════════ P03 · TRÁNSITO ══════════════ -->
-<section class="proj" id="p03" style="--acc:#4fd48f">
+<!-- ══════════════ P03 · RIA COMMS ══════════════ -->
+<section class="proj" id="p03" style="--acc:#7F77DD">
   <div class="wrap">
     <div class="proj-head">
       <div class="rev">
         <p class="proj-num">Proyecto 03</p>
+        <h2 class="proj-name">RIA <span>Comms</span></h2>
+        <p class="proj-kick">La conversación con el cliente, como infraestructura</p>
+      </div>
+      <div class="rev d1" style="padding-top:38px;">
+        <span class="badge badge-live"><span class="dot"></span>En producción · Byte + VRIO</span>
+      </div>
+    </div>
+
+    <p class="proj-lead rev d2">En casi toda empresa argentina, la relación con el cliente vive en el WhatsApp personal de alguien. Cuando esa persona se va, se va la relación. <strong>Comms convierte ese canal en infraestructura</strong>: cada mensaje que entra queda persistido, clasificado, ruteado al responsable y medido — sin que el equipo cambie de aplicación.</p>
+
+    <p class="proj-lead rev d2">Nació como el módulo de un solo cliente y se rehizo como <strong>plataforma multi-empresa</strong>: un motor compartido, aislamiento de datos a nivel de base, y la lógica propia de cada cliente conectada por webhooks firmados en vez de ramas en el código. Byte y VRIO fueron los primeros equipos en usarlo en producción sobre su propia operación comercial, antes de ofrecérselo a nadie.</p>
+
+    <!-- artefacto: flujo -->
+    <div class="art rev d2">
+      <div class="art-bar">
+        <span class="art-ttl">un mensaje entra · <b>qué le pasa</b></span>
+      </div>
+      <p class="diag-hint">← deslizá el recorrido →</p>
+      <div class="diag"><svg id="comms-svg" viewBox="0 0 960 310" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Recorrido de un mensaje entrante por el motor de comunicaciones"></svg></div>
+      <p class="art-cap">Las tres calles de la izquierda son tres empresas distintas sobre el mismo motor. El aislamiento no es una condición en el código de la aplicación: es una política en la base de datos, y un mensaje no puede cruzarse de calle aunque el código se equivoque.</p>
+    </div>
+
+    <div class="feat">
+      <div class="ft rev">
+        <h3 class="ft-t">Extensible sin tocar la plataforma</h3>
+        <p class="ft-b">Lo propio de cada cliente —su CRM, su catálogo, sus comandos— vive fuera del motor. Cuando un mensaje matchea una regla, la plataforma le pega a la URL del cliente firmada estilo Stripe, con reintentos exponenciales y auditoría completa de cada entrega.</p>
+      </div>
+      <div class="ft rev d1">
+        <h3 class="ft-t">La IA como primitiva, no como producto</h3>
+        <p class="ft-b">Resumen de conversación, transcripción de audios con caché, y ejecución de prompts arbitrarios con el hilo como contexto. Cada llamada deja registrado tokens, latencia y modelo — el costo por cliente es una consulta, no una estimación.</p>
+      </div>
+      <div class="ft rev d2">
+        <h3 class="ft-t">Los audios dejan de ser un agujero negro</h3>
+        <p class="ft-b">La media entrante se re-aloja en almacenamiento propio en vez de depender del CDN del proveedor, con acceso por URL firmada de vida corta. Y una vez transcripta, la nota de voz entra al resumen y al buscador como texto.</p>
+      </div>
+      <div class="ft rev d3">
+        <h3 class="ft-t">Los secretos, cifrados en la base</h3>
+        <p class="ft-b">Tokens del proveedor, identificadores de línea y secretos de firma se guardan cifrados por cliente. El secreto de un webhook se devuelve una sola vez, al crearlo: después ni la plataforma lo puede volver a mostrar.</p>
+      </div>
+    </div>
+
+    <div class="nums">
+      <div class="nm rev"><div class="nm-n">3</div><div class="nm-l">reintentos con espera exponencial antes de abandonar una entrega</div></div>
+      <div class="nm rev d1"><div class="nm-n">~0,5<small>s</small></div><div class="nm-l">de lectura de conversaciones, tras co-ubicar base y motor</div></div>
+      <div class="nm rev d2"><div class="nm-n">1</div><div class="nm-l">motor para todas las empresas — aislamiento en la base, no en el código</div></div>
+      <div class="nm rev d3"><div class="nm-n">0</div><div class="nm-l">líneas de un cliente dentro de la plataforma</div></div>
+    </div>
+
+    <div class="chips rev d2">
+      <span class="chip">Fastify + TypeScript</span>
+      <span class="chip">PostgreSQL + RLS</span>
+      <span class="chip">WhatsApp Business Cloud API</span>
+      <span class="chip">Webhooks HMAC</span>
+      <span class="chip">Secretos cifrados</span>
+      <span class="chip">Transcripción cacheada</span>
+      <span class="chip">Rollup de costo por cliente</span>
+      <span class="chip">Multi-empresa</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ P04 · TRÁNSITO ══════════════ -->
+<section class="proj proj-alt" id="p04" style="--acc:#4fd48f">
+  <div class="wrap">
+    <div class="proj-head">
+      <div class="rev">
+        <p class="proj-num">Proyecto 04</p>
         <h2 class="proj-name">Tránsito <span>inteligente</span></h2>
         <p class="proj-kick">Semáforos que ven, en vez de adivinar</p>
       </div>
@@ -712,72 +813,156 @@
       <span class="chip">Failsafe a tiempo fijo</span>
       <span class="chip">WebSocket · cuadro y cajas juntos</span>
     </div>
+
+    <p class="proj-lead rev d2">Este prototipo tuvo descendencia. El mismo motor que le sirve el verde al semáforo terminó midiendo cuatro verticales de una ciudad, 24 horas por día: es el <a href="#p05" style="color:#2fd0c8;text-decoration:none;border-bottom:1px solid rgba(47,208,200,0.35)">proyecto 05</a>.</p>
   </div>
 </section>
 
-<!-- ══════════════ P04 · RIA COMMS ══════════════ -->
-<section class="proj proj-alt" id="p04" style="--acc:#7F77DD">
+<!-- ══════════════ P05 · RIA SMARTCITY ══════════════ -->
+<section class="proj" id="p05" style="--acc:#2fd0c8">
   <div class="wrap">
     <div class="proj-head">
       <div class="rev">
-        <p class="proj-num">Proyecto 04</p>
-        <h2 class="proj-name">RIA <span>Comms</span></h2>
-        <p class="proj-kick">La conversación con el cliente, como infraestructura</p>
+        <p class="proj-num">Proyecto 05</p>
+        <h2 class="proj-name">RIA <span>Smartcity</span></h2>
+        <p class="proj-kick">La ciudad medida con las cámaras que ya tiene</p>
       </div>
       <div class="rev d1" style="padding-top:38px;">
-        <span class="badge badge-live"><span class="dot"></span>En producción · Byte + VRIO</span>
+        <span class="badge badge-proto"><span class="dot"></span>Midiendo 24/7 · piloto propio en Rosario</span>
       </div>
     </div>
 
-    <p class="proj-lead rev d2">En casi toda empresa argentina, la relación con el cliente vive en el WhatsApp personal de alguien. Cuando esa persona se va, se va la relación. <strong>Comms convierte ese canal en infraestructura</strong>: cada mensaje que entra queda persistido, clasificado, ruteado al responsable y medido — sin que el equipo cambie de aplicación.</p>
+    <p class="proj-lead rev d2">El proyecto 03 contestó su pregunta —una cámara con tracking es un sensor estrictamente mejor que la espira enterrada— y al contestarla abrió una más grande: <strong>si el equipo de esa esquina ya entiende todo lo que se mueve, ¿por qué sólo maneja el semáforo?</strong> Los mismos vehículos que el controlador usa para decidir el verde son el conteo que Tránsito no tiene. Las mismas trayectorias son el mapa de por dónde cruza la gente <em>de verdad</em>. El mismo auto quieto, en el carril de al lado, es doble fila.</p>
 
-    <p class="proj-lead rev d2">Nació como el módulo de un solo cliente y se rehizo como <strong>plataforma multi-empresa</strong>: un motor compartido, aislamiento de datos a nivel de base, y la lógica propia de cada cliente conectada por webhooks firmados en vez de ramas en el código. Byte y VRIO fueron los primeros equipos en usarlo en producción sobre su propia operación comercial, antes de ofrecérselo a nadie.</p>
+    <p class="proj-lead rev d2">Smartcity es ese prototipo convertido en plataforma: <strong>cuatro verticales sobre un solo sensor</strong> —movilidad, espacio público, estacionamiento, ambiente y servicios— corriendo en una PC común al lado de la cámara, sin nube y sin obra. Hoy mide una esquina real de Rosario las veinticuatro horas. Esa instalación es nuestra: <strong>el primer municipio todavía no existe</strong>, y así lo contamos.</p>
 
-    <!-- artefacto: flujo -->
+    <!-- contexto: la teoría del rubro, antes del producto -->
     <div class="art rev d2">
       <div class="art-bar">
-        <span class="art-ttl">un mensaje entra · <b>qué le pasa</b></span>
+        <span class="art-ttl">contexto · <b>qué es —y qué no es— una smart city</b></span>
       </div>
-      <p class="diag-hint">← deslizá el recorrido →</p>
-      <div class="diag"><svg id="comms-svg" viewBox="0 0 960 310" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Recorrido de un mensaje entrante por el motor de comunicaciones"></svg></div>
-      <p class="art-cap">Las tres calles de la izquierda son tres empresas distintas sobre el mismo motor. El aislamiento no es una condición en el código de la aplicación: es una política en la base de datos, y un mensaje no puede cruzarse de calle aunque el código se equivoque.</p>
+      <div class="teo">
+        <div class="tc">
+          <div class="tc-k">01 · la definición</div>
+          <h3 class="tc-t">No es un producto que se compra</h3>
+          <p class="tc-b">Las guías que leen los funcionarios de la región —la del BID entre las más usadas— definen «smart city» como <strong>gestionar la ciudad con datos</strong>, transversal a todas las áreas: movilidad, ambiente, servicios, gobierno digital, participación. Nadie compra una smart city entera. Se compran capas, casi siempre desordenadas y casi nunca la de abajo.</p>
+        </div>
+        <div class="tc">
+          <div class="tc-k">02 · la capa que falta</div>
+          <h3 class="tc-t">La calle se gestiona a ciegas</h3>
+          <p class="tc-b">Lo que una ciudad mediana sabe de su propia calle son tres cosas: un censo manual de hace años, espiras enterradas que contestan un bit, y el reclamo del vecino. <strong>Sin capa de medición, todo lo que se construye arriba decide sobre datos viejos</strong> — y un tablero con datos viejos es peor que ninguno, porque parece información.</p>
+        </div>
+        <div class="tc">
+          <div class="tc-k">03 · la crítica seria</div>
+          <h3 class="tc-t">Instrumentar no es gestionar</h3>
+          <p class="tc-b">La primera generación de smart cities se fue en ciudades-vitrina y tableros. La crítica más citada del rubro —de <em>Against the Smart City</em> al giro de Barcelona hacia la soberanía de sus datos— no discute la tecnología: discute el orden. <strong>Medir sin decidir no cambia una esquina, y atar una ciudad a una plataforma cerrada es una hipoteca.</strong></p>
+        </div>
+        <div class="tc">
+          <div class="tc-k">04 · sensor, no cámara</div>
+          <h3 class="tc-t">La ciudad no necesita ver: necesita medir</h3>
+          <p class="tc-b">El video se procesa en el equipo y muere ahí; al disco van números y, por excepción declarada, la foto del evento que justifica una alerta. Sin facial, sin patentes, sin video continuo. <strong>La vertical de seguridad ciudadana queda afuera a propósito</strong>: es otra conversación, otro presupuesto y otro de nuestros productos —el 02—, y mezclarla acá contamina la medición con el debate de vigilancia.</p>
+        </div>
+        <div class="tc">
+          <div class="tc-k">05 · el argumento económico</div>
+          <h3 class="tc-t">Un sensor, cuatro secretarías</h3>
+          <p class="tc-b">Una cámara ve mucho más que el fenómeno por el que se instaló. Por eso la segunda vertical no cuesta como la primera: <strong>no hay obra ni fierro nuevo, hay un módulo que se enciende</strong> sobre una esquina que ya está instrumentada. Es el mismo principio que nos hizo escribir el motor una sola vez, del otro lado del mostrador.</p>
+        </div>
+        <div class="tc">
+          <div class="tc-k">06 · el dato es del municipio</div>
+          <h3 class="tc-t">Que se lo pueda llevar</h3>
+          <p class="tc-b">Ya hay normas ISO que listan qué indicadores describen una ciudad; lo que se discute no es cuáles son, sino quién los produce y si son portables. Nuestra respuesta viaja adentro del producto: <strong>API documentada, export a CSV y las entidades en el estándar abierto que piden los pliegos</strong>. Si mañana eligen otro proveedor, los datos se van con ellos.</p>
+        </div>
+      </div>
+      <p class="art-cap">Este bloque es contexto, no folleto: dice la porción que atacamos y, sobre todo, la que dejamos afuera. Cada punto de arriba se convirtió en una decisión del producto de abajo — incluidas las dos que nos sacan trabajo de encima.</p>
+    </div>
+
+    <!-- artefacto: el portal, la pantalla donde arranca todo -->
+    <div class="art rev d2">
+      <div class="art-bar">
+        <span class="art-ttl">portal de la ciudad · <b>donde arranca todo</b></span>
+        <span class="vid-badge">captura del sistema corriendo</span>
+      </div>
+      <div class="shot-wrap">
+        <img class="shot" src="media/sc-portal.jpg" width="1600" height="900" loading="lazy" decoding="async"
+             alt="Portal de la ciudad: mapa oscuro con los sensores como pines, el pulso del día y las alertas recientes">
+      </div>
+      <p class="art-cap">Se entra por el mapa y se baja a la esquina: la jerarquía es ciudad → sensor → módulo, nunca quince funciones en un menú plano. Cada pin dice su estado —en vivo, video de referencia, alerta abierta— y el párrafo del pulso lo redacta un modelo de lenguaje sobre los números que el sistema ya calculó, no sobre lo que el modelo recuerda: si una cifra no sale de una consulta, la oración se rechaza antes de llegar a la pantalla.</p>
+    </div>
+
+    <!-- artefacto: las cuatro verticales sobre la misma cámara -->
+    <div class="art rev d2">
+      <div class="art-bar">
+        <span class="art-ttl">una sola cámara · <b>cuatro verticales</b></span>
+        <span class="vid-badge">mismo equipo · misma esquina</span>
+      </div>
+      <div class="sw-tabs" id="sc-tabs">
+        <button type="button" class="sw-tab on" data-v="movilidad">Movilidad</button>
+        <button type="button" class="sw-tab" data-v="esppub">Espacio público</button>
+        <button type="button" class="sw-tab" data-v="estac">Estacionamiento</button>
+        <button type="button" class="sw-tab" data-v="ambiente">Ambiente</button>
+      </div>
+      <div class="shot-wrap">
+        <img class="shot" id="sc-img" src="media/sc-movilidad.jpg" width="1600" height="1000" loading="lazy" decoding="async"
+             alt="Vista de sensor con el video en vivo y el panel de la vertical seleccionada">
+      </div>
+      <p class="art-cap" id="sc-cap"></p>
+    </div>
+
+    <p class="roles-cap rev">Cuatro verticales sobre el mismo sensor · una queda afuera a propósito</p>
+    <div class="roles">
+      <div class="role rev"><div class="role-n">Movilidad</div><div class="role-s">conteos · v85 · giros · cuasi-accidentes · semáforo</div></div>
+      <div class="role rev d1"><div class="role-n">Espacio público</div><div class="role-s">peatones · bicis · desire lines · permanencia</div></div>
+      <div class="role rev d2"><div class="role-n">Estacionamiento</div><div class="role-s">ocupación · rotación · doble fila</div></div>
+      <div class="role rev d3"><div class="role-n">Ambiente y servicios</div><div class="role-s">microbasural · anegamiento · luminarias · CO₂</div></div>
+      <div class="role rev d4 dim"><div class="role-n">Seguridad ciudadana</div><div class="role-s">fuera de este producto — vive en el 02</div></div>
     </div>
 
     <div class="feat">
       <div class="ft rev">
-        <h3 class="ft-t">Extensible sin tocar la plataforma</h3>
-        <p class="ft-b">Lo propio de cada cliente —su CRM, su catálogo, sus comandos— vive fuera del motor. Cuando un mensaje matchea una regla, la plataforma le pega a la URL del cliente firmada estilo Stripe, con reintentos exponenciales y auditoría completa de cada entrega.</p>
+        <h3 class="ft-t">Encender una capacidad es configuración, no obra</h3>
+        <p class="ft-b">Líneas de conteo, zonas y reglas se declaran; el motor es uno solo. Un <em>if</em> por módulo de negocio sería un bug de diseño, no un atajo. La consecuencia es la que le importa a una ciudad: <strong>la esquina que hoy cuenta autos mañana mide doble fila sin que nadie vuelva al poste.</strong></p>
       </div>
       <div class="ft rev d1">
-        <h3 class="ft-t">La IA como primitiva, no como producto</h3>
-        <p class="ft-b">Resumen de conversación, transcripción de audios con caché, y ejecución de prompts arbitrarios con el hilo como contexto. Cada llamada deja registrado tokens, latencia y modelo — el costo por cliente es una consulta, no una estimación.</p>
+        <h3 class="ft-t">Dos motores en la misma caja</h3>
+        <p class="ft-b">Uno rápido, por cuadro: detector, tracker y homografía, que convierte pixels en metros y segundos. Otro lento y semántico —un modelo de visión-lenguaje— que mira una zona cada media hora y contesta si hay basura acumulada o la calzada se anegó. Cada uno con <strong>su presupuesto diario</strong>: agotar ambiente no puede dejar sin medir a seguridad vial, y cuando se agota la pantalla lo dice.</p>
       </div>
       <div class="ft rev d2">
-        <h3 class="ft-t">Los audios dejan de ser un agujero negro</h3>
-        <p class="ft-b">La media entrante se re-aloja en almacenamiento propio en vez de depender del CDN del proveedor, con acceso por URL firmada de vida corta. Y una vez transcripta, la nota de voz entra al resumen y al buscador como texto.</p>
+        <h3 class="ft-t">Dónde va a pasar el próximo choque</h3>
+        <p class="ft-b">Cuasi-accidentes medidos con las métricas estándar del rubro: los segundos que faltaron para que ese cruce fuera un choque. De los 18 conflictos de la primera corrida quedaron 7: <strong>once eran artefactos</strong> —la misma camioneta detectada dos veces, tracks fantasma, un ciclista partido al borde del cuadro— verificados uno por uno en la imagen. Y el único crítico de veinte minutos de video es el que un humano marcaría.</p>
       </div>
       <div class="ft rev d3">
-        <h3 class="ft-t">Los secretos, cifrados en la base</h3>
-        <p class="ft-b">Tokens del proveedor, identificadores de línea y secretos de firma se guardan cifrados por cliente. El secreto de un webhook se devuelve una sola vez, al crearlo: después ni la plataforma lo puede volver a mostrar.</p>
+        <h3 class="ft-t">No graba — y eso se puede auditar</h3>
+        <p class="ft-b">El buffer de video vive en RAM. A disco van métricas y trayectorias sin identidad, y una sola excepción declarada: un cuadro limpio por evento, con retención configurada por el municipio, que es lo que hace auditable una alerta. <strong>Que la base sólo tenga clase y hora se verifica con una consulta</strong>, no con una promesa nuestra.</p>
+      </div>
+      <div class="ft rev d4">
+        <h3 class="ft-t">El sistema se explica en castellano</h3>
+        <p class="ft-b">Reporte ejecutivo redactado, resumen del día y preguntas en lenguaje natural sobre los datos de la ciudad. La regla es una: <strong>el modelo redacta, el sistema calcula.</strong> Un validador rechaza toda cifra que no salga de una consulta — probado plantando números falsos a propósito, incluidos los porcentajes que el modelo intenta derivar solo.</p>
+      </div>
+      <div class="ft rev d5">
+        <h3 class="ft-t">Los límites, dichos por nosotros</h3>
+        <p class="ft-b">Es una cámara en una esquina, no un municipio instalado. El semáforo corre contra su propio controlador sombra, no contra un cruce conectado. Y la calibración de esa ochava sigue siendo provisoria hasta medir dos distancias con cinta — de ahí sale el error lateral que todavía nos deja un falso positivo. <strong>Nada de esto se descubre en la reunión: se dice antes.</strong></p>
       </div>
     </div>
 
     <div class="nums">
-      <div class="nm rev"><div class="nm-n">3</div><div class="nm-l">reintentos con espera exponencial antes de abandonar una entrega</div></div>
-      <div class="nm rev d1"><div class="nm-n">~0,5<small>s</small></div><div class="nm-l">de lectura de conversaciones, tras co-ubicar base y motor</div></div>
-      <div class="nm rev d2"><div class="nm-n">1</div><div class="nm-l">motor para todas las empresas — aislamiento en la base, no en el código</div></div>
-      <div class="nm rev d3"><div class="nm-n">0</div><div class="nm-l">líneas de un cliente dentro de la plataforma</div></div>
+      <div class="nm rev"><div class="nm-n">4</div><div class="nm-l">verticales sobre una sola cámara — la segunda no cuesta como la primera</div></div>
+      <div class="nm rev d1"><div class="nm-n">24/7</div><div class="nm-l">midiendo una esquina real de Rosario, en una PC, sin nube</div></div>
+      <div class="nm rev d2"><div class="nm-n">0,01<small>ms</small></div><div class="nm-l">por cuadro cuesta buscar cuasi-accidentes: el diferencial del rubro sale casi gratis</div></div>
+      <div class="nm rev d3"><div class="nm-n">−61<small>%</small></div><div class="nm-l">de los conflictos de la primera corrida eran artefactos — encontrados mirando la imagen, uno por uno</div></div>
     </div>
 
     <div class="chips rev d2">
-      <span class="chip">Fastify + TypeScript</span>
-      <span class="chip">PostgreSQL + RLS</span>
-      <span class="chip">WhatsApp Business Cloud API</span>
-      <span class="chip">Webhooks HMAC</span>
-      <span class="chip">Secretos cifrados</span>
-      <span class="chip">Transcripción cacheada</span>
-      <span class="chip">Rollup de costo por cliente</span>
-      <span class="chip">Multi-empresa</span>
+      <span class="chip">Detector + tracker propios</span>
+      <span class="chip">Homografía de calzada</span>
+      <span class="chip">SQLite en el borde</span>
+      <span class="chip">Store-and-forward</span>
+      <span class="chip">PET / TTC</span>
+      <span class="chip">Modelo de visión con presupuesto diario</span>
+      <span class="chip">Reporte narrado con validación de cifras</span>
+      <span class="chip">Consulta en lenguaje natural</span>
+      <span class="chip">API REST + CSV + NGSI-LD</span>
+      <span class="chip">Edge-first · sin nube</span>
+      <span class="chip">Mapa sin depender de internet ajeno</span>
     </div>
   </div>
 </section>
@@ -787,7 +972,7 @@
   <div class="wrap">
     <p class="lbl rev">Cómo trabaja el laboratorio</p>
     <h2 class="ttl rev d1">Seis reglas<br>que no negociamos</h2>
-    <p class="bdy rev d2">No son valores de brochure. Son las reglas que decidieron, en cada uno de los cuatro proyectos de arriba, qué se construía y qué se tiraba.</p>
+    <p class="bdy rev d2">No son valores de brochure. Son las reglas que decidieron, en cada uno de los cinco proyectos de arriba, qué se construía y qué se tiraba.</p>
 
     <div class="met-grid">
       <div class="met rev"><span class="met-ghost">1</span><div class="met-bar"></div><h4 class="met-t">La pregunta antes que el producto</h4><p class="met-b">Todo arranca con una pregunta que se pueda contestar con evidencia: ¿una cámara ve lo suficiente para manejar un semáforo? ¿Un mecánico puede cargar una orden hablando? Si la pregunta no tiene respuesta medible, no es un proyecto: es una idea.</p></div>
@@ -804,7 +989,7 @@
 <section class="close" id="cierre">
   <p class="close-pre">Lo que sigue</p>
   <h2 class="close-ttl">¿Tenés un problema<br>que nadie resolvió?</h2>
-  <p class="close-sub">Los cuatro proyectos de esta página empezaron igual: alguien nos contó un problema viejo, caro y aburrido que todos daban por resuelto. Contanos el tuyo.</p>
+  <p class="close-sub">Los cinco proyectos de esta página empezaron igual: alguien nos contó un problema viejo, caro y aburrido que todos daban por resuelto. Contanos el tuyo.</p>
   <div class="close-ctas">
     <a href="/#contacto" class="btn-gold">Conversemos</a>
   </div>
@@ -847,17 +1032,24 @@
   /* ── RAIL ─────────────────────────────────── */
   var rail = document.getElementById('rail');
   var railItems = Array.prototype.slice.call(rail.querySelectorAll('.rail-i'));
-  var projSecs = ['p01','p02','p03','p04'].map(function(id){ return document.getElementById(id); });
+  var projSecs = ['p01','p02','p03','p04','p05'].map(function(id){ return document.getElementById(id); });
+  // El activo es la sección que cruza la MITAD de la pantalla, no la que ocupa un 28% de sí
+  // misma. Con umbral por proporción, una sección más alta que ~3,5 pantallas nunca llega a
+  // ese 28% —su ratio máximo es alto de viewport / alto de sección— y el indicador se
+  // quedaba clavado en la anterior: es lo que pasaba al bajar a Smartcity, que con el bloque
+  // de contexto y las dos capturas mide varias pantallas. `rootMargin` de -50% arriba y abajo
+  // deja una línea de 1 px en el medio del viewport, así que siempre hay exactamente una
+  // sección intersectando, sea del alto que sea.
   var railObs = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       var i = projSecs.indexOf(e.target);
       if (i < 0) return;
       if (e.isIntersecting) railItems.forEach(function(r, j){ r.classList.toggle('on', j === i); });
     });
-  }, { threshold: 0.28 });
+  }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
   projSecs.forEach(function(s){ if (s) railObs.observe(s); });
   window.addEventListener('scroll', function(){
-    var first = projSecs[0], last = projSecs[3];
+    var first = projSecs[0], last = projSecs[projSecs.length - 1];
     if (!first || !last) return;
     var y = window.scrollY + window.innerHeight * 0.5;
     rail.classList.toggle('show', y > first.offsetTop && y < last.offsetTop + last.offsetHeight);
@@ -873,8 +1065,9 @@
     var P = [
       { id:'p01', name:'DRIVECORE', c:'#EF9F27', grad:'sp-p01', rx:322, ry:82, tilt:-9,  period:44000, a0:0.35, dir:-1, r:11 },
       { id:'p02', name:'ANALÍTICA', c:'#4a8fd4', grad:'sp-p02', rx:248, ry:64, tilt:15,  period:33000, a0:2.30, dir: 1, r:10 },
-      { id:'p03', name:'TRÁNSITO',  c:'#4fd48f', grad:'sp-p03', rx:178, ry:47, tilt:-25, period:25000, a0:4.10, dir:-1, r:9  },
-      { id:'p04', name:'COMMS',     c:'#7F77DD', grad:'sp-p04', rx:116, ry:32, tilt:9,   period:18000, a0:5.60, dir: 1, r:8  }
+      { id:'p03', name:'COMMS',     c:'#7F77DD', grad:'sp-p03', rx:116, ry:32, tilt:9,   period:18000, a0:5.60, dir: 1, r:8  },
+      { id:'p04', name:'TRÁNSITO',  c:'#4fd48f', grad:'sp-p04', rx:178, ry:47, tilt:-25, period:25000, a0:4.10, dir:-1, r:9  },
+      { id:'p05', name:'SMARTCITY', c:'#2fd0c8', grad:'sp-p05', rx:290, ry:76, tilt:34,  period:38000, a0:1.10, dir: 1, r:10 }
     ];
     var gBack  = document.getElementById('lab-back');
     var gFront = document.getElementById('lab-front');
@@ -1636,6 +1829,50 @@
       });
     }, { threshold: 0.25 });
     vids.forEach(function(v){ vo.observe(v); });
+  })();
+
+  /* ══════════════════════════════════════════
+     P05 · las cuatro verticales de la misma cámara
+     Cuatro capturas del sistema corriendo con su pie: la pestaña cambia la imagen y el
+     texto. El pie es lo que hace la diferencia entre una galería y un argumento — dice
+     QUÉ mirar en cada pantalla, que nunca es lo más llamativo.
+     ══════════════════════════════════════════ */
+  (function(){
+    var tabs = document.getElementById('sc-tabs');
+    var img  = document.getElementById('sc-img');
+    var cap  = document.getElementById('sc-cap');
+    if (!tabs || !img || !cap) return;
+
+    var V = {
+      movilidad: {
+        alt: 'Vertical de movilidad: conteos por clase y por línea, estudio de velocidades y panel de cuasi-accidentes',
+        cap: 'Conteos por clase y por línea, el estudio de velocidades con su v85 —el número con el que un ingeniero fija un límite o decide un reductor—, la matriz de giros de la esquina y el panel de cuasi-accidentes con su histograma. El casco en moto se mide por muestreo y sale como porcentaje anónimo con su n: la moto es la primera causa de muerte vial del país y hoy ningún municipio sabe ese número en sus propias calles.'
+      },
+      esppub: {
+        alt: 'Vertical de espacio público: peatones y bicis, permanencia en la vereda y desire lines acumuladas',
+        cap: 'Peatones y bicis contados igual que los autos, permanencia en la vereda de la esquina, y las <em>desire lines</em>: miles de trayectorias anónimas superpuestas que muestran por dónde cruza la gente de verdad, no por dónde dice la senda. Es la imagen que decide si una rampa, un semáforo peatonal o una ciclovía están donde tienen que estar — y la que ninguna planilla de conteos puede mostrar.'
+      },
+      estac: {
+        alt: 'Vertical de estacionamiento: ocupación del cordón y grilla horaria de doble fila',
+        cap: 'Ocupación del cordón ahora y por hora, rotación, estadía típica, y la grilla de la doble fila por día y franja: la queja número uno del vecino, que además estrangula al colectivo. Cada celda abre los episodios de esa hora con su evidencia — la foto del momento en que ese vehículo llevaba quieto más que el umbral, que es lo que convierte un reclamo en un expediente.'
+      },
+      ambiente: {
+        alt: 'Vertical de ambiente: CO2 estimado, chequeos de escena por modelo de visión y desglose por línea',
+        cap: 'Acá trabaja el segundo motor: chequeos semánticos de baja frecuencia sobre la escena —microbasural, anegamiento, luminaria apagada— cada uno con su presupuesto diario de IA. Las emisiones se calculan desde los conteos y las velocidades con factores públicos, y llevan el rótulo ESTIMADO. Fijate en las filas en cero: <strong>donde no hubo velocidad medida no se inventa un número</strong> — el sistema aclara cuántos cruces quedaron sin velocidad en vez de rellenar el hueco con un promedio.'
+      }
+    };
+
+    var btns = Array.prototype.slice.call(tabs.querySelectorAll('.sw-tab'));
+    function pintar(v){
+      var d = V[v];
+      if (!d) return;
+      img.src = 'media/sc-' + v + '.jpg';
+      img.alt = d.alt;
+      cap.innerHTML = d.cap;
+      btns.forEach(function(b){ b.classList.toggle('on', b.dataset.v === v); });
+    }
+    btns.forEach(function(b){ b.addEventListener('click', function(){ pintar(b.dataset.v); }); });
+    pintar('movilidad');   // el pie del estado inicial también sale de acá: una sola fuente
   })();
 })();
 </script>

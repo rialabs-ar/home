@@ -119,7 +119,7 @@ Cuatro líneas de servicio, con evolución del enfoque entre versiones.
 
 ## 5. Casos en producción — ⚠️ REMOVIDOS DE v4 (2026-08-06)
 
-> **Cambio de arquitectura de contenido.** Los dos bloques de "Caso en producción" (`#caso` Byte Analítico y `#caso-comms` RIA Comms) **ya no existen en el home**. En su lugar hay una **introducción al Laboratorio** (§5bis.0) que lleva a la página `/laboratorio/`, donde los mismos proyectos —y dos más— se presentan con más profundidad y sus números medidos.
+> **Cambio de arquitectura de contenido.** Los dos bloques de "Caso en producción" (`#caso` Byte Analítico y `#caso-comms` RIA Comms) **ya no existen en el home**. En su lugar hay una **introducción al Laboratorio** (§5bis.0) que lleva a la página `/laboratorio/`, donde los mismos proyectos —y tres más— se presentan con más profundidad y sus números medidos.
 >
 > El material de 5.1 y 5.2 se conserva acá como **archivo institucional**: sigue vivo en los prototipos v1–v3 y sirve como fuente de copy reusable. No describe el sitio vigente.
 >
@@ -170,14 +170,15 @@ Ocupa el lugar que tenían los dos casos, con el mismo tratamiento visual (`.cas
 
 - **Label:** "Laboratorio" · **Título:** "Lo que estamos construyendo"
 - **Copete:** "Trabajamos como un laboratorio de investigación y creación permanente: buscamos problemas reales, viejos y caros, y probamos si la inteligencia artificial los rompe. **Un experimento vale cuando produce un número** — no una maqueta, no una promesa de roadmap. Lo que sobrevive a esa prueba se vuelve producto, con cliente adentro."
-- **Grilla 2×2** (`.lab-grid` / `.lab-card`): cada tarjeta es un link a su ancla en la página del Laboratorio, con barra de acento que crece en hover y "Ver el proyecto →" que aparece (siempre visible ≤860 px, porque en touch no hay hover).
+- **Grilla de dos columnas** (`.lab-grid` / `.lab-card`): cuatro tarjetas más una **de ancho completo** (`.lab-card.wide`, el proyecto 05) — con cinco tarjetas en dos columnas, la alternativa era dejar la última sola al lado de un hueco. Cada tarjeta es un link a su ancla en la página del Laboratorio, con barra de acento que crece en hover y "Ver el proyecto →" que aparece (siempre visible ≤860 px, porque en touch no hay hover). En una columna (≤860 px) la tarjeta ancha vuelve a `grid-column:auto`: si siguiera pidiendo dos, la grilla inventaría una columna implícita.
 
 | Tarjeta | Estado | Destino | Prueba que aporta |
 |---|---|---|---|
 | RIA Drivecore | En producción · Seprio, Rosario | `/laboratorio/#p01` | 1.100 vehículos activos, todos los días |
-| Analítica de video | v1 cerrada · instalable | `/laboratorio/#p02` | "Una pantalla nueva no se programa: se configura" |
-| Tránsito inteligente | Prototipo · medido en calle | `/laboratorio/#p03` | −27 % de demora contra tiempo fijo |
-| RIA Comms | En producción · Byte + VRIO | `/laboratorio/#p04` | Byte y VRIO lo usan sobre su propia operación |
+| Analítica de video · seguridad | v1 cerrada · instalable | `/laboratorio/#p02` | "Una pantalla nueva no se programa: se configura" |
+| RIA Comms | En producción · Byte + VRIO | `/laboratorio/#p03` | Byte y VRIO lo usan sobre su propia operación |
+| Tránsito inteligente | Prototipo · medido en calle | `/laboratorio/#p04` | −27 % de demora contra tiempo fijo |
+| Sensores urbanos para la ciudad (ancho completo) | Midiendo 24/7 · piloto propio en Rosario | `/laboratorio/#p05` | Cuatro verticales sobre una sola cámara, sin nube y sin obra |
 
 - **CTA:** botón dorado "Entrar al laboratorio →" hacia `/laboratorio/`.
 
@@ -193,7 +194,7 @@ Ocupa el lugar que tenían los dos casos, con el mismo tratamiento visual (`.cas
 
 ### 5bis.1 Posicionamiento
 
-Presenta la **modalidad de trabajo** de RIA Labs como laboratorio de investigación y creación permanente, y los cuatro proyectos en curso con su estado declarado y sus números medidos. Desde el 2026-08-06 es **el único lugar del sitio donde se muestran los proyectos**: el home sólo tiene la introducción que lleva acá.
+Presenta la **modalidad de trabajo** de RIA Labs como laboratorio de investigación y creación permanente, y los cinco proyectos en curso con su estado declarado y sus números medidos. Desde el 2026-08-06 es **el único lugar del sitio donde se muestran los proyectos**: el home sólo tiene la introducción que lleva acá.
 
 - **Título:** "Laboratorio"
 - **Eyebrow:** "RIA Labs · investigación y construcción"
@@ -201,21 +202,37 @@ Presenta la **modalidad de trabajo** de RIA Labs como laboratorio de investigaci
 - **Frase del manifiesto:** "No investigamos para publicar. Investigamos para que algo *funcione en la calle*."
 - **Cierre:** "¿Tenés un problema que nadie resolvió?"
 
-### 5bis.2 Los cuatro proyectos
+### 5bis.2 Los cinco proyectos
+
+> **El orden es de producto, no cronológico** (fijado el 2026-08-14): Drivecore · Analítica de
+> video como **vertical de seguridad** · Comms · Tránsito · Sensores urbanos. Los `id` de sección
+> son POSICIONALES (`#p01`…`#p05`), así que reordenar mueve las anclas: al intercambiar Comms y
+> Tránsito hubo que repuntar las tarjetas del home. La banda alterna (`.proj-alt`) también va por
+> posición: pares con fondo `--bg3`, impares lisos.
+>
+> **Frontera 02 ↔ 05 (explícita en la página):** la seguridad vive en el 02 y la calle en el 05.
+> El 02 la nombra ("este es el lugar de la seguridad… separado a propósito del proyecto 05") y el
+> 05 la excluye con dirección ("fuera de este producto — vive en el 02", y lo mismo en la ficha
+> de contexto). Es el mismo argumento comercial de los dos lados: un municipio puede comprar
+> medición sin abrir el debate de la vigilancia.
 
 | # | Proyecto | Bajada | Estado declarado | Acento |
 |---|----------|--------|------------------|--------|
 | 01 | **RIA Drivecore** | El sistema operativo de una concesionaria | En producción · Seprio, Rosario | `#EF9F27` dorado |
-| 02 | **Analítica de video** | Plataforma integral de monitoreo · motor propio | v1 cerrada · instalable | `#4a8fd4` azul |
-| 03 | **Tránsito inteligente** | Semáforos que ven, en vez de adivinar | Prototipo · medido en calle | `#4fd48f` verde |
-| 04 | **RIA Comms** | La conversación con el cliente, como infraestructura | En producción · Byte + VRIO | `#7F77DD` violeta |
+| 02 | **Analítica de video** | La vertical de seguridad · plataforma de monitoreo con motor propio | v1 cerrada · instalable | `#4a8fd4` azul |
+| 03 | **RIA Comms** | La conversación con el cliente, como infraestructura | En producción · Byte + VRIO | `#7F77DD` violeta |
+| 04 | **Tránsito inteligente** | Semáforos que ven, en vez de adivinar | Prototipo · medido en calle | `#4fd48f` verde |
+| 05 | **RIA Smartcity** | La ciudad medida con las cámaras que ya tiene | Midiendo 24/7 · piloto propio en Rosario | `#2fd0c8` teal |
 
 **Números publicados por proyecto:**
 
 - 01 — 1.100 vehículos activos · 7 secciones del circuito · 100 % de unidades por control de calidad · 5 semanas al primer módulo.
 - 02 — 1 fila de configuración separa una pantalla de otra · 5 pasos del asistente · 145 verificaciones de aislamiento · 390 px de ancho mínimo usable.
-- 03 — **−27 %** de demora contra tiempo fijo · 15-18 ms de inferencia por cuadro · 0 falsos positivos sobre asfalto mojado · 15 fps sin cuadros perdidos. Referencia externa citada sin nombrar la empresa: −23 % en tiempos de viaje, 15 cruces, 4 años.
-- 04 — 3 reintentos exponenciales · ~0,5 s de lectura de conversaciones · 1 motor para todas las empresas · 0 líneas de un cliente dentro de la plataforma.
+- 03 — 3 reintentos exponenciales · ~0,5 s de lectura de conversaciones · 1 motor para todas las empresas · 0 líneas de un cliente dentro de la plataforma.
+- 04 — **−27 %** de demora contra tiempo fijo · 15-18 ms de inferencia por cuadro · 0 falsos positivos sobre asfalto mojado · 15 fps sin cuadros perdidos. Referencia externa citada sin nombrar la empresa: −23 % en tiempos de viaje, 15 cruces, 4 años.
+- 05 — 4 verticales sobre una sola cámara · 24/7 midiendo una esquina real de Rosario · 0,01 ms por cuadro cuesta buscar cuasi-accidentes · **−61 %** de los conflictos de la primera corrida eran artefactos (descartados mirando la imagen, uno por uno).
+
+**El 05 declara sus límites en la propia página**: es una cámara en una esquina y no un municipio instalado; el semáforo corre contra su controlador sombra y no contra un cruce conectado; la calibración de esa ochava es provisoria hasta medir dos distancias con cinta. También declara lo que queda **fuera del producto a propósito**: la vertical de seguridad ciudadana (aparece en la tira de verticales atenuada, con el motivo escrito).
 
 > **Nota de nomenclatura:** en el proyecto Seprio conviven "RIA Track" (presentación v2, `track.rialabs.ar`) y "RIA Drivecore" (presentaciones v3/v4, más recientes). La página Laboratorio usa **RIA Drivecore**.
 
@@ -225,15 +242,17 @@ Presenta la **modalidad de trabajo** de RIA Labs como laboratorio de investigaci
 
 | Sección | Artefacto | Técnica |
 |---|---|---|
-| Hero | Campo orbital: núcleo de eclipse con enjambre de partículas y cuatro planetas con estela, uno por proyecto. Hover ilumina órbita + tarjeta de leyenda; clic navega al proyecto. | SVG + `requestAnimationFrame` (misma matemática elíptica que el orbit de Equipo en v4) |
+| Hero | Campo orbital: núcleo de eclipse con enjambre de partículas y cinco planetas con estela, uno por proyecto. Hover ilumina órbita + tarjeta de leyenda; clic navega al proyecto. | SVG + `requestAnimationFrame` (misma matemática elíptica que el orbit de Equipo en v4) |
 | 01 | Circuito de la unidad: token de vehículo recorriendo 7 estaciones (Recepción → Lavado → Taller → Prueba → Calidad → Terminado → Retirado), sellando filas en un ledger de auditoría en vivo. | SVG + rAF + DOM |
 | 02 | Pantalla de monitoreo configurable: 3 presets (peatonal facial · vehicular patente+aforo · perímetro cruce de línea) que reconfiguran 4 viewports de cámara, la fila de definición de evento y los chips de veredicto. Rota sola hasta que el usuario elige. | SVG generado por JS |
-| 03 | Espira vs cámara: el mismo auto sobre dos sensores; la espira emite un bit (con traza de onda cuadrada), la cámara emite distancia, velocidad, clase y ETA. Más barras de anticipación 52 m vs 150 m. | SVG + rAF |
-| 04 | Recorrido de un mensaje: tres empresas → compuertas RLS → motor → cuatro salidas (ruteo, webhook firmado, primitivas de IA, registro y costo). | SVG + SMIL `animateMotion` |
+| 03 | Recorrido de un mensaje: tres empresas → compuertas RLS → motor → cuatro salidas (ruteo, webhook firmado, primitivas de IA, registro y costo). | SVG + SMIL `animateMotion` |
+| 04 | Espira vs cámara: el mismo auto sobre dos sensores; la espira emite un bit (con traza de onda cuadrada), la cámara emite distancia, velocidad, clase y ETA. Más barras de anticipación 52 m vs 150 m. | SVG + rAF |
+| 05 | **Capturas del sistema corriendo** (no diagramas): el portal de la ciudad a lo ancho, y un selector de cuatro pestañas (Movilidad · Espacio público · Estacionamiento · Ambiente) que cambia la captura **y su pie**, porque el pie es lo que dice qué mirar en cada pantalla. Reusa `.sw-tabs`/`.sw-tab` del artefacto 02: la pestaña activa toma el acento de su proyecto (`var(--acc)`), no un azul fijo. | `<img>` + JS mínimo |
+| 05 | Bloque de **contexto teórico** (`.teo`): seis fichas sobre qué es y qué no es una smart city — la definición, la capa que falta, la crítica seria, sensor vs. cámara, el argumento económico y la portabilidad del dato. 3 columnas → 2 (≤980 px) → 1 (≤860 px). | CSS grid |
 
 Los tres diagramas anchos (`#circ-svg`, `#vs-svg`, `#comms-svg`) se recorren en horizontal en pantallas ≤860 px en vez de encogerse hasta ser ilegibles.
 
-### 5bis.4 Videos
+### 5bis.4 Videos y capturas
 
 Extractos de una corrida real del prototipo de tránsito, sin acelerar ni editar, sobre la cámara de calle:
 
@@ -243,6 +262,18 @@ Extractos de una corrida real del prototipo de tránsito, sin acelerar ni editar
 | `laboratorio/media/traffic-deteccion.mp4` (+ `.jpg` poster) | Primer plano de la detección: cajas con clase, velocidad y ETA | ~1,0 MB · 18 s |
 
 Ambos son `muted loop playsinline preload="none"`; cargan y arrancan sólo al entrar en viewport y se pausan al salir. Se respeta `prefers-reduced-motion`.
+
+Capturas del proyecto 05, tomadas del sistema corriendo el 2026-08-14 sobre la cámara de la ochava (`loading="lazy"`, ~1,3 MB en total):
+
+| Archivo | Contenido |
+|---|---|
+| `laboratorio/media/sc-portal.jpg` | Portal de la ciudad: mapa con los sensores como pines, el pulso del día redactado y las alertas recientes |
+| `laboratorio/media/sc-movilidad.jpg` | Conteos por línea, giros O/D, histórico por hora, estudio de velocidades, casco en moto y panel de near-miss |
+| `laboratorio/media/sc-esppub.jpg` | Peatones y bicis, permanencia, y las desire lines acumuladas |
+| `laboratorio/media/sc-estac.jpg` | Ocupación del cordón con rotación y estadía + grilla horaria de doble fila |
+| `laboratorio/media/sc-ambiente.jpg` | CO₂ estimado, chequeos de escena por modelo de visión y desglose por línea × clase |
+
+> Las capturas se dejan **como salieron**, con las filas en cero incluidas: donde no hubo velocidad medida el sistema no estima emisiones y lo aclara. El pie del artefacto señala eso explícitamente en vez de esconderlo — es el mismo criterio que hace que el comparador del semáforo se quede mudo sin muestra suficiente.
 
 ### 5bis.5 Las seis reglas del laboratorio
 
@@ -277,6 +308,8 @@ v2 incluía **Countries** (propiedades y accesos) en lugar de **Seguridad** como
 ## 7. Equipo / Origen
 
 ### 7.1 Co-fundadores
+
+> **Retratos (2026-08-14):** las fichas de los dos co-fundadores llevan **foto redonda de 112 px a la izquierda del nombre y el rol**, alineada a su altura (`.f-head`, flex con `align-items:center`), en el lugar que antes ocupaba el círculo con las iniciales. Las iniciales siguen en el DOM **debajo** de la imagen (`.f-init` dentro de `.f-photo`): si la foto no carga, el círculo sigue diciendo quién es. Archivos en `assets/equipo-<nombre>.jpg` (360×360, recorte cuadrado amplio —la cara no toca los bordes, que en máscara redonda se nota—, ~52 KB cada uno), servidos con ruta absoluta y `loading="lazy"`. Cada foto tiene al de la casa en su propio terreno: Sebastián en un centro de monitoreo, Matías entre pantallas de código.
 
 **Sebastián Acedo**
 - Rol: Co-fundador · Infraestructura & Seguridad
@@ -366,6 +399,8 @@ Frase central (v2, resumen de la ventaja competitiva):
 | `assets/image2.png` | 454 KB | Referencia/mockup |
 | `assets/image3.png` | 355 KB | Referencia/mockup |
 | `assets/image4.png` | 1.1 MB | Referencia/mockup |
+| `assets/equipo-sebastian.jpg` | 52 KB | Retrato de Sebastián Acedo · 360×360, sección Equipo del home |
+| `assets/equipo-matias.jpg` | 50 KB | Retrato de Matías Gallego · 360×360, sección Equipo del home |
 | `assets/ria-labs-eclipse-icon.svg` | 645 B | Icono del eclipse (vector) |
 | `og-image.png` (raíz) | 137 KB | Open Graph 1200×630 para WhatsApp / Twitter Card |
 
@@ -400,7 +435,8 @@ RIA/
 ├── v4/index.html                (versión vigente del home)
 └── laboratorio/
     ├── index.html               (página Laboratorio)
-    └── media/                   (clips MP4 + posters del prototipo de tránsito)
+    └── media/                   (clips MP4 + posters del prototipo de tránsito
+                                  + capturas JPG del sistema de sensores urbanos)
 ```
 
 ### 11.2 Deploy
@@ -446,7 +482,7 @@ El CTA secundario del hero dice **"Ver el laboratorio →"** y baja a `#laborato
 | Ruta | Contenido | Fuente |
 |---|---|---|
 | `/` | Home institucional (rewrite a `/v4/index.html`) | `v4/index.html` |
-| `/laboratorio/` | Laboratorio — modalidad de trabajo + cuatro proyectos | `laboratorio/index.html` |
+| `/laboratorio/` | Laboratorio — modalidad de trabajo + cinco proyectos | `laboratorio/index.html` |
 | `/v1/`, `/v2/`, `/v3/` | Prototipos históricos | — |
 
 ### 12.5 Anchors de `/laboratorio/`
