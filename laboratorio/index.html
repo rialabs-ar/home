@@ -168,6 +168,13 @@
   .chip { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 1.2px; color: var(--muted); border: 1px solid var(--border2); padding: 5px 11px; transition: all 0.2s; }
   .chip:hover { color: var(--white); border-color: rgba(255,255,255,0.16); }
 
+  /* .sitio — enlace al sitio propio de un proyecto. Primer link externo de la pagina:
+     toma el acento de la seccion (--acc) para que sirva en cualquiera de las cinco. */
+  .sitio { margin-top: 30px; }
+  .sitio-a { display: inline-flex; align-items: center; gap: 10px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 1.6px; text-transform: uppercase; color: var(--acc); text-decoration: none; border: 1px solid currentColor; padding: 10px 16px; opacity: 0.78; transition: opacity 0.2s, background 0.2s; }
+  .sitio-a:hover { opacity: 1; background: rgba(255,255,255,0.04); }
+  .sitio-x { font-size: 12px; letter-spacing: 0; }
+
   .art { margin-top: 58px; border: 1px solid var(--border2); background: #07060f; position: relative; overflow: hidden; }
   .art::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--acc), transparent); opacity: 0.45; }
   .art-bar { padding: 11px 16px; border-bottom: 1px solid var(--border2); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -577,6 +584,8 @@
     <p class="proj-lead rev d2">La consecuencia de tener las dos mitades es la que importa: <strong>una pantalla de monitoreo deja de ser un desarrollo y pasa a ser una configuración</strong>. Un admin elige cámaras, elige qué plugin las mira, define cómo se compone un evento y qué veredicto sale. Sin SQL, sin redeploy, sin nosotros.</p>
 
     <p class="proj-lead rev d2">Este es <strong>el lugar de la seguridad</strong> en el laboratorio: identidad, patente, perímetro, accesos. Está separado a propósito de la plataforma urbana del <a href="#p05" style="color:#2fd0c8;text-decoration:none;border-bottom:1px solid rgba(47,208,200,0.35)">proyecto 05</a>, que mide la calle y deja la seguridad ciudadana explícitamente afuera. Mismo motor de detección, dos productos, dos ventanillas — y esa frontera no es prolijidad nuestra: es lo que le permite a un municipio comprar medición sin abrir el debate de la vigilancia.</p>
+
+    <p class="sitio rev d2"><a class="sitio-a" href="https://analitico.rialabs.ar" target="_blank" rel="noopener">Byte Analítico · el recorrido de un evento, de la cámara a la central <span class="sitio-x">↗</span></a></p>
 
     <!-- artefacto: pantalla configurable -->
     <div class="art rev d2">

@@ -224,6 +224,13 @@ Presenta la **modalidad de trabajo** de RIA Labs como laboratorio de investigaci
 | 04 | **Tránsito inteligente** | Semáforos que ven, en vez de adivinar | Prototipo · medido en calle | `#4fd48f` verde |
 | 05 | **RIA Smartcity** | La ciudad medida con las cámaras que ya tiene | Midiendo 24/7 · piloto propio en Rosario | `#2fd0c8` teal |
 
+**Enlaces a sitios propios:** el **02** lleva a `https://analitico.rialabs.ar` — *Byte Analítico*,
+la presentación del producto para integradores, centrales de monitoreo y clientes finales.
+Es el **primer link externo de la página Laboratorio**: se resolvió con el componente
+`.sitio` / `.sitio-a`, que toma el acento de la sección (`--acc`) y por eso sirve tal cual en
+los otros cuatro proyectos cuando tengan sitio. Rótulo publicado: "Byte Analítico · el
+recorrido de un evento, de la cámara a la central ↗".
+
 **Números publicados por proyecto:**
 
 - 01 — 1.100 vehículos activos · 7 secciones del circuito · 100 % de unidades por control de calidad · 5 semanas al primer módulo.
