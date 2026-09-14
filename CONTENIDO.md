@@ -228,8 +228,8 @@ Presenta la **modalidad de trabajo** de RIA Labs como laboratorio de investigaci
 la presentación del producto para integradores, centrales de monitoreo y clientes finales.
 Es el **primer link externo de la página Laboratorio**: se resolvió con el componente
 `.sitio` / `.sitio-a`, que toma el acento de la sección (`--acc`) y por eso sirve tal cual en
-los otros cuatro proyectos cuando tengan sitio. Rótulo publicado: "Byte Analítico · el
-recorrido de un evento, de la cámara a la central ↗".
+los otros cuatro proyectos cuando tengan sitio. Rótulo publicado: "Byte Analítico · un
+producto, dos brazos: Integradores y Monitoreo ↗".
 
 **Números publicados por proyecto:**
 
