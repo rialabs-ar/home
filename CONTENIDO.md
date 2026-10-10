@@ -10,8 +10,9 @@
 
 ## 0. v5 (vigente desde 2026-10-10) — tres verticales, el eclipse al centro, Dataflow como motor
 
-> Prompt de giro, verbatim: `docs/prompts-usuario/2026-10-10-upgrade-home-tres-verticales.md`. Lo que sigue
-> es lo curado. Mismo estilo que v4 (Saira + DM Mono, paleta medianoche + dorado, ruido, reveals), misma
+> Prompts de giro, verbatim: `docs/prompts-usuario/2026-10-10-upgrade-home-tres-verticales.md` (la v5) y
+> `docs/prompts-usuario/2026-10-10-sin-orbitas-verticales-tecnologicas.md` (el mismo día: fuera las órbitas
+> del hero, los productos como verticales tecnológicas). Lo que sigue es lo curado. Mismo estilo que v4 (Saira + DM Mono, paleta medianoche + dorado, ruido, reveals), misma
 > página única sin build; v4 queda como histórico en `v4/`.
 
 ### 0.1 Qué cambió y por qué
@@ -30,12 +31,72 @@
 
   Los nombres públicos de los sitios de destino todavía dicen *Byte Analítico* y *RIA Drivecore*: la home
   usa los nombres nuevos y enlaza a esos sitios tal como están. Renombrarlos es una pasada aparte.
-- **El eclipse manda.** En el hero es el centro de un *sistema*: tres órbitas elípticas con un planeta
-  por producto (misma matemática que el campo orbital de `/laboratorio/`), hover ilumina órbita + ficha de
-  leyenda, clic baja a la banda del producto. Corona de 192 px de diámetro (v4: 140), respira, dos anillos
-  de protuberancias giran en sentidos opuestos, la luna libra y deja ver un filo de sol. Vuelve en la banda
-  de Dataflow como el motor, en las viñetas de cada producto (un arco de corona fuera de cuadro: el
-  planeta orbita algo), en el separador de Equipo (Byte y VRIO, heredado de v4) y en los dos retratos.
+- **El hero dice «DE VER A SABER»** (rama `textos-hero`, 2026-10-10; decisión verbatim de Matías en el registro
+  de prompts: *«Me quedo con "De ver a saber" (sin punto, quizás en mayúsculas con alguna fuente distintiva)»*).
+  El titular va en mayúsculas, sin punto, en **Cormorant Garamond 600** —una garalda de contraste alto, tracking
+  0,16 em, 54 px en desktop y 32 px en un celular, donde entra en una sola línea—: una romana de portada de
+  libro frente a la geometría de Saira del wordmark, para que se lea como una declaración y no como un eslogan.
+  Se probaron en captura, sobre la página real y en los dos temas, Cormorant Garamond y Marcellus (y en hoja
+  comparativa Cinzel, Fraunces, Instrument Serif, Bodoni Moda, Italiana, EB Garamond, Libre Caslon Display,
+  Cormorant SC): Marcellus quedó demasiado cerca del ritmo de Saira y no tiene cursiva; Bodoni e Italiana pierden
+  los filetes de noche; Cinzel es afiche; Instrument Serif es la cara de moda de las landings; Fraunces es
+  amable, no declarativa. Debajo, en lugar de la bajada de tres frases, va **prosa** (Saira 300, 17 px,
+  interlineado 1,78, columna de ~65 caracteres), la mezcla que pidió Matías de los tres textos propuestos:
+
+  > El conocimiento ya lo tienen las máquinas: cada cámara, cada sensor, cada registro, acumulado sin cansancio.
+  > Pero *el verdadero signo de la inteligencia no es el conocimiento sino la imaginación*, y esa parte sigue
+  > siendo humana: una máquina puede saberlo todo de una esquina y no imaginar jamás un semáforo distinto.
+  > Nosotros ponemos la imaginación; el motor, la memoria y la atención que no duermen. Cuando las dos se
+  > alinean, como el sol y la luna por un instante, aparece algo que antes no estaba: **una infraestructura que
+  > piensa**.
+
+  La frase en cursiva circula atribuida a Einstein y **se publica sin comillas ni atribución, por decisión de
+  Matías** («no nombraría a Einstein aunque citaría la frase»); tipográficamente va en la misma voz que el
+  titular (Cormorant Garamond cursiva 500, un 24 % más grande para igualar la x de Saira, en blanco), y la
+  cláusula final sube a blanco como los `strong` del resto de la página. La fuente se carga con un `<link>`
+  propio de Google Fonts con sólo las dos caras que se usan (`0,600` y `1,500`, `display=swap`). Medidas: el
+  hero mide ~1.220 px en 1440×900 y ~1.225 en 390×844; sin scrollear se ven el eclipse, el wordmark, el titular
+  y las primeras tres líneas de la prosa (siete en el celular); los CTAs quedan debajo del pliegue. El titular
+  viejo («Tu infraestructura ya existe. Nosotros la hacemos pensar.») queda como histórico en §1.4.
+- **El eclipse manda, solo.** En el hero es la figura de portada: el eclipse total, sin nada alrededor.
+  (La primera v5 lo rodeaba de un *sistema* de tres órbitas con un planeta por producto; Matías lo descartó
+  el mismo día: «las órbitas no van, el eclipse es total y figura de la portada».) El SVG `#sistema` tiene el
+  viewBox recortado al eclipse —`310 70 340 340` sobre el sistema de coordenadas original, el centro sigue
+  en 480,240 y el interior `#sis-core` es el de siempre— y el tamaño lo da el CSS: `min(400px, 78vw, 44vh)`
+  de ancho, o sea una corona de ~226 px de diámetro en desktop y ~170 en un celular, sin empujar el titular
+  bajo el pliegue. Respira, dos anillos de protuberancias giran en sentidos opuestos, la luna libra y deja
+  ver un filo de sol, un enjambre de partículas trabaja detrás. Los gradientes `sp-*` siguen en sus `defs`
+  porque los usa el diagrama de Dataflow. Vuelve en la banda de Dataflow como el motor, en el separador de
+  Equipo (Byte y VRIO, heredado de v4) y en los dos retratos.
+- **Cada vertical es un astro con sus sabores en órbita** (viñeta `.prod-vis` de cada banda, SVG propio de
+  480×400, vanilla). El astro lleva la tecnología de la vertical en su superficie, en línea técnica sobre
+  la esfera, no como ícono: en Analítico es **el ojo de un objetivo** (anillos, iris de ocho láminas,
+  reflejo en el vidrio); en Espacio, **la ciudad de noche vista desde arriba** (trama de globo y un barrio
+  de luces que se ve justamente del lado de la sombra); en Automoción, **el circuito** que rodea el astro
+  (una pista con sus cinco secciones, sólo se ve la mitad de adelante). Un sol fuera de cuadro, arriba a la
+  izquierda, ilumina los tres igual: terminador, filo de luz en el borde, y una umbra que el astro proyecta
+  hacia abajo a la derecha. **Cada satélite es un sabor y un enlace** (`<a>` dentro del SVG, con `tabindex`,
+  `aria-label`, halo al hover y al foco, y su órbita se enciende) a la web de ese sabor:
+
+| Vertical | Satélite (etiqueta visible) | Abre |
+|---|---|---|
+| Analítico | **Integradores** · cualquier cámara | analitico.rialabs.ar/integradores/ |
+| Analítico | **Monitoreo** · la consola de la central | analitico.rialabs.ar/monitoreo/ |
+| Espacio | **Smartcity** · ciudad | smartcity.rialabs.ar |
+| Espacio | **Jockey** · predio | jockey.rialabs.ar |
+| Espacio | **Grit** · barrio y centro comercial | grit.rialabs.ar |
+| Espacio | **Acceso** · sin web pública | — (Rosental y Mercado Fisherton son instalaciones con login; el satélite existe, más chico y apagado, pero no enlaza) |
+| Automoción | **Drivecore** · la concesionaria | drivecore.rialabs.ar |
+
+  Profundidad: cada satélite recorre su propia órbita elíptica inclinada (la misma matemática que el
+  separador de Equipo), pasa **por detrás y por delante** del astro con oclusión real (cambia de grupo en el
+  DOM), crece hasta un 26 % al acercarse y se achica y se desenfoca al alejarse, se oscurece al cruzar la
+  umbra, y la etiqueta se acomoda del lado de afuera (centrada debajo cerca de los bordes, para que en
+  móvil no se corte). Detrás, 48 motas de polvo propias de cada viñeta con paralaje al scroll. Cada órbita
+  dibujada está ocupada por el satélite que la recorre; se fueron el arco de corona de la esquina y la
+  elipse punteada vacía que tenía la primera v5. **Sumar un sabor es sumar un `<a class="sat">`** con su
+  `data-orb` (`rx ry inclinación período fase sentido radio`): Estación de Servicio e Industria entrarán
+  así en Espacio. `prefers-reduced-motion`: todo quieto en su posición inicial, sin transiciones.
 - **El sentido del eclipse, dicho en la página** (banda Dataflow): *«Un eclipse es dos cosas que ya
   existían, alineadas por un instante. La luna es tu infraestructura. El sol es el motor. Lo que se ve es
   la corona: lo que la alineación deja pasar.»*
@@ -130,9 +191,9 @@
 | `v5/index.html` | la home vigente, autocontenida |
 | `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos vigentes 720×900 (4:5): la familia **con melena** (~100 KB y ~93 KB) |
 | `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~72 KB y ~71 KB). Para cambiar de familia alcanza con renombrar |
-| `og-image.png` | tarjeta 1200×630 nueva: el sistema + RIA Labs + la frase. La anterior quedó en `og-image-v4.png` |
+| `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + «DE VER A SABER» en Cormorant (regenerada el 10/10 con el titular nuevo, `OG=1 scripts/capturar-home.sh v5`; el modo OG esconde además la pista «tocá el eclipse»). La anterior quedó en `og-image-v4.png` |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
-| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta; `QUERY=tema=dia` o `QUERY=ciclo=4200` fotografía el día o un instante del ciclo del eclipse, `NOMBRE=dia` nombra los PNG; `ALTO=9600` para la página entera). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
+| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia` o `QUERY=ciclo=4200` fotografía el día o un instante del ciclo del eclipse, `NOMBRE=dia` nombra los PNG; `ALTO=9600` para la página entera). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
 
 **Retratos (2026-10-10).** Generados con `google/nano-banana` vía Replicate (token en
 `~/.credentials/replicate.env`) a partir de las fotos reales de `~/dev/RIALabs/Fotos/` (`otra.jpeg` y
@@ -180,6 +241,11 @@ descartadas no se guardaron; `generar-retratos.py exportar <origen> <destino>` r
   Analítico* y *RIA Automoción*.
 - `/laboratorio/` presenta cinco proyectos de los cuales tres ya son producto; reordenarlo con el criterio
   de la home (productos arriba, laboratorio = lo que todavía es pregunta) es la próxima pasada.
+- El satélite **Acceso** de RIA Espacio no enlaza a nada: Rosental y Mercado Fisherton son instalaciones con
+  login. Cuando Acceso tenga página pública, es agregarle el `href`.
+- Las viñetas de las verticales son SVG dibujado, no imágenes generadas: se decidió así para que sobrevivan a
+  un tema claro (colores por variables), pesen cero y puedan moverse. Si alguna vez se quiere un render
+  fotorrealista, el camino es el de los retratos (`scripts/generar-retratos.py`).
 
 ---
 
@@ -211,9 +277,17 @@ El **eclipse solar total** (anillos cálidos naranjas/dorados con disco lunar os
 
 ### 1.4 Frase filosófica / corazón narrativo
 
+> **DE VER A SABER**
+>
+> (Titular del hero de v5 desde el 2026-10-10: sin punto, en mayúsculas, en Cormorant Garamond. Debajo va la prosa
+> del hero —ver §0—, que incluye sin atribución la frase *el verdadero signo de la inteligencia no es el
+> conocimiento sino la imaginación*: circula atribuida a Einstein y se publica sin nombrarlo, por decisión de Matías.)
+
+Histórica (v2 → primera v5):
+
 > "Tu infraestructura ya existe. Nosotros la hacemos pensar."
 >
-> (Texto incrustado en la ilustración animada del hero en v4; versión v2 usaba "Tu infraestructura visual ya existe. Nosotros la hacemos pensar.")
+> (Texto incrustado en la ilustración animada del hero en v4 y titular del hero en la primera v5; versión v2 usaba "Tu infraestructura visual ya existe. Nosotros la hacemos pensar." Sobrevive como cierre de la prosa del hero: «una infraestructura que piensa».)
 
 Declaración complementaria (sección Mercado, hover del nodo central en v4):
 > "Lo que transforma a una empresa no es la tecnología que adopta — es el momento en que decide, por primera vez, mirarse de verdad."
@@ -706,7 +780,7 @@ Su nav apunta al home con rutas absolutas (`/#servicios`, `/#caso`, …) y marca
 ## 14. Elementos institucionales útiles para reuso
 
 - **Elevator pitch (1 línea):** "Transformamos los procesos de tu empresa con inteligencia artificial y software a medida. Nacidos de Byte y VRIO."
-- **Tagline poético:** "Tu infraestructura ya existe. Nosotros la hacemos pensar."
+- **Tagline poético:** "De ver a saber" (desde v5, 2026-10-10). Histórico: "Tu infraestructura ya existe. Nosotros la hacemos pensar."
 - **Misión implícita:** Hacer que la IA produzca valor real sobre la infraestructura que las empresas argentinas ya tienen instalada.
 - **Visión implícita:** Ocupar el nicho donde infraestructura operativa y software de IA se encuentran — un espacio hoy vacío en el mercado argentino.
 - **Valores operativos:** Simplicidad · Velocidad · Resultados medibles · Autonomía del cliente · Ingeniería creativa con rigor.
