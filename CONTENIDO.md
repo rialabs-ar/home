@@ -255,9 +255,12 @@ analítica; el número coincide con el prompt de auditoría del 03/10 y con el c
 casa prefiere decir 25, hay que cambiarlo también en la barra de números del hero.
 
 **Fotografiar.** `?df=N` (1–4) fija el estado N, deja sólo ese cuadro y saca el sticky; `&solo` esconde todo lo
-que no sea la banda. Anclas `#df-c1`…`#df-c4` para caer en un cuadro con el escenario pegado. En una ventana de más
-de 1.800 px de alto (captura de página entera) los cuatro cuadros quedan encendidos (`df-plano`). La página creció
-unos 3.000 px: `scripts/capturar-home.sh` llega al pie con `ALTO=11000`.
+que no sea la banda. Con el script de la casa: `QUERY='df=3&solo' NOMBRE=df3 scripts/capturar-home.sh v5`
+(y `QUERY='df=3&solo&tema=dia'` para verla de día). Anclas `#df-c1`…`#df-c4` para caer en un cuadro con el
+escenario pegado (sirven dentro de un iframe; en una ventana headless el scroll deja la captura en negro). En una
+ventana de más de 1.800 px de alto (captura de página entera) los cuatro cuadros quedan encendidos (`df-plano`).
+La página creció unos 3.000 px: `capturar-home.sh` llega al pie con `ALTO=11000`. Tema día: la banda usa
+`var(--banda2)` y las tarjetas `var(--tarjeta)`, el disco del eclipse `var(--bg)`.
 
 ---
 

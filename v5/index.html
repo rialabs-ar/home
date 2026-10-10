@@ -266,8 +266,8 @@
      El estado vive en data-df="1..4" de la sección: lo fija el cuadro que cruza el centro de la
      pantalla, o ?df=N en la URL (para fotografiar; &solo esconde el resto de la página).
      Colores sólo por variables (--df-* y las de :root) para que el tema día no lo rompa. */
-  .df { background: rgba(13,12,26,0.78); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 110px 0; }
-  .df { --df-raw: #7f8db0; --df-moon: var(--bg); --df-ink: var(--muted); --df-nav: 76px; --df-card: color-mix(in srgb, var(--bg) 86%, transparent); }
+  .df { background: var(--banda2); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 110px 0; transition: background-color var(--t-tema) ease; }
+  .df { --df-raw: #7f8db0; --df-moon: var(--bg); --df-ink: var(--muted); --df-nav: 76px; --df-card: var(--tarjeta); }
   .df-intro { margin-bottom: 36px; }
   .df-hist { display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr); gap: 52px; align-items: start; }
   .df-stage { position: sticky; top: var(--df-nav); height: min(calc(100vh - var(--df-nav) - 28px), 760px); min-height: 460px; z-index: 2; }
