@@ -2307,6 +2307,9 @@
     new IntersectionObserver(function(es){ visible = es[0].isIntersecting; if (visible) { if (!RM && !running) draw(performance.now()); start(); } else stop(); }, { rootMargin: '160px 0px' }).observe(sec);
     resize();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ if (RM) estatico(); });
+  })();
+
+  /* ══════════════════════════════════════════
      LABORATORIO · el video de la ochava carga y arranca sólo a la vista, y se pausa al salir
      (misma mecánica que /laboratorio/). Con prefers-reduced-motion queda el póster, quieto.
      ══════════════════════════════════════════ */
