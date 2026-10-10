@@ -261,21 +261,68 @@
   .prod-link:hover { border-color: var(--c); color: var(--c); }
   .prod-antes { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 1.5px; color: var(--muted); opacity: 0.55; margin-top: -10px; margin-bottom: 18px; }
 
-  /* ── DATAFLOW · el motor ──────────────────────────── */
+  /* ── DATAFLOW · la historia del motor ─────────────────
+     La banda se recorre: un escenario fijo (canvas con el flujo) y cuatro cuadros que pasan.
+     El estado vive en data-df="1..4" de la sección: lo fija el cuadro que cruza el centro de la
+     pantalla, o ?df=N en la URL (para fotografiar; &solo esconde el resto de la página).
+     Colores sólo por variables (--df-* y las de :root) para que el tema día no lo rompa. */
   .df { background: rgba(13,12,26,0.78); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 110px 0; }
-  .df-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-  .df-vis svg { width: 100%; height: auto; display: block; overflow: visible; }
-  .df-vis .flujo { stroke-dasharray: 3 9; animation: fluir 1.4s linear infinite; }
-  @keyframes fluir { to { stroke-dashoffset: -12; } }
-  .df-vis .lab-mono { font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: 1.6px; fill: #5a5650; text-transform: uppercase; }
-  .df-vis .lab-pl { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 2.2px; }
-  .df-pasos { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--border2); margin: 30px 0 24px; max-width: 640px; }
-  .paso { background: rgba(11,10,20,0.9); padding: 20px 18px; }
-  .paso-n { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 2px; color: var(--gold-lo); margin-bottom: 8px; }
-  .paso-t { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 6px; }
-  .paso-b { font-size: 12.5px; font-weight: 300; line-height: 1.6; color: var(--muted); }
-  .df-nota { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300; letter-spacing: 0.4px; line-height: 1.75; color: var(--muted); opacity: 0.75; max-width: 600px; margin-bottom: 28px; }
-  .df-nota b { color: var(--gold-hi); font-weight: 400; }
+  .df { --df-raw: #7f8db0; --df-moon: var(--bg); --df-ink: var(--muted); --df-nav: 76px; --df-card: color-mix(in srgb, var(--bg) 86%, transparent); }
+  .df-intro { margin-bottom: 36px; }
+  .df-hist { display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr); gap: 52px; align-items: start; }
+  .df-stage { position: sticky; top: var(--df-nav); height: min(calc(100vh - var(--df-nav) - 28px), 760px); min-height: 460px; z-index: 2; }
+  .df-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  /* rótulos del escenario: los ubica el script con la misma geometría que el canvas */
+  .df-lab { position: absolute; left: 0; top: 0; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 1.8px; text-transform: uppercase; color: var(--df-ink); white-space: nowrap; pointer-events: none; line-height: 1.3; transition: opacity 0.7s ease, color 0.4s; }
+  .df-lab.out { color: var(--c); font-size: 10.5px; letter-spacing: 2.4px; }
+  .df-lab.eta { font-size: 9.5px; letter-spacing: 1.5px; opacity: 0.9; }
+  .df-lab.wm { font-family: 'Saira', sans-serif; font-weight: 500; letter-spacing: 0.32em; color: var(--white); text-transform: none; opacity: 0.92; }
+  .df-lab.marca { font-size: 8px; letter-spacing: 1.6px; opacity: 0.55; text-align: center; }
+  .df[data-df="1"] .df-lab.out, .df[data-df="1"] .df-lab.eta { opacity: 0.3; }
+  .df[data-df="2"] .df-lab.src, .df[data-df="2"] .df-lab.out { opacity: 0.35; }
+  .df[data-df="3"] .df-lab.src, .df[data-df="3"] .df-lab.eta { opacity: 0.3; }
+  /* los cuadros */
+  .df-cuadro { min-height: clamp(520px, 86vh, 780px); display: flex; flex-direction: column; justify-content: center; padding: 40px 0; opacity: 0.26; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .df-cuadro.df-on { opacity: 1; transform: none; }
+  .df-k { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .df-k::before { content: ''; width: 20px; height: 1px; background: var(--gold); flex: none; }
+  .df-t { font-size: clamp(26px, 3vw, 38px); font-weight: 500; line-height: 1.1; letter-spacing: 0.3px; color: var(--white); margin-bottom: 14px; }
+  .df-b { font-size: 16px; font-weight: 300; line-height: 1.72; color: var(--muted); max-width: 520px; }
+  .df-b strong { color: var(--white); font-weight: 400; }
+  .df-datos { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 22px; background: var(--border2); max-width: 540px; }
+  .df-datos.tres { grid-template-columns: repeat(3, 1fr); }
+  .df-datos li { background: var(--df-card); padding: 14px 15px 13px; }
+  .df-datos .n { display: block; font-weight: 600; font-size: 24px; letter-spacing: 0.5px; line-height: 1; color: var(--gold-hi); font-variant-numeric: tabular-nums; }
+  .df-datos .n small { font-size: 13px; font-weight: 400; letter-spacing: 1px; }
+  .df-datos .l { display: block; font-size: 11.5px; font-weight: 300; line-height: 1.45; color: var(--muted); margin-top: 6px; }
+  .df-datos .f { display: block; font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: 1px; color: var(--muted); opacity: 0.5; margin-top: 7px; }
+  .df-etapas { list-style: none; counter-reset: etapa; margin-top: 20px; max-width: 540px; border-top: 1px solid var(--border2); }
+  .df-etapas li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border2); font-size: 13.5px; font-weight: 300; line-height: 1.5; color: var(--muted); transition: color 0.35s; }
+  .df-etapas li::before { counter-increment: etapa; content: "0" counter(etapa); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gold-lo); padding-top: 4px; transition: color 0.35s; }
+  .df-etapas b { font-weight: 500; color: var(--white); }
+  .df-etapas li.hot { color: var(--white); }
+  .df-etapas li.hot::before { color: var(--gold-hi); }
+  /* el catálogo vivo: una ficha por analítica, se encienden de a una */
+  .df-cat { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 18px; max-width: 560px; }
+  .df-cat span { font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 300; letter-spacing: 0.8px; color: var(--muted); border: 1px solid var(--border2); padding: 4px 8px; transition: color 0.5s, border-color 0.5s, background 0.5s; }
+  .df-cat span.on { color: var(--gold-hi); border-color: var(--gold-lo); background: color-mix(in srgb, var(--gold) 10%, transparent); }
+  .df-marca { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300; letter-spacing: 0.4px; line-height: 1.7; color: var(--muted); opacity: 0.8; margin-top: 18px; max-width: 540px; }
+  .df-marca b { color: var(--gold-hi); font-weight: 400; }
+  .df-sab { list-style: none; display: grid; gap: 2px; margin-top: 20px; max-width: 540px; background: var(--border2); }
+  .df-sab li { background: var(--df-card); padding: 13px 16px 13px 18px; border-left: 2px solid var(--c); font-size: 13.5px; font-weight: 300; line-height: 1.55; color: var(--muted); }
+  .df-sab b { display: block; font-weight: 500; font-size: 11.5px; letter-spacing: 2.4px; text-transform: uppercase; color: var(--c); margin-bottom: 3px; }
+  .df-grupo { font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 300; letter-spacing: 2.4px; text-transform: uppercase; color: var(--gold); margin: 24px 0 0; display: flex; align-items: center; gap: 10px; max-width: 540px; }
+  .df-grupo::after { content: ''; flex: 1; height: 1px; background: var(--border2); }
+  .df-grupo em { font-style: normal; color: var(--muted); letter-spacing: 0.8px; text-transform: none; opacity: 0.8; }
+  .df-grupo + .df-datos { margin-top: 10px; }
+  .df-fuente { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 0.3px; line-height: 1.7; color: var(--muted); opacity: 0.6; margin-top: 18px; max-width: 540px; }
+  .df-foot { margin-top: 26px; }
+  /* foto: ?df=N fija el estado y deja sólo ese cuadro, sin sticky */
+  .df.df-plano .df-cuadro { opacity: 1; transform: none; }
+  .df.df-foto .df-stage { position: relative; }
+  .df.df-foto .df-cuadro { display: none; }
+  .df.df-foto .df-cuadro.df-on { display: flex; min-height: 0; }
+  body.df-solo > *:not(#dataflow):not(#cielo) { display: none !important; }
 
   /* ── LABORATORIO ──────────────────────────────────── */
   .lab-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 56px; background: var(--border2); }
@@ -340,14 +387,16 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .rev { opacity: 1; transform: none; transition: none; }
-    .df-vis .flujo { animation: none; }
+    .df-stage { position: relative; }
+    .df-cuadro { opacity: 1; transform: none; transition: none; min-height: 0; padding: 36px 0; }
+    .df-cat span, .df-etapas li, .df-lab { transition: none; }
     .prod-vis .sat, .prod-vis .orb, .prod-vis .sat-halo, .prod-vis .sat-lab { transition: none; }
   }
 
   @media(max-width:1020px){
     .prod-grid, .prod.inv .prod-grid { grid-template-columns: minmax(0, 380px) 1fr; gap: 40px; }
     .prod-vis, .prod.inv .prod-vis { margin: 0; }
-    .df-grid { grid-template-columns: 1fr; }
+    .df-hist { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; }
     .founder { grid-template-columns: 170px 1fr; gap: 24px; padding: 32px 28px; }
     .lab-grid, .princ-grid { grid-template-columns: 1fr 1fr; }
   }
@@ -362,7 +411,13 @@
     .prod.inv .prod-vis { order: 0; }
     .prod-vis, .prod.inv .prod-vis { max-width: 400px; width: 100%; margin: 0 auto; }
     .df{padding:80px 0;}
-    .df-pasos{grid-template-columns:1fr;}
+    .df-hist{grid-template-columns:1fr;gap:0;}
+    .df-stage{top:64px;height:44vh;min-height:320px;max-height:440px;background:var(--bg);border-bottom:1px solid var(--border2);}
+    .df-cuadro{min-height:clamp(440px,74vh,660px);padding:34px 0;}
+    .df-datos.tres{grid-template-columns:1fr 1fr;}
+    .df-datos.tres li:last-child:nth-child(odd){grid-column:1 / -1;}
+    .df-datos .n{font-size:22px;}
+    .df.df-foto .df-stage{height:360px;}
     .lab-grid,.princ-grid,.team-grid{grid-template-columns:1fr;}
     .lab-more{opacity:0.9;transform:none;}
     .stat-inner{grid-template-columns:1fr 1fr;padding:0 24px;}
@@ -833,86 +888,117 @@
   </div>
 </section>
 
-<!-- ══════════════ DATAFLOW · EL MOTOR ══════════════ -->
-<section class="df" id="dataflow">
-  <div class="wrap df-grid">
-    <div class="df-vis rev">
-      <svg viewBox="0 0 560 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama: cámaras, sensores y sistemas entran al motor Dataflow, representado por el eclipse, y salen tres sabores: Analítico, Espacio y Automoción">
-        <defs>
-          <radialGradient id="df-aura" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#c8860a" stop-opacity="0.22"/><stop offset="60%" stop-color="#c8860a" stop-opacity="0.04"/><stop offset="100%" stop-color="#c8860a" stop-opacity="0"/>
-          </radialGradient>
-          <filter id="df-glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        </defs>
+<!-- ══════════════ DATAFLOW · EL MOTOR, COMO HISTORIA ══════════════
+     Un escenario fijo (el flujo, en canvas) y cuatro cuadros que pasan con el scroll:
+     entra la realidad → el motor por dentro → salen los sabores → lo que ya pasó por acá.
+     Los números del último cuadro salen del tablero del motor (leído el 10/10/2026) y de los
+     documentos de cada sabor; la tabla número → fuente está en CONTENIDO.md §0. -->
+<section class="df" id="dataflow" data-df="1" aria-label="Dataflow, el motor: cómo fluye y qué procesó">
+  <div class="wrap df-intro">
+    <p class="lbl rev">Dataflow · el motor</p>
+    <h2 class="ttl rev d1">Todo fluye<br>hacia el centro</h2>
+    <p class="bdy rev d2">Un eclipse es dos cosas que ya existían, alineadas por un instante. La luna es tu infraestructura: las cámaras, los sensores, los sistemas que ya tenés. El sol es el motor. <strong>Lo que se ve es la corona: lo que la alineación deja pasar.</strong> Así fluye, de punta a punta.</p>
+  </div>
 
-        <text class="lab-mono" x="26" y="40">entra la realidad</text>
-        <text class="lab-mono" x="534" y="40" text-anchor="end">salen los sabores</text>
-
-        <!-- entradas: lo que ya existe -->
-        <g font-family="'DM Mono',monospace" font-size="9" letter-spacing="1.5" fill="#8a8478">
-          <circle cx="56" cy="130" r="14" fill="#0f0e1a" stroke="#3a3850" stroke-width="1"/><circle cx="56" cy="130" r="4" fill="#5a5670"/>
-          <text x="56" y="160" text-anchor="middle">cámaras</text>
-          <circle cx="56" cy="220" r="14" fill="#0f0e1a" stroke="#3a3850" stroke-width="1"/><circle cx="56" cy="220" r="4" fill="#5a5670"/>
-          <text x="56" y="250" text-anchor="middle">sensores</text>
-          <circle cx="56" cy="310" r="14" fill="#0f0e1a" stroke="#3a3850" stroke-width="1"/><circle cx="56" cy="310" r="4" fill="#5a5670"/>
-          <text x="56" y="340" text-anchor="middle">sistemas</text>
-        </g>
-        <path class="flujo" d="M 72 130 C 120 130, 150 190, 178 206" stroke="#c8860a" stroke-width="1" opacity="0.55" fill="none"/>
-        <path class="flujo" d="M 72 220 C 110 220, 140 220, 172 220" stroke="#EF9F27" stroke-width="1.3" opacity="0.65" fill="none"/>
-        <path class="flujo" d="M 72 310 C 120 310, 150 250, 178 234" stroke="#c8860a" stroke-width="1" opacity="0.55" fill="none"/>
-
-        <!-- el motor: el eclipse -->
-        <circle cx="236" cy="220" r="120" fill="url(#df-aura)"/>
-        <circle cx="236" cy="220" r="76" fill="none" stroke="#1a0900" stroke-width="22" opacity="0.5"/>
-        <circle cx="236" cy="220" r="72" fill="none" stroke="#2a1200" stroke-width="14" opacity="0.42"/>
-        <circle cx="236" cy="220" r="69" fill="none" stroke="#3d1c00" stroke-width="8" opacity="0.32"/>
-        <circle cx="236" cy="220" r="67" fill="none" stroke="#633806" stroke-width="4" opacity="0.24"/>
-        <circle cx="236" cy="220" r="84" fill="none" stroke="#EF9F27" stroke-width="0.5" stroke-dasharray="1.5 10" opacity="0.25">
-          <animateTransform attributeName="transform" type="rotate" from="0 236 220" to="360 236 220" dur="60s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="236" cy="220" r="62" fill="none" stroke="#EF9F27" stroke-width="2.4" opacity="0.92" filter="url(#df-glow)"/>
-        <circle cx="236" cy="220" r="60" fill="#1c1810"/>
-        <circle cx="236" cy="217" r="60" fill="#0b0a14">
-          <animate attributeName="cy" values="217;220;217" dur="14s" repeatCount="indefinite"/>
-          <animate attributeName="cx" values="236;239;236;233;236" dur="14s" repeatCount="indefinite"/>
-        </circle>
-        <text x="236" y="318" text-anchor="middle" font-family="'Saira',sans-serif" font-size="13" font-weight="500" letter-spacing="4" fill="#f0ece0">DATAFLOW</text>
-        <text class="lab-mono" x="236" y="334" text-anchor="middle">lee · comprende · actúa</text>
-
-        <!-- salidas: los tres sabores -->
-        <path class="flujo" d="M 296 196 C 350 150, 400 110, 452 102" stroke="#4a8fd4" stroke-width="1.3" opacity="0.7" fill="none"/>
-        <path class="flujo" d="M 300 220 C 360 220, 420 220, 486 220" stroke="#2fd0c8" stroke-width="1.3" opacity="0.7" fill="none"/>
-        <path class="flujo" d="M 296 244 C 350 290, 400 330, 452 338" stroke="#EF9F27" stroke-width="1.3" opacity="0.7" fill="none"/>
-
-        <g>
-          <circle cx="468" cy="100" r="13" fill="url(#sp-ana)"/>
-          <circle cx="468" cy="100" r="19" fill="none" stroke="#4a8fd4" stroke-width="0.6" opacity="0.35"/>
-          <text class="lab-pl" x="468" y="134" text-anchor="middle" fill="#4a8fd4">ANALÍTICO</text>
-        </g>
-        <g>
-          <circle cx="502" cy="220" r="13" fill="url(#sp-esp)"/>
-          <circle cx="502" cy="220" r="19" fill="none" stroke="#2fd0c8" stroke-width="0.6" opacity="0.35"/>
-          <text class="lab-pl" x="502" y="254" text-anchor="middle" fill="#2fd0c8">ESPACIO</text>
-        </g>
-        <g>
-          <circle cx="468" cy="340" r="13" fill="url(#sp-aut)"/>
-          <circle cx="468" cy="340" r="19" fill="none" stroke="#EF9F27" stroke-width="0.6" opacity="0.35"/>
-          <text class="lab-pl" x="468" y="374" text-anchor="middle" fill="#EF9F27">AUTOMOCIÓN</text>
-        </g>
-      </svg>
+  <div class="wrap df-hist">
+    <!-- EL ESCENARIO: lo dibuja el script. Los rótulos son DOM para que sigan al tema y a la fuente. -->
+    <div class="df-stage" id="df-stage">
+      <canvas id="df-cv" aria-hidden="true"></canvas>
+      <span class="df-lab src" data-pos="src0">cámaras</span>
+      <span class="df-lab src" data-pos="src1">sensores</span>
+      <span class="df-lab src" data-pos="src2">sistemas</span>
+      <span class="df-lab eta" data-pos="eta0">Ingesta</span>
+      <span class="df-lab eta" data-pos="eta1">Analíticas</span>
+      <span class="df-lab eta" data-pos="eta2">Eventos</span>
+      <span class="df-lab eta" data-pos="eta3">Almacén</span>
+      <span class="df-lab eta" data-pos="eta4">Episodios</span>
+      <span class="df-lab eta" data-pos="eta5">Intents</span>
+      <span class="df-lab marca" data-pos="marca">adentro<br>datamotor</span>
+      <span class="df-lab wm" data-pos="wm">DATAFLOW</span>
+      <span class="df-lab out" data-pos="out0" style="--c:var(--c-ana)">Analítico</span>
+      <span class="df-lab out" data-pos="out1" style="--c:var(--c-esp)">Espacio</span>
+      <span class="df-lab out" data-pos="out2" style="--c:var(--c-aut)">Automoción</span>
     </div>
-    <div class="df-txt">
-      <p class="lbl rev">Dataflow · el motor</p>
-      <h2 class="ttl rev d1">Todo fluye<br>hacia el centro</h2>
-      <p class="bdy rev d2">Un eclipse es dos cosas que ya existían, alineadas por un instante. La luna es tu infraestructura: las cámaras, los sensores, los sistemas que ya tenés. El sol es el motor. <strong>Lo que se ve es la corona: lo que la alineación deja pasar.</strong></p>
-      <p class="bdy rev d2">Dataflow es ese motor. Cada producto es un <strong>sabor</strong>: la misma mecánica, expresada para un lugar y un trabajo distintos. Por eso el mismo detector cuenta autos en una avenida, lee la patente en el ingreso de un club y abre la ficha del auto cuando entra al taller.</p>
-      <div class="df-pasos rev d3">
-        <div class="paso"><p class="paso-n">01</p><p class="paso-t">Lee</p><p class="paso-b">Objetos, cuerpos, caras, símbolos. Cualquier cámara, cualquier sensor, sin cambiar la instalación.</p></div>
-        <div class="paso"><p class="paso-n">02</p><p class="paso-t">Comprende</p><p class="paso-b">Describe la escena en castellano, arma la historia de cada evento y busca por lo que vio.</p></div>
-        <div class="paso"><p class="paso-n">03</p><p class="paso-t">Actúa</p><p class="paso-b">Abre una barrera, cambia un semáforo, avisa a la central, enciende una ficha en el taller.</p></div>
-      </div>
-      <p class="df-nota rev d4">Adentro late un motor con <b>24 analíticas</b> verificadas una por una, corriendo en un equipo del tamaño de un módem. Afuera, un solo nombre: <b>Dataflow</b>. Una capacidad nueva se enciende por configuración, no por obra.</p>
-      <div class="rev d4"><a href="https://dataflow.rialabs.ar" target="_blank" rel="noopener" class="btn-ghost">Universo Dataflow ↗</a></div>
+
+    <div class="df-cuadros">
+      <!-- 01 -->
+      <article class="df-cuadro" id="df-c1" data-n="1">
+        <p class="df-k">01 · Entra la realidad</p>
+        <h3 class="df-t">Lo que ya tenés,<br>tal como está.</h3>
+        <p class="df-b">Las cámaras del predio, el sensor del poste, el sistema que ya usa el taller. <strong>Ninguno se cambia: se conectan.</strong> Lo que miraba una pared empieza a entrar al motor.</p>
+        <ul class="df-datos">
+          <li><span class="n">3</span><span class="l">formas de entrar: el RTSP de la cámara, el RTMP del sitio, o la nube del fabricante sin tocar la red</span></li>
+          <li><span class="n" data-df-count="15">15</span><span class="l">cuadros por segundo por cámara, todas a la vez</span></li>
+          <li><span class="n" data-df-count="8">8</span><span class="l">cámaras conectadas hoy al equipo de Rosario</span><span class="f">tablero del motor · 10 oct 2026</span></li>
+          <li><span class="n">0</span><span class="l">cambios en la instalación: una capacidad nueva se enciende por configuración, no por obra</span></li>
+        </ul>
+      </article>
+
+      <!-- 02 -->
+      <article class="df-cuadro" id="df-c2" data-n="2">
+        <p class="df-k">02 · El motor, por dentro</p>
+        <h3 class="df-t">Seis etapas.<br>Veinticuatro analíticas.</h3>
+        <p class="df-b">Cada cuadro de video recorre la misma máquina: <strong>se lee, se analiza, se vuelve evento, se guarda, se agrupa en un caso y se puede preguntar en castellano.</strong></p>
+        <ol class="df-etapas">
+          <li><span><b>Ingesta</b> — el video entra con reloj propio y se reconecta solo si la cámara se cae.</span></li>
+          <li><span><b>Analíticas</b> — las 24 del catálogo, encendidas por configuración en cada cámara.</span></li>
+          <li><span><b>Eventos</b> — cada hallazgo con foto, clip y veredicto: normal, atención o alerta.</span></li>
+          <li><span><b>Almacén y búsqueda</b> — todo queda guardado y se busca por lo que se vio.</span></li>
+          <li><span><b>Episodios y casos</b> — los eventos de la misma persona o el mismo auto se vuelven una historia.</span></li>
+          <li><span><b>Intents</b> — una pregunta en castellano se vuelve una búsqueda sobre lo que pasó.</span></li>
+        </ol>
+        <div class="df-cat" aria-label="Las 24 analíticas del catálogo">
+          <span>patentes</span><span>detección de objetos</span><span>conteo de personas</span><span>cruce de línea</span><span>invasión de zona</span><span>merodeo</span><span>velocidad por tramo</span><span>velocidad sobre el plano</span><span>vehículo detenido</span><span>contramano</span><span>congestión anómala</span><span>matriz origen-destino</span><span>ocupación de zona</span><span>permanencia y aglomeración</span><span>conteo poblacional</span><span>trazos anónimos</span><span>presencia facial</span><span>acceso facial</span><span>búsqueda facial</span><span>sabotaje de cámara</span><span>EPP</span><span>convergencia de clases</span><span>luminancia de escena</span><span>chequeo de escena por VLM</span>
+        </div>
+        <p class="df-marca">Un catálogo, no un proyecto por cliente. Afuera, un solo nombre: <b>Dataflow</b>.</p>
+      </article>
+
+      <!-- 03 -->
+      <article class="df-cuadro" id="df-c3" data-n="3">
+        <p class="df-k">03 · Salen los sabores</p>
+        <h3 class="df-t">El mismo motor,<br>tres formas.</h3>
+        <p class="df-b">Cada producto es un <strong>sabor</strong>: un manifiesto declara qué analíticas se encienden, para quién y con qué nombre. La mecánica no se vuelve a escribir: <strong>se declara.</strong></p>
+        <ul class="df-sab">
+          <li style="--c:var(--c-ana)"><b>Analítico</b>El evento llega a la central de monitoreo con foto, clip y descripción. En la puerta de una empresa, la cara y la patente deciden quién pasa.</li>
+          <li style="--c:var(--c-esp)"><b>Espacio</b>La ochava cuenta autos y mide velocidades. El club lee patentes en el acceso y sabe cuántos hay adentro.</li>
+          <li style="--c:var(--c-aut)"><b>Automoción</b>La cámara del taller lee la patente que nació en Gestoría y abre la ficha del auto que ya conoce.</li>
+        </ul>
+        <ul class="df-datos">
+          <li><span class="n" data-df-count="4">4</span><span class="l">sabores corriendo a la vez en el mismo equipo, cada uno con sus cámaras</span><span class="f">tablero del motor · 10 oct 2026</span></li>
+          <li><span class="n">1</span><span class="l">manifiesto por sabor: qué se enciende, para quién, con qué nombre</span></li>
+        </ul>
+      </article>
+
+      <!-- 04 -->
+      <article class="df-cuadro" id="df-c4" data-n="4">
+        <p class="df-k">04 · Lo que ya pasó por acá</p>
+        <h3 class="df-t">Medido,<br>no estimado.</h3>
+        <p class="df-b">Un solo equipo en Rosario corre los cuatro sabores a la vez. <strong>Esto es lo que procesó en el último mes.</strong></p>
+        <p class="df-grupo">Producción <em>· el equipo de Rosario · 11 sep → 10 oct 2026</em></p>
+        <ul class="df-datos tres">
+          <li><span class="n" data-df-count="784790">784.790</span><span class="l">eventos en el último mes</span></li>
+          <li><span class="n" data-df-count="130520">130.520</span><span class="l">en el día de más trabajo, el 2 de octubre</span></li>
+          <li><span class="n" data-df-count="20750">20.750</span><span class="l">patentes leídas</span></li>
+          <li><span class="n" data-df-count="330163">330.163</span><span class="l">autos</span></li>
+          <li><span class="n" data-df-count="172162">172.162</span><span class="l">personas</span></li>
+          <li><span class="n" data-df-count="57498">57.498</span><span class="l">motos</span></li>
+          <li><span class="n" data-df-count="74018">74.018</span><span class="l">camiones</span></li>
+          <li><span class="n" data-df-count="23377">23.377</span><span class="l">bicicletas</span></li>
+          <li><span class="n" data-df-count="49" data-df-suffix=" W">49 W</span><span class="l">de placa de video en promedio: menos que una lamparita vieja</span></li>
+        </ul>
+        <ul class="df-datos">
+          <li><span class="n" data-df-count="1100">1.100</span><span class="l">vehículos activos en la concesionaria, trazados todos los días</span><span class="f">Automoción · Seprio, Rosario</span></li>
+          <li><span class="n" data-df-count="30" data-df-suffix=" mil">30 mil</span><span class="l">lecturas por día en una sola puerta, con la cámara de la calle</span><span class="f">Analítico · Rosental · sep 2026</span></li>
+        </ul>
+        <p class="df-grupo">Laboratorio <em>· un semáforo que lee el tránsito · ochava de Rosario</em></p>
+        <ul class="df-datos tres">
+          <li><span class="n" data-df-count="27" data-df-prefix="−" data-df-suffix=" %">−27 %</span><span class="l">de demora contra el tiempo fijo, con los mismos autos</span></li>
+          <li><span class="n" data-df-count="15">15</span><span class="l">cuadros por segundo en el navegador, sin perder ninguno</span></li>
+          <li><span class="n" data-df-count="300">300</span><span class="l">vehículos por hora medidos en la ochava</span></li>
+        </ul>
+        <p class="df-fuente">Los números del equipo salen de su propio tablero, leídos el 10 de octubre de 2026. Si un número todavía no es confiable, no está acá.</p>
+        <div class="df-foot"><a href="https://dataflow.rialabs.ar" target="_blank" rel="noopener" class="btn-ghost">Universo Dataflow ↗</a></div>
+      </article>
     </div>
   </div>
 </section>
@@ -1718,6 +1804,334 @@
         if (fase === 'regreso') frame(fin);
       }); });
     } else pista();
+  })();
+
+  /* ══════════════════════════════════════════
+     DATAFLOW · la historia del motor
+     Un escenario fijo (canvas) y cuatro cuadros que pasan. El estado es data-df="1..4" en la
+     sección: lo fija el cuadro que cruza el centro de la pantalla, o ?df=N en la URL (foto;
+     &solo esconde el resto de la página). El canvas dibuja el flujo: partículas que entran por
+     cámaras, sensores y sistemas, atraviesan las seis etapas del motor —cada una se enciende a
+     su paso— y salen por los tres sabores. Los colores se leen de las variables CSS (y se releen
+     si cambia el tema). Corre sólo con la banda a la vista; con reduced-motion, un solo cuadro.
+     ══════════════════════════════════════════ */
+  (function(){
+    var sec = document.getElementById('dataflow');
+    var stage = document.getElementById('df-stage');
+    var cv = document.getElementById('df-cv');
+    if (!sec || !stage || !cv || !cv.getContext) return;
+    var ctx = cv.getContext('2d');
+    var cuadros = Array.prototype.slice.call(sec.querySelectorAll('.df-cuadro'));
+    var etapas = Array.prototype.slice.call(sec.querySelectorAll('.df-etapas li'));
+    var chips = Array.prototype.slice.call(sec.querySelectorAll('.df-cat span'));
+    var labs = Array.prototype.slice.call(stage.querySelectorAll('[data-pos]'));
+
+    /* ── el estado de la historia ── */
+    var estado = 1, contado = false;
+    function setEstado(n){
+      estado = n;
+      sec.setAttribute('data-df', n);
+      cuadros.forEach(function(c, i){ c.classList.toggle('df-on', i + 1 === n); });
+      if (n === 4) contar();
+    }
+    var qs = location.search;
+    var fijo = (qs.match(/[?&]df=(\d)/) || [])[1];
+    if (fijo) {
+      sec.classList.add('df-foto');
+      if (/[?&]solo(=|&|$)/.test(qs)) document.body.classList.add('df-solo');
+      setEstado(Math.max(1, Math.min(4, +fijo)));
+    } else {
+      setEstado(1);
+      if (window.innerHeight > 1800) sec.classList.add('df-plano');
+      var cobs = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if (e.isIntersecting) setEstado(+e.target.getAttribute('data-n')); });
+      }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+      cuadros.forEach(function(c){ cobs.observe(c); });
+    }
+
+    /* ── contadores del último cuadro: formato es-AR, con prefijo y sufijo ── */
+    function contar(){
+      if (contado) return; contado = true;
+      Array.prototype.forEach.call(sec.querySelectorAll('[data-df-count]'), function(n){
+        var target = +n.getAttribute('data-df-count');
+        var pre = n.getAttribute('data-df-prefix') || '', suf = n.getAttribute('data-df-suffix') || '';
+        var fmt = function(v){ return pre + v.toLocaleString('es-AR') + suf; };
+        if (RM || fijo) { n.textContent = fmt(target); return; }
+        var dur = 1400 + Math.min(900, target / 400), t0 = performance.now();
+        var ease = function(t){ return 1 - Math.pow(1 - t, 3); };
+        (function f(now){
+          var p = Math.min((now - t0) / dur, 1);
+          n.textContent = fmt(Math.round(ease(p) * target));
+          if (p < 1) requestAnimationFrame(f);
+        })(t0);
+      });
+    }
+
+    var datos4 = sec.querySelector('#df-c4 .df-datos');
+    if (datos4 && !fijo) new IntersectionObserver(function(es, o){ if (es[0].isIntersecting) { contar(); o.disconnect(); } }, { threshold: 0.2 }).observe(datos4);
+
+    /* ── colores desde las variables CSS; se releen si cambia el tema ── */
+    var C = {};
+    function parseColor(s){
+      s = (s || '').trim();
+      var m = s.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+      if (m) {
+        var h = m[1]; if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+        return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+      }
+      m = s.match(/^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/i);
+      if (m) return [Math.round(+m[1]), Math.round(+m[2]), Math.round(+m[3])];
+      return null;
+    }
+    function leerColores(){
+      var cs = getComputedStyle(sec);
+      function col(v, fb){ return parseColor(cs.getPropertyValue(v)) || parseColor(fb); }
+      C.raw = col('--df-raw', '#7f8db0'); C.moon = col('--df-moon', '#0b0a14'); C.ink = col('--df-ink', '#8a8478');
+      C.gold = col('--gold', '#c8860a'); C.hi = col('--gold-hi', '#EF9F27'); C.white = col('--white', '#f0ece0');
+      C.out = [col('--c-ana', '#4a8fd4'), col('--c-esp', '#2fd0c8'), col('--c-aut', '#EF9F27')];
+    }
+    function rgba(c, a){ return 'rgba(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ',' + a + ')'; }
+    function mix(a, b, t){ return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+    leerColores();
+    if (window.MutationObserver) new MutationObserver(function(){ leerColores(); if (RM) estatico(); })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ['data-tema', 'class', 'style'] });
+
+    /* ── geometría: eje principal u (el flujo) y eje transversal v. En una columna alta
+       (escritorio) el flujo baja; apaisado (móvil) va de izquierda a derecha. ── */
+    var W = 0, H = 0, DPR = 1, L = null;
+    function P(u, v){ return L.vertical ? { x: v, y: u } : { x: u, y: v }; }
+    function layout(){
+      var vertical = H > W * 0.92;
+      var Lu = vertical ? H : W, Lv = vertical ? W : H;
+      var R = Math.min(Lu * 0.215, Lv * 0.32);
+      L = { vertical: vertical, Lu: Lu, Lv: Lv, R: R, uc: Lu * 0.5, vc: Lv * 0.5 };
+      L.uin = L.uc - R - 10; L.uout = L.uc + R + 10;
+      L.src = [-1, 0, 1].map(function(k){ return { u: Lu * (vertical ? 0.085 : 0.07), v: L.vc + k * Lv * 0.3 }; });
+      L.out = [-1, 0, 1].map(function(k){ return { u: Lu * (vertical ? 0.915 : 0.93), v: L.vc + k * Lv * 0.3 }; });
+      L.paso = R * 2 / 7.6;
+      L.gates = [];
+      for (var i = 0; i < 6; i++) {
+        var du = (i - 2.5) * L.paso;
+        L.gates.push({ u: L.uc + du, half: Math.sqrt(R * R - du * du) * 0.84, e: 0 });
+      }
+      L.etaOk = L.paso * 2 >= 68;
+      ubicar();
+    }
+    /* los rótulos DOM siguen la misma geometría */
+    function ubicar(){
+      var R = L.R;
+      labs.forEach(function(el){
+        var m = el.getAttribute('data-pos').match(/^([a-z]+)(\d?)$/), tipo = m[1], i = +m[2];
+        var p, ax = 'c', ay = 'c';
+        if (tipo === 'src') { var s = L.src[i]; p = L.vertical ? P(s.u - R * 0.17, s.v) : P(s.u, s.v + R * 0.19); ay = L.vertical ? 'b' : 't'; }
+        else if (tipo === 'out') { var o = L.out[i]; p = L.vertical ? P(o.u + R * 0.2, o.v) : P(o.u, o.v + R * 0.22); ay = 't'; }
+        else if (tipo === 'eta') {
+          var g = L.gates[i], lado = (i % 2 === 0) ? -1 : 1;
+          p = P(g.u, L.vc + lado * (R + 26));
+          if (L.vertical) ax = lado < 0 ? 'r' : 'l'; else ay = lado < 0 ? 'b' : 't';
+          el.style.display = L.etaOk ? '' : 'none';
+        }
+        else if (tipo === 'wm') { p = P(L.uc + R * 0.875, L.vc); el.style.fontSize = Math.max(9.5, Math.round(R * 0.08)) + 'px'; el.style.letterSpacing = Math.max(2, R * 0.028).toFixed(1) + 'px'; }
+        else if (tipo === 'marca') { p = P(L.uc - R * 0.875, L.vc); el.style.fontSize = Math.max(7, Math.round(R * 0.05)) + 'px'; }
+        el.style.left = p.x + 'px'; el.style.top = p.y + 'px';
+        el.style.transform = 'translate(' + (ax === 'l' ? '0' : ax === 'r' ? '-100%' : '-50%') + ',' + (ay === 't' ? '0' : ay === 'b' ? '-100%' : '-50%') + ')';
+        el.style.textAlign = ax === 'r' ? 'right' : ax === 'l' ? 'left' : 'center';
+      });
+    }
+
+    /* ── partículas: nacen en una entrada, cruzan las seis compuertas y salen por un sabor ── */
+    var parts = [], sparks = [];
+    function nuevo(p, azar){
+      p.src = Math.floor(Math.random() * 3);
+      var r = Math.random(); p.out = r < 0.36 ? 0 : (r < 0.72 ? 1 : 2);
+      p.lane = (Math.random() * 2 - 1) * 0.62;
+      p.t = azar ? Math.random() : 0;
+      p.sp = (0.085 + Math.random() * 0.05) / 1000;
+      p.z = Math.random();
+      p.ph = Math.random() * Math.PI * 2;
+      p.g = -1;
+      return p;
+    }
+    function bez(a, b, c, d, t){ var m = 1 - t; return m * m * m * a + 3 * m * m * t * b + 3 * m * t * t * c + t * t * t * d; }
+    function pos(p, t){
+      var vl = L.vc + p.lane * L.R, s, o, k, du;
+      if (t < 0.34) {
+        s = L.src[p.src]; k = t / 0.34; du = L.uin - s.u;
+        return { u: bez(s.u, s.u + du * 0.5, L.uin - du * 0.3, L.uin, k), v: bez(s.v, s.v, vl, vl, k), seg: 0, k: k };
+      }
+      if (t < 0.66) {
+        k = (t - 0.34) / 0.32;
+        return { u: L.uin + (L.uout - L.uin) * k, v: vl + Math.sin(k * 9 + p.ph) * L.R * 0.03, seg: 1, k: k };
+      }
+      o = L.out[p.out]; k = (t - 0.66) / 0.34; du = o.u - L.uout;
+      return { u: bez(L.uout, L.uout + du * 0.35, o.u - du * 0.5, o.u, k), v: bez(vl, vl, o.v, o.v, k), seg: 2, k: k };
+    }
+
+    /* ── el dibujo ── */
+    var emph = { l: 1, m: 1, r: 1 };
+    var META = { 1: [1, 0.5, 0.3], 2: [0.4, 1, 0.4], 3: [0.35, 0.6, 1], 4: [0.85, 0.9, 0.85] };
+    var last = 0, hotTick = 0, chipTick = 0, ci = 0;
+
+    function curva(a, b, c, d){ var A = P(a.u, a.v), B = P(b.u, b.v), Cc = P(c.u, c.v), D = P(d.u, d.v); ctx.moveTo(A.x, A.y); ctx.bezierCurveTo(B.x, B.y, Cc.x, Cc.y, D.x, D.y); }
+    function guias(){
+      ctx.lineWidth = 1;
+      for (var i = 0; i < 3; i++) {
+        var s = L.src[i], du = L.uin - s.u;
+        ctx.strokeStyle = rgba(C.gold, 0.2 * emph.l); ctx.beginPath();
+        curva(s, { u: s.u + du * 0.5, v: s.v }, { u: L.uin - du * 0.3, v: L.vc }, { u: L.uin, v: L.vc }); ctx.stroke();
+        var o = L.out[i], du2 = o.u - L.uout;
+        ctx.strokeStyle = rgba(C.out[i], 0.26 * emph.r); ctx.beginPath();
+        curva({ u: L.uout, v: L.vc }, { u: L.uout + du2 * 0.35, v: L.vc }, { u: o.u - du2 * 0.5, v: o.v }, o); ctx.stroke();
+      }
+    }
+    function nodos(){
+      var R = L.R, i, p, r;
+      for (i = 0; i < 3; i++) {
+        p = P(L.src[i].u, L.src[i].v); r = Math.max(6, R * 0.085);
+        ctx.fillStyle = rgba(C.moon, 0.9); ctx.strokeStyle = rgba(C.ink, 0.55 * (0.4 + 0.6 * emph.l)); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 6.2832); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = rgba(C.raw, 0.9 * (0.4 + 0.6 * emph.l)); ctx.beginPath(); ctx.arc(p.x, p.y, r * 0.3, 0, 6.2832); ctx.fill();
+      }
+      for (i = 0; i < 3; i++) {
+        p = P(L.out[i].u, L.out[i].v); r = Math.max(7, R * 0.1);
+        var g = ctx.createRadialGradient(p.x - r * 0.35, p.y - r * 0.4, r * 0.1, p.x, p.y, r);
+        g.addColorStop(0, rgba(mix(C.out[i], C.white, 0.55), 1)); g.addColorStop(0.55, rgba(C.out[i], 1)); g.addColorStop(1, rgba(mix(C.out[i], C.moon, 0.6), 1));
+        ctx.globalAlpha = 0.35 + 0.65 * emph.r;
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 6.2832); ctx.fill();
+        ctx.strokeStyle = rgba(C.out[i], 0.35); ctx.lineWidth = 0.7; ctx.beginPath(); ctx.arc(p.x, p.y, r * 1.5, 0, 6.2832); ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+    }
+    function motor(ts, dt){
+      var R = L.R, c = P(L.uc, L.vc), i;
+      // aura y halo
+      var g = ctx.createRadialGradient(c.x, c.y, R * 0.9, c.x, c.y, R * 2);
+      g.addColorStop(0, rgba(C.gold, 0.15 * (0.55 + 0.45 * emph.m))); g.addColorStop(1, rgba(C.gold, 0));
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(c.x, c.y, R * 2, 0, 6.2832); ctx.fill();
+      [[1.15, 0.2, 0.05], [1.1, 0.12, 0.07], [1.065, 0.07, 0.09], [1.04, 0.035, 0.12]].forEach(function(h){
+        ctx.strokeStyle = rgba(C.gold, h[2]); ctx.lineWidth = R * h[1]; ctx.beginPath(); ctx.arc(c.x, c.y, R * h[0], 0, 6.2832); ctx.stroke();
+      });
+      // protuberancias: un anillo punteado que gira
+      ctx.setLineDash([1.5, Math.max(6, R * 0.075)]); ctx.lineDashOffset = -ts * 5;
+      ctx.strokeStyle = rgba(C.hi, 0.26); ctx.lineWidth = 0.7; ctx.beginPath(); ctx.arc(c.x, c.y, R * 1.19, 0, 6.2832); ctx.stroke();
+      ctx.setLineDash([]);
+      // la corona: respira
+      ctx.lineWidth = Math.max(2, R * 0.019); ctx.strokeStyle = rgba(C.hi, 0.78 + 0.14 * Math.sin(ts * 0.9));
+      ctx.shadowColor = rgba(C.hi, 0.85); ctx.shadowBlur = R * 0.06;
+      ctx.beginPath(); ctx.arc(c.x, c.y, R * 1.02, 0, 6.2832); ctx.stroke(); ctx.shadowBlur = 0;
+      // el sol apenas detrás y la luna, que libra
+      ctx.fillStyle = rgba(mix(C.moon, C.hi, 0.14), 1); ctx.beginPath(); ctx.arc(c.x, c.y, R, 0, 6.2832); ctx.fill();
+      var mx = c.x + Math.cos(ts / 4.5) * R * 0.018, my = c.y + Math.sin(ts / 4.5) * R * 0.018 - R * 0.012;
+      ctx.fillStyle = rgba(C.moon, 1); ctx.beginPath(); ctx.arc(mx, my, R, 0, 6.2832); ctx.fill();
+      ctx.strokeStyle = rgba(C.gold, 0.28); ctx.lineWidth = 0.6; ctx.beginPath(); ctx.arc(c.x, c.y, R * 0.975, 0, 6.2832); ctx.stroke();
+      // adentro: el plano técnico. Carriles tenues y las seis compuertas, que se encienden al paso.
+      ctx.save(); ctx.beginPath(); ctx.arc(c.x, c.y, R - 1, 0, 6.2832); ctx.clip();
+      ctx.lineWidth = 1;
+      for (i = -2; i <= 2; i++) {
+        var vv = L.vc + i * 0.31 * R, a = P(L.uc - R, vv), b = P(L.uc + R, vv);
+        ctx.strokeStyle = rgba(C.gold, 0.06 * emph.m); ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      }
+      var num = R >= 64 ? Math.max(8, Math.round(R * 0.068)) : 0;
+      if (num) { ctx.font = num + "px 'DM Mono', monospace"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; }
+      L.gates.forEach(function(gt, k){
+        gt.e *= Math.pow(0.984, dt / 16);
+        var e = gt.e, w = L.paso * 0.6;
+        var p1 = P(gt.u - w / 2, L.vc - gt.half), p2 = P(gt.u + w / 2, L.vc + gt.half);
+        var x = Math.min(p1.x, p2.x), y = Math.min(p1.y, p2.y), ww = Math.abs(p2.x - p1.x), hh = Math.abs(p2.y - p1.y);
+        ctx.fillStyle = rgba(C.hi, (0.035 + 0.28 * e) * emph.m); ctx.fillRect(x, y, ww, hh);
+        ctx.strokeStyle = rgba(C.hi, (0.16 + 0.6 * e) * emph.m); ctx.strokeRect(x + 0.5, y + 0.5, ww - 1, hh - 1);
+        if (num) { var np = P(gt.u, L.vc - gt.half - R * 0.075); ctx.fillStyle = rgba(C.ink, (0.5 + 0.5 * e) * emph.m); ctx.fillText('0' + (k + 1), np.x, np.y); }
+      });
+      ctx.restore();
+      // guías cortas hacia los rótulos de las etapas
+      if (L.etaOk) {
+        ctx.lineWidth = 1;
+        L.gates.forEach(function(gt, k){
+          var lado = (k % 2 === 0) ? -1 : 1, a = P(gt.u, L.vc + lado * R * 1.05), b = P(gt.u, L.vc + lado * (R + 18));
+          ctx.strokeStyle = rgba(C.ink, (0.25 + 0.5 * gt.e) * emph.m); ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        });
+      }
+    }
+    function particulas(now, dt, mover){
+      var R = L.R, esc = Math.max(0.7, R / 130), i, k;
+      for (i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        if (mover) { p.t += p.sp * dt; if (p.t >= 1) nuevo(p, false); }
+        var q = pos(p, p.t), xy = P(q.u, q.v);
+        if (q.seg === 1) {
+          for (k = p.g + 1; k < 6; k++) {
+            if (q.u < L.gates[k].u) break;
+            L.gates[k].e = Math.min(1, L.gates[k].e + 0.26); p.g = k;
+            if (mover && k === 1 && Math.random() < 0.45) sparks.push({ x: xy.x, y: xy.y, t0: now, life: 420, c: C.hi, ring: false });
+            if (mover && k === 2 && Math.random() < 0.35) sparks.push({ x: xy.x, y: xy.y, t0: now, life: 650, c: C.out[p.out], ring: true });
+          }
+        }
+        var col, al;
+        if (q.seg === 0) { col = mix(C.raw, C.gold, q.k * 0.6); al = (0.35 + 0.5 * q.k) * (0.4 + 0.6 * emph.l); }
+        else if (q.seg === 1) { col = mix(mix(C.raw, C.gold, 0.6), C.hi, q.k); al = 0.92 * (0.5 + 0.5 * emph.m); }
+        else { col = mix(C.hi, C.out[p.out], Math.min(1, q.k * 1.6)); al = (0.95 - 0.45 * q.k) * (0.4 + 0.6 * emph.r); }
+        var r = (0.9 + p.z * 1.1) * esc * (q.seg === 2 ? 1.15 : 1);
+        var q2 = pos(p, Math.max(0, p.t - 0.012)), xy2 = P(q2.u, q2.v);
+        ctx.globalAlpha = al * 0.4; ctx.strokeStyle = rgba(col, 1); ctx.lineWidth = r * 0.9;
+        ctx.beginPath(); ctx.moveTo(xy2.x, xy2.y); ctx.lineTo(xy.x, xy.y); ctx.stroke();
+        ctx.globalAlpha = al; ctx.fillStyle = rgba(col, 1);
+        ctx.beginPath(); ctx.arc(xy.x, xy.y, r, 0, 6.2832); ctx.fill();
+      }
+      for (i = sparks.length - 1; i >= 0; i--) {
+        var sk = sparks[i], pp = (now - sk.t0) / sk.life;
+        if (pp >= 1) { sparks.splice(i, 1); continue; }
+        ctx.globalAlpha = (1 - pp) * 0.8 * emph.m; ctx.strokeStyle = rgba(sk.c, 1); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(sk.x, sk.y, sk.ring ? 2 + pp * R * 0.09 : 1 + pp * R * 0.035, 0, 6.2832); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+    function draw(now){
+      var dt = last ? Math.min(48, now - last) : 16; last = now;
+      var tgt = META[estado] || META[1];
+      emph.l += (tgt[0] - emph.l) * 0.045; emph.m += (tgt[1] - emph.m) * 0.045; emph.r += (tgt[2] - emph.r) * 0.045;
+      ctx.clearRect(0, 0, W, H);
+      guias(); nodos(); motor(now / 1000, dt); particulas(now, dt, true);
+      // la etapa más encendida se marca en la lista del cuadro 2; el catálogo se enciende de a una
+      if (now - hotTick > 160) {
+        hotTick = now; var best = 0, be = 0;
+        L.gates.forEach(function(g, i){ if (g.e > be) { be = g.e; best = i; } });
+        etapas.forEach(function(li, i){ li.classList.toggle('hot', i === best && be > 0.15); });
+      }
+      if (chips.length && now - chipTick > 430) {
+        chipTick = now; chips[ci].classList.remove('on'); ci = (ci + 1) % chips.length; chips[ci].classList.add('on');
+      }
+    }
+    /* reduced-motion: un solo cuadro, con todo encendido */
+    function estatico(){
+      emph = { l: 1, m: 1, r: 1 };
+      L.gates.forEach(function(g){ g.e = 0.55; });
+      ctx.clearRect(0, 0, W, H);
+      guias(); nodos(); motor(1.2, 16); particulas(0, 16, false);
+      chips.forEach(function(ch, i){ ch.classList.toggle('on', i % 5 === 0); });
+    }
+
+    /* ── correr sólo con la banda a la vista ── */
+    var running = false, visible = false;
+    function loop(now){ if (!running) return; draw(now); requestAnimationFrame(loop); }
+    function start(){ if (running || RM || !visible || document.hidden) return; running = true; last = 0; requestAnimationFrame(loop); }
+    function stop(){ running = false; }
+    function resize(){
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      W = stage.clientWidth; H = stage.clientHeight;
+      if (!W || !H) return;
+      cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      layout();
+      var N = Math.max(48, Math.min(120, Math.round(W * H / 4200)));
+      while (parts.length < N) parts.push(nuevo({}, true));
+      parts.length = N;
+      if (RM) estatico(); else if (!running) draw(performance.now());
+    }
+    window.addEventListener('resize', resize, { passive: true });
+    document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+    new IntersectionObserver(function(es){ visible = es[0].isIntersecting; if (visible) { if (!RM && !running) draw(performance.now()); start(); } else stop(); }, { rootMargin: '160px 0px' }).observe(sec);
+    resize();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ if (RM) estatico(); });
   })();
 </script>
 </body>
