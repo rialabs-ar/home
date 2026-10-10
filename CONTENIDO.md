@@ -31,6 +31,33 @@
 
   Los nombres públicos de los sitios de destino todavía dicen *Byte Analítico* y *RIA Drivecore*: la home
   usa los nombres nuevos y enlaza a esos sitios tal como están. Renombrarlos es una pasada aparte.
+- **El hero dice «DE VER A SABER»** (rama `textos-hero`, 2026-10-10; decisión verbatim de Matías en el registro
+  de prompts: *«Me quedo con "De ver a saber" (sin punto, quizás en mayúsculas con alguna fuente distintiva)»*).
+  El titular va en mayúsculas, sin punto, en **Cormorant Garamond 600** —una garalda de contraste alto, tracking
+  0,16 em, 54 px en desktop y 32 px en un celular, donde entra en una sola línea—: una romana de portada de
+  libro frente a la geometría de Saira del wordmark, para que se lea como una declaración y no como un eslogan.
+  Se probaron en captura, sobre la página real y en los dos temas, Cormorant Garamond y Marcellus (y en hoja
+  comparativa Cinzel, Fraunces, Instrument Serif, Bodoni Moda, Italiana, EB Garamond, Libre Caslon Display,
+  Cormorant SC): Marcellus quedó demasiado cerca del ritmo de Saira y no tiene cursiva; Bodoni e Italiana pierden
+  los filetes de noche; Cinzel es afiche; Instrument Serif es la cara de moda de las landings; Fraunces es
+  amable, no declarativa. Debajo, en lugar de la bajada de tres frases, va **prosa** (Saira 300, 17 px,
+  interlineado 1,78, columna de ~65 caracteres), la mezcla que pidió Matías de los tres textos propuestos:
+
+  > El conocimiento ya lo tienen las máquinas: cada cámara, cada sensor, cada registro, acumulado sin cansancio.
+  > Pero *el verdadero signo de la inteligencia no es el conocimiento sino la imaginación*, y esa parte sigue
+  > siendo humana: una máquina puede saberlo todo de una esquina y no imaginar jamás un semáforo distinto.
+  > Nosotros ponemos la imaginación; el motor, la memoria y la atención que no duermen. Cuando las dos se
+  > alinean, como el sol y la luna por un instante, aparece algo que antes no estaba: **una infraestructura que
+  > piensa**.
+
+  La frase en cursiva circula atribuida a Einstein y **se publica sin comillas ni atribución, por decisión de
+  Matías** («no nombraría a Einstein aunque citaría la frase»); tipográficamente va en la misma voz que el
+  titular (Cormorant Garamond cursiva 500, un 24 % más grande para igualar la x de Saira, en blanco), y la
+  cláusula final sube a blanco como los `strong` del resto de la página. La fuente se carga con un `<link>`
+  propio de Google Fonts con sólo las dos caras que se usan (`0,600` y `1,500`, `display=swap`). Medidas: el
+  hero mide ~1.220 px en 1440×900 y ~1.225 en 390×844; sin scrollear se ven el eclipse, el wordmark, el titular
+  y las primeras tres líneas de la prosa (siete en el celular); los CTAs quedan debajo del pliegue. El titular
+  viejo («Tu infraestructura ya existe. Nosotros la hacemos pensar.») queda como histórico en §1.4.
 - **El eclipse manda, solo.** En el hero es la figura de portada: el eclipse total, sin nada alrededor.
   (La primera v5 lo rodeaba de un *sistema* de tres órbitas con un planeta por producto; Matías lo descartó
   el mismo día: «las órbitas no van, el eclipse es total y figura de la portada».) El SVG `#sistema` tiene el
@@ -87,18 +114,58 @@
 - **Barra de números medidos** (v4 traía cifras de mercado: 70 % de empresas sin IA, etc.):
   1 motor · 24 analíticas · 30 mil eventos por día en una instalación (Rosental, `dataflow-rosental/docs/ESTADO.md`) ·
   1.100 vehículos activos (Seprio). Criterio del laboratorio: si no está medido, no se dice.
-- **Laboratorio** agrupa lo que todavía es pregunta, seis fichas (relevamiento de la carpeta `Proyectos/`
-  del 2026-10-10):
+- **Laboratorio es la casa** (rama `laboratorio-casa`, 2026-10-10; pedido verbatim en el registro de prompts:
+  «un laboratorio como un centro de experimentación y creación, más búsqueda y aventura, más imaginación y
+  trabajo… más en nuestra cosa, nuestra casa»). Antes era una grilla de seis fichas iguales con rótulo de
+  estado («Lo que todavía es pregunta»), que presentaba el laboratorio como un backlog. Ahora la sección es
+  **el origen**, en primera persona del plural y con los mismos números medidos, en tres partes:
+  - **Titular:** *Pasá, esta es nuestra casa*. **Copete:** «Todo lo que está arriba empezó acá, con una
+    pregunta que nadie había pedido medir. Acá se busca, se imagina y se trabaja: un cuaderno con patentes
+    anotadas a birome, una cámara que mira la calle desde una ochava, un semáforo que se dejó manejar. **Lo
+    que funciona en la calle se muda arriba, con cliente adentro. Lo demás se queda en casa, en prueba.**»
+    Segundo párrafo: las dos puertas de la casa en Rosario, **Byte** (la cámara de la esquina alimenta al
+    motor las veinticuatro horas) y **VRIO** (donde el motor se escribe), y la regla de convivencia, la misma
+    de arriba: si no está medido, no se dice.
+  - **De acá salieron** (el linaje): tres vías de cuatro hitos, una por producto y en su color, que se
+    encienden de izquierda a derecha al entrar en pantalla (verticales en ≤860 px); el último hito es el
+    planeta y enlaza a la banda del producto. Fuentes: `rialabs-manifiesto/docs/GUION.md` actos 0 y 1 (el
+    cuaderno, la barrera, los seis pasos), `byt-edge` (LPR en producción desde 2026-03), `byt-fall`
+    (local-first, primer recorrido completo 2026-05-15), `byt-analitico` (búsqueda forense, 2026-08),
+    `byt-traffic-demo` (−27 %), `byt-smartcity` (la esquina 24/7 desde 2026-08), `byt-pajaritos` (demo 25/08).
 
-| Ficha | Estado publicado | Origen | Enlace |
-|---|---|---|---|
-| **RIA Diálogo** (antes RIA Comms) | En uso · operación comercial de una concesionaria | `ria-comms` (Seprio sigue con el predecesor `seprio-comms`) | `/laboratorio/#p03` |
-| Tránsito inteligente | Prototipo · medido en calle (−27 %) | `byt-traffic-demo` | `/laboratorio/#p04` |
-| Deportes | Experimento · la cancha ya está resuelta (homografía, F1) | `dataflow-deportes` | — |
-| Maqueta navegable | Prototipo · actividad simulada | `dataflow-smartcity-sapiens` / `-neander` | — |
-| Fauna urbana | Absorbido · hoy es una vertical de RIA Espacio | `byt-pajaritos` (birdmap, demo a la Municipalidad 25/08) | — (birdmap.rialabs.ar es no comercial y no se linkea) |
-| Estación IA | Activación · para eventos | `IA Fun Station` | — |
+| Vía | Hitos | Llega a |
+|---|---|---|
+| Automoción (`--c-aut`) | Un auto, una barrera, un cuaderno → La cámara leyó la patente → Se prototipó sobre el plano del taller | `#automocion` · 1.100 vehículos activos |
+| Analítico (`--c-ana`) | La misma cámara del ingreso (procesada en un servidor remoto) → Todo en una PC, en el cliente → Buscar por lo que la cámara vio | `#analitico` · Integradores y Monitoreo |
+| Espacio (`--c-esp`) | Un semáforo que ve → ¿Y si la esquina hiciera todo? → Las palomas de una plaza | `#espacio` · Ciudad · Predio · Acceso · Barrio y centro comercial |
 
+  - **Expediciones en curso** (la bitácora): las seis exploraciones, cada una con **la pregunta que la
+    abrió**, una cabecera mono con dónde se prueba y desde cuándo, **Hasta ahora** (lo medido) y **Todavía
+    no sabemos** (el límite, dicho por nosotros). Grilla de dos columnas; Tránsito va a lo ancho con el
+    **video real de la ochava** (`laboratorio/media/traffic-deteccion.mp4`, póster `.jpg`, `muted loop
+    playsinline preload="none"`; arranca sólo a la vista y se pausa al salir; con `prefers-reduced-motion`
+    queda el póster quieto). Fauna urbana cierra a lo ancho como **«la que se mudó»**, con la puerta a RIA
+    Espacio («Hoy vive arriba»). Las fechas «desde…» salen del primer commit de cada repo; Tránsito dice
+    «invierno de 2026» porque `byt-traffic-demo` no tiene git y el clip es de un día de lluvia de invierno.
+
+| Expedición | Cabecera (dónde · desde) | Hasta ahora (el número) | Todavía no sabemos | Origen | Enlace |
+|---|---|---|---|---|---|
+| 01 Tránsito inteligente | la ochava de Byte, Rosario · invierno de 2026 | −27 % de demora contra tiempo fijo; 0 falsos positivos con lluvia | la ola verde (una sola cámara no la hace); calibración provisoria hasta medir con cinta | `byt-traffic-demo` | `/laboratorio/#p04` |
+| 02 **RIA Diálogo** (antes RIA Comms) | una concesionaria de Rosario · desde mayo de 2026 | guardado, clasificado, ruteado y medido; audios transcriptos; lo usamos nosotros primero | cómo se llama (Diálogo es propuesta; la casa grande dice Comms) | `ria-comms` (Seprio sigue con el predecesor `seprio-comms`) | `/laboratorio/#p03` |
+| 03 Deportes | una transmisión de tenis, en el estudio · desde septiembre de 2026 | la cancha se calibra sola, poco más de un píxel de error (mediana 1,34 px), recalibra tras cada corte; ve jugadora, jueza y recogepelotas, no la tribuna (`dataflow-deportes/docs/ESTADO.md`) | la pelota (~6 px a 720p); qué contar en los ~20 s entre puntos | `dataflow-deportes` | — |
+| 04 Maqueta navegable | un barrio en Álvarez, un centro comercial en Rosario · desde septiembre de 2026 | 1.276 tramos del legajo real, 19 manzanas, el lago y el cerco; mouse, teclado, voz y gestos sobre un mismo vocabulario; repetido sobre el centro comercial sin tocar el motor | la primera cámara real; toda la actividad es simulada y la pantalla lo dice | `dataflow-smartcity-sapiens` / `-neander` | — |
+| 05 Estación IA | un stand, una fiesta, una feria | selfie → personaje animado → QR; la gente ve al modelo trabajar en vivo | si es un juego o una pieza | `IA Fun Station` | — |
+| La que se mudó · Fauna urbana | las palomas de una plaza · agosto de 2026 | conteo por punto en bandada densa; cada cifra medida o estimada; demo a la Municipalidad el 25/08 | qué fracción de la bandada ve la cámara en una plaza real | `byt-pajaritos` (birdmap.rialabs.ar es no comercial y no se linkea) | `#espacio` |
+
+  - **La puerta:** «Recorrer el laboratorio →» (`/laboratorio/`), «Las seis reglas de la casa»
+    (`/laboratorio/#metodo`) y una nota mono: «La puerta está abierta. Si tenés una pregunta que nadie
+    midió todavía, contanos: así empezaron todas las de arriba» (→ `#contacto`).
+  - **Estilo:** misma tipografía y paleta; la calidez viene del tono, de la composición y de la luz: un
+    resplandor dorado (la lámpara de taller) detrás del título (`#laboratorio::before`, opacidad `--glow`,
+    así se apaga de día como el del hero) y un filo del color de cada expedición arriba de su ficha. Todo
+    color sale de las variables de tema; los acentos de las expediciones tienen versión de día (`--lab-c1…c6`,
+    definidos en `#laboratorio`, no en `:root`). Sin dependencias; `color-mix` con fallback a `--border3`.
+    Los pares de capturas noche/día de la verificación están en el scratchpad de la sesión, no en el repo.
   **Diálogo** es una propuesta de nombre por la regla de una palabra (RAE: *plática entre dos o más
   personas que alternativamente manifiestan sus ideas o afectos; discusión o trato en busca de
   avenencia*). Alternativa considerada: *Comunicación*. La página `/laboratorio/` todavía dice *RIA Comms*.
@@ -109,7 +176,17 @@
   (*Partimos de lo que ya tenés* · *Si no está medido, no se dice* · *Los límites los decimos nosotros* ·
   *Se instala, no se demuestra*).
 - **Equipo**: retratos nuevos, verticales 4:5 de 210 px de ancho (en vez del círculo de 112 px), al lado
-  del nombre; en móvil arriba. Bios iguales salvo la de Matías («arquitectura del motor y de los productos»).
+  del nombre; en móvil arriba. **Segunda pasada (rama `equipo`, 2026-10-10; pedido verbatim en el registro de
+  prompts):** el título pasó de «Dos empresas consolidadas» a **«Dos oficios consolidados»**. VRIO no tiene
+  producto ni cliente que mostrar y Matías no quiere llamarla empresa; *oficio* nombra lo que sí hay (el
+  integrador con 25 años de campo, el programador desde 2001) sin repetir «trayectorias», que ya está en el
+  copete. Descartadas: *ideas* (el ejemplo de Matías; una idea no se consolida, un oficio sí), *vocaciones*
+  (suena a escuela o a sacerdocio y no dice que estén probadas), *talentos* (autoelogio), *trayectorias*
+  (repite el copete), *caminos* (vago). El copete no cambió. Sebastián queda igual. **Matías se presenta por
+  su carrera**, no por una empresa (bio en §7.1), y donde Sebastián tiene la casa (Byte · claim · sitio) Matías
+  tiene el oficio: **Programador** · *Desde 2001 · Redeeem · Estados Unidos → Argentina*, sin enlace (la
+  primera versión, «Programador desde 2001» en el slot grande, se partía en dos líneas a 1440). Retrato
+  nuevo de Matías con otra actitud, y dos familias de retratos (con melena y sobria): §0.3.
 - **Nav**: Analítico · Espacio · Automoción (con el punto de color de cada uno) · Dataflow · Laboratorio ·
   Equipo · *Conversemos*. En ≤860 px hay botón MENÚ con panel desplegable (v4 escondía los enlaces).
 - **Contacto**: el pre-título ahora es la pregunta del laboratorio («¿Tenés un problema que nadie resolvió?»)
@@ -153,8 +230,9 @@
 | Ruta | Qué es |
 |---|---|
 | `v5/index.html` | la home vigente, autocontenida |
-| `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos 720×900 (4:5), ~70 KB y ~60 KB |
-| `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + la frase (regenerada el 10/10 al sacar las órbitas, con `OG=1 scripts/capturar-home.sh v5`). La anterior quedó en `og-image-v4.png` |
+| `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos vigentes 720×900 (4:5): la familia **con melena** (~100 KB y ~93 KB) |
+| `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~72 KB y ~71 KB). Para cambiar de familia alcanza con renombrar |
+| `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + «DE VER A SABER» en Cormorant (regenerada el 10/10 con el titular nuevo, `OG=1 scripts/capturar-home.sh v5`; el modo OG esconde además la pista «tocá el eclipse»). La anterior quedó en `og-image-v4.png` |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
 | `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia` o `QUERY=ciclo=4200` fotografía el día o un instante del ciclo del eclipse, `NOMBRE=dia` nombra los PNG; `ALTO=9600` para la página entera). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
 
@@ -169,6 +247,34 @@ Se generaron 3 variantes por persona (+3 de Sebastián con la composición unifi
 `matias-2` y `sebastian-b1`. Las variantes descartadas no se guardaron. Los retratos cuadrados de v4
 (`equipo-*.jpg`) siguen en `assets/` porque v4 los usa.
 
+**Retratos, segunda pasada (2026-10-10, rama `equipo`).** Matías pidió otro Matías: el de la mañana, frontal
+y sereno, se veía frágil y «levemente afligido» al lado de un Sebastián sólido. Se generó de nuevo con
+nano-banana desde la foto real (`mati.jpeg`), con la actitud escrita en el prompt —aventurero creador tech:
+mirada directa, mentón firme, media sonrisa, hombros abiertos, torso girado 30° con los brazos cruzados, luz
+ámbar lateral más dramática— y la identidad descripta con precisión (cara alargada, cejas marcadas, pelo corto
+casi negro). Misma puesta que el par: estudio oscuro, monitores con código y maqueta de ciudad, el eclipse
+sobre la cabeza. Lo aprendido, que `scripts/generar-retratos.py` documenta trabajo por trabajo: (1) pasar el
+retrato anterior como referencia de puesta **ancla la pose** y devuelve el mismo Matías blando (4 de 4); va
+solo la foto real. (2) El eclipse salía chico (≈16 % del ancho) y pedirlo más grande por texto no cambia nada
+(3 de 3); sí funciona la **edición con dos imágenes** —la elegida más un retrato con el eclipse del tamaño del
+par, «solo para el tamaño»—, que lo agranda sin tocar cara ni pose. Rondas: 6 (tres consignas) + 6 (dos
+consignas) + 3 ediciones de eclipse fallidas + 2 con referencia; elegidos `m2-cruzado-2` → `m4-eclipse2-1`
+(en el script, `matias` → `matias-eclipse`). Sebastián no se regeneró.
+
+**La melena.** Pedido textual: «A Sebastián agregale una melena rubia contundente flameando en el viento, y a
+Matías también pero como volando hacia atrás». Ediciones de nano-banana sobre el retrato terminado de cada
+uno, con la consigna de conservar cara, anteojos, ropa, fondo y eclipse. Sebastián: 5 variantes, 3 le tapan la
+cara y 1 es un copete eléctrico vertical; elegida `s-melena-1` (melena abierta a los lados y hacia arriba, cara
+visible, el anillo detrás). Matías: 3 sobre la base provisoria y 3 sobre la final; en cada tanda 2 levantan el
+pelo en vertical; elegida `m-melena-final-3` (pelo volando hacia atrás, hacia la izquierda del cuadro, el
+eclipse grande visible). **Dos familias en `assets/`:** la **con melena**, vigente (`retrato-*.jpg`), y la
+**sobria** al lado (`retrato-*-sobrio.jpg`: Sebastián el de la primera pasada, Matías el nuevo sin melena);
+se cambia renombrando. Lectura de la sesión: la melena cambia el registro de editorial a épico con humor; a
+210 px la de Sebastián tapa casi todo el eclipse y las dos fichas juntas se leen como afiche de banda; la
+sobria es la que conversa con el resto de la página (números medidos, mono, contención). Las variantes
+descartadas no se guardaron; `generar-retratos.py exportar <origen> <destino>` recorta al 4:5 y guarda
+720×900 JPG progresivo q84.
+
 ### 0.4 Pendientes que deja la v5
 
 - Renombrar *RIA Comms* → *RIA Diálogo* en `/laboratorio/` (y decidir si va *Diálogo* o *Comunicación*).
@@ -176,6 +282,11 @@ Se generaron 3 variantes por persona (+3 de Sebastián con la composición unifi
   Analítico* y *RIA Automoción*.
 - `/laboratorio/` presenta cinco proyectos de los cuales tres ya son producto; reordenarlo con el criterio
   de la home (productos arriba, laboratorio = lo que todavía es pregunta) es la próxima pasada.
+- `/laboratorio/` tiene una referencia vieja: el proyecto 05 dice «El proyecto 03 contestó su pregunta»
+  hablando de Tránsito, que desde el reordenamiento del 14/08 es el 04.
+- Las maquetas Sapiens y Neander están en vivo (`sapiens.dataflow.rialabs.ar`, `neander.dataflow.rialabs.ar`)
+  como prototipos sin control de acceso y con la actividad marcada como simulada; la home no las enlaza
+  desde la expedición 04. Decidir si se enlazan.
 - El satélite **Acceso** de RIA Espacio no enlaza a nada: Rosental y Mercado Fisherton son instalaciones con
   login. Cuando Acceso tenga página pública, es agregarle el `href`.
 - Las viñetas de las verticales son SVG dibujado, no imágenes generadas: se decidió así para que sobrevivan a
@@ -292,9 +403,17 @@ El **eclipse solar total** (anillos cálidos naranjas/dorados con disco lunar os
 
 ### 1.4 Frase filosófica / corazón narrativo
 
+> **DE VER A SABER**
+>
+> (Titular del hero de v5 desde el 2026-10-10: sin punto, en mayúsculas, en Cormorant Garamond. Debajo va la prosa
+> del hero —ver §0—, que incluye sin atribución la frase *el verdadero signo de la inteligencia no es el
+> conocimiento sino la imaginación*: circula atribuida a Einstein y se publica sin nombrarlo, por decisión de Matías.)
+
+Histórica (v2 → primera v5):
+
 > "Tu infraestructura ya existe. Nosotros la hacemos pensar."
 >
-> (Texto incrustado en la ilustración animada del hero en v4; versión v2 usaba "Tu infraestructura visual ya existe. Nosotros la hacemos pensar.")
+> (Texto incrustado en la ilustración animada del hero en v4 y titular del hero en la primera v5; versión v2 usaba "Tu infraestructura visual ya existe. Nosotros la hacemos pensar." Sobrevive como cierre de la prosa del hero: «una infraestructura que piensa».)
 
 Declaración complementaria (sección Mercado, hover del nodo central en v4):
 > "Lo que transforma a una empresa no es la tecnología que adopta — es el momento en que decide, por primera vez, mirarse de verdad."
@@ -590,9 +709,12 @@ v2 incluía **Countries** (propiedades y accesos) en lugar de **Seguridad** como
 
 **Matías Gallego**
 - Rol: Co-fundador · Software & Estrategia
-- Empresa: **VRIO Estudio** — vrio.ar
-- Bio: Al frente de VRIO Estudio, dedicado al desarrollo de software disruptivo y la creación de soluciones tecnológicas de alta complejidad. Nuevos paradigmas, ingeniería creativa y estrategia disruptiva aplicados a problemas reales. Aporta la capacidad técnica de desarrollo, la arquitectura de sistemas de IA, la visión de producto y la filosofía de innovación que define el alma de RIA Labs.
-- Claim de VRIO: "Software as an art form"
+- **Bio (v5, segunda pasada, 2026-10-10):** Programador desde 2001, hizo carrera en empresas de software y en grandes compañías de Estados Unidos, donde también tuvo su éxito emprendedor: Redeeem. Impulsor de startups del ecosistema joven, mentor de proyectos y emprendedor constante, con VRIO Estudio entre sus emprendimientos. Hoy abre el juego a la creación de software de impacto en Argentina.
+- **Cierre de ficha (v5)**, en el lugar del bloque de empresa y con su misma forma: **Programador** · Desde 2001 · Redeeem · Estados Unidos → Argentina. Sin enlace. La flecha es una lectura de los elementos que dio Matías (carrera en Estados Unidos, «abriendo el juego … en Argentina»); si no le gusta, «Estados Unidos · Argentina» es la versión sin interpretación.
+- Regla de la bio: construida **solo** con los elementos que dio Matías (programador desde 2001; carrera en empresas de software; impulsor de startups del ecosistema joven; mentor de proyectos; éxito emprendedor en Estados Unidos, Redeeem; carrera en empresas grandes de Estados Unidos; emprendedor constante; abriendo el juego a la creación de software de impacto en Argentina). VRIO aparece como un emprendimiento más de la trayectoria, nunca como empresa ni con su claim.
+- *Histórico (v4 y primera v5):* Empresa: **VRIO Estudio** — vrio.ar · Bio: «Al frente de VRIO Estudio, dedicado al desarrollo de software disruptivo y la creación de soluciones tecnológicas de alta complejidad. Nuevos paradigmas, ingeniería creativa y estrategia aplicados a problemas reales. Aporta la arquitectura del motor y de los productos, la visión de producto y la filosofía de innovación que define el alma de RIA Labs.» · Claim: "Software as an art form". Matías lo retiró el 2026-10-10: VRIO «no tiene ningún producto ni cliente para mostrar. Por tanto no podemos llamarla Empresa».
+
+**Título de la sección:** v5 segunda pasada **«Dos oficios consolidados»** (antes «Dos empresas consolidadas»; alternativas y por qué no, en §0).
 
 ### 7.2 Narrativa de origen ("Nacidos de Byte y VRIO")
 
@@ -784,7 +906,7 @@ Su nav apunta al home con rutas absolutas (`/#servicios`, `/#caso`, …) y marca
 ## 14. Elementos institucionales útiles para reuso
 
 - **Elevator pitch (1 línea):** "Transformamos los procesos de tu empresa con inteligencia artificial y software a medida. Nacidos de Byte y VRIO."
-- **Tagline poético:** "Tu infraestructura ya existe. Nosotros la hacemos pensar."
+- **Tagline poético:** "De ver a saber" (desde v5, 2026-10-10). Histórico: "Tu infraestructura ya existe. Nosotros la hacemos pensar."
 - **Misión implícita:** Hacer que la IA produzca valor real sobre la infraestructura que las empresas argentinas ya tienen instalada.
 - **Visión implícita:** Ocupar el nicho donde infraestructura operativa y software de IA se encuentran — un espacio hoy vacío en el mercado argentino.
 - **Valores operativos:** Simplicidad · Velocidad · Resultados medibles · Autonomía del cliente · Ingeniería creativa con rigor.
