@@ -7,7 +7,7 @@ set -e
 RAIZ=${RAIZ:-/Users/tano/dev/RIALabs/Proyectos/RIA}   # con RAIZ=... se fotografía otro checkout (un worktree)
 S=${CAPTURAS:-"$(dirname "$0")/capturas"}
 VER=${1:-v5}
-ALTO=${ALTO:-7800}
+ALTO=${ALTO:-14000}   # la página mide ~13.800 px en desktop desde el 10/10
 Q=${QUERY:+?$QUERY}
 N=${VER}${NOMBRE:+_$NOMBRE}
 mkdir -p "$S"
