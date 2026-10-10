@@ -28,5 +28,5 @@ Si no estás seguro de si un cambio aplica, preguntá antes de omitir la actuali
 
 ## Fuente vigente
 
-El contenido visible actual está en [v4/index.html](v4/index.html).
-El `_redirects` de Netlify apunta a esa versión; v1–v3 quedan como histórico.
+El contenido visible actual está en [v5/index.html](v5/index.html).
+El redirect de `netlify.toml` apunta a esa versión; v1–v4 quedan como histórico.

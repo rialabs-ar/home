@@ -2,8 +2,117 @@
 
 > Síntesis y categorización de todo el material institucional presente en la carpeta RIA
 > (home web, prototipos v1–v4, assets, favicons y configuración).
-> Fuente principal de contenido vigente: `v4/index.html` (el redirect de Netlify apunta ahí).
-> Fecha de consolidación: 2026-04-16.
+> Fuente principal de contenido vigente: `v5/index.html` (el redirect de Netlify apunta ahí desde el 2026-10-10).
+> Lo que sigue describe v4 y anteriores salvo donde se indica; **la v5 está resumida en §0**, al principio,
+> porque es la que está publicada. Fecha de consolidación original: 2026-04-16.
+
+---
+
+## 0. v5 (vigente desde 2026-10-10) — tres verticales, el eclipse al centro, Dataflow como motor
+
+> Prompt de giro, verbatim: `docs/prompts-usuario/2026-10-10-upgrade-home-tres-verticales.md`. Lo que sigue
+> es lo curado. Mismo estilo que v4 (Saira + DM Mono, paleta medianoche + dorado, ruido, reveals), misma
+> página única sin build; v4 queda como histórico en `v4/`.
+
+### 0.1 Qué cambió y por qué
+
+- **Los productos son la espina.** Se fueron las secciones *Servicios* (cuatro líneas de consultoría) y
+  *Mercado* (radial de seis rubros): describían una consultora, no la empresa de producto que es hoy. Su
+  mensaje útil («partimos de lo que ya tenés») pasó al hero, a la banda de Dataflow y al método.
+- **Tres verticales, una palabra cada una, con su definición de diccionario** bajo el nombre (regla fijada
+  por Matías con *Automoción*: una sola palabra en español con sentido profundo):
+
+| # | Nombre | Definición mostrada (fuente: RAE) | Qué agrupa | Color | Sitio |
+|---|---|---|---|---|---|
+| 01 | **RIA Analítico** | *analítico, ca.* Perteneciente o relativo al análisis. Que procede descomponiendo, o que pasa del todo a las partes. | seguridad: los dos brazos **Integradores** y **Monitoreo** | `#4a8fd4` azul | analitico.rialabs.ar |
+| 02 | **RIA Espacio** | *espacio.* Extensión que contiene toda la materia existente. Parte de esa extensión que ocupa cada objeto sensible. Capacidad de un lugar. | los **sabores** de smartcity: Ciudad · Predio · Acceso · Barrio y centro comercial | `#2fd0c8` teal | smartcity.rialabs.ar |
+| 03 | **RIA Automoción** | *automoción.* Facultad o condición de lo que se mueve por sí mismo. Estudio o descripción de las máquinas que se desplazan por la acción de un motor y particularmente de los automóviles. | la concesionaria (antes **RIA Drivecore**; la página lo dice debajo del nombre) | `#EF9F27` dorado | drivecore.rialabs.ar |
+
+  Los nombres públicos de los sitios de destino todavía dicen *Byte Analítico* y *RIA Drivecore*: la home
+  usa los nombres nuevos y enlaza a esos sitios tal como están. Renombrarlos es una pasada aparte.
+- **El eclipse manda.** En el hero es el centro de un *sistema*: tres órbitas elípticas con un planeta
+  por producto (misma matemática que el campo orbital de `/laboratorio/`), hover ilumina órbita + ficha de
+  leyenda, clic baja a la banda del producto. Corona de 192 px de diámetro (v4: 140), respira, dos anillos
+  de protuberancias giran en sentidos opuestos, la luna libra y deja ver un filo de sol. Vuelve en la banda
+  de Dataflow como el motor, en las viñetas de cada producto (un arco de corona fuera de cuadro: el
+  planeta orbita algo), en el separador de Equipo (Byte y VRIO, heredado de v4) y en los dos retratos.
+- **El sentido del eclipse, dicho en la página** (banda Dataflow): *«Un eclipse es dos cosas que ya
+  existían, alineadas por un instante. La luna es tu infraestructura. El sol es el motor. Lo que se ve es
+  la corona: lo que la alineación deja pasar.»*
+- **El cielo.** Un `<canvas id="cielo">` fijo detrás de todo emula el espacio: ~360 estrellas a 1440×900
+  (densidad por área), con profundidad —las cercanas son más grandes, más brillantes, se corren más con
+  el scroll (paralaje) y con el mouse—, titilan con fase propia, derivan lentísimo, y cada 9–20 s cruza un
+  meteoro. Colores: blanco cálido, algunas doradas, azules y teal. Las bandas de sección son translúcidas
+  para que se vea a través. `prefers-reduced-motion`: cielo estático, sin meteoros, sin órbitas animadas.
+- **Dataflow como alimentador.** Banda propia (`#dataflow`): diagrama *entra la realidad → el eclipse →
+  salen los sabores* (cámaras, sensores, sistemas → DATAFLOW → Analítico, Espacio, Automoción) con flujo
+  animado por `stroke-dashoffset`; tres pasos *Lee · Comprende · Actúa*; nota mono con **24 analíticas**
+  (auditoría del 03/10) y la regla de marca: un solo nombre público, *Dataflow*. *Datamotor* no se
+  imprime. Enlace a dataflow.rialabs.ar («Universo Dataflow»).
+- **Barra de números medidos** (v4 traía cifras de mercado: 70 % de empresas sin IA, etc.):
+  1 motor · 24 analíticas · 30 mil eventos por día en una instalación (Rosental, `dataflow-rosental/docs/ESTADO.md`) ·
+  1.100 vehículos activos (Seprio). Criterio del laboratorio: si no está medido, no se dice.
+- **Laboratorio** agrupa lo que todavía es pregunta, seis fichas (relevamiento de la carpeta `Proyectos/`
+  del 2026-10-10):
+
+| Ficha | Estado publicado | Origen | Enlace |
+|---|---|---|---|
+| **RIA Diálogo** (antes RIA Comms) | En uso · operación comercial de una concesionaria | `ria-comms` (Seprio sigue con el predecesor `seprio-comms`) | `/laboratorio/#p03` |
+| Tránsito inteligente | Prototipo · medido en calle (−27 %) | `byt-traffic-demo` | `/laboratorio/#p04` |
+| Deportes | Experimento · la cancha ya está resuelta (homografía, F1) | `dataflow-deportes` | — |
+| Maqueta navegable | Prototipo · actividad simulada | `dataflow-smartcity-sapiens` / `-neander` | — |
+| Fauna urbana | Absorbido · hoy es una vertical de RIA Espacio | `byt-pajaritos` (birdmap, demo a la Municipalidad 25/08) | — (birdmap.rialabs.ar es no comercial y no se linkea) |
+| Estación IA | Activación · para eventos | `IA Fun Station` | — |
+
+  **Diálogo** es una propuesta de nombre por la regla de una palabra (RAE: *plática entre dos o más
+  personas que alternativamente manifiestan sus ideas o afectos; discusión o trato en busca de
+  avenencia*). Alternativa considerada: *Comunicación*. La página `/laboratorio/` todavía dice *RIA Comms*.
+  Lo que quedó fuera a propósito: RIO (capa interna, sin posicionamiento público todavía), herramientas
+  internas (faro, nx-server-monitor, meta-mcp, ria-wa-viewer, ria-quizz), presentaciones comerciales y
+  trabajos para terceros (arg-tour-experience).
+- **Método**: seis principios, tres heredados de v4 y tres traídos de las reglas del laboratorio
+  (*Partimos de lo que ya tenés* · *Si no está medido, no se dice* · *Los límites los decimos nosotros* ·
+  *Se instala, no se demuestra*).
+- **Equipo**: retratos nuevos, verticales 4:5 de 210 px de ancho (en vez del círculo de 112 px), al lado
+  del nombre; en móvil arriba. Bios iguales salvo la de Matías («arquitectura del motor y de los productos»).
+- **Nav**: Analítico · Espacio · Automoción (con el punto de color de cada uno) · Dataflow · Laboratorio ·
+  Equipo · *Conversemos*. En ≤860 px hay botón MENÚ con panel desplegable (v4 escondía los enlaces).
+- **Contacto**: el pre-título ahora es la pregunta del laboratorio («¿Tenés un problema que nadie resolvió?»)
+  y vuelve el copete de cierre. Footer © 2026.
+
+### 0.2 Secuencia de la página (anclas)
+
+`#inicio` hero → barra de números → `#productos` (`#analitico` · `#espacio` · `#automocion`) → `#dataflow` →
+`#laboratorio` → `#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
+
+### 0.3 Assets nuevos
+
+| Ruta | Qué es |
+|---|---|
+| `v5/index.html` | la home vigente, autocontenida |
+| `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos 720×900 (4:5), ~70 KB y ~60 KB |
+| `og-image.png` | tarjeta 1200×630 nueva: el sistema + RIA Labs + la frase. La anterior quedó en `og-image-v4.png` |
+| `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
+| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
+
+**Retratos (2026-10-10).** Generados con `google/nano-banana` vía Replicate (token en
+`~/.credentials/replicate.env`) a partir de las fotos reales de `~/dev/RIALabs/Fotos/` (`otra.jpeg` y
+`1759492597591.jpeg` para Sebastián; `mati.jpeg` para Matías), con instrucción explícita de conservar
+cara, edad, pelo, barba y anteojos. Los dos comparten la misma puesta: fotografía editorial, luz cálida
+ámbar en la cara (la corona), relleno azul frío de pantallas, fondo negro, y **un eclipse total —disco
+oscuro con corona dorada— flotando sobre la cabeza**. Cada uno en su terreno: Sebastián con un video wall
+de cámaras de calle y un rack con LEDs azules; Matías con monitores de código y una maqueta 3D de ciudad.
+Se generaron 3 variantes por persona (+3 de Sebastián con la composición unificada) y se eligieron
+`matias-2` y `sebastian-b1`. Las variantes descartadas no se guardaron. Los retratos cuadrados de v4
+(`equipo-*.jpg`) siguen en `assets/` porque v4 los usa.
+
+### 0.4 Pendientes que deja la v5
+
+- Renombrar *RIA Comms* → *RIA Diálogo* en `/laboratorio/` (y decidir si va *Diálogo* o *Comunicación*).
+- Los sitios de producto siguen diciendo *Byte Analítico* y *RIA Drivecore*; la home ya dice *RIA
+  Analítico* y *RIA Automoción*.
+- `/laboratorio/` presenta cinco proyectos de los cuales tres ya son producto; reordenarlo con el criterio
+  de la home (productos arriba, laboratorio = lo que todavía es pregunta) es la próxima pasada.
 
 ---
 

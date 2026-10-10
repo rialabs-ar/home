@@ -1,1 +1,5 @@
 .DS_Store
+.worktrees/
+_capturas/
+_preview.html
+_mob.html
