@@ -79,6 +79,34 @@
   Equipo · *Conversemos*. En ≤860 px hay botón MENÚ con panel desplegable (v4 escondía los enlaces).
 - **Contacto**: el pre-título ahora es la pregunta del laboratorio («¿Tenés un problema que nadie resolvió?»)
   y vuelve el copete de cierre. Footer © 2026.
+- **Desenclipsar: el eclipse se toca** (rama `desenclipsar`, 2026-10-10; pedido verbatim en el registro de
+  prompts). Un clic en el centro del eclipse del hero, o en el isotipo + wordmark de la nav (que sigue
+  llevando a `#inicio`), dispara **un ciclo completo, no un toggle**: la luna sale del disco hacia la
+  izquierda en trayectoria elíptica —*destape*, ~2,5 s, en los que el sol se enciende (disco, resplandor,
+  rayos sutiles) y la página se ilumina hasta el **tema día**—, sigue la elipse y cruza la pantalla entera
+  iluminada del lado del sol (fase creciente a gibosa, lado oscuro que se funde con el fondo, borde definido)
+  hasta salir por el borde izquierdo del viewport (~3,5 s); descansa en día (~8 s; un toque lo acorta);
+  reaparece por el borde derecho, llega al sol (~3,5 s) y lo cubre (~3 s): anillo de diamante en el último
+  filo, corona de totalidad, y la noche vuelve exactamente al estado inicial. Durante el viaje los
+  disparadores no responden. Teclado y lectores de pantalla: un botón invisible calzado sobre el disco
+  (`aria-pressed` = día, anillo de foco punteado) y un `aria-live` que anuncia «Tema día / Tema noche»;
+  `prefers-reduced-motion`: sin viaje, fundido de tema con la luna desvaneciéndose en su lugar (~1,6 s).
+  Una pista mono «tocá el eclipse» aparece una vez a los 3 s de cargar y se apaga sola. El isotipo de la
+  nav acompaña el ciclo: su luna se corre y vuelve. Duraciones en `T` al principio del script `DESENCLIPSAR`.
+- **Tema día.** `data-tema="dia"` en `<html>` conmuta las variables de `:root`: papel cálido `#f4efe4`,
+  tinta `#1a1712`, el dorado sigue siendo el acento pero más oscuro (`#a66a06` / `#c47d0a`) para leerse
+  sobre claro; azul, teal y dorado de producto oscurecidos; bandas, tarjetas y nav translúcidas en su
+  equivalente claro (`--banda`, `--banda2`, `--tarjeta`, `--nav-bg`…); el eclipse en colores de tema
+  (`--luna`, `--sol-tapado`, halos `--h1…--h6`: resplandor oscuro contra el negro, tintes dorados contra
+  el papel). El cambio es gradual y universal (`--t-tema`, que el ciclo ajusta a cada fase: 2,5 s al
+  aclarar, 3 s al oscurecer con la totalidad); el cielo de estrellas se apaga en día. Decisiones: la elipse
+  del viaje tiene su punto bajo en la luna del hero y sube hacia ambos bordes (ry = 16 % de rx); la
+  geometría se lee del DOM en cada fotograma, nada de pantalla está hardcodeado; si el sol no está en
+  pantalla (página scrolleada), la elipse se centra en el viewport y la viajera entra y sale con un
+  fundido; desde el logo la luna sigue al sol aunque la página todavía esté scrolleando hacia él. Ganchos:
+  `?tema=dia` carga en día con el sol encendido y la luna fuera (sin animar); `?ciclo=<ms>` congela el
+  ciclo en ese instante. Dataflow y laboratorio se rehacen en ramas paralelas: toman el día de las
+  variables de `:root`; sus colores fijos de `main` no se tocaron.
 
 ### 0.2 Secuencia de la página (anclas)
 
@@ -93,7 +121,7 @@
 | `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos 720×900 (4:5), ~70 KB y ~60 KB |
 | `og-image.png` | tarjeta 1200×630 nueva: el sistema + RIA Labs + la frase. La anterior quedó en `og-image-v4.png` |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
-| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
+| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta; `QUERY=tema=dia` o `QUERY=ciclo=4200` fotografía el día o un instante del ciclo del eclipse, `NOMBRE=dia` nombra los PNG; `ALTO=9600` para la página entera). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
 
 **Retratos (2026-10-10).** Generados con `google/nano-banana` vía Replicate (token en
 `~/.credentials/replicate.env`) a partir de las fotos reales de `~/dev/RIALabs/Fotos/` (`otra.jpeg` y
