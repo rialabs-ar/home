@@ -10,8 +10,9 @@
 
 ## 0. v5 (vigente desde 2026-10-10) — tres verticales, el eclipse al centro, Dataflow como motor
 
-> Prompt de giro, verbatim: `docs/prompts-usuario/2026-10-10-upgrade-home-tres-verticales.md`. Lo que sigue
-> es lo curado. Mismo estilo que v4 (Saira + DM Mono, paleta medianoche + dorado, ruido, reveals), misma
+> Prompts de giro, verbatim: `docs/prompts-usuario/2026-10-10-upgrade-home-tres-verticales.md` (la v5) y
+> `docs/prompts-usuario/2026-10-10-sin-orbitas-verticales-tecnologicas.md` (el mismo día: fuera las órbitas
+> del hero, los productos como verticales tecnológicas). Lo que sigue es lo curado. Mismo estilo que v4 (Saira + DM Mono, paleta medianoche + dorado, ruido, reveals), misma
 > página única sin build; v4 queda como histórico en `v4/`.
 
 ### 0.1 Qué cambió y por qué
@@ -30,12 +31,45 @@
 
   Los nombres públicos de los sitios de destino todavía dicen *Byte Analítico* y *RIA Drivecore*: la home
   usa los nombres nuevos y enlaza a esos sitios tal como están. Renombrarlos es una pasada aparte.
-- **El eclipse manda.** En el hero es el centro de un *sistema*: tres órbitas elípticas con un planeta
-  por producto (misma matemática que el campo orbital de `/laboratorio/`), hover ilumina órbita + ficha de
-  leyenda, clic baja a la banda del producto. Corona de 192 px de diámetro (v4: 140), respira, dos anillos
-  de protuberancias giran en sentidos opuestos, la luna libra y deja ver un filo de sol. Vuelve en la banda
-  de Dataflow como el motor, en las viñetas de cada producto (un arco de corona fuera de cuadro: el
-  planeta orbita algo), en el separador de Equipo (Byte y VRIO, heredado de v4) y en los dos retratos.
+- **El eclipse manda, solo.** En el hero es la figura de portada: el eclipse total, sin nada alrededor.
+  (La primera v5 lo rodeaba de un *sistema* de tres órbitas con un planeta por producto; Matías lo descartó
+  el mismo día: «las órbitas no van, el eclipse es total y figura de la portada».) El SVG `#sistema` tiene el
+  viewBox recortado al eclipse —`310 70 340 340` sobre el sistema de coordenadas original, el centro sigue
+  en 480,240 y el interior `#sis-core` es el de siempre— y el tamaño lo da el CSS: `min(400px, 78vw, 44vh)`
+  de ancho, o sea una corona de ~226 px de diámetro en desktop y ~170 en un celular, sin empujar el titular
+  bajo el pliegue. Respira, dos anillos de protuberancias giran en sentidos opuestos, la luna libra y deja
+  ver un filo de sol, un enjambre de partículas trabaja detrás. Los gradientes `sp-*` siguen en sus `defs`
+  porque los usa el diagrama de Dataflow. Vuelve en la banda de Dataflow como el motor, en el separador de
+  Equipo (Byte y VRIO, heredado de v4) y en los dos retratos.
+- **Cada vertical es un astro con sus sabores en órbita** (viñeta `.prod-vis` de cada banda, SVG propio de
+  480×400, vanilla). El astro lleva la tecnología de la vertical en su superficie, en línea técnica sobre
+  la esfera, no como ícono: en Analítico es **el ojo de un objetivo** (anillos, iris de ocho láminas,
+  reflejo en el vidrio); en Espacio, **la ciudad de noche vista desde arriba** (trama de globo y un barrio
+  de luces que se ve justamente del lado de la sombra); en Automoción, **el circuito** que rodea el astro
+  (una pista con sus cinco secciones, sólo se ve la mitad de adelante). Un sol fuera de cuadro, arriba a la
+  izquierda, ilumina los tres igual: terminador, filo de luz en el borde, y una umbra que el astro proyecta
+  hacia abajo a la derecha. **Cada satélite es un sabor y un enlace** (`<a>` dentro del SVG, con `tabindex`,
+  `aria-label`, halo al hover y al foco, y su órbita se enciende) a la web de ese sabor:
+
+| Vertical | Satélite (etiqueta visible) | Abre |
+|---|---|---|
+| Analítico | **Integradores** · cualquier cámara | analitico.rialabs.ar/integradores/ |
+| Analítico | **Monitoreo** · la consola de la central | analitico.rialabs.ar/monitoreo/ |
+| Espacio | **Smartcity** · ciudad | smartcity.rialabs.ar |
+| Espacio | **Jockey** · predio | jockey.rialabs.ar |
+| Espacio | **Grit** · barrio y centro comercial | grit.rialabs.ar |
+| Espacio | **Acceso** · sin web pública | — (Rosental y Mercado Fisherton son instalaciones con login; el satélite existe, más chico y apagado, pero no enlaza) |
+| Automoción | **Drivecore** · la concesionaria | drivecore.rialabs.ar |
+
+  Profundidad: cada satélite recorre su propia órbita elíptica inclinada (la misma matemática que el
+  separador de Equipo), pasa **por detrás y por delante** del astro con oclusión real (cambia de grupo en el
+  DOM), crece hasta un 26 % al acercarse y se achica y se desenfoca al alejarse, se oscurece al cruzar la
+  umbra, y la etiqueta se acomoda del lado de afuera (centrada debajo cerca de los bordes, para que en
+  móvil no se corte). Detrás, 48 motas de polvo propias de cada viñeta con paralaje al scroll. Cada órbita
+  dibujada está ocupada por el satélite que la recorre; se fueron el arco de corona de la esquina y la
+  elipse punteada vacía que tenía la primera v5. **Sumar un sabor es sumar un `<a class="sat">`** con su
+  `data-orb` (`rx ry inclinación período fase sentido radio`): Estación de Servicio e Industria entrarán
+  así en Espacio. `prefers-reduced-motion`: todo quieto en su posición inicial, sin transiciones.
 - **El sentido del eclipse, dicho en la página** (banda Dataflow): *«Un eclipse es dos cosas que ya
   existían, alineadas por un instante. La luna es tu infraestructura. El sol es el motor. Lo que se ve es
   la corona: lo que la alineación deja pasar.»*
@@ -91,9 +125,9 @@
 |---|---|
 | `v5/index.html` | la home vigente, autocontenida |
 | `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos 720×900 (4:5), ~70 KB y ~60 KB |
-| `og-image.png` | tarjeta 1200×630 nueva: el sistema + RIA Labs + la frase. La anterior quedó en `og-image-v4.png` |
+| `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + la frase (regenerada el 10/10 al sacar las órbitas, con `OG=1 scripts/capturar-home.sh v5`). La anterior quedó en `og-image-v4.png` |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
-| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
+| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px). Levanta su propio `http.server` en 8895–8899 y lo mata por PID. `RAIZ=…` fotografía otro checkout (un worktree), `CAPTURAS=…` elige dónde guardar |
 
 **Retratos (2026-10-10).** Generados con `google/nano-banana` vía Replicate (token en
 `~/.credentials/replicate.env`) a partir de las fotos reales de `~/dev/RIALabs/Fotos/` (`otra.jpeg` y
@@ -113,6 +147,11 @@ Se generaron 3 variantes por persona (+3 de Sebastián con la composición unifi
   Analítico* y *RIA Automoción*.
 - `/laboratorio/` presenta cinco proyectos de los cuales tres ya son producto; reordenarlo con el criterio
   de la home (productos arriba, laboratorio = lo que todavía es pregunta) es la próxima pasada.
+- El satélite **Acceso** de RIA Espacio no enlaza a nada: Rosental y Mercado Fisherton son instalaciones con
+  login. Cuando Acceso tenga página pública, es agregarle el `href`.
+- Las viñetas de las verticales son SVG dibujado, no imágenes generadas: se decidió así para que sobrevivan a
+  un tema claro (colores por variables), pesen cero y puedan moverse. Si alguna vez se quiere un render
+  fotorrealista, el camino es el de los retratos (`scripts/generar-retratos.py`).
 
 ---
 
