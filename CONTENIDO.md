@@ -86,18 +86,58 @@
 - **Barra de números medidos** (v4 traía cifras de mercado: 70 % de empresas sin IA, etc.):
   1 motor · 24 analíticas · 30 mil eventos por día en una instalación (Rosental, `dataflow-rosental/docs/ESTADO.md`) ·
   1.100 vehículos activos (Seprio). Criterio del laboratorio: si no está medido, no se dice.
-- **Laboratorio** agrupa lo que todavía es pregunta, seis fichas (relevamiento de la carpeta `Proyectos/`
-  del 2026-10-10):
+- **Laboratorio es la casa** (rama `laboratorio-casa`, 2026-10-10; pedido verbatim en el registro de prompts:
+  «un laboratorio como un centro de experimentación y creación, más búsqueda y aventura, más imaginación y
+  trabajo… más en nuestra cosa, nuestra casa»). Antes era una grilla de seis fichas iguales con rótulo de
+  estado («Lo que todavía es pregunta»), que presentaba el laboratorio como un backlog. Ahora la sección es
+  **el origen**, en primera persona del plural y con los mismos números medidos, en tres partes:
+  - **Titular:** *Pasá, esta es nuestra casa*. **Copete:** «Todo lo que está arriba empezó acá, con una
+    pregunta que nadie había pedido medir. Acá se busca, se imagina y se trabaja: un cuaderno con patentes
+    anotadas a birome, una cámara que mira la calle desde una ochava, un semáforo que se dejó manejar. **Lo
+    que funciona en la calle se muda arriba, con cliente adentro. Lo demás se queda en casa, en prueba.**»
+    Segundo párrafo: las dos puertas de la casa en Rosario, **Byte** (la cámara de la esquina alimenta al
+    motor las veinticuatro horas) y **VRIO** (donde el motor se escribe), y la regla de convivencia, la misma
+    de arriba: si no está medido, no se dice.
+  - **De acá salieron** (el linaje): tres vías de cuatro hitos, una por producto y en su color, que se
+    encienden de izquierda a derecha al entrar en pantalla (verticales en ≤860 px); el último hito es el
+    planeta y enlaza a la banda del producto. Fuentes: `rialabs-manifiesto/docs/GUION.md` actos 0 y 1 (el
+    cuaderno, la barrera, los seis pasos), `byt-edge` (LPR en producción desde 2026-03), `byt-fall`
+    (local-first, primer recorrido completo 2026-05-15), `byt-analitico` (búsqueda forense, 2026-08),
+    `byt-traffic-demo` (−27 %), `byt-smartcity` (la esquina 24/7 desde 2026-08), `byt-pajaritos` (demo 25/08).
 
-| Ficha | Estado publicado | Origen | Enlace |
-|---|---|---|---|
-| **RIA Diálogo** (antes RIA Comms) | En uso · operación comercial de una concesionaria | `ria-comms` (Seprio sigue con el predecesor `seprio-comms`) | `/laboratorio/#p03` |
-| Tránsito inteligente | Prototipo · medido en calle (−27 %) | `byt-traffic-demo` | `/laboratorio/#p04` |
-| Deportes | Experimento · la cancha ya está resuelta (homografía, F1) | `dataflow-deportes` | — |
-| Maqueta navegable | Prototipo · actividad simulada | `dataflow-smartcity-sapiens` / `-neander` | — |
-| Fauna urbana | Absorbido · hoy es una vertical de RIA Espacio | `byt-pajaritos` (birdmap, demo a la Municipalidad 25/08) | — (birdmap.rialabs.ar es no comercial y no se linkea) |
-| Estación IA | Activación · para eventos | `IA Fun Station` | — |
+| Vía | Hitos | Llega a |
+|---|---|---|
+| Automoción (`--c-aut`) | Un auto, una barrera, un cuaderno → La cámara leyó la patente → Se prototipó sobre el plano del taller | `#automocion` · 1.100 vehículos activos |
+| Analítico (`--c-ana`) | La misma cámara del ingreso (procesada en un servidor remoto) → Todo en una PC, en el cliente → Buscar por lo que la cámara vio | `#analitico` · Integradores y Monitoreo |
+| Espacio (`--c-esp`) | Un semáforo que ve → ¿Y si la esquina hiciera todo? → Las palomas de una plaza | `#espacio` · Ciudad · Predio · Acceso · Barrio y centro comercial |
 
+  - **Expediciones en curso** (la bitácora): las seis exploraciones, cada una con **la pregunta que la
+    abrió**, una cabecera mono con dónde se prueba y desde cuándo, **Hasta ahora** (lo medido) y **Todavía
+    no sabemos** (el límite, dicho por nosotros). Grilla de dos columnas; Tránsito va a lo ancho con el
+    **video real de la ochava** (`laboratorio/media/traffic-deteccion.mp4`, póster `.jpg`, `muted loop
+    playsinline preload="none"`; arranca sólo a la vista y se pausa al salir; con `prefers-reduced-motion`
+    queda el póster quieto). Fauna urbana cierra a lo ancho como **«la que se mudó»**, con la puerta a RIA
+    Espacio («Hoy vive arriba»). Las fechas «desde…» salen del primer commit de cada repo; Tránsito dice
+    «invierno de 2026» porque `byt-traffic-demo` no tiene git y el clip es de un día de lluvia de invierno.
+
+| Expedición | Cabecera (dónde · desde) | Hasta ahora (el número) | Todavía no sabemos | Origen | Enlace |
+|---|---|---|---|---|---|
+| 01 Tránsito inteligente | la ochava de Byte, Rosario · invierno de 2026 | −27 % de demora contra tiempo fijo; 0 falsos positivos con lluvia | la ola verde (una sola cámara no la hace); calibración provisoria hasta medir con cinta | `byt-traffic-demo` | `/laboratorio/#p04` |
+| 02 **RIA Diálogo** (antes RIA Comms) | una concesionaria de Rosario · desde mayo de 2026 | guardado, clasificado, ruteado y medido; audios transcriptos; lo usamos nosotros primero | cómo se llama (Diálogo es propuesta; la casa grande dice Comms) | `ria-comms` (Seprio sigue con el predecesor `seprio-comms`) | `/laboratorio/#p03` |
+| 03 Deportes | una transmisión de tenis, en el estudio · desde septiembre de 2026 | la cancha se calibra sola, poco más de un píxel de error (mediana 1,34 px), recalibra tras cada corte; ve jugadora, jueza y recogepelotas, no la tribuna (`dataflow-deportes/docs/ESTADO.md`) | la pelota (~6 px a 720p); qué contar en los ~20 s entre puntos | `dataflow-deportes` | — |
+| 04 Maqueta navegable | un barrio en Álvarez, un centro comercial en Rosario · desde septiembre de 2026 | 1.276 tramos del legajo real, 19 manzanas, el lago y el cerco; mouse, teclado, voz y gestos sobre un mismo vocabulario; repetido sobre el centro comercial sin tocar el motor | la primera cámara real; toda la actividad es simulada y la pantalla lo dice | `dataflow-smartcity-sapiens` / `-neander` | — |
+| 05 Estación IA | un stand, una fiesta, una feria | selfie → personaje animado → QR; la gente ve al modelo trabajar en vivo | si es un juego o una pieza | `IA Fun Station` | — |
+| La que se mudó · Fauna urbana | las palomas de una plaza · agosto de 2026 | conteo por punto en bandada densa; cada cifra medida o estimada; demo a la Municipalidad el 25/08 | qué fracción de la bandada ve la cámara en una plaza real | `byt-pajaritos` (birdmap.rialabs.ar es no comercial y no se linkea) | `#espacio` |
+
+  - **La puerta:** «Recorrer el laboratorio →» (`/laboratorio/`), «Las seis reglas de la casa»
+    (`/laboratorio/#metodo`) y una nota mono: «La puerta está abierta. Si tenés una pregunta que nadie
+    midió todavía, contanos: así empezaron todas las de arriba» (→ `#contacto`).
+  - **Estilo:** misma tipografía y paleta; la calidez viene del tono, de la composición y de la luz: un
+    resplandor dorado (la lámpara de taller) detrás del título (`#laboratorio::before`, opacidad `--glow`,
+    así se apaga de día como el del hero) y un filo del color de cada expedición arriba de su ficha. Todo
+    color sale de las variables de tema; los acentos de las expediciones tienen versión de día (`--lab-c1…c6`,
+    definidos en `#laboratorio`, no en `:root`). Sin dependencias; `color-mix` con fallback a `--border3`.
+    Los pares de capturas noche/día de la verificación están en el scratchpad de la sesión, no en el repo.
   **Diálogo** es una propuesta de nombre por la regla de una palabra (RAE: *plática entre dos o más
   personas que alternativamente manifiestan sus ideas o afectos; discusión o trato en busca de
   avenencia*). Alternativa considerada: *Comunicación*. La página `/laboratorio/` todavía dice *RIA Comms*.
@@ -175,6 +215,11 @@ Se generaron 3 variantes por persona (+3 de Sebastián con la composición unifi
   Analítico* y *RIA Automoción*.
 - `/laboratorio/` presenta cinco proyectos de los cuales tres ya son producto; reordenarlo con el criterio
   de la home (productos arriba, laboratorio = lo que todavía es pregunta) es la próxima pasada.
+- `/laboratorio/` tiene una referencia vieja: el proyecto 05 dice «El proyecto 03 contestó su pregunta»
+  hablando de Tránsito, que desde el reordenamiento del 14/08 es el 04.
+- Las maquetas Sapiens y Neander están en vivo (`sapiens.dataflow.rialabs.ar`, `neander.dataflow.rialabs.ar`)
+  como prototipos sin control de acceso y con la actividad marcada como simulada; la home no las enlaza
+  desde la expedición 04. Decidir si se enlazan.
 - El satélite **Acceso** de RIA Espacio no enlaza a nada: Rosental y Mercado Fisherton son instalaciones con
   login. Cuando Acceso tenga página pública, es agregarle el `href`.
 - Las viñetas de las verticales son SVG dibujado, no imágenes generadas: se decidió así para que sobrevivan a
