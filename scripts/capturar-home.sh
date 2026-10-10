@@ -41,7 +41,7 @@ python3 - "$RAIZ/$VER" <<'PY'
 import sys
 d = sys.argv[1]
 src = open(f"{d}/index.html").read()
-inj = "<style>nav,.hero-eyebrow,.hero-ctas,.hero-origin,.hero-sub{display:none !important}.hero{min-height:630px !important;padding:0 24px !important;justify-content:center}#sistema-wrap{max-width:760px}.wordmark{margin-top:-14px}.ria{font-size:76px}.hero-headline{font-size:17px;margin:14px 0 0}*,*::before,*::after{animation-delay:0s !important;animation-duration:0.01s !important;transition-duration:0s !important}#sistema *{animation-duration:revert !important}#cielo{opacity:1}</style></head>"
+inj = "<style>nav,.hero-eyebrow,.hero-ctas,.hero-origin,.hero-sub{display:none !important}.hero{min-height:630px !important;padding:0 24px !important;justify-content:center}#sistema-wrap{width:320px;margin-top:0}.wordmark{margin-top:16px}.ria{font-size:76px}.hero-headline{font-size:17px;margin:14px 0 0}*,*::before,*::after{animation-delay:0s !important;animation-duration:0.01s !important;transition-duration:0s !important}#sistema *{animation-duration:revert !important}#cielo{opacity:1}</style></head>"
 open(f"{d}/_og.html","w").write(src.replace("</head>", inj, 1))
 PY
 "$CH" --headless=new --disable-gpu --hide-scrollbars --window-size=1200,630 \
