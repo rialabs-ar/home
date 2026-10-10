@@ -31,6 +31,33 @@
 
   Los nombres públicos de los sitios de destino todavía dicen *Byte Analítico* y *RIA Drivecore*: la home
   usa los nombres nuevos y enlaza a esos sitios tal como están. Renombrarlos es una pasada aparte.
+- **El hero dice «DE VER A SABER»** (rama `textos-hero`, 2026-10-10; decisión verbatim de Matías en el registro
+  de prompts: *«Me quedo con "De ver a saber" (sin punto, quizás en mayúsculas con alguna fuente distintiva)»*).
+  El titular va en mayúsculas, sin punto, en **Cormorant Garamond 600** —una garalda de contraste alto, tracking
+  0,16 em, 54 px en desktop y 32 px en un celular, donde entra en una sola línea—: una romana de portada de
+  libro frente a la geometría de Saira del wordmark, para que se lea como una declaración y no como un eslogan.
+  Se probaron en captura, sobre la página real y en los dos temas, Cormorant Garamond y Marcellus (y en hoja
+  comparativa Cinzel, Fraunces, Instrument Serif, Bodoni Moda, Italiana, EB Garamond, Libre Caslon Display,
+  Cormorant SC): Marcellus quedó demasiado cerca del ritmo de Saira y no tiene cursiva; Bodoni e Italiana pierden
+  los filetes de noche; Cinzel es afiche; Instrument Serif es la cara de moda de las landings; Fraunces es
+  amable, no declarativa. Debajo, en lugar de la bajada de tres frases, va **prosa** (Saira 300, 17 px,
+  interlineado 1,78, columna de ~65 caracteres), la mezcla que pidió Matías de los tres textos propuestos:
+
+  > El conocimiento ya lo tienen las máquinas: cada cámara, cada sensor, cada registro, acumulado sin cansancio.
+  > Pero *el verdadero signo de la inteligencia no es el conocimiento sino la imaginación*, y esa parte sigue
+  > siendo humana: una máquina puede saberlo todo de una esquina y no imaginar jamás un semáforo distinto.
+  > Nosotros ponemos la imaginación; el motor, la memoria y la atención que no duermen. Cuando las dos se
+  > alinean, como el sol y la luna por un instante, aparece algo que antes no estaba: **una infraestructura que
+  > piensa**.
+
+  La frase en cursiva circula atribuida a Einstein y **se publica sin comillas ni atribución, por decisión de
+  Matías** («no nombraría a Einstein aunque citaría la frase»); tipográficamente va en la misma voz que el
+  titular (Cormorant Garamond cursiva 500, un 24 % más grande para igualar la x de Saira, en blanco), y la
+  cláusula final sube a blanco como los `strong` del resto de la página. La fuente se carga con un `<link>`
+  propio de Google Fonts con sólo las dos caras que se usan (`0,600` y `1,500`, `display=swap`). Medidas: el
+  hero mide ~1.220 px en 1440×900 y ~1.225 en 390×844; sin scrollear se ven el eclipse, el wordmark, el titular
+  y las primeras tres líneas de la prosa (siete en el celular); los CTAs quedan debajo del pliegue. El titular
+  viejo («Tu infraestructura ya existe. Nosotros la hacemos pensar.») queda como histórico en §1.4.
 - **El eclipse manda, solo.** En el hero es la figura de portada: el eclipse total, sin nada alrededor.
   (La primera v5 lo rodeaba de un *sistema* de tres órbitas con un planeta por producto; Matías lo descartó
   el mismo día: «las órbitas no van, el eclipse es total y figura de la portada».) El SVG `#sistema` tiene el
@@ -153,7 +180,7 @@
 |---|---|
 | `v5/index.html` | la home vigente, autocontenida |
 | `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos 720×900 (4:5), ~70 KB y ~60 KB |
-| `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + la frase (regenerada el 10/10 al sacar las órbitas, con `OG=1 scripts/capturar-home.sh v5`). La anterior quedó en `og-image-v4.png` |
+| `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + «DE VER A SABER» en Cormorant (regenerada el 10/10 con el titular nuevo, `OG=1 scripts/capturar-home.sh v5`; el modo OG esconde además la pista «tocá el eclipse»). La anterior quedó en `og-image-v4.png` |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
 | `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia` o `QUERY=ciclo=4200` fotografía el día o un instante del ciclo del eclipse, `NOMBRE=dia` nombra los PNG; `ALTO=9600` para la página entera). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
 
@@ -211,9 +238,17 @@ El **eclipse solar total** (anillos cálidos naranjas/dorados con disco lunar os
 
 ### 1.4 Frase filosófica / corazón narrativo
 
+> **DE VER A SABER**
+>
+> (Titular del hero de v5 desde el 2026-10-10: sin punto, en mayúsculas, en Cormorant Garamond. Debajo va la prosa
+> del hero —ver §0—, que incluye sin atribución la frase *el verdadero signo de la inteligencia no es el
+> conocimiento sino la imaginación*: circula atribuida a Einstein y se publica sin nombrarlo, por decisión de Matías.)
+
+Histórica (v2 → primera v5):
+
 > "Tu infraestructura ya existe. Nosotros la hacemos pensar."
 >
-> (Texto incrustado en la ilustración animada del hero en v4; versión v2 usaba "Tu infraestructura visual ya existe. Nosotros la hacemos pensar.")
+> (Texto incrustado en la ilustración animada del hero en v4 y titular del hero en la primera v5; versión v2 usaba "Tu infraestructura visual ya existe. Nosotros la hacemos pensar." Sobrevive como cierre de la prosa del hero: «una infraestructura que piensa».)
 
 Declaración complementaria (sección Mercado, hover del nodo central en v4):
 > "Lo que transforma a una empresa no es la tecnología que adopta — es el momento en que decide, por primera vez, mirarse de verdad."
@@ -703,7 +738,7 @@ Su nav apunta al home con rutas absolutas (`/#servicios`, `/#caso`, …) y marca
 ## 14. Elementos institucionales útiles para reuso
 
 - **Elevator pitch (1 línea):** "Transformamos los procesos de tu empresa con inteligencia artificial y software a medida. Nacidos de Byte y VRIO."
-- **Tagline poético:** "Tu infraestructura ya existe. Nosotros la hacemos pensar."
+- **Tagline poético:** "De ver a saber" (desde v5, 2026-10-10). Histórico: "Tu infraestructura ya existe. Nosotros la hacemos pensar."
 - **Misión implícita:** Hacer que la IA produzca valor real sobre la infraestructura que las empresas argentinas ya tienen instalada.
 - **Visión implícita:** Ocupar el nicho donde infraestructura operativa y software de IA se encuentran — un espacio hoy vacío en el mercado argentino.
 - **Valores operativos:** Simplicidad · Velocidad · Resultados medibles · Autonomía del cliente · Ingeniería creativa con rigor.
