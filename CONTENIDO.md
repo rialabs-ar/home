@@ -187,6 +187,11 @@
   tiene el oficio: **Programador** · *Desde 2001 · Redeeem · Estados Unidos → Argentina*, sin enlace (la
   primera versión, «Programador desde 2001» en el slot grande, se partía en dos líneas a 1440). Retrato
   nuevo de Matías con otra actitud, y dos familias de retratos (con melena y sobria): §0.3.
+  **Retratos vivos (rama `retratos-vivos`, 2026-10-11; pedido verbatim en el registro de prompts):** cada
+  `.f-photo` es ahora un `<video>` en loop de ~10 s con el jpg de póster —quietos esperando la foto, pestañean,
+  la melena vuela al viento de un ventilador, el eclipse chico y al fondo, el mismo en los dos— y el jpg adentro
+  como fallback. Arranca solo a la vista, se pausa al salir, y con `prefers-reduced-motion` queda la foto. Cómo
+  se hizo y qué se midió, en §0.3.
 - **Nav**: Analítico · Espacio · Automoción (con el punto de color de cada uno) · Dataflow · Laboratorio ·
   Equipo · *Conversemos*. En ≤860 px hay botón MENÚ con panel desplegable (v4 escondía los enlaces).
 - **Contacto**: el pre-título ahora es la pregunta del laboratorio («¿Tenés un problema que nadie resolvió?»)
@@ -230,8 +235,10 @@
 | Ruta | Qué es |
 |---|---|
 | `v5/index.html` | la home vigente, autocontenida |
-| `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos vigentes 720×900 (4:5): la familia **con melena** (~100 KB y ~93 KB) |
-| `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~72 KB y ~71 KB). Para cambiar de familia alcanza con renombrar |
+| `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos vigentes 720×900 (4:5): la familia **con melena** (~120 KB y ~103 KB desde el 11/10, con el eclipse unificado). Son el **póster** de los retratos vivos y la foto que queda con `prefers-reduced-motion` |
+| `assets/retrato-sebastian.mp4` / `.webm` · `assets/retrato-matias.mp4` / `.webm` | **retratos vivos** (2026-10-11): clips 720×900, 24 fps, en loop (9,67 s y 10,25 s), H.264 `yuv420p` sin audio + VP9. Sebastián 1,09 MB / 0,90 MB · Matías 0,83 MB / 0,65 MB |
+| `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~82 KB y ~79 KB, con el mismo eclipse unificado). Para cambiar de familia alcanza con renombrar; la sobria no tiene clip |
+| `scripts/generar-retratos-vivos.py` | cómo se hicieron el eclipse unificado y los retratos vivos (abajo): `fondo`, `video`, `post`, y `costura` para medir el loop |
 | `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + «DE VER A SABER» en Cormorant (regenerada el 10/10 con el titular nuevo, `OG=1 scripts/capturar-home.sh v5`; el modo OG esconde además la pista «tocá el eclipse»). La anterior quedó en `og-image-v4.png` |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
 | `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia` o `QUERY=ciclo=4200` fotografía el día o un instante del ciclo del eclipse, `NOMBRE=dia` nombra los PNG; `ALTO=9600` para la página entera). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
@@ -274,6 +281,52 @@ se cambia renombrando. Lectura de la sesión: la melena cambia el registro de ed
 sobria es la que conversa con el resto de la página (números medidos, mono, contención). Las variantes
 descartadas no se guardaron; `generar-retratos.py exportar <origen> <destino>` recorta al 4:5 y guarda
 720×900 JPG progresivo q84.
+
+**Retratos vivos (2026-10-11, rama `retratos-vivos`).** Pedido textual: «seriamos nosotros pero en vivo en lugar de en
+foto.. segundos en los cuales pestañamos, nuestro pelo vuela suavemente con el viento, miramos a la camara en posicion
+estatica como esperando la foto, pero se nota que estamos ahí» y «las melenas tienen que volar al movimiento de un
+ventilador, moverse en el aire como simbolo de potencia y vision. Y los logos de RIA de fondo si estan presentes esta
+bien pero debe ser siguiendo una idea comun en ambas imagenes y mucho mas de fondo». Tres etapas, las tres en
+`scripts/generar-retratos-vivos.py`:
+
+1. **El eclipse, una idea común.** Los cuatro jpg (melena y sobria) se reeditaron con nano-banana: eclipse chico (≈12 %
+   del ancho), alto (centro a ≈14 % de la altura), centrado sobre la cabeza, lejos, desenfocado y apagado (un tercio del
+   brillo), sin tocar cara, pelo, ropa ni luz. Por texto nano-banana no igualó el tamaño entre los dos (a Sebastián se lo
+   hacía más chico) y pasarle el retrato de Matías como referencia le contagiaba el fondo (3 de 3); lo que sirvió fue
+   escribirle los números medidos del de Matías y, donde faltaba, **igualar en post** (`igualar-eclipse`: escala el parche
+   del eclipse en su lugar con máscara radial, sobre pared lisa). Elegidos: Matías `fondo-matias-1`; Sebastián
+   `fondo-sebastian-4` igualado; sobrios `fondo-*-sobrio-2` igualados. 14 ediciones, US$ 0,55.
+2. **El clip.** Imagen a video con el **mismo retrato como primer y último cuadro** (el truco del loop), 5 s, prompt común:
+   cámara fija en trípode, pose quieta mirando a la lente esperando la foto, dos pestañeos, respiración, micro-movimientos;
+   la melena al viento de un ventilador de estudio, fuerte y sostenido, sin taparle la cara; el fondo y el eclipse quietos,
+   luz constante, misma identidad. Negativo: movimiento de cámara, cambio de cara o expresión, hablar, girar la cabeza,
+   parpadeo de luz, pelo sobre la cara, fondo en movimiento. Se probaron **Seedance 1 pro** (`image` + `last_frame_image`,
+   `camera_fixed`, 720p, US$ 0,30 el clip; 3 por persona) y **Kling v2.5 turbo pro** (`start_image` = `end_image`,
+   US$ 0,35 el clip; 5 por persona). Los dos dejan el pelo quieto ~0,5–1 s al principio y ~1 s al final, y Kling en la
+   primera ronda lo dejó casi quieto en 4 de 6; la segunda ronda (clips 4 y 5) lleva un párrafo de **viento fuerte**
+   explícito («el viento es el elemento más fuerte del plano… en ningún momento el pelo cuelga quieto»). Se quedaron los
+   Kling. 16 clips, US$ 5,30.
+3. **El loop, en post.** Como un clip entero en loop tendría ~2 s de pelo congelado por vuelta, el loop se arma con el
+   **tramo móvil de tres clips** por persona, cortados donde más se parecen (con la cara pesando ×25, para que las dos
+   caras del fundido tengan los ojos igual) y fundidos en 6 cuadros (0,25 s). Nunca ping-pong. Matías: kling-2 → kling-4 →
+   kling-5, 246 cuadros (10,25 s); Sebastián: kling-1 → kling-4 → kling-5, 232 cuadros (9,67 s). Efecto del peso de la
+   cara: las tres juntas de cada loop (dos adentro y la del cierre) **caen bajo un pestañeo**, porque los pares de cuadros
+   con los ojos iguales son los cerrados; el pestañeo esconde la costura, y en el cierre mide menos que un paso entre
+   cuadros consecutivos (Matías 1,05 contra 1,06 de media; Sebastián 1,31 contra 1,92; `costura <persona>` lo imprime).
+   H.264 `yuv420p` crf 24 `+faststart` + VP9 crf 34, 720×900, 24 fps.
+
+**El póster es el jpg, y no salta.** Se midió si convenía que el póster fuera el primer cuadro del clip: no hace falta.
+El cuadro 0 de cada loop está a un paso de la foto en la zona del pelo (Matías 2,5 contra 3,6 de paso medio entre
+cuadros; Sebastián 3,4 contra 3,7); lo único que cambia al arrancar son los ojos, que se cierran: la foto pestañea y
+queda viva. Y el jpg con los ojos abiertos es lo que ven `prefers-reduced-motion`, el headless y quien no llegue a cargar
+el clip. El `<video>` va `muted loop playsinline preload="none"`, sin `autoplay`; la IIFE de videos de la página (la
+misma de la ochava del laboratorio) lo carga y arranca al 25 % a la vista y lo pausa al salir; con reduced-motion no
+observa nada. En headless el póster del tema día a veces no llega a cargar dentro del presupuesto de tiempo virtual y
+queda el placeholder `SA`/`MG`: repetir la captura; no es la página.
+
+Costo total de la pasada: ≈ US$ 5,85 (14 ediciones + 16 clips; si hubo generaciones fallidas no quedaron registradas).
+Las variantes y los clips crudos quedaron en `_capturas/retratos-vivos/` (ignorado): `kling-*`, `seedance-*`, `fondo-*`,
+tiras y primer/último cuadro de cada uno, y en `revision/` las piezas con que se verificó la costura final.
 
 ### 0.4 Pendientes que deja la v5
 
