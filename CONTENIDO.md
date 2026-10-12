@@ -58,16 +58,48 @@
   hero mide ~1.220 px en 1440×900 y ~1.225 en 390×844; sin scrollear se ven el eclipse, el wordmark, el titular
   y las primeras tres líneas de la prosa (siete en el celular); los CTAs quedan debajo del pliegue. El titular
   viejo («Tu infraestructura ya existe. Nosotros la hacemos pensar.») queda como histórico en §1.4.
-- **El eclipse manda, solo.** En el hero es la figura de portada: el eclipse total, sin nada alrededor.
-  (La primera v5 lo rodeaba de un *sistema* de tres órbitas con un planeta por producto; Matías lo descartó
-  el mismo día: «las órbitas no van, el eclipse es total y figura de la portada».) El SVG `#sistema` tiene el
-  viewBox recortado al eclipse —`310 70 340 340` sobre el sistema de coordenadas original, el centro sigue
-  en 480,240 y el interior `#sis-core` es el de siempre— y el tamaño lo da el CSS: `min(400px, 78vw, 44vh)`
-  de ancho, o sea una corona de ~226 px de diámetro en desktop y ~170 en un celular, sin empujar el titular
-  bajo el pliegue. Respira, dos anillos de protuberancias giran en sentidos opuestos, la luna libra y deja
-  ver un filo de sol, un enjambre de partículas trabaja detrás. Los gradientes `sp-*` siguen en sus `defs`
-  porque los usa el diagrama de Dataflow. Vuelve en la banda de Dataflow como el motor, en el separador de
-  Equipo (Byte y VRIO, heredado de v4) y en los dos retratos.
+- **El eclipse manda, solo, y es cinemático** (rama `eclipse-cinematico`, 2026-10-12; pedido verbatim de
+  Matías en el registro de prompts: *«emular un eclipse en modo cinemático… emulando la inigualable naturaleza
+  de los fenómenos del universo. El movimiento hacia la izquierda y la vuelta por la derecha se mantiene, pero
+  la imagen también tendría que ser cinemática acorde»*). En el hero es la figura de portada: el eclipse total,
+  sin nada alrededor. (La primera v5 lo rodeaba de un *sistema* de tres órbitas con un planeta por producto;
+  Matías lo descartó el mismo día: «las órbitas no van, el eclipse es total y figura de la portada». Hasta el
+  11/10 era vectorial: anillos de trazo, halos planos, una corona que respiraba y un enjambre de partículas
+  adentro de la luna.) Ahora es **un eclipse solar total como lo muestra la naturaleza y lo filmaría una
+  cámara**, armado en capas para que el ciclo del desenclipsar siga funcionando igual:
+  - **La corona es una fotografía** (`assets/eclipse-corona.webp`): generada con `google/nano-banana` como
+    astrofotografía de la totalidad (streamers finos y asimétricos, largos hacia el ecuador y cortos en los
+    polos, protuberancias rojas en el limbo, luz blanco-dorada que se funde en ámbar y en negro) y pasada a
+    **WebP con alfa desde la luminancia** (negro → transparente): así se funde con el cielo de estrellas sin
+    `mix-blend-mode` —que adentro del stacking context del hero taparía el cielo con un cuadrado negro— y sin
+    recuadro en ningún tema. Va en HTML debajo del SVG (`#sis-corona-img`), centrada en el sol, y su tamaño
+    sale del disco medido en la imagen (r = 0,1515 del lado ↔ 91,5 unidades del viewBox de 340: la luna, de
+    r 93, la cubre siempre). Dos copias: la de base respira (9 s); la otra, al 28 %, gira ±1,1° en 70 s —el
+    shimmer de los filamentos—. Tres protuberancias en SVG, sobre las de la foto, parpadean a períodos
+    distintos. Si la foto no carga (`onerror` → `.sin-corona`), vuelve el halo vectorial de antes.
+  - **La luna es negra** (`#sis-moon`, gradiente casi negro con un hilo cálido en el limbo), centrada en el sol
+    y librando apenas (1,2 unidades en 28 s, siempre adentro del disco negro de la foto). Ya no deja ver un filo
+    de sol ni lleva el enjambre de partículas: en la totalidad la luna es negra. Al hover, un hilo de luz fuera
+    del limbo (`#sis-anillo`), la pista de que se toca.
+  - **La fotósfera es una foto del sol en luz blanca** (`assets/eclipse-sol.webp`: oscurecimiento al limbo,
+    granulación, dos grupos de manchas), calzada sobre el disco r 93 que el ciclo mide, con el gradiente de
+    antes debajo como fallback. Se enciende cuando la luna lo destapa, con un resplandor amplio sin festones
+    (los arcos punteados de 150 de ancho que hacían la mancha festoneada del día se fueron), 18 rayos afilados
+    de largo desparejo que giran en 540 s y un destello anamórfico horizontal.
+  - **Perlas de Baily y anillo de diamante** en los contactos (`#sis-perlas`, `#sis-diamante`): las perlas a
+    q = d/R ≈ 0,03–0,16, el diamante a q ≈ 0,1–0,3, los dos en el punto de contacto (el grupo de perlas se
+    rota hacia él, el diamante se traslada). El diamante: núcleo blanco, su resplandor y un destello anamórfico
+    horizontal largo, como lo da la lente.
+  El SVG `#sistema` conserva el viewBox recortado al eclipse —`310 70 340 340` sobre el sistema de
+  coordenadas original, el centro sigue en 480,240— y el tamaño lo da el CSS: `min(400px, 78vw, 44vh)` de
+  ancho, o sea un disco de ~218 px de diámetro en desktop y ~166 en un celular, con la corona desbordando
+  (177,6 % del ancho; los streamers largos llegan a ~2,6 radios; en 390 px el borde del viewport los corta
+  como el cuadro de una cámara). Pesa 248 KB en total (corona 150 + jpg de respaldo 37 + sol 20 + luna 22),
+  sin dependencias ni rAF nuevo: el movimiento de la corona es CSS (compositor) y el de las protuberancias,
+  SMIL; `prefers-reduced-motion` deja la foto quieta y una sola copia. Los gradientes `sp-*` siguen en sus
+  `defs` porque los usa el diagrama de Dataflow. Vuelve en la banda de Dataflow como el motor, en el
+  separador de Equipo (Byte y VRIO, heredado de v4) y en los dos retratos: esos siguen vectoriales. Cómo se
+  generó, qué se eligió y qué costó: §0.3.
 - **Cada vertical es un astro vivo con sus sabores en órbita** (viñeta `.prod-vis` de cada banda, SVG propio de
   480×400, vanilla; la superficie la arma y la mueve el script, según `data-astro`). El astro lleva la tecnología
   de la vertical en su superficie, en línea técnica sobre la esfera, no como ícono, y **se mueve**: mirarlo es
@@ -240,12 +272,21 @@
   `prefers-reduced-motion`: sin viaje, fundido de tema con la luna desvaneciéndose en su lugar (~1,6 s).
   Una pista mono «tocá el eclipse» aparece una vez a los 3 s de cargar y se apaga sola. El isotipo de la
   nav acompaña el ciclo: su luna se corre y vuelve. Duraciones en `T` al principio del script `DESENCLIPSAR`.
+  **Cinemático desde el 12/10** (misma línea de tiempo, otra imagen): la luna viajera lleva **textura lunar**
+  en la cara iluminada (`assets/eclipse-luna.webp`, la luna llena generada y teñida al dorado del sol de la
+  página; la fase la recorta como máscara con el terminador desenfocado y el limbo nítido, más una sombra
+  suave hacia el terminador; el gradiente de antes queda debajo como fallback); la corona fotográfica y las
+  protuberancias se apagan apenas asoma la fotósfera (con el sol a la vista la corona no se ve) y vuelven con
+  la totalidad; en los dos contactos, perlas de Baily y anillo de diamante. Instantes para fotografiar con
+  `?ciclo=<ms>`: 520 (perlas), 730 (diamante), 2600 (destape), 4200 (viaje, la luna a la izquierda), 16600
+  (regreso por la derecha), 19700 (diamante y totalidad). El isotipo de la nav se rehízo para armonizar: una
+  corona de luz con un streamer ecuatorial y la luna negra centrada (antes, anillos de trazo y la luna corrida).
 - **Tema día.** `data-tema="dia"` en `<html>` conmuta las variables de `:root`: papel cálido `#f4efe4`,
   tinta `#1a1712`, el dorado sigue siendo el acento pero más oscuro (`#a66a06` / `#c47d0a`) para leerse
   sobre claro; azul, teal y dorado de producto oscurecidos; bandas, tarjetas y nav translúcidas en su
   equivalente claro (`--banda`, `--banda2`, `--tarjeta`, `--nav-bg`…); el eclipse en colores de tema
-  (`--luna`, `--sol-tapado`, halos `--h1…--h6`: resplandor oscuro contra el negro, tintes dorados contra
-  el papel). El cambio es gradual y universal (`--t-tema`, que el ciclo ajusta a cada fase: 2,5 s al
+  (`--luna`, `--luna-cuerpo`, `--sol-tapado`; los halos `--h1…--h6` sólo sobreviven en el halo vectorial de
+  respaldo del hero, el que se muestra si la foto de la corona no carga). El cambio es gradual y universal (`--t-tema`, que el ciclo ajusta a cada fase: 2,5 s al
   aclarar, 3 s al oscurecer con la totalidad); el cielo de estrellas se apaga en día. Decisiones: la elipse
   del viaje tiene su punto bajo en la luna del hero y sube hacia ambos bordes (ry = 16 % de rx); la
   geometría se lee del DOM en cada fotograma, nada de pantalla está hardcodeado; si el sol no está en
@@ -269,7 +310,11 @@
 | `assets/retrato-sebastian.mp4` / `.webm` · `assets/retrato-matias.mp4` / `.webm` | **retratos vivos** (2026-10-11): clips 720×900, 24 fps, en loop (9,67 s y 10,25 s), H.264 `yuv420p` sin audio + VP9. Sebastián 1,09 MB / 0,90 MB · Matías 0,83 MB / 0,65 MB |
 | `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~82 KB y ~79 KB, con el mismo eclipse unificado). Para cambiar de familia alcanza con renombrar; la sobria no tiene clip |
 | `scripts/generar-retratos-vivos.py` | cómo se hicieron el eclipse unificado y los retratos vivos (abajo): `fondo`, `video`, `post`, y `costura` para medir el loop |
-| `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + «DE VER A SABER» en Cormorant (regenerada el 10/10 con el titular nuevo, `OG=1 scripts/capturar-home.sh v5`; el modo OG esconde además la pista «tocá el eclipse»). La anterior quedó en `og-image-v4.png` |
+| `assets/eclipse-corona.webp` · `.jpg` | **la corona de la totalidad** (2026-10-12): WebP 1000×1000 con alfa desde la luminancia, 150 KB, el disco negro centrado a r = 0,1515 del lado. El jpg (37 KB) es la misma toma sobre negro, de respaldo y referencia; la página no lo usa |
+| `assets/eclipse-sol.webp` | la fotósfera en luz blanca, 720×720, alfa = disco (r = 0,4873 del lado), 20 KB |
+| `assets/eclipse-luna.webp` | la luna llena teñida al dorado, 720×720, alfa = disco, 22 KB: la cara iluminada de la luna viajera |
+| `scripts/generar-eclipse.py` | cómo se generaron y procesaron las tres (abajo): `corona`, `sol`, `luna`, `medir`, `post-*`, `hoja` |
+| `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + «DE VER A SABER» en Cormorant (`OG=1 scripts/capturar-home.sh v5`; el modo OG esconde además la pista «tocá el eclipse»). Regenerada el 10/10 con el titular nuevo y el 12/10 con el eclipse cinemático. La anterior quedó en `og-image-v4.png` |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
 | `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia` o `QUERY=ciclo=4200` fotografía el día o un instante del ciclo del eclipse, `NOMBRE=dia` nombra los PNG; `ALTO=9600` para la página entera). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
 
@@ -358,6 +403,49 @@ Costo total de la pasada: ≈ US$ 5,85 (14 ediciones + 16 clips; si hubo generac
 Las variantes y los clips crudos quedaron en `_capturas/retratos-vivos/` (ignorado): `kling-*`, `seedance-*`, `fondo-*`,
 tiras y primer/último cuadro de cada uno, y en `revision/` las piezas con que se verificó la costura final.
 
+**El eclipse cinemático (2026-10-12, rama `eclipse-cinematico`).** Pedido textual de Matías: «De logo me parece mejor
+intentar emular un eclipse en modo cinematico. Busquemos la mejor imagen de eclipse para esta version, cinemtica, emulando
+la inigualable naturaleza de los fenomenos del universo. El movimiento hacia la izquierda y la vuelta por la derecha se
+mantiene, pero la imagen tambien tendria que ser cinematica acorde». Técnica elegida: **capas, con la corona fotográfica
+generada y el movimiento en CSS/SMIL encima**, no un video ni una corona procedural. Se descartó el loop de video (Kling)
+porque en la realidad la corona está quieta durante la totalidad —lo que se mueve es la luna, y eso ya lo hace el ciclo—
+y porque un mp4 no tiene alfa: para no tapar las estrellas habría que procesarlo cuadro a cuadro en canvas; el shimmer de
+una segunda copia girando ±1,1° y el parpadeo de las protuberancias dan la vida que hace falta. La corona procedural en
+canvas (ruido radial y streamers) se descartó por calidad: no llega a la foto. Generación, con `google/nano-banana`
+(US$ 0,039 por imagen, salida 1024×1024, `scripts/generar-eclipse.py`):
+
+1. **Corona.** Dos consignas, cuatro variantes cada una. `corona-a`: astrofotografía pura, compuesto HDR, streamers
+   largos hacia el ecuador y plumas polares, protuberancias rosas, cielo negro sin estrellas. `corona-b`: la misma escena
+   «a través de un teleobjetivo largo en una cámara de cine», con la luz blanco-dorada cerca del limbo fundiéndose en
+   ámbar. Las A salieron más blancas y frías; las B tienen la temperatura de la casa. Elegida **`corona-b-4`**: corona
+   interna densa y plumosa, dos streamers ecuatoriales largos, protuberancia roja a la izquierda y abajo a la izquierda,
+   disco limpio. Segunda, `corona-b-3` (su banda derecha se lee como manchón). nano-banana hizo el disco al 24 % del cuadro
+   y no al 40 % pedido; el post lo mide y no depende de eso.
+2. **Sol** (2 variantes): la fotósfera en luz blanca con cuña de Herschel, limbo oscurecido, granulación, manchas con
+   umbra y penumbra, sobre negro. Elegida `sol-2` (más oscurecimiento al limbo).
+3. **Luna** (2 variantes): la luna llena por telescopio, mares y cráteres nítidos, gris neutro, sin terminador. Elegida
+   `luna-1` (mares más ricos).
+
+**El post, en PIL puro** (en la máquina no hay numpy; el script tiene que correr donde corre la captura): el disco se mide
+con un flood fill desde el centro sobre la máscara umbralizada (radio desde el área, centro del bbox); la corona se
+recentra, se recorta a 3,3 radios (826 px nativos → 1000) y el alfa sale del canal máximo con el ruido del negro (≤ 2,5 %)
+a cero, des-premultiplicando el color (color·255/alfa) para que compuesta en normal sobre negro dé exactamente la foto;
+un feather radial desde 0,86 del semilado lleva el alfa a cero antes del borde, y el disco de la luna también va a cero
+(la página dibuja su luna encima). Sol y luna: alfa = disco antialiasado (dibujado a 4× y reducido); la luna se tiñe en
+duotono (150,118,70) → (255,250,232). El primer tinte, con mares marrones (70,44,8) y la sombra del terminador al 82 %,
+daba una bola oliva que de día se veía más oscura que su propia cara en sombra: la cara iluminada tiene que ser luminosa
+sobre papel y sobre noche, y la sombra del terminador bajó al 42 %. **12 imágenes, US$ 0,47.** Las variantes, las hojas
+de contacto y las capturas de verificación quedaron en `_capturas/eclipse-cinematico/` (ignorado).
+
+Lo verificado en captura (desktop 1440, móvil 390, los dos temas, OG, y los instantes 520/730/2600/4200/16600/19700 del
+ciclo, sin `Uncaught` en el log de Chrome): de noche la corona se funde con el cielo sin recuadro; de día queda el sol
+con su resplandor sin mancha festoneada; la luna viajera cruza con su cara iluminada mirando al sol; las perlas y el
+diamante aparecen en el punto de contacto; en 390 px el eclipse sigue dominando el hero y los streamers largos se cortan
+en el borde del viewport como el cuadro de una cámara; con la foto rota vuelve el halo vectorial. Lo que queda dudoso:
+en las capturas del ciclo el tema ya está en día desde el primer cuadro (el script congela las transiciones), así que el
+diamante del destape (730 ms) se fotografía sobre papel aunque en el navegador ocurre todavía sobre noche; y el limbo de la
+fotósfera de día es marrón, como lo trajo la foto, lo que se lee como oscurecimiento al limbo pero podría aclararse en post.
+
 ### 0.4 Pendientes que deja la v5
 
 - Renombrar *RIA Comms* → *RIA Diálogo* en `/laboratorio/` (y decidir si va *Diálogo* o *Comunicación*).
@@ -372,6 +460,9 @@ tiras y primer/último cuadro de cada uno, y en `revision/` las piezas con que s
   desde la expedición 04. Decidir si se enlazan.
 - El satélite **Acceso** de RIA Espacio no enlaza a nada: Rosental y Mercado Fisherton son instalaciones con
   login. Cuando Acceso tenga página pública, es agregarle el `href`.
+- El eclipse del diagrama de Dataflow y el del separador de Equipo siguen vectoriales (anillos de trazo); el del
+  hero ya es fotográfico. Si se quiere unificar, el camino es la misma corona con alfa (`assets/eclipse-corona.webp`)
+  escalada a cada viewBox.
 - Las viñetas de las verticales son SVG dibujado, no imágenes generadas: se decidió así para que sobrevivan a
   un tema claro (colores por variables), pesen cero y puedan moverse. Si alguna vez se quiere un render
   fotorrealista, el camino es el de los retratos (`scripts/generar-retratos.py`).
@@ -852,8 +943,11 @@ Frase central (v2, resumen de la ventaja competitiva):
 
 ### 9.3 Logo / icono principal
 
-- `assets/ria-labs-eclipse-icon.svg` — Eclipse con halos cálidos y disco interior oscuro.
+- `assets/ria-labs-eclipse-icon.svg` — Eclipse con halos cálidos y disco interior oscuro (el de v4; sigue siendo el favicon-SVG de referencia).
 - Dos variantes en el sitio: eclipse estático (versión pequeña de nav) y eclipse animado con disco lunar orbitando (hero en v3/v4).
+- **v5 desde 2026-10-12:** el hero es un eclipse cinemático en capas (foto de la corona con alfa + fotósfera + luna negra,
+  §0.1), y el isotipo de la nav, inline en `v5/index.html`, es una corona de luz con un streamer ecuatorial y la luna
+  negra centrada (24 px). Dataflow y Equipo conservan el eclipse vectorial.
 
 ### 9.4 Lenguaje visual
 
