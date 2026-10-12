@@ -233,15 +233,21 @@
   .prod-grid { display: grid; grid-template-columns: minmax(0, 470px) 1fr; gap: 56px; align-items: center; }
   .prod.inv .prod-grid { grid-template-columns: 1fr minmax(0, 470px); }
   .prod.inv .prod-vis { order: 2; }
-  /* La viñeta: la vertical como un astro con sus sabores en órbita, cada uno un enlace a su web.
-     Sangra hacia el borde (margen negativo) para que las órbitas tengan aire y no se lea como un recuadro. */
+  /* La viñeta: la vertical como un astro vivo con sus sabores en órbita, cada uno un enlace a su web.
+     Sangra hacia el borde (margen negativo) para que los satélites tengan aire y no se lea como un recuadro. */
   .prod-vis { position: relative; margin-left: -44px; }
   .prod.inv .prod-vis { margin-left: 0; margin-right: -44px; }
   .prod-vis svg { position: relative; width: 100%; height: auto; display: block; overflow: visible; }
   .prod-vis .ck { stroke: var(--c); fill: none; stroke-width: 1; stroke-linecap: round; }
   .prod-vis .cf { fill: var(--c); }
-  .prod-vis .orb { fill: none; stroke: var(--c); stroke-width: 0.7; opacity: 0.2; transition: opacity 0.3s, stroke-width 0.3s; }
-  .prod-vis .orb.hot { opacity: 0.6; stroke-width: 1.1; }
+  /* La órbita no se dibuja: queda la estela del satélite (seis tramos que se afinan). Al hover y al foco se alarga y se enciende. */
+  .prod-vis .estela { fill: none; stroke: var(--c); stroke-linecap: round; }
+  /* La superficie del astro va en sus colores de noche en los dos temas: el cuerpo es oscuro siempre y lo ilumina su
+     propio sol; los satélites, las etiquetas y la estela sí siguen al tema (--c). */
+  #analitico { --pv-c: #4a8fd4; --pv-hi: #a8d0f5; }
+  #espacio { --pv-c: #2fd0c8; --pv-hi: #aef5ee; }
+  #automocion { --pv-c: #EF9F27; --pv-hi: #ffd489; --pv-metal: #1c1208; }
+  .prod-vis .pv-astro { --c: var(--pv-c); }
   .prod-vis .sat { cursor: pointer; outline: none; transition: filter 0.4s; }
   .prod-vis .sat.far { filter: blur(0.7px); }
   .prod-vis .sat-hit { fill: transparent; }
@@ -484,7 +490,7 @@
     .df-stage { position: relative; }
     .df-cuadro { opacity: 1; transform: none; transition: none; min-height: 0; padding: 36px 0; }
     .df-cat span, .df-etapas li, .df-lab { transition: none; }
-    .prod-vis .sat, .prod-vis .orb, .prod-vis .sat-halo, .prod-vis .sat-lab { transition: none; }
+    .prod-vis .sat, .prod-vis .sat-halo, .prod-vis .sat-lab { transition: none; }
   }
 
   @media(max-width:1020px){
@@ -712,40 +718,54 @@
   <div class="prod" id="analitico" style="--c:var(--c-ana)">
     <div class="wrap prod-grid">
       <div class="prod-vis rev" data-sistema>
-        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Analítico como un astro, el ojo de un objetivo, con sus dos brazos en órbita: Integradores y Monitoreo. Cada satélite abre la página de ese brazo.">
+        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Analítico como un astro: un ojo que lee, con sus dos brazos en órbita, Integradores y Monitoreo. Cada satélite abre la página de ese brazo.">
           <defs>
             <radialGradient id="ana-sat" cx="34%" cy="30%" r="72%"><stop offset="0" stop-color="#a8d0f5"/><stop offset="0.55" stop-color="#4a8fd4"/><stop offset="1" stop-color="#1e4a78"/></radialGradient>
             <radialGradient id="ana-astro" cx="32%" cy="28%" r="78%"><stop offset="0" stop-color="#2a548a"/><stop offset="0.45" stop-color="#102745"/><stop offset="1" stop-color="#050b18"/></radialGradient>
             <radialGradient id="ana-night" cx="30%" cy="26%" r="86%"><stop offset="0.46" stop-color="#05040c" stop-opacity="0"/><stop offset="1" stop-color="#05040c" stop-opacity="0.82"/></radialGradient>
             <radialGradient id="ana-atmo" cx="50%" cy="50%" r="50%"><stop offset="0.66" stop-color="#4a8fd4" stop-opacity="0"/><stop offset="0.73" stop-color="#4a8fd4" stop-opacity="0.14"/><stop offset="1" stop-color="#4a8fd4" stop-opacity="0"/></radialGradient>
             <linearGradient id="ana-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a8d0f5" stop-opacity="0.85"/><stop offset="0.5" stop-color="#4a8fd4" stop-opacity="0.12"/><stop offset="1" stop-color="#4a8fd4" stop-opacity="0"/></linearGradient>
-            <linearGradient id="ana-umbra" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05040c" stop-opacity="0.55"/><stop offset="1" stop-color="#05040c" stop-opacity="0"/></linearGradient>
             <filter id="ana-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <clipPath id="ana-clip"><circle cx="240" cy="200" r="84"/></clipPath>
+            <clipPath id="ana-parpado"><path class="ojo-clip" d="M 168 200 C 200 134, 280 134, 312 200 C 280 260, 200 260, 168 200 Z"/></clipPath>
+            <radialGradient id="ana-humor" cx="40%" cy="38%" r="60%"><stop offset="0" stop-color="#bfd5ec"/><stop offset="0.5" stop-color="#7fa5cf"/><stop offset="1" stop-color="#2e5283"/></radialGradient>
+            <radialGradient id="ana-iris" cx="50%" cy="50%" r="50%"><stop offset="0.3" stop-color="#081a33"/><stop offset="0.5" stop-color="#1c5290"/><stop offset="0.8" stop-color="#3a86d0"/><stop offset="0.93" stop-color="#1a3f6c"/><stop offset="1" stop-color="#071527"/></radialGradient>
           </defs>
           <g class="pv-dust"></g>
-          <!-- la sombra del astro, lejos del sol -->
-          <path d="M 298.1 139.4 L 485.8 319.2 L 369.6 440.5 L 181.9 260.6 Z" fill="url(#ana-umbra)" opacity="0.6"/>
           <circle cx="240" cy="200" r="122" fill="url(#ana-atmo)"/>
-          <g class="pv-orbs"></g>
+          <g class="pv-estela-b"></g>
           <g class="pv-back"></g>
-          <!-- el astro: el ojo de un objetivo -->
-          <g class="pv-astro">
+          <!-- el astro: un ojo que lee. Párpados en almendra (el de arriba hace casi todo el cierre), esclerótica clara,
+               iris de fibras, pupila que respira, una mirada que de tanto en tanto sigue algo fuera de cuadro; las fibras,
+               los destellos y los párpados los arma y mueve el script -->
+          <g class="pv-astro" data-astro="ojo">
             <circle cx="240" cy="200" r="84" fill="url(#ana-astro)"/>
             <g clip-path="url(#ana-clip)">
-              <circle class="ck" cx="240" cy="200" r="73.8" opacity="0.35"/>
-              <circle class="ck" cx="240" cy="200" r="63.6" opacity="0.22" stroke-dasharray="1.5 3.5"/>
-              <circle class="ck" cx="240" cy="200" r="53.5" opacity="0.5"/>
-              <path class="ck" d="M 263.5 209.7 L 264.7 247.4 M 249.7 223.5 L 223.9 251.0 M 230.3 223.5 L 192.6 224.7 M 216.5 209.7 L 189.0 183.9 M 216.5 190.3 L 215.3 152.6 M 230.3 176.5 L 256.1 149.0 M 249.7 176.5 L 287.4 175.3 M 263.5 190.3 L 291.0 216.1" opacity="0.55"/>
-              <polygon points="263.5,209.7 249.7,223.5 230.3,223.5 216.5,209.7 216.5,190.3 230.3,176.5 249.7,176.5 263.5,190.3" fill="#02050c"/>
-              <circle class="ck" cx="240" cy="200" r="25.5" opacity="0.6"/>
-              <path class="ck" d="M 187.8 238.2 A 59 59 0 0 1 196.7 159.3" opacity="0.22" stroke-width="2.6"/>
-              <ellipse cx="220" cy="180" rx="17" ry="9" fill="#dff0ff" opacity="0.14" transform="rotate(-38 220 180)"/>
-              <circle cx="223" cy="183" r="3.3" fill="#f4faff" opacity="0.75" filter="url(#ana-glow)"/>
+              <g clip-path="url(#ana-parpado)">
+                <circle cx="240" cy="200" r="84" fill="url(#ana-humor)"/>
+                <g class="ojo-mira" transform="translate(240 200)">
+                  <circle r="40" fill="url(#ana-iris)"/>
+                  <g class="ojo-fibras-a"></g>
+                  <g class="ojo-fibras-b"></g>
+                  <g class="ojo-destellos"></g>
+                  <circle class="ck" r="40" opacity="0.55" stroke-width="1.4"/>
+                  <circle class="ojo-pupila" r="17" fill="#02050c"/>
+                  <!-- la corona: el anillo dorado alrededor de la pupila, el eclipse de la casa -->
+                  <circle class="ojo-corona2" r="18.6" fill="none" stroke="var(--gold-hi)" stroke-width="4" opacity="0.14"/>
+                  <circle class="ojo-corona" r="18.6" fill="none" stroke="var(--gold-hi)" stroke-width="1.5" opacity="0.55"/>
+                </g>
+                <path class="ojo-sombra-parpado" d="M 168 200 C 200 134, 280 134, 312 200 C 280 260, 200 260, 168 200 Z" fill="none" stroke="#05040c" stroke-width="9" opacity="0.55"/>
+                <!-- el reflejo del humor: el sol fuera de cuadro -->
+                <ellipse cx="217" cy="176" rx="15" ry="8" fill="#dff0ff" opacity="0.13" transform="rotate(-38 217 176)"/>
+                <circle cx="220" cy="179" r="3" fill="#f4faff" opacity="0.8" filter="url(#ana-glow)"/>
+              </g>
+              <path class="ojo-parpado ck" d="M 168 200 C 200 134, 280 134, 312 200 C 280 260, 200 260, 168 200 Z" opacity="0.34" stroke="var(--pv-hi)"/>
+              <path class="ojo-pliegue ck" d="M 174 197 C 204 122, 276 122, 306 197" opacity="0.16" stroke="var(--pv-hi)"/>
             </g>
             <circle cx="240" cy="200" r="84" fill="url(#ana-night)"/>
             <circle cx="240" cy="200" r="83.5" fill="none" stroke="url(#ana-rim)" stroke-width="1.2"/>
           </g>
+          <g class="pv-estela-f"></g>
           <g class="pv-front">
             <a class="sat" href="https://analitico.rialabs.ar/integradores/" target="_blank" rel="noopener" tabindex="0" aria-label="Integradores, el brazo de RIA Analítico para integradores: abre analitico.rialabs.ar/integradores" data-orb="186 50 -14 26000 0.9 -1 7.5" transform="translate(372 232)">
               <circle class="sat-hit" r="18"/>
@@ -785,81 +805,41 @@
   <div class="prod inv" id="espacio" style="--c:var(--c-esp)">
     <div class="wrap prod-grid">
       <div class="prod-vis rev" data-sistema>
-        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Espacio como un astro, una ciudad de noche vista desde arriba, con sus sabores en órbita: Smartcity, Jockey, Grit y Acceso. Cada satélite con enlace abre la página de ese sabor.">
+        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Espacio como un astro: una ciudad que se enciende desde el centro, la red creciendo hacia afuera, con sus sabores en órbita: Smartcity, Jockey, Grit y Acceso. Cada satélite con enlace abre la página de ese sabor.">
           <defs>
             <radialGradient id="esp-sat" cx="34%" cy="30%" r="72%"><stop offset="0" stop-color="#aef5ee"/><stop offset="0.55" stop-color="#2fd0c8"/><stop offset="1" stop-color="#12615d"/></radialGradient>
             <radialGradient id="esp-astro" cx="32%" cy="28%" r="78%"><stop offset="0" stop-color="#1b5a55"/><stop offset="0.45" stop-color="#0c2e2b"/><stop offset="1" stop-color="#050f0f"/></radialGradient>
             <radialGradient id="esp-night" cx="30%" cy="26%" r="86%"><stop offset="0.46" stop-color="#05040c" stop-opacity="0"/><stop offset="1" stop-color="#05040c" stop-opacity="0.82"/></radialGradient>
             <radialGradient id="esp-atmo" cx="50%" cy="50%" r="50%"><stop offset="0.66" stop-color="#2fd0c8" stop-opacity="0"/><stop offset="0.73" stop-color="#2fd0c8" stop-opacity="0.14"/><stop offset="1" stop-color="#2fd0c8" stop-opacity="0"/></radialGradient>
             <linearGradient id="esp-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#aef5ee" stop-opacity="0.85"/><stop offset="0.5" stop-color="#2fd0c8" stop-opacity="0.12"/><stop offset="1" stop-color="#2fd0c8" stop-opacity="0"/></linearGradient>
-            <linearGradient id="esp-umbra" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05040c" stop-opacity="0.55"/><stop offset="1" stop-color="#05040c" stop-opacity="0"/></linearGradient>
             <filter id="esp-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <clipPath id="esp-clip"><circle cx="240" cy="200" r="84"/></clipPath>
           </defs>
           <g class="pv-dust"></g>
-          <!-- la sombra del astro, lejos del sol -->
-          <path d="M 298.1 139.4 L 485.8 319.2 L 369.6 440.5 L 181.9 260.6 Z" fill="url(#esp-umbra)" opacity="0.6"/>
           <circle cx="240" cy="200" r="122" fill="url(#esp-atmo)"/>
-          <g class="pv-orbs"></g>
+          <g class="pv-estela-b"></g>
           <g class="pv-back"></g>
-          <!-- el astro: la ciudad de noche, desde arriba -->
-          <g class="pv-astro">
+          <!-- el astro: la ciudad que se enciende desde el centro. La trama del globo es fija; la red de manzanas la arma
+               el script sobre la esfera y la enciende en ondas desde el centro hacia afuera, con pulsos que viajan
+               por las aristas. Se dibuja sobre la sombra, porque son luces. -->
+          <g class="pv-astro" data-astro="red">
             <circle cx="240" cy="200" r="84" fill="url(#esp-astro)"/>
             <g clip-path="url(#esp-clip)">
-              <g class="ck" opacity="0.2">
+              <g class="ck" opacity="0.14">
                 <ellipse cx="240" cy="200" rx="15" ry="84"/><ellipse cx="240" cy="200" rx="41" ry="84"/><ellipse cx="240" cy="200" rx="64" ry="84"/><ellipse cx="240" cy="200" rx="79" ry="84"/>
                 <ellipse cx="240" cy="261.4" rx="54.0" ry="16.2"/><ellipse cx="240" cy="233.9" rx="76.1" ry="22.8"/><ellipse cx="240" cy="200.0" rx="84.0" ry="25.2"/><ellipse cx="240" cy="166.1" rx="76.1" ry="22.8"/><ellipse cx="240" cy="138.6" rx="54.0" ry="16.2"/>
               </g>
             </g>
             <circle cx="240" cy="200" r="84" fill="url(#esp-night)"/>
-            <!-- las luces, del lado de la noche: se ven sobre la sombra -->
             <g clip-path="url(#esp-clip)">
-              <path class="ck" d="M 259.6 227.7 L 259.6 215.7 M 259.6 227.7 L 260.9 239.1 M 259.6 227.7 L 267.8 216.9 M 259.6 227.7 L 263.7 219.3 M 261.0 221.1 L 249.8 212.9 M 261.0 221.1 L 263.7 219.3 M 280.6 219.6 L 289.3 229.7 M 280.6 219.6 L 284.1 213.8 M 280.6 219.6 L 276.0 225.7 M 280.6 219.6 L 267.8 216.9 M 280.6 219.6 L 283.2 230.5 M 280.6 219.6 L 292.7 228.9 M 275.4 247.5 L 280.7 248.3 M 275.4 247.5 L 268.5 239.9 M 275.4 247.5 L 284.0 234.6 M 275.4 247.5 L 280.5 246.6 M 289.3 229.7 L 276.0 225.7 M 289.3 229.7 L 293.6 229.3 M 289.3 229.7 L 292.7 228.9 M 247.2 196.9 L 232.5 202.0 M 247.2 196.9 L 249.8 212.9 M 247.2 196.9 L 238.7 184.2 M 280.7 248.3 L 268.5 239.9 M 280.7 248.3 L 284.0 234.6 M 280.7 248.3 L 280.5 246.6 M 284.1 213.8 L 288.7 200.1 M 284.1 213.8 L 298.7 208.7 M 259.6 215.7 L 267.8 216.9 M 259.6 215.7 L 249.8 212.9 M 288.7 200.1 L 298.7 208.7 M 311.9 228.3 L 303.5 235.2 M 260.9 239.1 L 268.5 239.9 M 276.0 225.7 L 278.9 231.4 M 276.0 225.7 L 283.2 230.5 M 276.0 225.7 L 263.7 219.3 M 268.5 239.9 L 278.9 231.4 M 268.5 239.9 L 284.0 234.6 M 268.5 239.9 L 280.5 246.6 M 278.9 231.4 L 284.0 234.6 M 278.9 231.4 L 293.6 229.3 M 278.9 231.4 L 283.2 230.5 M 278.9 231.4 L 292.7 228.9 M 278.9 231.4 L 280.5 246.6 M 267.8 216.9 L 263.7 219.3 M 312.9 205.2 L 298.7 208.7 M 278.1 176.1 L 285.9 179.3 M 278.1 176.1 L 277.9 179.6 M 303.5 235.2 L 293.6 229.3 M 303.5 235.2 L 292.7 228.9 M 284.0 234.6 L 283.2 230.5 M 284.0 234.6 L 292.7 228.9 M 284.0 234.6 L 280.5 246.6 M 285.9 179.3 L 277.9 179.6 M 247.9 175.9 L 238.7 184.2" opacity="0.4" stroke-width="0.7"/>
-              <g filter="url(#esp-glow)">
-            <circle cx="259.6" cy="227.7" r="1.22" fill="#d9fffb" opacity="0.39"/>
-            <circle cx="261.0" cy="221.1" r="1.06" fill="#d9fffb" opacity="0.37"/>
-            <circle cx="280.6" cy="219.6" r="0.97" fill="#2fd0c8" opacity="0.85"/>
-            <circle cx="275.4" cy="247.5" r="1.54" fill="#d9fffb" opacity="0.70"/>
-            <circle cx="277.2" cy="214.3" r="1.44" fill="#2fd0c8" opacity="0.52"/>
-            <circle cx="289.3" cy="229.7" r="1.40" fill="#d9fffb" opacity="0.46"/>
-            <circle cx="247.2" cy="196.9" r="1.10" fill="#2fd0c8" opacity="0.39"/>
-            <circle cx="280.7" cy="248.3" r="0.97" fill="#d9fffb" opacity="0.54"/>
-            <circle cx="240.8" cy="221.4" r="1.37" fill="#2fd0c8" opacity="0.77"/>
-            <circle cx="232.5" cy="202.0" r="1.46" fill="#2fd0c8" opacity="0.79"/>
-            <circle cx="284.1" cy="213.8" r="0.96" fill="#2fd0c8" opacity="0.80"/>
-            <circle cx="259.6" cy="215.7" r="1.24" fill="#d9fffb" opacity="0.81"/>
-            <circle cx="288.7" cy="200.1" r="1.26" fill="#d9fffb" opacity="0.71"/>
-            <circle cx="217.3" cy="225.9" r="1.54" fill="#d9fffb" opacity="0.63"/>
-            <circle cx="311.9" cy="228.3" r="1.21" fill="#d9fffb" opacity="0.95"/>
-            <circle cx="260.9" cy="239.1" r="1.24" fill="#d9fffb" opacity="0.36"/>
-            <circle cx="276.0" cy="225.7" r="0.56" fill="#2fd0c8" opacity="0.81"/>
-            <circle cx="268.5" cy="239.9" r="1.46" fill="#d9fffb" opacity="0.40"/>
-            <circle cx="216.3" cy="203.0" r="1.40" fill="#2fd0c8" opacity="0.87"/>
-            <circle cx="240.7" cy="227.1" r="1.47" fill="#2fd0c8" opacity="0.92"/>
-            <circle cx="278.9" cy="231.4" r="0.76" fill="#d9fffb" opacity="0.64"/>
-            <circle cx="267.8" cy="216.9" r="0.96" fill="#d9fffb" opacity="0.57"/>
-            <circle cx="312.9" cy="205.2" r="1.07" fill="#d9fffb" opacity="0.72"/>
-            <circle cx="278.1" cy="176.1" r="1.38" fill="#d9fffb" opacity="0.59"/>
-            <circle cx="303.5" cy="235.2" r="0.57" fill="#2fd0c8" opacity="0.39"/>
-            <circle cx="284.0" cy="234.6" r="0.56" fill="#2fd0c8" opacity="0.35"/>
-            <circle cx="293.6" cy="229.3" r="0.53" fill="#d9fffb" opacity="0.87"/>
-            <circle cx="283.2" cy="230.5" r="0.88" fill="#2fd0c8" opacity="0.57"/>
-            <circle cx="302.0" cy="180.2" r="1.01" fill="#2fd0c8" opacity="0.64"/>
-            <circle cx="292.7" cy="228.9" r="0.79" fill="#2fd0c8" opacity="0.85"/>
-            <circle cx="249.8" cy="212.9" r="1.10" fill="#d9fffb" opacity="0.37"/>
-            <circle cx="259.3" cy="197.0" r="0.90" fill="#d9fffb" opacity="0.45"/>
-            <circle cx="218.7" cy="207.7" r="0.86" fill="#d9fffb" opacity="0.48"/>
-            <circle cx="285.9" cy="179.3" r="1.31" fill="#d9fffb" opacity="0.49"/>
-            <circle cx="263.7" cy="219.3" r="0.53" fill="#2fd0c8" opacity="0.52"/>
-            <circle cx="247.9" cy="175.9" r="0.99" fill="#d9fffb" opacity="0.91"/>
-            <circle cx="298.7" cy="208.7" r="0.74" fill="#2fd0c8" opacity="0.49"/>
-            <circle cx="280.5" cy="246.6" r="1.49" fill="#d9fffb" opacity="0.85"/>
-            <circle cx="238.7" cy="184.2" r="0.59" fill="#d9fffb" opacity="0.75"/>
-            <circle cx="277.9" cy="179.6" r="1.03" fill="#d9fffb" opacity="0.46"/>
-              </g>
+              <g class="red-aristas" stroke-linecap="round"></g>
+              <circle class="red-onda ck" cx="231.2" cy="192.7" r="3" opacity="0" stroke-width="0.8"/>
+              <g class="red-nodos" filter="url(#esp-glow)"></g>
+              <g class="red-pulsos" filter="url(#esp-glow)"></g>
             </g>
             <circle cx="240" cy="200" r="83.5" fill="none" stroke="url(#esp-rim)" stroke-width="1.2"/>
           </g>
+          <g class="pv-estela-f"></g>
           <g class="pv-front">
             <a class="sat" href="https://smartcity.rialabs.ar" target="_blank" rel="noopener" tabindex="0" aria-label="Smartcity, el sabor Ciudad de RIA Espacio: abre smartcity.rialabs.ar" data-orb="132 42 -8 22000 0.6 -1 7" transform="translate(346 230)">
               <circle class="sat-hit" r="18"/>
@@ -915,42 +895,39 @@
   <div class="prod" id="automocion" style="--c:var(--c-aut)">
     <div class="wrap prod-grid">
       <div class="prod-vis rev" data-sistema>
-        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Automoción como un astro recorrido por el circuito de la concesionaria, con Drivecore en órbita. El satélite abre la página de Drivecore.">
+        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Automoción como un astro-máquina: engranajes, biela y pistón en marcha, con Drivecore en órbita. El satélite abre la página de Drivecore.">
           <defs>
             <radialGradient id="aut-sat" cx="34%" cy="30%" r="72%"><stop offset="0" stop-color="#ffd489"/><stop offset="0.55" stop-color="#EF9F27"/><stop offset="1" stop-color="#7a5008"/></radialGradient>
             <radialGradient id="aut-astro" cx="32%" cy="28%" r="78%"><stop offset="0" stop-color="#7a4c0e"/><stop offset="0.45" stop-color="#33200a"/><stop offset="1" stop-color="#0d0904"/></radialGradient>
             <radialGradient id="aut-night" cx="30%" cy="26%" r="86%"><stop offset="0.46" stop-color="#05040c" stop-opacity="0"/><stop offset="1" stop-color="#05040c" stop-opacity="0.82"/></radialGradient>
             <radialGradient id="aut-atmo" cx="50%" cy="50%" r="50%"><stop offset="0.66" stop-color="#EF9F27" stop-opacity="0"/><stop offset="0.73" stop-color="#EF9F27" stop-opacity="0.14"/><stop offset="1" stop-color="#EF9F27" stop-opacity="0"/></radialGradient>
             <linearGradient id="aut-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd489" stop-opacity="0.85"/><stop offset="0.5" stop-color="#EF9F27" stop-opacity="0.12"/><stop offset="1" stop-color="#EF9F27" stop-opacity="0"/></linearGradient>
-            <linearGradient id="aut-umbra" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05040c" stop-opacity="0.55"/><stop offset="1" stop-color="#05040c" stop-opacity="0"/></linearGradient>
             <filter id="aut-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <clipPath id="aut-clip"><circle cx="240" cy="200" r="84"/></clipPath>
           </defs>
           <g class="pv-dust"></g>
-          <!-- la sombra del astro, lejos del sol -->
-          <path d="M 298.1 139.4 L 485.8 319.2 L 369.6 440.5 L 181.9 260.6 Z" fill="url(#aut-umbra)" opacity="0.6"/>
           <circle cx="240" cy="200" r="122" fill="url(#aut-atmo)"/>
-          <g class="pv-orbs"></g>
+          <g class="pv-estela-b"></g>
           <g class="pv-back"></g>
-          <!-- el astro: el circuito que lo rodea; sólo se ve la mitad de adelante -->
-          <g class="pv-astro">
+          <!-- el astro: una máquina en marcha. Chapa remachada, un tren de tres engranajes engranados, biela y
+               pistón sobre el eje del segundo, un volante movido por correa, una tubería con flujo, un manómetro
+               y tres testigos. Todo lo arma y lo mueve el script; la luz y la sombra son las de los otros dos astros. -->
+          <g class="pv-astro" data-astro="maquina">
             <circle cx="240" cy="200" r="84" fill="url(#aut-astro)"/>
             <g clip-path="url(#aut-clip)">
-              <g transform="rotate(34 240 200)">
-                <path d="M 240 116 A 31 84 0 0 0 240 284" fill="none" stroke="#06040a" stroke-width="4" opacity="0.7"/>
-                <path class="ck" d="M 240 116 A 31 84 0 0 0 240 284" opacity="0.28" stroke-width="0.8" stroke-dasharray="2 4"/>
-              </g>
-              <g transform="rotate(-16 240 200)">
-                <path class="ck" d="M 159 200 A 81 28 0 0 1 321 200" opacity="0.1" stroke-width="3"/>
-                <path class="ck" d="M 159 200 A 81 28 0 0 0 321 200" opacity="0.38" stroke-width="9"/>
-                <path d="M 159 200 A 81 28 0 0 0 321 200" fill="none" stroke="#06040a" stroke-width="7" opacity="0.85"/>
-                <path class="ck" d="M 159 200 A 81 28 0 0 0 321 200" opacity="0.7" stroke-width="0.8" stroke-dasharray="3 4"/>
-                <circle class="cf" cx="163.5" cy="209.6" r="2.7"/><circle class="cf" cx="193.3" cy="222.9" r="2.7"/><circle class="cf" cx="240.0" cy="228.0" r="3.8"/><circle class="ck" cx="240.0" cy="228.0" r="7.6" opacity="0.5"/><circle class="cf" cx="286.7" cy="222.9" r="2.7"/><circle class="cf" cx="316.5" cy="209.6" r="2.7"/>
-              </g>
+              <g class="maq-chapa"></g>
+              <g class="maq-tubo"></g>
+              <g class="maq-correa"></g>
+              <g class="maq-volante"></g>
+              <g class="maq-engranajes"></g>
+              <g class="maq-biela"></g>
+              <g class="maq-tablero"></g>
             </g>
             <circle cx="240" cy="200" r="84" fill="url(#aut-night)"/>
+            <g clip-path="url(#aut-clip)"><g class="maq-luces" filter="url(#aut-glow)"></g></g>
             <circle cx="240" cy="200" r="83.5" fill="none" stroke="url(#aut-rim)" stroke-width="1.2"/>
           </g>
+          <g class="pv-estela-f"></g>
           <g class="pv-front">
             <a class="sat" href="https://drivecore.rialabs.ar" target="_blank" rel="noopener" tabindex="0" aria-label="Drivecore, el sistema de la concesionaria de RIA Automoción: abre drivecore.rialabs.ar" data-orb="186 54 -12 28000 0.7 -1 8.5" transform="translate(368 234)">
               <circle class="sat-hit" r="18"/>
@@ -1596,21 +1573,311 @@
   })();
 
   /* ══════════════════════════════════════════
-     PRODUCTOS · cada vertical es un astro con sus sabores en órbita
+     PRODUCTOS · cada vertical es un astro vivo con sus sabores en órbita
      Cada satélite es un enlace a la web de ese sabor; su órbita y su posición salen de data-orb
      (rx ry inclinación período fase sentido radio), así que sumar un sabor es sumar un <a>.
-     Misma matemática elíptica que el separador de Equipo, más profundidad: pasa por detrás y por
-     delante del astro, crece y se afila al acercarse, se oscurece al cruzar la sombra que el astro
-     proyecta lejos del sol (fuera de cuadro, arriba a la izquierda), y el polvo de fondo tiene paralaje.
+     La órbita no se dibuja: el satélite deja una estela breve que se afina y se apaga. Misma
+     matemática elíptica que el separador de Equipo, más profundidad: pasa por detrás y por delante
+     del astro, crece y se afila al acercarse, se oscurece al cruzar la sombra que el astro proyecta
+     lejos del sol (fuera de cuadro, arriba a la izquierda), y el polvo de fondo tiene paralaje.
+     La superficie de cada astro la dibuja y la mueve este mismo script (data-astro: ojo · red ·
+     maquina) con un solo reloj por viñeta. Todo es función del tiempo —nada acumula estado—, así
+     que ?t=<ms> adelanta el reloj para fotografiar otro instante. Cada viñeta anima sólo mientras
+     está en pantalla (IntersectionObserver); con prefers-reduced-motion queda un cuadro compuesto.
      ══════════════════════════════════════════ */
   (function(){
     var CX = 240, CY = 200, R = 84;
     var SUN = { x: -0.722, y: -0.692 };
+    var TAU = Math.PI * 2;
+    var T_INI = +((location.search.match(/[?&]t=(\d+)/) || [])[1] || 0);
+    function hash(n){ var x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }  // pseudoazar determinista
+    function clamp(v, a, b){ return v < a ? a : v > b ? b : v; }
+    function sm(t){ t = clamp(t, 0, 1); return t * t * (3 - 2 * t); }
+    function f1(v){ return (+v).toFixed(1); } function f2(v){ return (+v).toFixed(2); }
+    function pol(r, a){ return f1(r * Math.cos(a)) + ' ' + f1(r * Math.sin(a)); }
+    function setOp(n, v){ v = Math.round(v * 50) / 50; if (n.__op !== v) { n.__op = v; n.setAttribute('opacity', v); } }
     var systems = [];
+
+    /* ── OJO (Analítico) · párpados, humor, iris de fibras, pupila que respira, mirada que sigue algo ── */
+    function armarOjo(svg){
+      var fa = svg.querySelector('.ojo-fibras-a'), fb = svg.querySelector('.ojo-fibras-b'), fd = svg.querySelector('.ojo-destellos');
+      var i, h, a, r1, r2;
+      for (i = 0; i < 36; i++) {
+        h = hash(i + 1); a = (i / 36 + hash(i + 50) * 0.02) * TAU;
+        r1 = 19 + hash(i + 100) * 5; r2 = 29 + hash(i + 150) * 11;
+        fa.appendChild(el('line', { x1: f1(r1 * Math.cos(a)), y1: f1(r1 * Math.sin(a)), x2: f1(r2 * Math.cos(a)), y2: f1(r2 * Math.sin(a)),
+          stroke: h > 0.74 ? '#eaf4ff' : 'var(--pv-hi)', 'stroke-width': f2(0.45 + hash(i + 200) * 0.5), opacity: f2(0.1 + hash(i + 250) * 0.34), 'stroke-linecap': 'round' }));
+      }
+      for (i = 0; i < 30; i++) {
+        h = hash(i + 300); a = (i / 30 + hash(i + 350) * 0.03) * TAU;
+        r1 = 21 + hash(i + 400) * 6; r2 = 31 + hash(i + 450) * 9;
+        fb.appendChild(el('line', { x1: f1(r1 * Math.cos(a)), y1: f1(r1 * Math.sin(a)), x2: f1(r2 * Math.cos(a)), y2: f1(r2 * Math.sin(a)),
+          stroke: h > 0.82 ? '#eaf4ff' : 'var(--pv-c)', 'stroke-width': f2(0.4 + hash(i + 500) * 0.5), opacity: f2(0.1 + h * 0.3), 'stroke-linecap': 'round' }));
+        if (i % 4 === 0) {   // criptas: arcos cortos oscuros entre las fibras
+          var ac = a + 0.1, rc = 26 + hash(i + 550) * 8, w = 0.25 + hash(i + 600) * 0.2;
+          fb.appendChild(el('path', { d: 'M ' + pol(rc, ac) + ' A ' + rc + ' ' + rc + ' 0 0 1 ' + pol(rc, ac + w), fill: 'none', stroke: '#05040c', 'stroke-width': 1.6, opacity: 0.35, 'stroke-linecap': 'round' }));
+        }
+      }
+      var dest = [];
+      for (i = 0; i < 12; i++) {
+        a = hash(i + 650) * TAU; r1 = 23 + hash(i + 700) * 6; r2 = r1 + 4 + hash(i + 750) * 5;
+        var n = el('line', { x1: f1(r1 * Math.cos(a)), y1: f1(r1 * Math.sin(a)), x2: f1(r2 * Math.cos(a)), y2: f1(r2 * Math.sin(a)), stroke: '#ffffff', 'stroke-width': 0.8, opacity: 0, 'stroke-linecap': 'round' });
+        fd.appendChild(n); dest.push({ n: n, per: 4000 + hash(i + 800) * 9000, ph: hash(i + 850) * TAU });
+      }
+      return { mira: svg.querySelector('.ojo-mira'), fa: fa, fb: fb, dest: dest, cacheM: {}, cacheP: {},
+        pup: svg.querySelector('.ojo-pupila'), cor: svg.querySelector('.ojo-corona'), cor2: svg.querySelector('.ojo-corona2'),
+        lids: [svg.querySelector('.ojo-clip'), svg.querySelector('.ojo-sombra-parpado'), svg.querySelector('.ojo-parpado')], pliegue: svg.querySelector('.ojo-pliegue') };
+    }
+    // la mirada: tramos de 2,6–7 s; cada cambio es una sacada de ~220 ms; algunos tramos siguen algo que pasa (deriva lenta)
+    function mirada(ms, c){
+      var j = c.j || 0, t0 = c.t0 || 0, d;
+      while (true) { d = 2600 + hash(j * 1.7 + 3) * 4600; if (t0 + d > ms) break; t0 += d; j++; }
+      c.j = j; c.t0 = t0;
+      function pos(k, frac){ var der = hash(k + 0.9) > 0.6 ? frac : 0;
+        return [(hash(k + 0.3) - 0.5) * 17 + (hash(k + 0.11) - 0.5) * 7 * der, (hash(k + 0.7) - 0.5) * 11 + (hash(k + 0.13) - 0.5) * 3 * der]; }
+      var e = ms - t0, k = sm(e / 220), p0 = pos(j - 1, 1), p1 = pos(j, e / d);
+      return { x: p0[0] + (p1[0] - p0[0]) * k, y: p0[1] + (p1[1] - p0[1]) * k, sac: e < 700 ? 1 - e / 700 : 0 };
+    }
+    // el parpadeo: cada 4,5–11 s, un 18 % dobles; cierre 110 ms, apertura 210 ms (suave, no brusco)
+    function parpadeo(ms, c){
+      var k = c.k || 0, t0 = c.t0 || 0, iv;
+      while (true) { iv = 4500 + hash(k * 2.3 + 7) * 6500; if (t0 + iv > ms) break; t0 += iv; k++; }
+      c.k = k; c.t0 = t0;
+      function perfil(e){ if (e < 0) return 0; if (e < 110) return sm(e / 110); if (e < 320) return 1 - sm((e - 110) / 210); return 0; }
+      var e = ms - t0, b = perfil(e);
+      if (hash(k * 5.1 + 2) < 0.18) b = Math.max(b, perfil(e - 400));
+      return b;
+    }
+    // la abertura: una almendra de dos curvas con las puntas en CX±72; cu y cl son las alturas de control del párpado de arriba (negativa) y del de abajo
+    function almendra(cu, cl){
+      return 'M ' + (CX - 72) + ' ' + CY + ' C ' + (CX - 40) + ' ' + f1(CY + cu) + ', ' + (CX + 40) + ' ' + f1(CY + cu) + ', ' + (CX + 72) + ' ' + CY +
+             ' C ' + (CX + 40) + ' ' + f1(CY + cl) + ', ' + (CX - 40) + ' ' + f1(CY + cl) + ', ' + (CX - 72) + ' ' + CY + ' Z';
+    }
+    function pintarOjo(o, ms, quieto){
+      var m = quieto ? { x: -3, y: -2, sac: 0 } : mirada(ms, o.cacheM);
+      var b = quieto ? 0 : parpadeo(ms, o.cacheP);
+      o.mira.setAttribute('transform', 'translate(' + f1(CX + m.x) + ' ' + f1(CY + m.y) + ') scale(' + f2(1 - 0.011 * Math.abs(m.x)) + ' ' + f2(1 - 0.014 * Math.abs(m.y)) + ')');
+      o.fa.setAttribute('transform', 'rotate(' + f1(ms / 160000 * 360) + ')');
+      o.fb.setAttribute('transform', 'rotate(' + f1(-ms / 230000 * 360) + ')');
+      var rp = 17 + 3.2 * Math.sin(ms / 9000 * TAU) + 1.8 * Math.sin(ms / 23000 * TAU + 1) + 2.4 * m.sac;
+      o.pup.setAttribute('r', f2(rp)); o.cor.setAttribute('r', f2(rp + 1.6));
+      setOp(o.cor, 0.45 + 0.3 * (rp - 12) / 10); o.cor2.setAttribute('r', f2(rp + 1.6));
+      for (var i = 0; i < o.dest.length; i++) { var d = o.dest[i], v = Math.sin(ms / d.per * TAU + d.ph); setOp(d.n, quieto ? 0.25 : 0.75 * Math.pow(Math.max(0, v), 6)); }
+      // los párpados: el de arriba baja hasta casi tocar al de abajo, que sube apenas; la abertura respira muy lento (41 s)
+      var ab = 66 + 4 * Math.sin(ms / 41000 * TAU), cu = -ab + b * (ab + 0.7 * 60), cl = 60 * (1 - 0.25 * b);
+      var d = almendra(cu, cl);
+      if (o.__d !== d) { o.__d = d; for (var q = 0; q < 3; q++) o.lids[q].setAttribute('d', d); }
+      o.pliegue.setAttribute('d', 'M ' + (CX - 66) + ' ' + (CY - 3) + ' C ' + (CX - 36) + ' ' + f1(CY + cu - 9) + ', ' + (CX + 36) + ' ' + f1(CY + cu - 9) + ', ' + (CX + 66) + ' ' + (CY - 3));
+    }
+
+    /* ── RED (Espacio) · una malla de ciudad sobre la esfera, que se enciende desde el centro hacia afuera ── */
+    function armarRed(svg){
+      var gA = svg.querySelector('.red-aristas'), gN = svg.querySelector('.red-nodos'), gP = svg.querySelector('.red-pulsos');
+      var D = 12.5 * Math.PI / 180, ROT = 28 * Math.PI / 180, LIM = 70 * Math.PI / 180;
+      var tiltX = 5 * Math.PI / 180, tiltY = -6 * Math.PI / 180;   // el origen, en el centro del disco, apenas corrido hacia el sol
+      var nodes = [], idx = {}, i, j;
+      for (i = -8; i <= 8; i++) for (var jj = -8; jj <= 8; jj++) {
+        j = jj;
+        if (hash(i * 31 + j * 7 + 0.5) < 0.1 && !(i === 0 && j === 0)) continue;   // manzanas vacías
+        var u = (i + (hash(i * 13 + j * 17 + 1) - 0.5) * 0.3) * D, v = (j + (hash(i * 19 + j * 23 + 2) - 0.5) * 0.3) * D;
+        if (i === 0 && j === 0) { u = 0; v = 0; }
+        var lon = u * Math.cos(ROT) - v * Math.sin(ROT), lat = u * Math.sin(ROT) + v * Math.cos(ROT);
+        var ang = Math.sqrt(lon * lon + lat * lat);
+        if (ang > LIM) continue;
+        var x = Math.cos(lat) * Math.sin(lon), y = Math.sin(lat), z = Math.cos(lat) * Math.cos(lon);
+        var x1 = x * Math.cos(tiltY) + z * Math.sin(tiltY), z1 = -x * Math.sin(tiltY) + z * Math.cos(tiltY);
+        var y2 = y * Math.cos(tiltX) - z1 * Math.sin(tiltX), z2 = y * Math.sin(tiltX) + z1 * Math.cos(tiltX);
+        if (z2 < 0.1) continue;
+        var n = { i: i, j: j, x: CX + R * x1, y: CY + R * y2, z: z2, d: ang / LIM, e: [], ok: false };
+        idx[i + ',' + j] = n; nodes.push(n);
+      }
+      var edges = [];
+      function link(a, b, p){ if (!a || !b) return; if (hash(a.i * 53 + b.j * 11 + a.j * 3 + b.i * 29 + 4) < p) return; var e = { a: a, b: b }; edges.push(e); a.e.push(e); b.e.push(e); }
+      nodes.forEach(function(n){
+        link(n, idx[(n.i + 1) + ',' + n.j], 0.2); link(n, idx[n.i + ',' + (n.j + 1)], 0.2);
+        if (hash(n.i * 7 + n.j * 3 + 9) < 0.1) link(n, idx[(n.i + 1) + ',' + (n.j + 1)], 0);
+      });
+      var org = idx['0,0'], cola = [org]; org.ok = true;
+      while (cola.length) { var c = cola.shift(); c.e.forEach(function(e){ var m = e.a === c ? e.b : e.a; if (!m.ok) { m.ok = true; cola.push(m); } }); }
+      nodes = nodes.filter(function(n){ return n.ok; });
+      edges = edges.filter(function(e){ return e.a.ok && e.b.ok; });
+      edges.forEach(function(e){
+        if (e.a.d > e.b.d) { var t = e.a; e.a = e.b; e.b = t; }   // a: la punta de adentro
+        e.l = Math.hypot(e.b.x - e.a.x, e.b.y - e.a.y);
+        e.n = el('line', { x1: f1(e.a.x), y1: f1(e.a.y), x2: f1(e.b.x), y2: f1(e.b.y), stroke: 'var(--pv-c)', 'stroke-width': f2(0.6 + 0.4 * e.a.z), 'stroke-dasharray': f1(e.l), 'stroke-dashoffset': f1(e.l), opacity: 0 });
+        gA.appendChild(e.n);
+      });
+      nodes.forEach(function(n){
+        var h = hash(n.i * 3 + n.j * 11 + 6);
+        n.n = el('circle', { cx: f1(n.x), cy: f1(n.y), r: f2((n === org ? 2.6 : 1.0 + h * 0.8) * (0.65 + 0.35 * n.z)), fill: h > 0.4 ? '#d9fffb' : 'var(--pv-c)', opacity: 0 });
+        gN.appendChild(n.n);
+      });
+      // pulsos: recorridos desde el centro hacia afuera, siempre alejándose
+      var routes = [];
+      for (var k = 0; k < 7; k++) {
+        var cur = org, pts = [cur], steps = 0;
+        while (steps < 9) {
+          var outs = cur.e.map(function(e){ return e.a === cur ? e.b : e.a; }).filter(function(m){ return m.d > cur.d; });
+          if (!outs.length) break;
+          cur = outs[Math.floor(hash(k * 17 + steps * 3 + 5) * outs.length)]; pts.push(cur); steps++;
+        }
+        if (pts.length < 3) continue;
+        var segs = [], L = 0;
+        for (var q = 1; q < pts.length; q++) { var l = Math.hypot(pts[q].x - pts[q - 1].x, pts[q].y - pts[q - 1].y); segs.push({ a: pts[q - 1], b: pts[q], l0: L, l: l }); L += l; }
+        var pn = el('circle', { r: 1.5, fill: '#ffffff', opacity: 0 }); gP.appendChild(pn);
+        routes.push({ n: pn, segs: segs, L: L, per: 6500 + hash(k + 0.2) * 6500, ph: hash(k + 0.4) });
+      }
+      var onda = svg.querySelector('.red-onda'); onda.setAttribute('cx', f1(org.x)); onda.setAttribute('cy', f1(org.y));
+      return { nodes: nodes, edges: edges, routes: routes, org: org, onda: onda };
+    }
+    function pintarRed(r, ms, quieto){
+      var T = 9500, V = 1 / 4200;   // una onda cada 9,5 s; llega a la periferia en 4,2 s
+      var tc = ms % T, front = tc * V, ciclo = Math.floor(ms / T), i, n, e;
+      for (i = 0; i < r.nodes.length; i++) {
+        n = r.nodes[i];
+        var age = (front - n.d) / V, op;
+        if (quieto) op = 0.4 + 0.5 * (1 - n.d);
+        else if (age < 0 && ciclo === 0) op = 0;
+        else { if (age < 0) age += T; op = 0.34 + 0.66 * Math.exp(-age / 2600); }
+        setOp(n.n, op * (0.72 + 0.28 * (1 - n.d)) * (0.55 + 0.45 * n.z));
+      }
+      for (i = 0; i < r.edges.length; i++) {
+        e = r.edges[i];
+        var frac = quieto || ciclo > 0 ? 1 : clamp((front - e.a.d) / (e.b.d - e.a.d), 0, 1);
+        if (e.__f !== frac) { e.__f = frac; e.n.setAttribute('stroke-dashoffset', f1(e.l * (1 - frac))); }
+        var agea = (front - e.a.d) / V, opa;
+        if (quieto) opa = 0.3 + 0.25 * (1 - e.a.d);
+        else if (agea < 0 && ciclo === 0) opa = 0;
+        else { if (agea < 0) agea += T; opa = 0.2 + 0.55 * Math.exp(-agea / 2200); }
+        setOp(e.n, opa * (0.55 + 0.45 * e.a.z));
+      }
+      // el centro late al arrancar cada onda
+      var ro = sm(tc / 1800);
+      r.onda.setAttribute('r', f1(3 + 26 * ro)); setOp(r.onda, quieto ? 0 : 0.55 * (1 - ro));
+      for (i = 0; i < r.routes.length; i++) {
+        var rt = r.routes[i];
+        if (quieto) { setOp(rt.n, 0); continue; }
+        var p = ((ms / rt.per) + rt.ph) % 1, pos = p * rt.L, s = null;
+        for (var q = 0; q < rt.segs.length; q++) if (pos <= rt.segs[q].l0 + rt.segs[q].l) { s = rt.segs[q]; break; }
+        if (!s) s = rt.segs[rt.segs.length - 1];
+        var k = clamp((pos - s.l0) / s.l, 0, 1);
+        rt.n.setAttribute('cx', f1(s.a.x + (s.b.x - s.a.x) * k)); rt.n.setAttribute('cy', f1(s.a.y + (s.b.y - s.a.y) * k));
+        setOp(rt.n, 0.9 * sm(p / 0.08) * sm((1 - p) / 0.15));
+      }
+    }
+
+    /* ── MÁQUINA (Automoción) · chapa remachada, tren de engranajes, biela y pistón, volante con correa, tubería con flujo, manómetro y testigos ── */
+    function engranaje(n, r, prof){
+      var da = Math.PI / n, ro = r + prof * 0.5, ri = r - prof * 0.5, d = '';
+      for (var i = 0; i < n; i++) {
+        var a = i * 2 * da - da / 2;   // el diente i queda centrado en i·2da
+        d += (i ? 'L ' : 'M ') + pol(ri, a) + ' L ' + pol(ro, a + da * 0.28) + ' L ' + pol(ro, a + da * 0.72) + ' L ' + pol(ri, a + da) + ' ';
+        d += 'A ' + ri + ' ' + ri + ' 0 0 1 ' + pol(ri, a + 2 * da) + ' ';
+      }
+      return d + 'Z';
+    }
+    function armarMaquina(svg){
+      var gCh = svg.querySelector('.maq-chapa'), gTu = svg.querySelector('.maq-tubo'), gCo = svg.querySelector('.maq-correa'), gVo = svg.querySelector('.maq-volante');
+      var gEn = svg.querySelector('.maq-engranajes'), gBi = svg.querySelector('.maq-biela'), gTa = svg.querySelector('.maq-tablero'), gLu = svg.querySelector('.maq-luces');
+      var C = 'var(--pv-c)', HI = 'var(--pv-hi)', MET = 'var(--pv-metal)', OSC = '#07050a';
+      // chapa: costuras con bisel y remaches
+      ['M 150 228 H 234 Q 246 228 248 240 V 292', 'M 170 108 V 164 Q 170 176 182 176 H 200', 'M 298 112 V 140 Q 298 150 308 150 H 334', 'M 318 236 Q 300 240 296 262 V 296'].forEach(function(d, k){
+        gCh.appendChild(el('path', { d: d, fill: 'none', stroke: OSC, 'stroke-width': 1.6, opacity: 0.8 }));
+        var bis = el('path', { d: d, fill: 'none', stroke: C, 'stroke-width': 0.6, opacity: 0.3, transform: 'translate(0.8 0.8)' });
+        gCh.appendChild(bis);
+        var L = bis.getTotalLength();
+        for (var s = 5; s < L; s += 9) { var p = bis.getPointAtLength(s); gCh.appendChild(el('circle', { cx: f1(p.x - 2.6), cy: f1(p.y - 2.6), r: 0.9, fill: C, opacity: 0.5 })); }
+      });
+      // tubería: del cabezal del cilindro hacia abajo y a la izquierda; adentro fluye
+      var tubo = 'M 298 222 C 304 240 300 258 282 266 S 246 276 234 268';
+      gTu.appendChild(el('path', { d: tubo, fill: 'none', stroke: OSC, 'stroke-width': 5, opacity: 0.85, 'stroke-linecap': 'round' }));
+      gTu.appendChild(el('path', { d: tubo, fill: 'none', stroke: C, 'stroke-width': 3.2, opacity: 0.32, 'stroke-linecap': 'round' }));
+      var flujo = el('path', { d: tubo, fill: 'none', stroke: HI, 'stroke-width': 1.1, opacity: 0.7, 'stroke-dasharray': '2 7', 'stroke-linecap': 'round' });
+      gTu.appendChild(flujo);
+      [[298, 222], [282, 266]].forEach(function(p){ gTu.appendChild(el('circle', { cx: p[0], cy: p[1], r: 3.4, fill: MET, stroke: C, 'stroke-width': 0.8, opacity: 0.9 })); });
+      // engranajes engranados (mismo módulo 2,5): A mueve a B (biela) y a C
+      var A = { n: 24, r: 30, x: 216, y: 196 }, thB = 22 * Math.PI / 180, thC = -78 * Math.PI / 180;
+      var B = { n: 14, r: 17.5, x: A.x + 47.5 * Math.cos(thB), y: A.y + 47.5 * Math.sin(thB) };
+      var Cg = { n: 10, r: 12.5, x: A.x + 42.5 * Math.cos(thC), y: A.y + 42.5 * Math.sin(thC) };
+      function gear(g, agujeros){
+        var w = el('g', { transform: 'translate(' + f1(g.x) + ' ' + f1(g.y) + ')' }), rot = el('g', {});
+        rot.appendChild(el('path', { d: engranaje(g.n, g.r, 5), fill: MET, stroke: C, 'stroke-width': 0.9, opacity: 0.95, 'stroke-linejoin': 'round' }));
+        rot.appendChild(el('circle', { r: f1(g.r - 5.5), fill: 'none', stroke: C, 'stroke-width': 0.6, opacity: 0.5 }));
+        for (var k = 0; k < agujeros; k++) { var a = k / agujeros * TAU, ra = (g.r - 5) * 0.56; rot.appendChild(el('circle', { cx: f1(ra * Math.cos(a)), cy: f1(ra * Math.sin(a)), r: f1(g.r * 0.14), fill: OSC, stroke: C, 'stroke-width': 0.5, opacity: 0.8 })); }
+        rot.appendChild(el('circle', { r: f1(g.r * 0.16 + 1.5), fill: C, opacity: 0.85 }));
+        rot.appendChild(el('circle', { r: f1(g.r * 0.08 + 0.6), fill: OSC }));
+        if (agujeros) rot.appendChild(el('line', { x1: 0, y1: 0, x2: f1(-(g.r - 6)), y2: 0, stroke: C, 'stroke-width': 0.6, opacity: 0.35 }));
+        w.appendChild(rot);
+        // la luz del sol, fija, sobre el canto de arriba a la izquierda
+        w.appendChild(el('path', { d: 'M ' + pol(g.r - 5.5, Math.PI * 1.08) + ' A ' + f1(g.r - 5.5) + ' ' + f1(g.r - 5.5) + ' 0 0 1 ' + pol(g.r - 5.5, Math.PI * 1.62), fill: 'none', stroke: HI, 'stroke-width': 1.1, opacity: 0.35, 'stroke-linecap': 'round' }));
+        gEn.appendChild(w); g.rot = rot; return g;
+      }
+      gear(A, 6); gear(B, 4); gear(Cg, 0);
+      // biela y pistón sobre el eje de B, hacia la derecha
+      var Lb = 24, rc = 7;
+      gBi.appendChild(el('line', { x1: f1(B.x + 14), y1: f1(B.y - 6), x2: f1(B.x + 36), y2: f1(B.y - 6), stroke: C, 'stroke-width': 1, opacity: 0.6 }));
+      gBi.appendChild(el('line', { x1: f1(B.x + 14), y1: f1(B.y + 6), x2: f1(B.x + 36), y2: f1(B.y + 6), stroke: C, 'stroke-width': 1, opacity: 0.6 }));
+      gBi.appendChild(el('rect', { x: f1(B.x + 36), y: f1(B.y - 8), width: 4, height: 16, rx: 1, fill: MET, stroke: C, 'stroke-width': 0.8, opacity: 0.9 }));
+      var biela = el('line', { stroke: OSC, 'stroke-width': 3.2, 'stroke-linecap': 'round' }), biela2 = el('line', { stroke: C, 'stroke-width': 1.6, 'stroke-linecap': 'round', opacity: 0.9 });
+      var piston = el('rect', { x: -5, y: f1(B.y - 4.6), width: 10, height: 9.2, rx: 1.2, fill: MET, stroke: C, 'stroke-width': 0.9 });
+      var perno = el('circle', { r: 1.8, fill: C }), munon = el('circle', { r: 1.4, fill: OSC, stroke: C, 'stroke-width': 0.6 });
+      [biela, biela2, piston, perno, munon].forEach(function(n){ gBi.appendChild(n); });
+      // volante con rayos, movido por correa desde el eje de A
+      var D = { x: 192, y: 254, r: 14 };
+      var volRot = el('g', {});
+      volRot.appendChild(el('circle', { r: D.r, fill: 'none', stroke: C, 'stroke-width': 2.6, opacity: 0.85 }));
+      volRot.appendChild(el('circle', { r: D.r, fill: 'none', stroke: OSC, 'stroke-width': 0.8, opacity: 0.6 }));
+      for (var k = 0; k < 5; k++) volRot.appendChild(el('line', { x1: 0, y1: 0, x2: f1((D.r - 1) * Math.cos(k / 5 * TAU)), y2: f1((D.r - 1) * Math.sin(k / 5 * TAU)), stroke: C, 'stroke-width': 1.1, opacity: 0.8 }));
+      volRot.appendChild(el('circle', { r: 5.5, fill: MET, stroke: C, 'stroke-width': 0.8 }));
+      volRot.appendChild(el('circle', { r: 1.2, fill: C }));
+      var volW = el('g', { transform: 'translate(' + D.x + ' ' + D.y + ')' }); volW.appendChild(volRot); gVo.appendChild(volW);
+      // la correa: tangentes exteriores entre la polea de A (r 7) y el cubo del volante (r 5.5)
+      var r1 = 7, r2 = 5.5, dx = D.x - A.x, dy = D.y - A.y, dist = Math.hypot(dx, dy), base = Math.atan2(dy, dx), off = Math.acos((r1 - r2) / dist);
+      function tp(cx, cy, rr, a){ return f1(cx + rr * Math.cos(a)) + ' ' + f1(cy + rr * Math.sin(a)); }
+      var correa = 'M ' + tp(A.x, A.y, r1, base + off) + ' L ' + tp(D.x, D.y, r2, base + off) + ' A ' + r2 + ' ' + r2 + ' 0 1 1 ' + tp(D.x, D.y, r2, base - off) + ' L ' + tp(A.x, A.y, r1, base - off) + ' A ' + r1 + ' ' + r1 + ' 0 1 1 ' + tp(A.x, A.y, r1, base + off);
+      gCo.appendChild(el('path', { d: correa, fill: 'none', stroke: OSC, 'stroke-width': 2.4, opacity: 0.9 }));
+      var correaDash = el('path', { d: correa, fill: 'none', stroke: C, 'stroke-width': 1, opacity: 0.7, 'stroke-dasharray': '3 3' });
+      gCo.appendChild(correaDash);
+      // manómetro
+      var G = { x: 290, y: 166, r: 9.5 };
+      gTa.appendChild(el('circle', { cx: G.x, cy: G.y, r: G.r, fill: OSC, stroke: C, 'stroke-width': 0.9, opacity: 0.95 }));
+      for (var t = 0; t <= 6; t++) { var ang = (150 + 40 * t) * Math.PI / 180, rr = t % 3 === 0 ? 6 : 7.4; gTa.appendChild(el('line', { x1: f1(G.x + rr * Math.cos(ang)), y1: f1(G.y + rr * Math.sin(ang)), x2: f1(G.x + 8.4 * Math.cos(ang)), y2: f1(G.y + 8.4 * Math.sin(ang)), stroke: C, 'stroke-width': 0.7, opacity: 0.7 })); }
+      var aguja = el('line', { x1: 0, y1: 0, x2: 7.4, y2: 0, stroke: HI, 'stroke-width': 1, 'stroke-linecap': 'round', opacity: 0.95 });
+      var agujaW = el('g', { transform: 'translate(' + G.x + ' ' + G.y + ')' }); agujaW.appendChild(aguja); gTa.appendChild(agujaW);
+      gTa.appendChild(el('circle', { cx: G.x, cy: G.y, r: 1.3, fill: C }));
+      // testigos sobre un panel chico; se dibujan sobre la sombra, porque son luces
+      gTa.appendChild(el('rect', { x: 258, y: 243, width: 30, height: 11, rx: 1.5, fill: OSC, stroke: C, 'stroke-width': 0.6, opacity: 0.8 }));
+      var leds = [];
+      [[265, 'var(--pv-hi)', 5300], [273, C, 7100], [281, '#d9fffb', 9700]].forEach(function(l){ var n = el('circle', { cx: l[0], cy: 248.5, r: 1.7, fill: l[1], opacity: 0.3 }); gLu.appendChild(n); leds.push({ n: n, per: l[2] }); });
+      return { A: A, B: B, C: Cg, D: D, biela: biela, biela2: biela2, piston: piston, perno: perno, munon: munon, Lb: Lb, rc: rc, volRot: volRot, correaDash: correaDash, flujo: flujo, aguja: aguja, leds: leds };
+    }
+    function pintarMaquina(m, ms, quieto){
+      var pA = ms / 44000 * 360;                                   // A: una vuelta cada 44 s
+      var pB = 22 + 180 + (24 / 14) * (22 - pA) + 180 / 14;         // B engrana con A en 22° y gira al revés, a 24/14 de la velocidad
+      var pC = -78 + 180 + (24 / 10) * (-78 - pA) + 180 / 10;       // C engrana con A en -78°, al revés también, a 24/10
+      m.A.rot.setAttribute('transform', 'rotate(' + f1(pA) + ')');
+      m.B.rot.setAttribute('transform', 'rotate(' + f1(pB) + ')');
+      m.C.rot.setAttribute('transform', 'rotate(' + f1(pC) + ')');
+      var a = pB * Math.PI / 180, px = m.B.x + m.rc * Math.cos(a), py = m.B.y + m.rc * Math.sin(a);
+      var xp = px + Math.sqrt(m.Lb * m.Lb - (py - m.B.y) * (py - m.B.y));
+      [m.biela, m.biela2].forEach(function(n){ n.setAttribute('x1', f1(px)); n.setAttribute('y1', f1(py)); n.setAttribute('x2', f1(xp)); n.setAttribute('y2', f1(m.B.y)); });
+      m.piston.setAttribute('transform', 'translate(' + f1(xp) + ' 0)');
+      m.perno.setAttribute('cx', f1(xp)); m.perno.setAttribute('cy', f1(m.B.y));
+      m.munon.setAttribute('cx', f1(px)); m.munon.setAttribute('cy', f1(py));
+      // la correa corre a la velocidad de superficie de la polea de A (r 7, una vuelta cada 44 s); el volante (cubo r 5,5) gira a esa misma correa: una vuelta cada 34,6 s
+      m.volRot.setAttribute('transform', 'rotate(' + f1(ms / 34571 * 360) + ')');
+      m.correaDash.setAttribute('stroke-dashoffset', f1(-(ms / 44000 * TAU * 7) % 6));
+      m.flujo.setAttribute('stroke-dashoffset', f1(-(ms / 1000 * 5) % 9));
+      var v = 0.32 + 0.24 * Math.sin(ms / 7000 * TAU) + 0.12 * Math.sin(ms / 19000 * TAU + 2) + 0.04 * Math.sin(ms / 2300 * TAU);
+      m.aguja.setAttribute('transform', 'rotate(' + f1(150 + 240 * clamp(v, 0, 1)) + ')');
+      for (var i = 0; i < m.leds.length; i++) { var l = m.leds[i], f = (ms % l.per) / l.per; setOp(l.n, quieto ? (i === 1 ? 0.95 : 0.3) : 0.25 + 0.7 * sm(f / 0.06) * sm((0.22 - f) / 0.08)); }
+    }
+
+    /* ── armado común: polvo, satélites y estelas ── */
     document.querySelectorAll('.prod-vis[data-sistema]').forEach(function(vis){
       var svg = vis.querySelector('svg');
       if (!svg) return;
-      var gDust = svg.querySelector('.pv-dust'), gOrbs = svg.querySelector('.pv-orbs');
+      var gDust = svg.querySelector('.pv-dust'), gEstB = svg.querySelector('.pv-estela-b'), gEstF = svg.querySelector('.pv-estela-f');
       var gBack = svg.querySelector('.pv-back'), gFront = svg.querySelector('.pv-front');
       for (var i = 0; i < 48; i++) {
         var z = Math.random();
@@ -1622,29 +1889,31 @@
       var sats = [];
       Array.prototype.slice.call(svg.querySelectorAll('.sat')).forEach(function(a){
         var p = a.getAttribute('data-orb').split(/\s+/).map(Number);
-        var s = { a:a, rx:p[0], ry:p[1], tiltDeg:p[2], tilt:p[2] * Math.PI / 180, period:p[3], a0:p[4], dir:p[5], r:p[6], front:null,
+        var s = { a:a, rx:p[0], ry:p[1], tilt:p[2] * Math.PI / 180, period:p[3], a0:p[4], dir:p[5], r:p[6], front:null, hot:false, est:[],
                   body:a.querySelector('.sat-body'), shd:a.querySelector('.sat-shd'), halo:a.querySelector('.sat-halo'),
                   hit:a.querySelector('.sat-hit'), lab:a.querySelector('.sat-lab') };
-        s.orb = el('ellipse', { class:'orb', cx:CX, cy:CY, rx:s.rx, ry:s.ry, transform:'rotate(' + s.tiltDeg + ' ' + CX + ' ' + CY + ')' });
-        gOrbs.appendChild(s.orb);
-        function hot(){ s.orb.classList.add('hot'); } function cold(){ s.orb.classList.remove('hot'); }
+        for (var k = 0; k < 6; k++) { var seg = el('path', { class: 'estela', d: '', 'stroke-width': f2(1.5 - k * 0.2), opacity: 0 }); gEstB.appendChild(seg); s.est.push({ n: seg, front: false }); }
+        function hot(){ s.hot = true; } function cold(){ s.hot = false; }
         a.addEventListener('mouseenter', hot); a.addEventListener('mouseleave', cold);
         a.addEventListener('focus', hot); a.addEventListener('blur', cold);
         sats.push(s);
       });
-      systems.push({ vis:vis, dust:gDust, back:gBack, front:gFront, sats:sats });
+      var astro = svg.querySelector('.pv-astro'), tipo = astro && astro.getAttribute('data-astro'), sup = null;
+      if (tipo === 'ojo') sup = armarOjo(svg); else if (tipo === 'red') sup = armarRed(svg); else if (tipo === 'maquina') sup = armarMaquina(svg);
+      systems.push({ vis:vis, dust:gDust, back:gBack, front:gFront, estB:gEstB, estF:gEstF, sats:sats, tipo:tipo, sup:sup, on:false });
     });
     if (!systems.length) return;
 
-    function place(sys, ms){
+    function orbita(s, a){
+      var lx = s.rx * Math.cos(a), ly = s.ry * Math.sin(a);
+      return { x: CX + lx * Math.cos(s.tilt) - ly * Math.sin(s.tilt), y: CY + lx * Math.sin(s.tilt) + ly * Math.cos(s.tilt), dy: lx * Math.sin(s.tilt) + ly * Math.cos(s.tilt) };
+    }
+    function pintar(sys, ms, quieto){
       sys.sats.forEach(function(s){
-        var a  = s.a0 + s.dir * (ms / s.period) * Math.PI * 2;
-        var lx = s.rx * Math.cos(a), ly = s.ry * Math.sin(a);
-        var x  = CX + lx * Math.cos(s.tilt) - ly * Math.sin(s.tilt);
-        var y  = CY + lx * Math.sin(s.tilt) + ly * Math.cos(s.tilt);
-        var dy = lx * Math.sin(s.tilt) + ly * Math.cos(s.tilt);
-        var depth = Math.max(-1, Math.min(1, dy / s.ry));
-        var front = dy >= 0;
+        var a  = s.a0 + s.dir * (ms / s.period) * TAU;
+        var o = orbita(s, a), x = o.x, y = o.y;
+        var depth = Math.max(-1, Math.min(1, o.dy / s.ry));
+        var front = o.dy >= 0;
         if (front !== s.front && document.activeElement !== s.a) { (front ? sys.front : sys.back).appendChild(s.a); s.front = front; }
         var k = 1 + 0.26 * depth, r = s.r * k;
         s.a.setAttribute('transform', 'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ')');
@@ -1657,14 +1926,26 @@
         var perp = Math.hypot(dxn + along * SUN.x, dyn + along * SUN.y);
         var shade = along > 0 ? 0.8 * Math.max(0, 1 - perp / (R * 1.05)) * Math.min(1, along / (R * 0.5)) : 0;
         s.shd.setAttribute('opacity', shade.toFixed(2));
+        // la estela: seis tramos cortos detrás del satélite, cada uno delante o detrás del astro según le toque
+        var paso = (s.hot ? 0.05 : 0.032), ini = a - s.dir * (r + 3) / s.rx, fuerza = (s.hot ? 0.75 : 0.32) * (0.45 + 0.55 * (depth + 1) / 2);
+        for (var q = 0; q < s.est.length; q++) {
+          var e = s.est[q], p0 = orbita(s, ini - s.dir * q * paso), p1 = orbita(s, ini - s.dir * (q + 1) * paso);
+          e.n.setAttribute('d', 'M ' + p0.x.toFixed(1) + ' ' + p0.y.toFixed(1) + ' L ' + p1.x.toFixed(1) + ' ' + p1.y.toFixed(1));
+          setOp(e.n, fuerza * Math.pow(1 - q / s.est.length, 2));
+          var ef = (p0.dy + p1.dy) >= 0;
+          if (ef !== e.front) { (ef ? sys.estF : sys.estB).appendChild(e.n); e.front = ef; }
+        }
         // la etiqueta va del lado de afuera; cerca de los bordes del cuadro, centrada debajo
         var mode = (x > 404 || x < 76) ? 'middle' : (x >= CX ? 'start' : 'end');
         var lx2 = mode === 'start' ? (r + 9) : mode === 'end' ? -(r + 9) : 0;
         s.lab.setAttribute('text-anchor', mode);
         s.lab.setAttribute('x', lx2); s.lab.setAttribute('y', mode === 'middle' ? (r + 15) : 3);
         var ts = s.lab.childNodes;
-        for (var q = 0; q < ts.length; q++) if (ts[q].setAttribute) ts[q].setAttribute('x', lx2);
+        for (var w = 0; w < ts.length; w++) if (ts[w].setAttribute) ts[w].setAttribute('x', lx2);
       });
+      if (sys.tipo === 'ojo') pintarOjo(sys.sup, ms, quieto);
+      else if (sys.tipo === 'red') pintarRed(sys.sup, ms, quieto);
+      else if (sys.tipo === 'maquina') pintarMaquina(sys.sup, ms, quieto);
     }
     function parallax(){
       var vh = window.innerHeight || 1;
@@ -1674,15 +1955,24 @@
         sys.dust.setAttribute('transform', 'translate(0 ' + (t * 16).toFixed(1) + ')');
       });
     }
-    var t0 = null;
-    function tick(now){
+    var t0 = null, vivos = 0, corriendo = false;
+    function cuadro(now){
       if (t0 === null) t0 = now;
-      var ms = now - t0;
-      systems.forEach(function(sys){ place(sys, ms); });
-      if (!RM) requestAnimationFrame(tick);
+      var ms = now - t0 + T_INI;
+      systems.forEach(function(sys){ if (sys.on) pintar(sys, ms, false); });
+      if (vivos > 0) requestAnimationFrame(cuadro); else corriendo = false;
     }
-    requestAnimationFrame(tick);
-    if (!RM) { window.addEventListener('scroll', parallax, { passive: true }); parallax(); }
+    function arrancar(){ if (!corriendo) { corriendo = true; requestAnimationFrame(cuadro); } }
+    if (RM) {
+      systems.forEach(function(sys){ pintar(sys, T_INI || 5200, true); });   // un cuadro compuesto, quieto
+    } else {
+      var io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ var sys = e.target.__sys; if (sys && e.isIntersecting !== sys.on) { sys.on = e.isIntersecting; vivos += sys.on ? 1 : -1; } });
+        if (vivos > 0) arrancar();
+      }, { rootMargin: '120px 0px' });
+      systems.forEach(function(sys){ sys.vis.__sys = sys; io.observe(sys.vis); });
+      window.addEventListener('scroll', parallax, { passive: true }); parallax();
+    }
   })();
 
   /* ══════════════════════════════════════════

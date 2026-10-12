@@ -68,15 +68,40 @@
   ver un filo de sol, un enjambre de partículas trabaja detrás. Los gradientes `sp-*` siguen en sus `defs`
   porque los usa el diagrama de Dataflow. Vuelve en la banda de Dataflow como el motor, en el separador de
   Equipo (Byte y VRIO, heredado de v4) y en los dos retratos.
-- **Cada vertical es un astro con sus sabores en órbita** (viñeta `.prod-vis` de cada banda, SVG propio de
-  480×400, vanilla). El astro lleva la tecnología de la vertical en su superficie, en línea técnica sobre
-  la esfera, no como ícono: en Analítico es **el ojo de un objetivo** (anillos, iris de ocho láminas,
-  reflejo en el vidrio); en Espacio, **la ciudad de noche vista desde arriba** (trama de globo y un barrio
-  de luces que se ve justamente del lado de la sombra); en Automoción, **el circuito** que rodea el astro
-  (una pista con sus cinco secciones, sólo se ve la mitad de adelante). Un sol fuera de cuadro, arriba a la
-  izquierda, ilumina los tres igual: terminador, filo de luz en el borde, y una umbra que el astro proyecta
-  hacia abajo a la derecha. **Cada satélite es un sabor y un enlace** (`<a>` dentro del SVG, con `tabindex`,
-  `aria-label`, halo al hover y al foco, y su órbita se enciende) a la web de ese sabor:
+- **Cada vertical es un astro vivo con sus sabores en órbita** (viñeta `.prod-vis` de cada banda, SVG propio de
+  480×400, vanilla; la superficie la arma y la mueve el script, según `data-astro`). El astro lleva la tecnología
+  de la vertical en su superficie, en línea técnica sobre la esfera, no como ícono, y **se mueve**: mirarlo es
+  ver actividad, nunca algo central ni invasivo. Períodos largos y desfasados entre sí; nada acumula estado,
+  todo es función del tiempo. (Rama `astros-vivos`, 2026-10-11, sobre el pedido de Matías: sin líneas de órbita,
+  un ojo y no un lente de cámara, la red desde el centro hacia afuera, para Automoción lo más parecido a una
+  máquina posible, y que las tres tengan movimiento.)
+  - **Analítico es un ojo que lee.** Párpados en almendra con su pliegue, esclerótica clara, iris de dos capas
+    de fibras (66 líneas que giran lentísimo en sentidos opuestos, 160 y 230 s por vuelta) con criptas oscuras,
+    pupila que respira (9 y 23 s) con la corona dorada de la casa alrededor, 12 destellos que aparecen y se
+    van. La mirada se corre apenas cada 2,6–7 s (una sacada de 220 ms; algunos tramos siguen algo que pasa) y
+    parpadea cada 4,5–11 s (18 % dobles; cierre en 110 ms, apertura en 210; el párpado de arriba hace casi
+    todo el cierre). La abertura respira en 41 s.
+  - **Espacio es la ciudad que se enciende desde el centro.** Sobre la trama fija del globo, una malla de
+    manzanas proyectada en la esfera (grilla de 12,5° rotada 28°, con manzanas vacías y aristas faltantes por
+    azar determinista; queda sólo lo conexo al origen). Cada 9,5 s sale una onda del centro —apenas corrido
+    hacia el sol, para que se vea— y llega a la periferia en 4,2 s: las aristas se dibujan y los nodos se
+    encienden al pasar la onda, y después decaen a un fondo encendido. Siete pulsos recorren rutas que siempre
+    se alejan del centro (6,5–13 s cada uno). La primera onda construye la red; las siguientes la reavivan.
+  - **Automoción es una máquina en marcha.** Chapa remachada con costuras biseladas, un tren de tres
+    engranajes engranados (24, 14 y 10 dientes, mismo módulo; A da una vuelta cada 44 s y mueve a B y C **al
+    revés**, a 24/14 y 24/10 de su velocidad), biela y pistón sobre el eje de B, un volante con rayos movido
+    por correa desde la polea de A (34,6 s por vuelta, la relación real de las poleas; la correa corre a la
+    velocidad de la polea), una tubería con flujo, un manómetro cuya aguja oscila y tres testigos que titilan
+    a períodos distintos. La luz del sol queda fija sobre los cantos.
+
+  Un sol fuera de cuadro, arriba a la izquierda, ilumina los tres igual: terminador, filo de luz en el borde,
+  y un halo tenue del color de la vertical. **La sombra que el astro proyecta no se dibuja**: en el espacio no
+  hay sobre qué, y de día la cuña gris que tenía la primera versión cruzaba la viñeta como una mancha. Se ve
+  sólo en lo que la atraviesa —los satélites, que se oscurecen al cruzarla—. El cuerpo del astro va en sus
+  colores de noche en los dos temas (es oscuro siempre y lo ilumina su propio sol); los satélites, las
+  etiquetas, la estela y el polvo sí siguen al tema. **Cada satélite es un sabor y un enlace** (`<a>` dentro
+  del SVG, con `tabindex`, `aria-label`, halo al hover y al foco, y la estela se enciende) a la web de ese
+  sabor:
 
 | Vertical | Satélite (etiqueta visible) | Abre |
 |---|---|---|
@@ -92,11 +117,16 @@
   separador de Equipo), pasa **por detrás y por delante** del astro con oclusión real (cambia de grupo en el
   DOM), crece hasta un 26 % al acercarse y se achica y se desenfoca al alejarse, se oscurece al cruzar la
   umbra, y la etiqueta se acomoda del lado de afuera (centrada debajo cerca de los bordes, para que en
-  móvil no se corte). Detrás, 48 motas de polvo propias de cada viñeta con paralaje al scroll. Cada órbita
-  dibujada está ocupada por el satélite que la recorre; se fueron el arco de corona de la esquina y la
-  elipse punteada vacía que tenía la primera v5. **Sumar un sabor es sumar un `<a class="sat">`** con su
-  `data-orb` (`rx ry inclinación período fase sentido radio`): Estación de Servicio e Industria entrarán
-  así en Espacio. `prefers-reduced-motion`: todo quieto en su posición inicial, sin transiciones.
+  móvil no se corte). Detrás, 48 motas de polvo propias de cada viñeta con paralaje al scroll. **La órbita
+  no se dibuja**: queda la estela del satélite, seis tramos cortos que se afinan y se apagan, cada uno delante
+  o detrás del astro según le toque; al hover y al foco se alarga y se enciende. **Sumar un sabor es sumar
+  un `<a class="sat">`** con su `data-orb` (`rx ry inclinación período fase sentido radio`): Estación de
+  Servicio e Industria entrarán así en Espacio. Un solo `requestAnimationFrame` para las tres viñetas, que
+  corre sólo mientras alguna está en pantalla (IntersectionObserver, 120 px de margen); `?t=<ms>` adelanta
+  el reloj para fotografiar otro instante (`QUERY=t=5000` en `scripts/capturar-home.sh`; el reloj ya va por
+  ~700 ms cuando Chrome fotografía, así que el primer parpadeo del ojo cae en `t≈9900`).
+  `prefers-reduced-motion`: un cuadro compuesto y quieto (ojo abierto mirando apenas a la izquierda, red
+  encendida entera, máquina detenida con un testigo prendido), sin transiciones.
 - **El sentido del eclipse, dicho en la página** (banda Dataflow): *«Un eclipse es dos cosas que ya
   existían, alineadas por un instante. La luna es tu infraestructura. El sol es el motor. Lo que se ve es
   la corona: lo que la alineación deja pasar.»*
