@@ -39,3 +39,19 @@ ok arranca todo de nuevo. ya hay creditos
 ## 2026-10-10 (cargado a mano, anterior al hook)
 
 Titular y Prosa. Me quedo con "De ver a saber" (sin punto, quizas en mayusculas con alguna fuente distintiva) y los textos no me convence ninguno.. no nombraria a einstein aunque citaria la frase y haria una mezcla artisica de los 3 textos que me das como opciones.
+
+## 2026-10-11 (cargado a mano, anterior al hook)
+
+Bueno con respecto a las imagenes me pregunto si no podemos crear un modelo vivo para un clip en replay respetando la continuidad. Es decir seriamos nosotros pero en vivo en lugar de en foto.. segundos en los cuales pestañamos, nuestro pelo vuela suavemente con el viento, miramos a la camara en posicion estatica como esperando la foto, pero se nota que estamos ahí. Para crear ese video que usuarias? Necesitamos una cuenta en https://www.seedance.ai/es?
+
+## 2026-10-11 (cargado a mano, anterior al hook)
+
+Genial, avancemos. Algunas notas, las melenas tienen que volar al movimiento de un ventilador, moverse en el aire como simbolo de potencia y vision. Y los logos de RIA de fondo si estan presentes esta bien pero debe ser siguiendo una idea comun en ambas imagenes y mucho mas de fondo.
+
+## 2026-10-11 (cargado a mano, anterior al hook)
+
+Con respecto a los astros graficados en cada producto, borremos las lineas de orbitas de los productos, que la sigan pero que no este la linea visible. En Analitico seria mejor que tome la imagen de un ojo, no de un lente de camara.En Espacio esta bien la idea de la red que se conecta dentro pero lo haria mas desde el centro hacia afuera. Para automocion no entiendo mucho la idea que se intento graficar.. aqui pondria lo mas parecido a una maquina posible. En general para las tres expresiones de astros de los productos me gustaria que tengan movimiento, que sean dinamicos en ese sentido, que mirarlos sea ver actividad no necesariamente central e invasiva. Misma idea que con las fotos de perfil, que esten vivos en ese sentido.
+
+## 2026-10-11 (cargado a mano, anterior al hook)
+
+La expresion del Dataflow no me gusto. No era la idea que tenia en mente. Probemos otra clase de cosas para expresar el dataflow porque lo actual me parece grotesco y de mal gusto.
