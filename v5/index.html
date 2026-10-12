@@ -2410,7 +2410,9 @@
     function arrancar(){
       if (corriendo || RM) return;
       corriendo = true; leerColores();
-      if (!paradoEn || reloj() - paradoEn > 15000) sincronizar();   // si estuvo mucho fuera de vista, vuelve a la proyección
+      var pausa = paradoEn ? reloj() - paradoEn : 0;
+      if (!paradoEn || pausa > 15000) sincronizar();   // si estuvo mucho fuera de vista, vuelve a la proyección
+      else { conts.forEach(function(c){ if (c.next) c.next += pausa; }); pulsos.forEach(function(p){ p.t0 += pausa; }); }   // una pausa corta congela el reloj: nada sube de golpe al volver
       raf = requestAnimationFrame(cuadro);
     }
     function parar(){ if (corriendo) paradoEn = reloj(); corriendo = false; cancelAnimationFrame(raf); }
