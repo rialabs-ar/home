@@ -722,21 +722,19 @@
             <radialGradient id="ana-night" cx="30%" cy="26%" r="86%"><stop offset="0.46" stop-color="#05040c" stop-opacity="0"/><stop offset="1" stop-color="#05040c" stop-opacity="0.82"/></radialGradient>
             <radialGradient id="ana-atmo" cx="50%" cy="50%" r="50%"><stop offset="0.66" stop-color="#4a8fd4" stop-opacity="0"/><stop offset="0.73" stop-color="#4a8fd4" stop-opacity="0.14"/><stop offset="1" stop-color="#4a8fd4" stop-opacity="0"/></radialGradient>
             <linearGradient id="ana-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a8d0f5" stop-opacity="0.85"/><stop offset="0.5" stop-color="#4a8fd4" stop-opacity="0.12"/><stop offset="1" stop-color="#4a8fd4" stop-opacity="0"/></linearGradient>
-            <linearGradient id="ana-umbra" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05040c" stop-opacity="0.55"/><stop offset="1" stop-color="#05040c" stop-opacity="0"/></linearGradient>
             <filter id="ana-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <clipPath id="ana-clip"><circle cx="240" cy="200" r="84"/></clipPath>
-            <clipPath id="ana-parpado"><ellipse class="ojo-clip" cx="240" cy="200" rx="86" ry="56"/></clipPath>
-            <radialGradient id="ana-humor" cx="40%" cy="36%" r="62%"><stop offset="0" stop-color="#2a5f99"/><stop offset="0.62" stop-color="#0f2a4e"/><stop offset="1" stop-color="#06142a"/></radialGradient>
+            <clipPath id="ana-parpado"><path class="ojo-clip" d="M 168 200 C 200 134, 280 134, 312 200 C 280 260, 200 260, 168 200 Z"/></clipPath>
+            <radialGradient id="ana-humor" cx="40%" cy="38%" r="60%"><stop offset="0" stop-color="#bfd5ec"/><stop offset="0.5" stop-color="#7fa5cf"/><stop offset="1" stop-color="#2e5283"/></radialGradient>
             <radialGradient id="ana-iris" cx="50%" cy="50%" r="50%"><stop offset="0.3" stop-color="#081a33"/><stop offset="0.5" stop-color="#1c5290"/><stop offset="0.8" stop-color="#3a86d0"/><stop offset="0.93" stop-color="#1a3f6c"/><stop offset="1" stop-color="#071527"/></radialGradient>
           </defs>
           <g class="pv-dust"></g>
-          <!-- la sombra del astro, lejos del sol -->
-          <path d="M 298.1 139.4 L 485.8 319.2 L 369.6 440.5 L 181.9 260.6 Z" fill="url(#ana-umbra)" opacity="0.6"/>
           <circle cx="240" cy="200" r="122" fill="url(#ana-atmo)"/>
           <g class="pv-estela-b"></g>
           <g class="pv-back"></g>
-          <!-- el astro: un ojo que lee. Párpados, humor, iris de fibras, pupila que respira, una mirada
-               que de tanto en tanto sigue algo fuera de cuadro; las fibras, los destellos y los párpados los arma y mueve el script -->
+          <!-- el astro: un ojo que lee. Párpados en almendra (el de arriba hace casi todo el cierre), esclerótica clara,
+               iris de fibras, pupila que respira, una mirada que de tanto en tanto sigue algo fuera de cuadro; las fibras,
+               los destellos y los párpados los arma y mueve el script -->
           <g class="pv-astro" data-astro="ojo">
             <circle cx="240" cy="200" r="84" fill="url(#ana-astro)"/>
             <g clip-path="url(#ana-clip)">
@@ -753,12 +751,13 @@
                   <circle class="ojo-corona2" r="18.6" fill="none" stroke="var(--gold-hi)" stroke-width="4" opacity="0.14"/>
                   <circle class="ojo-corona" r="18.6" fill="none" stroke="var(--gold-hi)" stroke-width="1.5" opacity="0.55"/>
                 </g>
-                <ellipse class="ojo-sombra-parpado" cx="240" cy="200" rx="86" ry="56" fill="none" stroke="#05040c" stroke-width="7" opacity="0.6"/>
+                <path class="ojo-sombra-parpado" d="M 168 200 C 200 134, 280 134, 312 200 C 280 260, 200 260, 168 200 Z" fill="none" stroke="#05040c" stroke-width="9" opacity="0.55"/>
                 <!-- el reflejo del humor: el sol fuera de cuadro -->
                 <ellipse cx="217" cy="176" rx="15" ry="8" fill="#dff0ff" opacity="0.13" transform="rotate(-38 217 176)"/>
                 <circle cx="220" cy="179" r="3" fill="#f4faff" opacity="0.8" filter="url(#ana-glow)"/>
               </g>
-              <ellipse class="ojo-parpado ck" cx="240" cy="200" rx="86" ry="56" opacity="0.34" stroke="var(--pv-hi)"/>
+              <path class="ojo-parpado ck" d="M 168 200 C 200 134, 280 134, 312 200 C 280 260, 200 260, 168 200 Z" opacity="0.34" stroke="var(--pv-hi)"/>
+              <path class="ojo-pliegue ck" d="M 174 197 C 204 122, 276 122, 306 197" opacity="0.16" stroke="var(--pv-hi)"/>
             </g>
             <circle cx="240" cy="200" r="84" fill="url(#ana-night)"/>
             <circle cx="240" cy="200" r="83.5" fill="none" stroke="url(#ana-rim)" stroke-width="1.2"/>
@@ -803,25 +802,22 @@
   <div class="prod inv" id="espacio" style="--c:var(--c-esp)">
     <div class="wrap prod-grid">
       <div class="prod-vis rev" data-sistema>
-        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Espacio como un astro: una ciudad que se mide desde una esquina, la red creciendo hacia afuera, con sus sabores en órbita: Smartcity, Jockey, Grit y Acceso. Cada satélite con enlace abre la página de ese sabor.">
+        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Espacio como un astro: una ciudad que se enciende desde el centro, la red creciendo hacia afuera, con sus sabores en órbita: Smartcity, Jockey, Grit y Acceso. Cada satélite con enlace abre la página de ese sabor.">
           <defs>
             <radialGradient id="esp-sat" cx="34%" cy="30%" r="72%"><stop offset="0" stop-color="#aef5ee"/><stop offset="0.55" stop-color="#2fd0c8"/><stop offset="1" stop-color="#12615d"/></radialGradient>
             <radialGradient id="esp-astro" cx="32%" cy="28%" r="78%"><stop offset="0" stop-color="#1b5a55"/><stop offset="0.45" stop-color="#0c2e2b"/><stop offset="1" stop-color="#050f0f"/></radialGradient>
             <radialGradient id="esp-night" cx="30%" cy="26%" r="86%"><stop offset="0.46" stop-color="#05040c" stop-opacity="0"/><stop offset="1" stop-color="#05040c" stop-opacity="0.82"/></radialGradient>
             <radialGradient id="esp-atmo" cx="50%" cy="50%" r="50%"><stop offset="0.66" stop-color="#2fd0c8" stop-opacity="0"/><stop offset="0.73" stop-color="#2fd0c8" stop-opacity="0.14"/><stop offset="1" stop-color="#2fd0c8" stop-opacity="0"/></radialGradient>
             <linearGradient id="esp-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#aef5ee" stop-opacity="0.85"/><stop offset="0.5" stop-color="#2fd0c8" stop-opacity="0.12"/><stop offset="1" stop-color="#2fd0c8" stop-opacity="0"/></linearGradient>
-            <linearGradient id="esp-umbra" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05040c" stop-opacity="0.55"/><stop offset="1" stop-color="#05040c" stop-opacity="0"/></linearGradient>
             <filter id="esp-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <clipPath id="esp-clip"><circle cx="240" cy="200" r="84"/></clipPath>
           </defs>
           <g class="pv-dust"></g>
-          <!-- la sombra del astro, lejos del sol -->
-          <path d="M 298.1 139.4 L 485.8 319.2 L 369.6 440.5 L 181.9 260.6 Z" fill="url(#esp-umbra)" opacity="0.6"/>
           <circle cx="240" cy="200" r="122" fill="url(#esp-atmo)"/>
           <g class="pv-estela-b"></g>
           <g class="pv-back"></g>
-          <!-- el astro: la ciudad medida desde una esquina. La trama del globo es fija; la red de manzanas la arma
-               el script sobre la esfera y la enciende en ondas desde el origen hacia afuera, con pulsos que viajan
+          <!-- el astro: la ciudad que se enciende desde el centro. La trama del globo es fija; la red de manzanas la arma
+               el script sobre la esfera y la enciende en ondas desde el centro hacia afuera, con pulsos que viajan
                por las aristas. Se dibuja sobre la sombra, porque son luces. -->
           <g class="pv-astro" data-astro="red">
             <circle cx="240" cy="200" r="84" fill="url(#esp-astro)"/>
@@ -834,7 +830,7 @@
             <circle cx="240" cy="200" r="84" fill="url(#esp-night)"/>
             <g clip-path="url(#esp-clip)">
               <g class="red-aristas" stroke-linecap="round"></g>
-              <circle class="red-onda ck" cx="221.6" cy="184.6" r="3" opacity="0" stroke-width="0.8"/>
+              <circle class="red-onda ck" cx="231.2" cy="192.7" r="3" opacity="0" stroke-width="0.8"/>
               <g class="red-nodos" filter="url(#esp-glow)"></g>
               <g class="red-pulsos" filter="url(#esp-glow)"></g>
             </g>
@@ -903,13 +899,10 @@
             <radialGradient id="aut-night" cx="30%" cy="26%" r="86%"><stop offset="0.46" stop-color="#05040c" stop-opacity="0"/><stop offset="1" stop-color="#05040c" stop-opacity="0.82"/></radialGradient>
             <radialGradient id="aut-atmo" cx="50%" cy="50%" r="50%"><stop offset="0.66" stop-color="#EF9F27" stop-opacity="0"/><stop offset="0.73" stop-color="#EF9F27" stop-opacity="0.14"/><stop offset="1" stop-color="#EF9F27" stop-opacity="0"/></radialGradient>
             <linearGradient id="aut-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd489" stop-opacity="0.85"/><stop offset="0.5" stop-color="#EF9F27" stop-opacity="0.12"/><stop offset="1" stop-color="#EF9F27" stop-opacity="0"/></linearGradient>
-            <linearGradient id="aut-umbra" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05040c" stop-opacity="0.55"/><stop offset="1" stop-color="#05040c" stop-opacity="0"/></linearGradient>
             <filter id="aut-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             <clipPath id="aut-clip"><circle cx="240" cy="200" r="84"/></clipPath>
           </defs>
           <g class="pv-dust"></g>
-          <!-- la sombra del astro, lejos del sol -->
-          <path d="M 298.1 139.4 L 485.8 319.2 L 369.6 440.5 L 181.9 260.6 Z" fill="url(#aut-umbra)" opacity="0.6"/>
           <circle cx="240" cy="200" r="122" fill="url(#aut-atmo)"/>
           <g class="pv-estela-b"></g>
           <g class="pv-back"></g>
@@ -1622,7 +1615,7 @@
       }
       return { mira: svg.querySelector('.ojo-mira'), fa: fa, fb: fb, dest: dest, cacheM: {}, cacheP: {},
         pup: svg.querySelector('.ojo-pupila'), cor: svg.querySelector('.ojo-corona'), cor2: svg.querySelector('.ojo-corona2'),
-        lids: [svg.querySelector('.ojo-clip'), svg.querySelector('.ojo-sombra-parpado'), svg.querySelector('.ojo-parpado')] };
+        lids: [svg.querySelector('.ojo-clip'), svg.querySelector('.ojo-sombra-parpado'), svg.querySelector('.ojo-parpado')], pliegue: svg.querySelector('.ojo-pliegue') };
     }
     // la mirada: tramos de 2,6–7 s; cada cambio es una sacada de ~220 ms; algunos tramos siguen algo que pasa (deriva lenta)
     function mirada(ms, c){
@@ -1644,6 +1637,11 @@
       if (hash(k * 5.1 + 2) < 0.18) b = Math.max(b, perfil(e - 400));
       return b;
     }
+    // la abertura: una almendra de dos curvas con las puntas en CX±72; cu y cl son las alturas de control del párpado de arriba (negativa) y del de abajo
+    function almendra(cu, cl){
+      return 'M ' + (CX - 72) + ' ' + CY + ' C ' + (CX - 40) + ' ' + f1(CY + cu) + ', ' + (CX + 40) + ' ' + f1(CY + cu) + ', ' + (CX + 72) + ' ' + CY +
+             ' C ' + (CX + 40) + ' ' + f1(CY + cl) + ', ' + (CX - 40) + ' ' + f1(CY + cl) + ', ' + (CX - 72) + ' ' + CY + ' Z';
+    }
     function pintarOjo(o, ms, quieto){
       var m = quieto ? { x: -3, y: -2, sac: 0 } : mirada(ms, o.cacheM);
       var b = quieto ? 0 : parpadeo(ms, o.cacheP);
@@ -1654,15 +1652,18 @@
       o.pup.setAttribute('r', f2(rp)); o.cor.setAttribute('r', f2(rp + 1.6));
       setOp(o.cor, 0.45 + 0.3 * (rp - 12) / 10); o.cor2.setAttribute('r', f2(rp + 1.6));
       for (var i = 0; i < o.dest.length; i++) { var d = o.dest[i], v = Math.sin(ms / d.per * TAU + d.ph); setOp(d.n, quieto ? 0.25 : 0.75 * Math.pow(Math.max(0, v), 6)); }
-      var ryBase = 56 + 3 * Math.sin(ms / 41000 * TAU), ry = ryBase * (1 - b) + 1.5 * b, cy = CY + (ryBase - ry) * 0.35;
-      for (var q = 0; q < 3; q++) { o.lids[q].setAttribute('ry', f1(ry)); o.lids[q].setAttribute('cy', f1(cy)); }
+      // los párpados: el de arriba baja hasta casi tocar al de abajo, que sube apenas; la abertura respira muy lento (41 s)
+      var ab = 66 + 4 * Math.sin(ms / 41000 * TAU), cu = -ab + b * (ab + 0.7 * 60), cl = 60 * (1 - 0.25 * b);
+      var d = almendra(cu, cl);
+      if (o.__d !== d) { o.__d = d; for (var q = 0; q < 3; q++) o.lids[q].setAttribute('d', d); }
+      o.pliegue.setAttribute('d', 'M ' + (CX - 66) + ' ' + (CY - 3) + ' C ' + (CX - 36) + ' ' + f1(CY + cu - 9) + ', ' + (CX + 36) + ' ' + f1(CY + cu - 9) + ', ' + (CX + 66) + ' ' + (CY - 3));
     }
 
-    /* ── RED (Espacio) · una malla de ciudad sobre la esfera, que se enciende desde una esquina hacia afuera ── */
+    /* ── RED (Espacio) · una malla de ciudad sobre la esfera, que se enciende desde el centro hacia afuera ── */
     function armarRed(svg){
       var gA = svg.querySelector('.red-aristas'), gN = svg.querySelector('.red-nodos'), gP = svg.querySelector('.red-pulsos');
       var D = 12.5 * Math.PI / 180, ROT = 28 * Math.PI / 180, LIM = 70 * Math.PI / 180;
-      var tiltX = 10 * Math.PI / 180, tiltY = -14 * Math.PI / 180;   // la esquina de origen, arriba a la izquierda, del lado del sol
+      var tiltX = 5 * Math.PI / 180, tiltY = -6 * Math.PI / 180;   // el origen, en el centro del disco, apenas corrido hacia el sol
       var nodes = [], idx = {}, i, j;
       for (i = -8; i <= 8; i++) for (var jj = -8; jj <= 8; jj++) {
         j = jj;
@@ -1700,7 +1701,7 @@
         n.n = el('circle', { cx: f1(n.x), cy: f1(n.y), r: f2((n === org ? 2.6 : 1.0 + h * 0.8) * (0.65 + 0.35 * n.z)), fill: h > 0.4 ? '#d9fffb' : 'var(--pv-c)', opacity: 0 });
         gN.appendChild(n.n);
       });
-      // pulsos: recorridos desde la esquina hacia afuera, siempre alejándose
+      // pulsos: recorridos desde el centro hacia afuera, siempre alejándose
       var routes = [];
       for (var k = 0; k < 7; k++) {
         var cur = org, pts = [cur], steps = 0;
@@ -1739,7 +1740,7 @@
         else { if (agea < 0) agea += T; opa = 0.2 + 0.55 * Math.exp(-agea / 2200); }
         setOp(e.n, opa * (0.55 + 0.45 * e.a.z));
       }
-      // la esquina late al arrancar cada onda
+      // el centro late al arrancar cada onda
       var ro = sm(tc / 1800);
       r.onda.setAttribute('r', f1(3 + 26 * ro)); setOp(r.onda, quieto ? 0 : 0.55 * (1 - ro));
       for (i = 0; i < r.routes.length; i++) {
@@ -1841,8 +1842,8 @@
     }
     function pintarMaquina(m, ms, quieto){
       var pA = ms / 44000 * 360;                                   // A: una vuelta cada 44 s
-      var pB = 22 + 180 - (24 / 14) * (22 - pA) + 180 / 14;         // B engrana con A en 22°
-      var pC = -78 + 180 - (24 / 10) * (-78 - pA) + 180 / 10;       // C engrana con A en -78°
+      var pB = 22 + 180 + (24 / 14) * (22 - pA) + 180 / 14;         // B engrana con A en 22° y gira al revés, a 24/14 de la velocidad
+      var pC = -78 + 180 + (24 / 10) * (-78 - pA) + 180 / 10;       // C engrana con A en -78°, al revés también, a 24/10
       m.A.rot.setAttribute('transform', 'rotate(' + f1(pA) + ')');
       m.B.rot.setAttribute('transform', 'rotate(' + f1(pB) + ')');
       m.C.rot.setAttribute('transform', 'rotate(' + f1(pC) + ')');
@@ -1852,8 +1853,9 @@
       m.piston.setAttribute('transform', 'translate(' + f1(xp) + ' 0)');
       m.perno.setAttribute('cx', f1(xp)); m.perno.setAttribute('cy', f1(m.B.y));
       m.munon.setAttribute('cx', f1(px)); m.munon.setAttribute('cy', f1(py));
-      m.volRot.setAttribute('transform', 'rotate(' + f1(ms / 26000 * 360) + ')');
-      m.correaDash.setAttribute('stroke-dashoffset', f1(-(ms / 1000 * 1.6) % 6));
+      // la correa corre a la velocidad de superficie de la polea de A (r 7, una vuelta cada 44 s); el volante (cubo r 5,5) gira a esa misma correa: una vuelta cada 34,6 s
+      m.volRot.setAttribute('transform', 'rotate(' + f1(ms / 34571 * 360) + ')');
+      m.correaDash.setAttribute('stroke-dashoffset', f1(-(ms / 44000 * TAU * 7) % 6));
       m.flujo.setAttribute('stroke-dashoffset', f1(-(ms / 1000 * 5) % 9));
       var v = 0.32 + 0.24 * Math.sin(ms / 7000 * TAU) + 0.12 * Math.sin(ms / 19000 * TAU + 2) + 0.04 * Math.sin(ms / 2300 * TAU);
       m.aguja.setAttribute('transform', 'rotate(' + f1(150 + 240 * clamp(v, 0, 1)) + ')');
