@@ -159,20 +159,26 @@
   ~700 ms cuando Chrome fotografía, así que el primer parpadeo del ojo cae en `t≈9900`).
   `prefers-reduced-motion`: un cuadro compuesto y quieto (ojo abierto mirando apenas a la izquierda, red
   encendida entera, máquina detenida con un testigo prendido), sin transiciones.
-- **El sentido del eclipse, dicho en la página** (banda Dataflow): *«Un eclipse es dos cosas que ya
-  existían, alineadas por un instante. La luna es tu infraestructura. El sol es el motor. Lo que se ve es
-  la corona: lo que la alineación deja pasar.»*
+- **El sentido del eclipse, dicho en la página.** Lo decía la banda Dataflow hasta el 12/10: *«Un eclipse es dos
+  cosas que ya existían, alineadas por un instante. La luna es tu infraestructura. El sol es el motor. Lo que se ve es
+  la corona: lo que la alineación deja pasar.»* Con la banda-onda la frase salió de la página (esa banda ya no
+  explica); queda acá como texto de la casa por si vuelve en otro lugar.
 - **El cielo.** Un `<canvas id="cielo">` fijo detrás de todo emula el espacio: ~360 estrellas a 1440×900
   (densidad por área), con profundidad —las cercanas son más grandes, más brillantes, se corren más con
   el scroll (paralaje) y con el mouse—, titilan con fase propia, derivan lentísimo, y cada 9–20 s cruza un
   meteoro. Colores: blanco cálido, algunas doradas, azules y teal. Las bandas de sección son translúcidas
   para que se vea a través. `prefers-reduced-motion`: cielo estático, sin meteoros, sin órbitas animadas.
-- **Dataflow como historia** (desde la rama `dataflow-historia`, 2026-10-10; reemplaza al diagrama estático
-  *entradas → eclipse → tres sabores* con los tres pasos *Lee · Comprende · Actúa* y la nota de las 24 analíticas).
-  La banda `#dataflow` se **recorre**: un escenario fijo con el flujo en canvas y cuatro cuadros que pasan con el
-  scroll. Qué muestra cada cuadro, de dónde sale cada número y cómo se fotografía: **§0.5**. Enlace a
-  dataflow.rialabs.ar («Universo Dataflow») al final del último cuadro. Regla de marca intacta: un solo nombre
-  público, *Dataflow*; *Datamotor* aparece una sola vez, en chico, adentro del disco.
+- **Dataflow como onda** (rama `dataflow-onda`, 2026-10-12; reemplaza a la banda-historia del 10/10 —escenario
+  sticky con el flujo en canvas y cuatro cuadros que pasaban con el scroll, ~3.700 px— que Matías descartó el 12/10:
+  *«lo actual me parece grotesco y de mal gusto… prefiero que nos basemos en la idea y visual de dataflow.rialabs.ar,
+  volver a la onda para explicar de qué se trata. Sin dar explicaciones sobre cómo… pero sí los números de las
+  mediciones, que se eleven emulando el funcionamiento del motor»*). La banda `#dataflow` es ahora **una sola escena
+  de ~775 px**: una ventana al universo Dataflow —la onda de la identidad, las tres cintas de `lambda`, cruzando la
+  banda a sangre— y encima el tablero, seis contadores que **suben en vivo** proyectando lo medido en el tablero del
+  motor. Palabras: *Dataflow · el motor* / **Todo sigue pasando** / *Lo que el motor lleva contado, ahora mismo.* y el
+  enlace «Universo Dataflow ↗». Qué muestra, de dónde viene la onda, la tabla contador → base → tasa → fuente y cómo
+  se fotografía: **§0.5**. Regla de marca intacta: un solo nombre público, *Dataflow*; la onda se muestra, no se
+  nombra; *Datamotor* ya no aparece en la página.
 - **Barra de números medidos** (v4 traía cifras de mercado: 70 % de empresas sin IA, etc.):
   1 motor · 24 analíticas · 30 mil eventos por día en una instalación (Rosental, `dataflow-rosental/docs/ESTADO.md`) ·
   1.100 vehículos activos (Seprio). Criterio del laboratorio: si no está medido, no se dice.
@@ -316,7 +322,7 @@
 | `scripts/generar-eclipse.py` | cómo se generaron y procesaron las tres (abajo): `corona`, `sol`, `luna`, `medir`, `post-*`, `hoja` |
 | `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + «DE VER A SABER» en Cormorant (`OG=1 scripts/capturar-home.sh v5`; el modo OG esconde además la pista «tocá el eclipse»). Regenerada el 10/10 con el titular nuevo y el 12/10 con el eclipse cinemático. La anterior quedó en `og-image-v4.png` |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
-| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia` o `QUERY=ciclo=4200` fotografía el día o un instante del ciclo del eclipse, `NOMBRE=dia` nombra los PNG; `ALTO=9600` para la página entera). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
+| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia`, `QUERY=ciclo=4200` o `QUERY=t=43200000` fotografía el día, un instante del ciclo del eclipse o la página con el reloj adelantado (astros y banda Dataflow), `NOMBRE=dia` nombra los PNG; `ALTO=9600` para la página entera). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
 
 **Retratos (2026-10-10).** Generados con `google/nano-banana` vía Replicate (token en
 `~/.credentials/replicate.env`) a partir de las fotos reales de `~/dev/RIALabs/Fotos/` (`otra.jpeg` y
@@ -460,92 +466,108 @@ fotósfera de día es marrón, como lo trajo la foto, lo que se lee como oscurec
   desde la expedición 04. Decidir si se enlazan.
 - El satélite **Acceso** de RIA Espacio no enlaza a nada: Rosental y Mercado Fisherton son instalaciones con
   login. Cuando Acceso tenga página pública, es agregarle el `href`.
-- El eclipse del diagrama de Dataflow y el del separador de Equipo siguen vectoriales (anillos de trazo); el del
-  hero ya es fotográfico. Si se quiere unificar, el camino es la misma corona con alfa (`assets/eclipse-corona.webp`)
-  escalada a cada viewBox.
+- El eclipse del separador de Equipo sigue vectorial (anillos de trazo); el del hero ya es fotográfico. Si se quiere
+  unificar, el camino es la misma corona con alfa (`assets/eclipse-corona.webp`) escalada a su viewBox. (El de la
+  banda Dataflow se fue con la banda-historia el 12/10.)
+- Los contadores de la banda Dataflow proyectan la lectura del tablero del 10/10/2026 (§0.5): cada tanto conviene
+  cargar una lectura nueva (constantes al principio del script «DATAFLOW · la onda» y la fecha en `.df-nota`), porque
+  con los meses la proyección se aleja de lo medido. Y la curva horaria es plausible, no medida: cuando el tablero
+  exponga la serie por hora, va la real.
 - Las viñetas de las verticales son SVG dibujado, no imágenes generadas: se decidió así para que sobrevivan a
   un tema claro (colores por variables), pesen cero y puedan moverse. Si alguna vez se quiere un render
   fotorrealista, el camino es el de los retratos (`scripts/generar-retratos.py`).
 
-### 0.5 La banda Dataflow como historia (2026-10-10)
+### 0.5 La banda Dataflow como onda (2026-10-12)
 
-> Prompt de Matías, verbatim: «La idea de contar el dataflow tiene que ser mas visual, mas en modo historia, alli
-> en ese espacio donde el usuario llega luego de los productos. Hay que mostrar mas flow. Y el motor presente con
-> toda su maquina. Numeros y estadisticas de lo que hasta ahora procesamos tanto en laboratorio como en produccion.»
+> Prompt de Matías, verbatim (registro de prompts, 12/10): «La expresión del Dataflow no me gustó. No era la idea que
+> tenía en mente. … lo actual me parece grotesco y de mal gusto.» Y la dirección: «En la parte del motor creo que
+> prefiero que nos basemos en la idea y visual de dataflow.rialabs.ar, volver a la onda para explicar de que se trata.
+> Sin dar explicaciones sobre como, sin ser tan informativo, siendo mas concreto y directo y sin tantas palabras pero
+> si los numeros de las mediciones en que se eleven emulando el funcionamiento del motor, haciendo algun calculo de
+> proyeccion coherente, para que de la sensacion de estar contando eventos en vivo de verdad.»
 
-**Cómo funciona.** `<section class="df" id="dataflow" data-df="1..4">`: grilla de dos columnas. A la izquierda el
-**escenario** (`.df-stage`, sticky bajo la nav) con un `<canvas>` y rótulos DOM; a la derecha cuatro
-`article.df-cuadro` de ~86 vh cada uno. Un IntersectionObserver con franja central (`rootMargin: -45% 0 -45% 0`)
-fija `data-df` al cuadro que cruza el centro de la pantalla; el canvas (énfasis entradas / motor / salidas) y el CSS
-(opacidad de rótulos y cuadros) leen ese estado. En ≤860 px el escenario queda sticky arriba (44 vh, fondo opaco) y
-los cuadros pasan por debajo. `prefers-reduced-motion`: un solo cuadro estático, sin sticky ni partículas en
-movimiento. El loop corre sólo con la banda a la vista y se pausa con la pestaña oculta. Altura total de la banda:
-~3.700 px en escritorio, ~3.300 px en un teléfono.
+**Qué muestra.** `<section class="df" id="dataflow">`: un `<canvas class="df-cv">` a sangre detrás de un `.wrap` con tres
+piezas apiladas: la cabecera (rótulo `Dataflow · el motor`, título **Todo sigue pasando**, la línea *Lo que el motor
+lleva contado, **ahora mismo**.* y, a la derecha, el botón «Universo Dataflow ↗» a dataflow.rialabs.ar), una franja
+vacía `.df-onda` (`clamp(240px, 34vh, 330px)`; 190–240 px en móvil) que el script mide para ubicar la onda, y el
+tablero `.df-tab`: seis contadores —**eventos** grande (56 px), y **autos · personas · camiones · motos · patentes
+leídas** (30 px)— con la nota mono *proyección sobre lo medido el 10 oct 2026 · 8 cámaras · un equipo en Rosario*.
+Nada más: ni etapas, ni catálogo, ni diagrama, ni el eclipse. Una sola escena: **~775 px** de alto en 1440×900 y
+~870 en 390 px (el tablero pasa a dos columnas con *eventos* a lo ancho). El título sale del propio sitio de Dataflow
+(`lambda`: *«una foto dice que algo pasó; una onda dice que todo sigue pasando»*).
 
-**El flujo (canvas).** Partículas que nacen en *cámaras · sensores · sistemas*, entran al eclipse, atraviesan
-**seis compuertas** —Ingesta → Analíticas → Eventos → Almacén → Episodios → Intents, las etapas reales del motor
-según `ria-datamotor/README.md` y `docs/BASE.md`— y salen hacia los tres planetas con el color de cada producto.
-Cada compuerta se enciende al paso de una partícula (y la lista del cuadro 2 marca la más encendida); en
-*Analíticas* saltan chispas y en *Eventos* nace un anillo del color del sabor. El eclipse se dibuja con la misma
-gramática del resto de la página (aura, halo, protuberancias que giran, corona que respira, luna que libra), y
-adentro se ve el plano técnico: carriles y las seis bandas numeradas. En columna alta (escritorio) el flujo baja;
-en apaisado va de izquierda a derecha; toda la geometría se deriva del tamaño del escenario. Los colores se leen
-de variables CSS (`--df-raw`, `--df-moon: var(--bg)`, `--df-ink`, `--df-card` y las de `:root`) y se releen si
-cambia `data-tema`, para que el tema día no lo rompa.
+**De dónde viene la onda.** `dataflow.rialabs.ar` es *la onda* (README de `dataflow-expresiones`: todo lo demás son
+magnitudes de `u(x,t) = A·sen(kx − ωt + φ)`; regla de marca: *la onda se muestra, no se nombra*). Hoy la raíz sirve
+la portada conmutador (`sitios/dataflow/index.html`: tres hilos senoidales finos, frambuesa · naranja · lima sobre
+`#0a0714`) y `/universo/` sirve «Universo Dataflow» (`sitios/ver-dataflow/`), cuyo sabor de base `rio` es la onda de
+identidad de `sitios/lambda/index.html`: el puerto a canvas del generador del GIF original (`render.py`). De ahí se
+trajeron, vanilla y sin dependencias, **las tres cintas** (`ONDAS`: color, altura, amplitud, frecuencia 1,8 / 2,3 /
+2,7, perfil 0,42 / 0,34 / 0,30, grosor), **`perfil(u, p) = sign(sen u)·|sen u|^p`** (las crestas achatadas del GIF),
+el movimiento `scroll` (`desp = t/freq`, ciclo de 11 s con fases múltiplos de 2π: el loop cierra), **los remolinos**
+violeta del fondo (mismo generador congruencial, semilla 1337) y **los pulsos**: en lambda son «detecciones viajando
+por la cinta», un punto blanco con halo que recorre la cinta en ~4 s. Lo que se adaptó: las cintas se ubican en la
+franja medida del DOM y suben hacia la derecha (`TILT` = 5 % del ancho), con amplitud al 82 % en pantallas angostas;
+**se apagan con un degradé vertical donde entran en zona de texto** (arriba la cabecera, abajo el tablero: la onda no
+se corta, cede); la sombra difusa de lambda (`shadowBlur`, caro por cuadro) se reemplazó por la misma cinta corrida
+hacia abajo en violeta hondo; no hay burbujas (el cielo ya pone puntos). Colores por variables de `.df`, con versión
+de día: `--df-c1/2/3` (`#fa4560` · `#fb8c21` · `#dbd71f`, muestreados del GIF; la lima baja a `#b9b400` sobre papel),
+`--df-pulso` (blanco; violeta de noche sobre papel), `--df-campo` (los remolinos, 34 % de noche y 10 % de día, así el
+cielo se sigue viendo a través) y `--df-sombra`. Se releen 3,2 s después de cada cambio de `data-tema`.
 
-**Los cuatro cuadros** (texto completo en `v5/index.html`):
+**Los contadores, vivos.** Cada contador muestra al cargar **lo medido + su tasa × el tiempo transcurrido desde la
+fecha base** (reloj del visitante) y desde ahí sube de a uno. La tasa de cada uno es **su propio total dividido por las
+682 h de la ventana medida** (primer evento 2026-09-11 19:59, último 2026-10-10 05:59, hora de Rosario), modulada por
+una **curva horaria** (hora local de Rosario, UTC−3 sin horario de verano) hecha de armónicos de 24 h —`CURVA =
+[[0,62, 14,5 h, 1], [0,08, 10 h, 2]]`: amplitud, hora del pico, armónico— para que su promedio diario sea exactamente 1
+y la tasa medida se conserve: mínimo 0,32 a las 3, máximo 1,58 a las 13:30, 1,1 a las 20. La proyección usa la
+integral analítica de la curva (`curvaAcum`), no una suma; el valor nunca baja de la base (si el reloj del visitante
+está atrasado, muestra lo medido). En vivo, el intervalo entre subidas es `1/tasa(ahora) × (0,45 … 1,55)` al azar
+(media 1: el ritmo es el real, los incrementos no son mecánicos), con una corrección suave si el conteo al azar se
+aleja más de 1,5 de la proyección (apura ×0,6 o afloja ×1,6). Cada subida programada es **un pulso que nace a la
+izquierda 4,2 s antes y llega cuando el número cambia** (los de *eventos* en una cinta al azar y más grandes; los
+demás en su cinta); al subir, el número destella a blanco 140 ms y vuelve al dorado en 0,5 s (`.tic`). Formato es-AR
+(puntos de miles, `fmt`), cifras tabulares para que no baile. Si la banda estuvo más de 15 s fuera de vista o la
+pestaña oculta, al volver se **resincroniza** con la proyección. Las constantes (`DESDE`, `HASTA`, `TOTALES`, `HUSO`,
+`CURVA`, `VIAJE`, `PERIODO`) están al principio del script «DATAFLOW · la onda»: cargar una lectura nueva del tablero
+es reemplazarlas y cambiar la fecha de `.df-nota`. Los números escritos en el HTML son la base medida (lo que se ve
+sin JS). La curva horaria es **plausible, no medida**: cuando el tablero exponga la serie por hora, va la real.
 
-1. *01 · Entra la realidad* — «Lo que ya tenés, tal como está.» 3 formas de entrar · 15 cuadros por segundo ·
-   8 cámaras hoy · 0 cambios en la instalación.
-2. *02 · El motor, por dentro* — «Seis etapas. Veinticuatro analíticas.» La lista de etapas con una línea cada
-   una y el **catálogo vivo**: 24 fichas que se encienden de a una. Cierra: «Un catálogo, no un proyecto por
-   cliente. Afuera, un solo nombre: Dataflow.»
-3. *03 · Salen los sabores* — «El mismo motor, tres formas.» Una línea por producto (qué recibe cada uno) ·
-   4 sabores corriendo a la vez · 1 manifiesto por sabor.
-4. *04 · Lo que ya pasó por acá* — «Medido, no estimado.» Producción (el equipo de Rosario, 11 sep → 10 oct
-   2026) y Laboratorio (el semáforo de la ochava), con contadores `data-df-count` (formato `es-AR`, prefijo y
-   sufijo opcionales; arrancan cuando los números entran en pantalla).
+| Contador | Base medida | Tasa | Sube cada (media) | Fuente |
+|---|---|---|---|---|
+| eventos | 784.790 | 1.150,7 / h | 3,1 s (2 s a las 14, 10 s a las 3) | tablero `/api/historico` → `eventos.total_historico` |
+| autos | 330.163 | 484,1 / h | 7,4 s | ídem, `por_tipo` |
+| personas | 172.162 | 252,4 / h | 14,3 s | ídem, `por_tipo` |
+| camiones | 74.018 | 108,5 / h | 33,2 s | ídem, `por_tipo` |
+| motos | 57.498 | 84,3 / h | 42,7 s | ídem, `por_tipo` |
+| patentes leídas | 20.750 | 30,4 / h | 118 s | ídem, `por_analitica` → `lpr` |
+| 8 cámaras (en la nota) | 8 | — | — | tablero `/api/estado` → `motor.camaras` |
 
-**Números publicados → fuente.** Los del equipo salen del tablero de administración del motor
-(`datamotor.rialabs.ar`, credencial en `~/.credentials/datamotor-tablero.txt`), consultado en **solo lectura** (GET
-con sesión a `/api/estado`, `/api/catalogo`, `/api/historico?bucket=dia&desde=2026-07-01`) el **2026-10-10 02:59
--03**; el box corría el motor con contrato 1.104.0, 74 kinds, 4 sabores.
+El tablero (`datamotor.rialabs.ar`, credencial en `~/.credentials/datamotor-tablero.txt`) se leyó en **solo lectura**
+el 2026-10-10 02:59 -03; el box corría el motor con contrato 1.104.0, 74 kinds, 4 sabores. Por sabor, del mismo
+tablero (no está en la página): `byte` 632.004 · `analitico` 131.822 · `jockey-acceso` 20.254 · `rosental` 711. El
+12/10 a las 2:30 la banda mostraba 838.4xx eventos; a las 14:30, 852.2xx.
 
-| Número en la página | Valor | Fuente |
-|---|---|---|
-| 3 formas de entrar (RTSP de la cámara, RTMP del sitio, nube del fabricante) | 3 | `dataflow-jockey-acceso/docs/ESTADO.md` («Cámaras»: RTMP del sitio → `rtsp://127.0.0.1:8554`, DoLynk), `dataflow-integradores/docs/ESTADO.md` (líneas 10 y 46: RTSP, RTMP `sitio`, DoLynk), `ria-datamotor/docs/ESTADO.md` (DoLynk Tier 1) |
-| 15 cuadros por segundo por cámara | 15 | `ria-smartcity/docs/ESTADO.md:81` (LPR-15: techo 15 fps para todas las cámaras, 08/10), `dataflow-jockey-acceso/docs/ESTADO.md` (H.264 1080p 15 fps); tablero: `fps_objetivo: 15` en las 8 |
-| 8 cámaras conectadas hoy | 8 | tablero `/api/estado` → `motor.camaras` (8 en catálogo: 3 en línea y 5 caídas en ese momento) |
-| 0 cambios en la instalación | 0 | principio del método («por configuración, no por obra»), no una medición |
-| 24 analíticas | 24 | `PROMPT-FUNDACIONAL-AUDITORIA-DATAMOTOR-2026-10-03.md:25`; `ria-datamotor/ria_datamotor/esquemas.py:1456` (comentario «sirve costo para las 24») — ver nota abajo |
-| veredicto normal · atención · alerta | — | tablero `eventos.por_verdict` (777.630 / 179 / 6.982) |
-| 4 sabores a la vez en el mismo equipo | 4 | tablero `motor.sabores`: `analitico`, `byte`, `jockey-acceso`, `rosental`, todos conectados |
-| 784.790 eventos en el último mes | 784.790 | tablero `/api/historico` → `eventos.total_historico`; primer evento 2026-09-11 19:59, último 2026-10-10 05:59 |
-| 130.520 en el día de más trabajo (2 de octubre) | 130.520 | ídem, `eventos.serie` con `bucket=dia`, 2026-10-02 |
-| 20.750 patentes leídas | 20.750 | ídem, `por_analitica` → `lpr` |
-| 330.163 autos · 172.162 personas · 57.498 motos · 74.018 camiones · 23.377 bicicletas | — | ídem, `por_tipo` |
-| 49 W de placa de video en promedio | 48,67 | tablero `acumulados.potencia_w` (529 h muestreadas desde el 2026-09-18; 25,7 kWh de GPU) |
-| 1.100 vehículos activos en la concesionaria | 1.100 | `drivecore-web/index.html:1008` («vehículos activos trazados en vivo»); cifra heredada de v4, no re-medida |
-| 30 mil lecturas por día en una sola puerta | ~30 k/día | `dataflow-rosental/docs/ESTADO.md` **en el commit `13377c9`** (2026-09-16), línea 35: «`rosental_eventos` crece ~30 k/día (Betty)». La cita de §0.1 apunta a ese archivo; hoy la línea vive en el historial |
-| −27 % de demora contra el tiempo fijo | −27 a −28 % | `byt-traffic-demo/README.md:94` (≈234 vs ≈322 veh·s, clip de desarrollo) |
-| 15 cuadros por segundo en el navegador sin perder ninguno | 15 | `byt-traffic-demo/README.md:171` |
-| 300 vehículos por hora en la ochava | 300 | `byt-traffic-demo/README.md:169` |
+**Movimiento.** Un solo `requestAnimationFrame` para onda y contadores, que corre sólo con la banda a la vista
+(IntersectionObserver, 120 px de margen) y se detiene con la pestaña oculta. `prefers-reduced-motion`: la onda es un
+cuadro quieto (t = 0,18, tres pulsos a mitad de camino) y los contadores muestran la proyección sin animar.
+`?t=<ms>` adelanta el reloj —el de la onda y el de la proyección— para fotografiar otro instante:
+`QUERY=t=43200000 NOMBRE=t12h scripts/capturar-home.sh v5` fotografía doce horas después (de madrugada a la tarde
+de Rosario: los números suben ~13.800 eventos y hay pulsos en vuelo). En la captura de página entera la banda queda
+en y ≈ 3.980–5.000 (desktop) y ≈ 5.580–6.450 (móvil). Reduced-motion se verificó con Chrome directo
+(`--force-prefers-reduced-motion` sobre una copia de `index.html` con la inyección del script). Lo verificado el
+12/10 (noche, día, móvil, t = 12 h, reduced-motion, sin `Uncaught`): `_capturas/dataflow-onda/` (ignorado).
 
-Por sabor, del mismo tablero (no está en la página, queda como referencia): `byte` (la ochava de Smartcity)
-632.004 · `analitico` (Integradores) 131.822 · `jockey-acceso` 20.254 · `rosental` 711.
-
-**Nota sobre las 24.** `ESQUEMAS_DECLARADOS` de `esquemas.py` (origin/main del 2026-10-10) tiene **25 claves**. Se
-publican 24 porque `compuerta_movimiento` es un filtro previo (decide si un cuadro se analiza o no), no una
-analítica; el número coincide con el prompt de auditoría del 03/10 y con el comentario del propio archivo. Si la
-casa prefiere decir 25, hay que cambiarlo también en la barra de números del hero.
-
-**Fotografiar.** `?df=N` (1–4) fija el estado N, deja sólo ese cuadro y saca el sticky; `&solo` esconde todo lo
-que no sea la banda. Con el script de la casa: `QUERY='df=3&solo' NOMBRE=df3 scripts/capturar-home.sh v5`
-(y `QUERY='df=3&solo&tema=dia'` para verla de día). Anclas `#df-c1`…`#df-c4` para caer en un cuadro con el
-escenario pegado (sirven dentro de un iframe; en una ventana headless el scroll deja la captura en negro). En una
-ventana de más de 1.800 px de alto (captura de página entera) los cuatro cuadros quedan encendidos (`df-plano`).
-La página creció unos 3.000 px: `capturar-home.sh` llega al pie con `ALTO=11000`. Tema día: la banda usa
-`var(--banda2)` y las tarjetas `var(--tarjeta)`, el disco del eclipse `var(--bg)`.
+**Lo que se fue con la banda-historia** (siguen medidos, ya no se publican; sus fuentes quedan acá por si vuelven):
+3 formas de entrar (`dataflow-jockey-acceso/docs/ESTADO.md`, `dataflow-integradores/docs/ESTADO.md`) · 15 cuadros
+por segundo por cámara (`ria-smartcity/docs/ESTADO.md:81`; tablero `fps_objetivo: 15`) · 0 cambios en la instalación
+(principio del método, no medición) · 24 analíticas (`PROMPT-FUNDACIONAL-AUDITORIA-DATAMOTOR-2026-10-03.md:25`;
+`esquemas.py` tiene 25 claves, `compuerta_movimiento` es un filtro previo; la barra del hero sigue diciendo 24) ·
+veredictos normal · atención · alerta (777.630 / 179 / 6.982) · 4 sabores a la vez (`motor.sabores`) · 130.520 el
+2 de octubre (`eventos.serie`, `bucket=dia`) · 23.377 bicicletas (`por_tipo`) · 49 W de placa de video
+(`acumulados.potencia_w`, 529 h desde el 18/09) · −27 % de demora y 300 vehículos por hora en la ochava
+(`byt-traffic-demo/README.md:94,169`; siguen en Laboratorio). Siguen en la **barra de números del hero**: 1.100
+vehículos activos (`drivecore-web/index.html:1008`, heredado de v4) y 30 mil lecturas por día en una puerta
+(`dataflow-rosental/docs/ESTADO.md` en el commit `13377c9`, línea 35).
 
 ---
 
