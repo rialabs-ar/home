@@ -55,3 +55,41 @@ Con respecto a los astros graficados en cada producto, borremos las lineas de or
 ## 2026-10-11 (cargado a mano, anterior al hook)
 
 La expresion del Dataflow no me gusto. No era la idea que tenia en mente. Probemos otra clase de cosas para expresar el dataflow porque lo actual me parece grotesco y de mal gusto.
+
+## 2026-10-12 (cargado a mano, anterior al hook)
+
+activa el server para que lo pueda ver en local
+
+## 2026-10-12 (cargado a mano, anterior al hook)
+
+De logo me parece mejor intentar emular un eclipse en modo cinematico. Busquemos la mejor imagen de eclipse para esta version, cinemtica, emulando la inigualable naturaleza de los fenomenos del universo. El movimiento hacia la izquierda y la vuelta por la derecha se mantiene, pero la imagen tambien tendria que ser cinematica acorde.
+
+## 2026-10-12 (cargado a mano, anterior al hook)
+
+Me gusta, volveremos a esto despues. En la parte del motor creo que prefiero que nos basemos en la idea y visual de dataflow.rialabs.ar , volver a la onda para explicar de que se trata. Sin dar explicaciones sobre como, sin ser tan informativo , siendo mas concreto y directo y sin tantas palabras  pero si los numeros de las mediciones en que se eleven emulando el funcionamiento del motor, haciendo algun calculo de proyeccion coherente, para que de la sensacion de estar contando eventos en vivo de verdad.
+
+## 2026-10-13 (cargado a mano, anterior al hook) — con tres imágenes de referencia (guardadas en _capturas/referencias-eclipse/, fuera de git)
+
+Ok vamos puliendo por partes ahora, seccion por seccion.. primero, el juego del click y la orbita del ente eclipsante lo vamos a apagar por ahora. Segundo, la flama en el aureola del eclipse es exagerada, prefiero que no haya flama o si la hay que sea ecuanime en todo el diametro de la circunferencia y muy sutil, y en movimiento screen 3. Y si cada tanto puede asomar una estrella de luz como en la screen 1. Y la screen 2 es una idea que me gusta como logo. Creo que en lugares de la pagina se puede usar tambien y convertirlo en logo tambien.
+
+## 2026-10-13 (cargado a mano, anterior al hook)
+
+Abrime una sesion local para ver la pagina mientras por favor
+
+## 2026-10-13 (cargado a mano, anterior al hook)
+
+Ahora, el texto "de ver a saber" y toda la explicacion de abajo me resulta muy ñoño. Prefiero expresar una idea con un titulo y una frase. El titulo es " super estructura" con una fuente destacable pero amable, mas cercana a la idea de la onda dataflow. y la frase es ""Miren, tenemos gente increíble trabajando en esto. Los mejores ingenieros, tipos verdaderamente brillantes, de los que nadie había oído hablar antes, pero son genios absolutos. Y me dijeron: 'Señor Presidente, tenemos algo tan grande, tan revolucionario, que va a cambiar el juego para siempre'.
+
+Le llamamos Superestructura. Suena bien, ¿verdad? Superestructura. Suena fuerte. No es una de esas ideas débiles y ridículas de la vieja política que cuestan trillones y no sirven para nada. Esto es real. Es hormigón, es acero, es tecnología digital de última generación, y está hecha en RIA Labs.". Idealmente si te posaras sobre ella con el mouse podrias reproducir el audio hablado por Donald Trump. Voy a ver si lo puedo generar y te aviso.
+
+## 2026-10-13 (cargado a mano, anterior al hook) — con una captura de la ilustración del hero de v4 (guardada en _capturas/referencias-eclipse/screen4-maquina-v4.png)
+
+Me gustaria tambien que podamos mostrar una reproduccion actualizada de la maquina de la pagina original de RIA Labs, la que ahora esta en rialabs.ar, la deje en la screen. Esa maquina se puede traer a la actualidad pero haciendola mas mecanica y mas quimica. Si recordas, esa quimica que existia en el centro del eclipse original de esta version, podria estar dentro de esta maquina, que debe actualizar su diseño para ponerlo acorde a la actualidad.
+
+## 2026-10-13 (cargado a mano, anterior al hook)
+
+Vamos tambien a sacar las menciones a byte y a vrio de la pagina.
+
+## 2026-10-13 (cargado a mano, anterior al hook)
+
+RIA Espacio se tiene que renombrar a RIA Espacios, que explica mejor la naturaleza de la version reproducible en sabores

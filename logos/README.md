@@ -12,7 +12,7 @@ ria-{variante}-{color}[-{tamaño}].{ext}
 
 | Segmento | Valores actuales | Significado |
 |----------|------------------|-------------|
-| `variante` | `isotipo`, `wordmark`, `lockup-vertical`, `lockup-horizontal` | Tipo de construcción |
+| `variante` | `isotipo`, `wordmark`, `lockup-vertical`, `lockup-horizontal`, **`anillo`**, **`anillo-lockup-horizontal`** | Tipo de construcción |
 | `color` | `color`, `blanco`, `negro`, `outline` | Versión cromática |
 | `tamaño` | `256`, `512`, `1024`, `2048` | Solo PNG — ancho en px |
 | `ext` | `svg`, `png` | Formato |
@@ -23,6 +23,8 @@ Ejemplos válidos:
 - `ria-isotipo-blanco-512.png` — el eclipse en blanco, 512 px
 - `ria-lockup-horizontal-negro.svg` — lockup horizontal en negro, vector
 - `ria-wordmark-outline-2048.png` — wordmark solo contornos, 2048 px
+- `ria-anillo-color.svg` — el anillo (el isotipo vigente desde el 13/10/2026) en vector
+- `ria-anillo-lockup-horizontal-negro.svg` — anillo + RIA Labs en negro, vector
 
 ---
 
@@ -53,6 +55,25 @@ Eclipse a la izquierda + "RIA Labs" a la derecha. Usar para:
 - Firmas de email y membretes
 - Cualquier barra horizontal
 
+### 5. Anillo (`anillo`) — el isotipo vigente desde el 13/10/2026
+El eclipse reducido a lo esencial: **una circunferencia de grosor uniforme, sin relleno, con degradé vertical
+amarillo → naranja → rojo**. Sale de una referencia que trajo Matías (*«la screen 2 es una idea que me gusta como
+logo»*); la figura grande del hero sigue siendo el eclipse con su flama, y el anillo es su versión gráfica y plana.
+
+Construcción (`ria-anillo-color.svg`, viewBox 100×100): círculo de radio 43 con trazo 6 → exterior 46, interior 40;
+el grosor es el 6,5 % del diámetro exterior, como en la referencia (medido: 6,3 %). El degradé es lineal, de arriba
+hacia abajo: `#f8df6a` (0) → `#e4753d` (0,3) → `#d35745` (0,62) → `#c54a45` (1): el amarillo se sostiene arriba, pasa
+rápido al naranja y baja despacio al rojo. Para tamaños chicos el trazo sube un poco para que siga siendo un aro y
+no un hilo: en la nav del sitio (24 px) es 7,5; en `favicon.svg`, 9.
+
+Archivos: `ria-anillo-{color,blanco,negro,outline}.svg` y el lockup horizontal
+`ria-anillo-lockup-horizontal-{color,blanco,negro,outline}.svg` (anillo de diámetro exterior 136 a la izquierda +
+RIA Labs en Saira, misma caja de 640×180 que el lockup del eclipse). `outline` son los dos bordes del anillo en
+`currentColor`. Usar como el isotipo: favicon, avatar, sello; y el lockup donde iba el horizontal.
+
+Dónde está aplicado en el sitio (`v5/index.html`): isotipo de la nav, pie, separador entre Equipo y Contacto, y
+`/favicon.svg`. (`favicon.ico` y `ria-favicon/` todavía son el eclipse de halos.)
+
 ---
 
 ## Versiones de color
@@ -76,6 +97,9 @@ Eclipse a la izquierda + "RIA Labs" a la derecha. Usar para:
 | Moon dark | `#07060f` | Disco lunar, fondo oscuro principal |
 | Blanco cálido | `#f0ece0` | Texto sobre fondo oscuro |
 | Negro puro | `#000000` | Versión negra del logo |
+| Anillo, arriba | `#f8df6a` | Amarillo del degradé del anillo (2026-10-13) |
+| Anillo, medio | `#e4753d` → `#d35745` | Naranja a rojo-naranja |
+| Anillo, abajo | `#c54a45` | Rojo del degradé del anillo |
 
 ---
 
@@ -103,11 +127,13 @@ Los SVGs fueron creados a partir de:
 - El eclipse base del sitio (`/favicon.svg` y `/assets/ria-labs-eclipse-icon.svg`)
 - La tipografía **Saira** (Google Fonts, pesos 300/500) usada en el hero del sitio vigente (v4)
 
-Los PNGs se renderizan desde los SVG con `cairosvg`. Regenerar con el script `build-pngs.sh` incluido en esta carpeta:
+Los PNGs se renderizan desde los SVG con `cairosvg` o, si no está instalado, con Google Chrome headless (fondo
+transparente; respeta gradientes y `currentColor`). Regenerar con el script `build-pngs.sh` incluido en esta carpeta:
 
 ```bash
-pip install cairosvg
-bash logos/build-pngs.sh
+pip install cairosvg            # opcional: sin cairosvg usa Chrome
+bash logos/build-pngs.sh                         # todos los ria-*.svg
+bash logos/build-pngs.sh ria-anillo-color.svg    # sólo esos
 ```
 
 ### ⚠ Nota sobre la tipografía en los PNG actuales
@@ -116,7 +142,9 @@ Los PNG que están hoy en `logos/png/` fueron generados en un entorno sin la fue
 
 **Para PNG con fidelidad de marca total:** instalar Saira desde https://fonts.google.com/specimen/Saira en el sistema y volver a ejecutar `build-pngs.sh`. Los SVG ya referencian `'Saira'` como primera opción, así que una vez instalada la fuente los render son fieles al diseño.
 
-Los isotipos (`ria-isotipo-*.png`) no tienen texto, así que son pixel-perfect siempre.
+Los isotipos (`ria-isotipo-*.png`, `ria-anillo-*.png`) no tienen texto, así que son pixel-perfect siempre. Los
+PNG del anillo (2026-10-13) se generaron con Chrome; los del lockup con el anillo **no se generaron** por esta misma
+razón: cuando Saira esté instalada, `bash logos/build-pngs.sh ria-anillo-lockup-horizontal-color.svg` (etc.).
 
 ---
 
@@ -142,12 +170,21 @@ logos/
 ├── ria-lockup-horizontal-blanco.svg
 ├── ria-lockup-horizontal-negro.svg
 ├── ria-lockup-horizontal-outline.svg
-└── png/                            ← PNG renderizados (4 tamaños × 16 SVG = 64 archivos)
+├── ria-anillo-color.svg                        ← el isotipo vigente (2026-10-13)
+├── ria-anillo-blanco.svg
+├── ria-anillo-negro.svg
+├── ria-anillo-outline.svg
+├── ria-anillo-lockup-horizontal-color.svg
+├── ria-anillo-lockup-horizontal-blanco.svg
+├── ria-anillo-lockup-horizontal-negro.svg
+├── ria-anillo-lockup-horizontal-outline.svg
+└── png/                            ← PNG renderizados (4 tamaños × 16 SVG del eclipse + 4 × 4 del anillo)
     ├── ria-isotipo-color-256.png
     ├── ria-isotipo-color-512.png
     ├── ria-isotipo-color-1024.png
     ├── ria-isotipo-color-2048.png
+    ├── ria-anillo-color-256.png
     └── ... (todas las combinaciones)
 ```
 
-**Totales:** 16 SVG + 64 PNG = 80 archivos de logo.
+**Totales:** 24 SVG + 80 PNG = 104 archivos de logo.

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" width="640" height="180">
+  <!-- RIA Labs · lockup horizontal con el isotipo anillo (2026-10-13) -->
+  <defs>
+    <linearGradient id="anillo-gh" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="#f8df6a"/>
+      <stop offset="0.3"  stop-color="#e4753d"/>
+      <stop offset="0.62" stop-color="#d35745"/>
+      <stop offset="1"    stop-color="#c54a45"/>
+    </linearGradient>
+    <style>
+      .ria-h  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; font-size: 118px; letter-spacing: 9px; fill: #f0ece0; }
+      .labs-h { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 50px;  letter-spacing: 4px; fill: #EF9F27; }
+    </style>
+  </defs>
+
+  <!-- el anillo a la izquierda -->
+  <g transform="translate(100 90)">
+    <circle r="63.5" fill="none" stroke="url(#anillo-gh)" stroke-width="9"/>
+  </g>
+
+  <!-- el wordmark a la derecha -->
+  <text class="ria-h"  x="200" y="128">RIA</text>
+  <text class="labs-h" x="478" y="92">Labs</text>
+</svg>

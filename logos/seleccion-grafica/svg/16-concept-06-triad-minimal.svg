@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100" width="300" height="100">
+  <!-- Byte (plano, sin gradiente) -->
+  <circle cx="50" cy="50" r="14" fill="#4a8fd4"/>
+
+  <!-- Eclipse minimal -->
+  <circle cx="150" cy="50" r="24" fill="none" stroke="#EF9F27" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="150" cy="50" r="18" fill="#07060f" stroke="#EF9F27" stroke-width="1.8"/>
+
+  <!-- VRIO (plano, sin gradiente) -->
+  <circle cx="250" cy="50" r="14" fill="#EF9F27"/>
+</svg>

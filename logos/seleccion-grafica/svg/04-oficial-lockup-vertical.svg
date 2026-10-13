@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420" width="320" height="420">
+  <defs>
+    <radialGradient id="corona-v" cx="50%" cy="50%" r="50%">
+      <stop offset="58%" stop-color="#EF9F27" stop-opacity="0"/>
+      <stop offset="78%" stop-color="#EF9F27" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#EF9F27" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow-v" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .ria-v  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; font-size: 128px; letter-spacing: 10px; fill: #f0ece0; }
+      .labs-v { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 54px;  letter-spacing: 5px;  fill: #EF9F27; }
+    </style>
+  </defs>
+
+  <!-- Eclipse (centered top, radius ~60) -->
+  <g transform="translate(160 120)">
+    <circle r="72" fill="url(#corona-v)"/>
+    <circle r="66" fill="none" stroke="#633806" stroke-width="3" opacity="0.28"/>
+    <circle r="62" fill="none" stroke="#854F0B" stroke-width="2" opacity="0.32"/>
+    <circle r="58" fill="none" stroke="#c8860a" stroke-width="7" opacity="0.85" filter="url(#glow-v)"/>
+    <circle r="58" fill="none" stroke="#EF9F27" stroke-width="3" opacity="0.95"/>
+    <circle r="52" fill="none" stroke="#c8860a" stroke-width="1" opacity="0.5"/>
+    <circle r="48" fill="#07060f"/>
+  </g>
+
+  <!-- RIA -->
+  <text class="ria-v" x="160" y="296" text-anchor="middle">RIA</text>
+  <!-- Labs -->
+  <text class="labs-v" x="160" y="366" text-anchor="middle">Labs</text>
+</svg>

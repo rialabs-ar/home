@@ -2,12 +2,14 @@
 # Fotografía la home v5 completa (desktop 1440 y móvil 390) con Chrome headless.
 # Sirve la raíz del repo RIA en un puerto libre 8895-8899 y lo mata por PID al salir.
 # QUERY=tema=dia fotografía el tema día (ver "DESENCLIPSAR" en v5/index.html); QUERY=ciclo=4200
-# congela el ciclo del eclipse a los 4,2 s. NOMBRE=dia cambia el sufijo de los PNG (v5_dia_d.png).
+# congela el ciclo del eclipse a los 4,2 s; QUERY=estrella=1000 fija la estrella de luz del hero en su pico y
+# QUERY=estrella=no la apaga (sin QUERY, Chrome fotografía a los ~6 s virtuales y la primera estrella, que sale a
+# los 4,5 s, aparece apagándose). La QUERY también aplica a la tarjeta OG. NOMBRE=dia cambia el sufijo (v5_dia_d.png).
 set -e
 RAIZ=${RAIZ:-/Users/tano/dev/RIALabs/Proyectos/RIA}   # con RAIZ=... se fotografía otro checkout (un worktree)
 S=${CAPTURAS:-"$(dirname "$0")/capturas"}
 VER=${1:-v5}
-ALTO=${ALTO:-14000}   # la página mide ~13.800 px en desktop desde el 10/10
+ALTO=${ALTO:-11600}   # la página mide ~11.100 px en desktop desde el 13/10 (Dataflow como onda); móvil necesita más: pasar ALTO=16000
 Q=${QUERY:+?$QUERY}
 N=${VER}${NOMBRE:+_$NOMBRE}
 mkdir -p "$S"
@@ -45,12 +47,12 @@ python3 - "$RAIZ/$VER" <<'PY'
 import sys
 d = sys.argv[1]
 src = open(f"{d}/index.html").read()
-inj = "<style>nav,.hero-eyebrow,.hero-ctas,.hero-origin,.hero-sub,#sis-hint{display:none !important}.hero{min-height:630px !important;padding:0 24px !important;justify-content:center}#sistema-wrap{width:320px;margin-top:0}.wordmark{margin-top:16px}.ria{font-size:76px}.hero-headline{font-size:36px;margin:18px 0 0}*,*::before,*::after{animation-delay:0s !important;animation-duration:0.01s !important;transition-duration:0s !important}#sistema *{animation-duration:revert !important}#cielo{opacity:1}</style></head>"
+inj = "<style>nav,.hero-eyebrow,.hero-ctas,.hero-origin,.hero-sub,.hero-cita,#sis-hint{display:none !important}.hero{min-height:630px !important;padding:0 24px !important;justify-content:center}#sistema-wrap{width:320px;margin-top:0}.wordmark{margin-top:16px}.ria{font-size:76px}.hero-headline{font-size:36px;margin:18px 0 0}*,*::before,*::after{animation-delay:0s !important;animation-duration:0.01s !important;transition-duration:0s !important}#sistema *{animation-duration:revert !important}#cielo{opacity:1}</style></head>"
 open(f"{d}/_og.html","w").write(src.replace("</head>", inj, 1))
 PY
 "$CH" --headless=new --disable-gpu --hide-scrollbars --window-size=1200,630 \
   --enable-logging=stderr --v=0 --virtual-time-budget=6000 \
-  --screenshot="$S/og-${VER}.png" "http://127.0.0.1:$PUERTO/$VER/_og.html" >>"$LOG" 2>&1 || true
+  --screenshot="$S/og-${VER}.png" "http://127.0.0.1:$PUERTO/$VER/_og.html$Q" >>"$LOG" 2>&1 || true
 rm -f "$RAIZ/$VER/_og.html"
 fi
 grep -i "uncaught\|error" "$LOG" | grep -v "DevTools\|GPU\|gpu\|dbus\|Fontconfig" | head -5 || true
