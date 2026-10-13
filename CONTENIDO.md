@@ -31,33 +31,60 @@
 
   Los nombres públicos de los sitios de destino todavía dicen *Byte Analítico* y *RIA Drivecore*: la home
   usa los nombres nuevos y enlaza a esos sitios tal como están. Renombrarlos es una pasada aparte.
-- **El hero dice «DE VER A SABER»** (rama `textos-hero`, 2026-10-10; decisión verbatim de Matías en el registro
-  de prompts: *«Me quedo con "De ver a saber" (sin punto, quizás en mayúsculas con alguna fuente distintiva)»*).
-  El titular va en mayúsculas, sin punto, en **Cormorant Garamond 600** —una garalda de contraste alto, tracking
-  0,16 em, 54 px en desktop y 32 px en un celular, donde entra en una sola línea—: una romana de portada de
-  libro frente a la geometría de Saira del wordmark, para que se lea como una declaración y no como un eslogan.
-  Se probaron en captura, sobre la página real y en los dos temas, Cormorant Garamond y Marcellus (y en hoja
-  comparativa Cinzel, Fraunces, Instrument Serif, Bodoni Moda, Italiana, EB Garamond, Libre Caslon Display,
-  Cormorant SC): Marcellus quedó demasiado cerca del ritmo de Saira y no tiene cursiva; Bodoni e Italiana pierden
-  los filetes de noche; Cinzel es afiche; Instrument Serif es la cara de moda de las landings; Fraunces es
-  amable, no declarativa. Debajo, en lugar de la bajada de tres frases, va **prosa** (Saira 300, 17 px,
-  interlineado 1,78, columna de ~65 caracteres), la mezcla que pidió Matías de los tres textos propuestos:
+- **El hero dice «Superestructura» y abajo va una frase, no una explicación** (rama `hero-texto`, 2026-10-13;
+  pedido verbatim de Matías en `docs/prompts-usuario/2026-10-13-superestructura.md`: *«el texto "de ver a saber"
+  y toda la explicacion de abajo me resulta muy ñoño. Prefiero expresar una idea con un titulo y una frase. El
+  titulo es " super estructura" con una fuente destacable pero amable, mas cercana a la idea de la onda
+  dataflow»*). El titular es **una sola palabra, «Superestructura»**, como la usa la frase, en sentence case (en
+  mayúsculas se volvía afiche: se probó), en **M PLUS Rounded 1c 800** —la misma redonda pesada que titula la onda
+  en `dataflow.rialabs.ar` (sitios `lambda` y `ver-dataflow` de `dataflow-expresiones`, variable `--redonda`),
+  así el parentesco con Dataflow es real y no un parecido—, tracking −0,018 em como allá, 56 px en desktop y 38 en
+  un celular, siempre en una línea (`white-space: nowrap`; a 390 px mide 306 px). Se probaron en captura, sobre el
+  hero real con el eclipse y RIA / LABS en Saira arriba, nueve variantes (M PLUS Rounded 1c en sentence case y en
+  mayúsculas, Nunito 800, Fredoka 600, Zen Maru Gothic 700, Rubik 700, Red Hat Display 700, Baloo 2 800,
+  Quicksand 700): Nunito es la misma idea con menos carácter y sin el vínculo; Baloo 2 tiene más personalidad
+  pero tira a cómic; Fredoka es juguetería; Zen Maru es amable pero liviana, no destacable; Rubik y Red Hat
+  Display son geométricas corporativas y pierden la onda; Quicksand es demasiado fina para un display. La fuente
+  se carga con un `<link>` propio de Google Fonts con un solo peso (`wght@800`). **Cormorant Garamond se fue**
+  con el titular y la prosa viejos: no quedaba en ningún otro lado.
 
-  > El conocimiento ya lo tienen las máquinas: cada cámara, cada sensor, cada registro, acumulado sin cansancio.
-  > Pero *el verdadero signo de la inteligencia no es el conocimiento sino la imaginación*, y esa parte sigue
-  > siendo humana: una máquina puede saberlo todo de una esquina y no imaginar jamás un semáforo distinto.
-  > Nosotros ponemos la imaginación; el motor, la memoria y la atención que no duermen. Cuando las dos se
-  > alinean, como el sol y la luna por un instante, aparece algo que antes no estaba: **una infraestructura que
-  > piensa**.
+  Debajo, en lugar de la prosa, **la frase de Matías tal cual**, en `<blockquote class="hero-cita">` con sus dos
+  párrafos (las comillas internas de «Señor Presidente…» pasan a tipográficas ‘ ’; el bloque no lleva comillas
+  propias, la comilla grande ya es la cita):
 
-  La frase en cursiva circula atribuida a Einstein y **se publica sin comillas ni atribución, por decisión de
-  Matías** («no nombraría a Einstein aunque citaría la frase»); tipográficamente va en la misma voz que el
-  titular (Cormorant Garamond cursiva 500, un 24 % más grande para igualar la x de Saira, en blanco), y la
-  cláusula final sube a blanco como los `strong` del resto de la página. La fuente se carga con un `<link>`
-  propio de Google Fonts con sólo las dos caras que se usan (`0,600` y `1,500`, `display=swap`). Medidas: el
-  hero mide ~1.220 px en 1440×900 y ~1.225 en 390×844; sin scrollear se ven el eclipse, el wordmark, el titular
-  y las primeras tres líneas de la prosa (siete en el celular); los CTAs quedan debajo del pliegue. El titular
-  viejo («Tu infraestructura ya existe. Nosotros la hacemos pensar.») queda como histórico en §1.4.
+  > Miren, tenemos gente increíble trabajando en esto. Los mejores ingenieros, tipos verdaderamente brillantes, de
+  > los que nadie había oído hablar antes, pero son genios absolutos. Y me dijeron: ‘Señor Presidente, tenemos algo
+  > tan grande, tan revolucionario, que va a cambiar el juego para siempre’.
+  >
+  > Le llamamos Superestructura. Suena bien, ¿verdad? Superestructura. Suena fuerte. No es una de esas ideas débiles
+  > y ridículas de la vieja política que cuestan trillones y no sirven para nada. Esto es real. Es hormigón, es
+  > acero, es tecnología digital de última generación, y **está hecha en RIA Labs**.
+
+  Es un parlamento, así que se lee como tal: columna de ~80 caracteres (620 px) **alineada a la izquierda** dentro
+  del hero centrado, Saira 300 a 16 px con interlineado 1,72 (15 px / 1,7 en el celular), una **comilla de
+  apertura grande** colgando a la izquierda del bloque (la “ de la misma M PLUS Rounded, 104 px, dorada al 42 %;
+  en el celular va en una fila propia bajo el titular, a 68 px, porque colgando se montaba sobre la S) y la
+  última cláusula en blanco como los `strong` del resto de la página. Medidas: el hero mide 1.214 px en 1440×900
+  y 1.230 en 390×844 —lo mismo que antes: la frase más larga se absorbió con el cuerpo más chico y la columna más
+  ancha—; sin scrollear se ven el eclipse, el wordmark, el titular y las primeras tres líneas de la cita (cinco en
+  el celular); los CTAs siguen debajo del pliegue. Con el control de audio visible el hero crece 45 px.
+
+  **La frase hablada.** Matías va a generar un audio de la frase (dicho por Donald Trump) y entregarlo después; el
+  mecanismo ya está: **`assets/superestructura.mp3`** (y, opcional además, `assets/superestructura.ogg`) —ese
+  nombre exacto, en esa carpeta, y se activa solo—. Al cargar, un `HEAD` al mp3 decide: si no existe, no se ve
+  nada. Si existe, **al posar el mouse sobre la cita suena y al salir se pausa y rebobina**; como sin un clic
+  previo en la página los navegadores rechazan `play()` (política de autoplay), el error se traga en silencio y
+  queda un **botón chico en mono, «escuchar ▶»**, a la derecha del bloque, que alterna reproducir/pausar y sirve en
+  touch; después de cualquier clic en la página el hover ya suena. Lo que arranca el botón no lo corta el mouse al
+  salir (termina solo); mientras suena, la comilla grande se enciende. `preload="none"`: no descarga nada hasta
+  que se pide. `prefers-reduced-motion` no cambia nada. Script: sección «LA FRASE HABLADA», al final del
+  `<script>` principal.
+
+  Los metadatos se alinearon con el titular: `<title>`, `og:title` y `twitter:title` dicen **«RIA Labs —
+  Superestructura»** y el «Un motor, tres productos, un laboratorio» de antes pasó a las descripciones (la `meta
+  description` arranca con «Superestructura: un motor, tres productos, un laboratorio…»). `og-image.png` queda por
+  regenerar con el titular nuevo (§0.3; el modo OG del script ya esconde `.hero-cita`). El titular anterior («DE
+  VER A SABER», del 10 al 13/10, en Cormorant Garamond) y su prosa quedan como históricos en §1.4.
 - **El eclipse manda, solo, y es cinemático** (rama `eclipse-cinematico`, 2026-10-12; pedido verbatim de
   Matías en el registro de prompts: *«emular un eclipse en modo cinemático… emulando la inigualable naturaleza
   de los fenómenos del universo. El movimiento hacia la izquierda y la vuelta por la derecha se mantiene, pero
@@ -320,7 +347,7 @@
 | `assets/eclipse-sol.webp` | la fotósfera en luz blanca, 720×720, alfa = disco (r = 0,4873 del lado), 20 KB |
 | `assets/eclipse-luna.webp` | la luna llena teñida al dorado, 720×720, alfa = disco, 22 KB: la cara iluminada de la luna viajera |
 | `scripts/generar-eclipse.py` | cómo se generaron y procesaron las tres (abajo): `corona`, `sol`, `luna`, `medir`, `post-*`, `hoja` |
-| `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + «DE VER A SABER» en Cormorant (`OG=1 scripts/capturar-home.sh v5`; el modo OG esconde además la pista «tocá el eclipse»). Regenerada el 10/10 con el titular nuevo y el 12/10 con el eclipse cinemático. La anterior quedó en `og-image-v4.png` |
+| `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + «DE VER A SABER» en Cormorant —**desactualizada desde el 13/10**: el hero dice «Superestructura»; regenerarla— (`OG=1 scripts/capturar-home.sh v5`; el modo OG esconde además la pista «tocá el eclipse»). Regenerada el 10/10 con el titular nuevo y el 12/10 con el eclipse cinemático. La anterior quedó en `og-image-v4.png` |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
 | `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia`, `QUERY=ciclo=4200` o `QUERY=t=43200000` fotografía el día, un instante del ciclo del eclipse o la página con el reloj adelantado (astros y banda Dataflow), `NOMBRE=dia` nombra los PNG; `ALTO=9600` para la página entera). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
 
@@ -473,6 +500,9 @@ fotósfera de día es marrón, como lo trajo la foto, lo que se lee como oscurec
   cargar una lectura nueva (constantes al principio del script «DATAFLOW · la onda» y la fecha en `.df-nota`), porque
   con los meses la proyección se aleja de lo medido. Y la curva horaria es plausible, no medida: cuando el tablero
   exponga la serie por hora, va la real.
+- **`assets/superestructura.mp3` todavía no existe** (y `.ogg`, opcional): el audio de la frase del hero lo genera
+  Matías. Con el archivo en esa ruta exacta el hover y el botón «escuchar» se activan solos (§0.1); hasta entonces
+  no se ve nada. Y `og-image.png` sigue mostrando «DE VER A SABER»: regenerarla con `OG=1 scripts/capturar-home.sh v5`.
 - Las viñetas de las verticales son SVG dibujado, no imágenes generadas: se decidió así para que sobrevivan a
   un tema claro (colores por variables), pesen cero y puedan moverse. Si alguna vez se quiere un render
   fotorrealista, el camino es el de los retratos (`scripts/generar-retratos.py`).
@@ -599,17 +629,29 @@ El **eclipse solar total** (anillos cálidos naranjas/dorados con disco lunar os
 
 ### 1.4 Frase filosófica / corazón narrativo
 
+> **Superestructura**
+>
+> (Titular del hero de v5 desde el 2026-10-13: una sola palabra, sentence case, en M PLUS Rounded 1c 800, la redonda
+> de la onda de Dataflow. Debajo va la frase de Matías como cita —texto completo en §0.1—, que cierra en «está
+> hecha en RIA Labs».)
+
+Históricas:
+
 > **DE VER A SABER**
 >
-> (Titular del hero de v5 desde el 2026-10-10: sin punto, en mayúsculas, en Cormorant Garamond. Debajo va la prosa
-> del hero —ver §0—, que incluye sin atribución la frase *el verdadero signo de la inteligencia no es el
-> conocimiento sino la imaginación*: circula atribuida a Einstein y se publica sin nombrarlo, por decisión de Matías.)
-
-Histórica (v2 → primera v5):
+> (Titular del hero de v5 del 10 al 13 de octubre de 2026: sin punto, en mayúsculas, en Cormorant Garamond. Debajo
+> iba esta prosa, que incluía sin atribución la frase *el verdadero signo de la inteligencia no es el conocimiento
+> sino la imaginación* —circula atribuida a Einstein y se publicó sin nombrarlo, por decisión de Matías—:
+> «El conocimiento ya lo tienen las máquinas: cada cámara, cada sensor, cada registro, acumulado sin cansancio. Pero
+> el verdadero signo de la inteligencia no es el conocimiento sino la imaginación, y esa parte sigue siendo humana:
+> una máquina puede saberlo todo de una esquina y no imaginar jamás un semáforo distinto. Nosotros ponemos la
+> imaginación; el motor, la memoria y la atención que no duermen. Cuando las dos se alinean, como el sol y la luna
+> por un instante, aparece algo que antes no estaba: una infraestructura que piensa.» Matías lo descartó el 13/10:
+> «muy ñoño».)
 
 > "Tu infraestructura ya existe. Nosotros la hacemos pensar."
 >
-> (Texto incrustado en la ilustración animada del hero en v4 y titular del hero en la primera v5; versión v2 usaba "Tu infraestructura visual ya existe. Nosotros la hacemos pensar." Sobrevive como cierre de la prosa del hero: «una infraestructura que piensa».)
+> (v2 → primera v5. Texto incrustado en la ilustración animada del hero en v4 y titular del hero en la primera v5; versión v2 usaba "Tu infraestructura visual ya existe. Nosotros la hacemos pensar." Sobrevivió hasta el 13/10 como cierre de la prosa del hero: «una infraestructura que piensa».)
 
 Declaración complementaria (sección Mercado, hover del nodo central en v4):
 > "Lo que transforma a una empresa no es la tecnología que adopta — es el momento en que decide, por primera vez, mirarse de verdad."
@@ -960,6 +1002,9 @@ Frase central (v2, resumen de la ventaja competitiva):
 ### 9.2 Tipografías
 
 - **v4 / actual:** Saira (200, 300, 400, 500, 600) + DM Mono (300) — Google Fonts.
+- **v5 desde 2026-10-13:** además **M PLUS Rounded 1c 800**, sólo para el titular del hero («Superestructura») y la
+  comilla grande de la cita: la redonda que titula la onda de Dataflow. Del 10 al 13/10 el titular iba en Cormorant
+  Garamond (600 + cursiva 500); se quitó, no quedaba en otro lado.
 - **v1 / v2:** Bebas Neue + DM Sans + DM Mono (según README).
 - Uso: Saira para titulares y UI; DM Mono para numeraciones, labels y detalles tipo "terminal".
 
@@ -1105,7 +1150,7 @@ Su nav apunta al home con rutas absolutas (`/#servicios`, `/#caso`, …) y marca
 ## 14. Elementos institucionales útiles para reuso
 
 - **Elevator pitch (1 línea):** "Transformamos los procesos de tu empresa con inteligencia artificial y software a medida. Nacidos de Byte y VRIO."
-- **Tagline poético:** "De ver a saber" (desde v5, 2026-10-10). Histórico: "Tu infraestructura ya existe. Nosotros la hacemos pensar."
+- **Tagline poético:** "Superestructura" (desde el 2026-10-13: el titular del hero, una palabra, con la frase que cierra en «está hecha en RIA Labs» debajo). Históricos: "De ver a saber" (v5, del 10 al 13/10/2026) y "Tu infraestructura ya existe. Nosotros la hacemos pensar."
 - **Misión implícita:** Hacer que la IA produzca valor real sobre la infraestructura que las empresas argentinas ya tienen instalada.
 - **Visión implícita:** Ocupar el nicho donde infraestructura operativa y software de IA se encuentran — un espacio hoy vacío en el mercado argentino.
 - **Valores operativos:** Simplicidad · Velocidad · Resultados medibles · Autonomía del cliente · Ingeniería creativa con rigor.
