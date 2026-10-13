@@ -93,3 +93,7 @@ Vamos tambien a sacar las menciones a byte y a vrio de la pagina.
 ## 2026-10-13 (cargado a mano, anterior al hook)
 
 RIA Espacio se tiene que renombrar a RIA Espacios, que explica mejor la naturaleza de la version reproducible en sabores
+
+## 2026-10-13 (cargado a mano, anterior al hook)
+
+vamos a cambiar la idea de "super estructura" donde la mencionemos y la vamos a cambiar por la palabra "meta estructura"
