@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" width="640" height="180">
+  <defs>
+    <radialGradient id="corona-h" cx="50%" cy="50%" r="50%">
+      <stop offset="58%" stop-color="#EF9F27" stop-opacity="0"/>
+      <stop offset="78%" stop-color="#EF9F27" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#EF9F27" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow-h" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .ria-h  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; font-size: 118px; letter-spacing: 9px; fill: #f0ece0; }
+      .labs-h { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 50px;  letter-spacing: 4px; fill: #EF9F27; }
+    </style>
+  </defs>
+
+  <!-- Eclipse on the left -->
+  <g transform="translate(100 90)">
+    <circle r="68" fill="url(#corona-h)"/>
+    <circle r="62" fill="none" stroke="#633806" stroke-width="2.6" opacity="0.28"/>
+    <circle r="58" fill="none" stroke="#854F0B" stroke-width="1.8" opacity="0.32"/>
+    <circle r="54" fill="none" stroke="#c8860a" stroke-width="6.5" opacity="0.85" filter="url(#glow-h)"/>
+    <circle r="54" fill="none" stroke="#EF9F27" stroke-width="2.8" opacity="0.95"/>
+    <circle r="48" fill="none" stroke="#c8860a" stroke-width="0.9" opacity="0.5"/>
+    <circle r="45" fill="#07060f"/>
+  </g>
+
+  <!-- Wordmark on the right -->
+  <text class="ria-h"  x="200" y="128">RIA</text>
+  <text class="labs-h" x="478" y="92">Labs</text>
+</svg>

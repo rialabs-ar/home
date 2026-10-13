@@ -26,7 +26,7 @@
 | # | Nombre | Definición mostrada (fuente: RAE) | Qué agrupa | Color | Sitio |
 |---|---|---|---|---|---|
 | 01 | **RIA Analítico** | *analítico, ca.* Perteneciente o relativo al análisis. Que procede descomponiendo, o que pasa del todo a las partes. | seguridad: los dos brazos **Integradores** y **Monitoreo** | `#4a8fd4` azul | analitico.rialabs.ar |
-| 02 | **RIA Espacio** | *espacio.* Extensión que contiene toda la materia existente. Parte de esa extensión que ocupa cada objeto sensible. Capacidad de un lugar. | los **sabores** de smartcity: Ciudad · Predio · Acceso · Barrio y centro comercial | `#2fd0c8` teal | smartcity.rialabs.ar |
+| 02 | **RIA Espacios** (antes RIA Espacio, hasta el 13/10) | *espacio.* Extensión que contiene toda la materia existente. Parte de esa extensión que ocupa cada objeto sensible. Capacidad de un lugar. | los **sabores** de smartcity: Ciudad · Predio · Acceso · Barrio y centro comercial | `#2fd0c8` teal | smartcity.rialabs.ar |
 | 03 | **RIA Automoción** | *automoción.* Facultad o condición de lo que se mueve por sí mismo. Estudio o descripción de las máquinas que se desplazan por la acción de un motor y particularmente de los automóviles. | la concesionaria (antes **RIA Drivecore**; la página lo dice debajo del nombre) | `#EF9F27` dorado | drivecore.rialabs.ar |
 
   Los nombres públicos de los sitios de destino todavía dicen *Byte Analítico* y *RIA Drivecore*: la home
@@ -375,6 +375,17 @@
   `?tema=dia` carga en día con el sol encendido y la luna fuera (sin animar); `?ciclo=<ms>` congela el
   ciclo en ese instante. Dataflow y laboratorio se rehacen en ramas paralelas: toman el día de las
   variables de `:root`; sus colores fijos de `main` no se tocaron.
+
+- **Sin Byte ni VRIO, y RIA Espacios (2026-10-13).** Matías pidió sacar de la página toda mención a Byte y a VRIO
+  (ya no hay empresas que mostrar: los dos cofundadores cierran su ficha con su oficio). Se fueron: «Byte × VRIO» del
+  hero y del pie, «Nacidos de Byte y VRIO» de la meta description, los planetas Byte/VRIO del separador de Equipo
+  (hoy el anillo solo), el bloque de empresa de Sebastián (ahora **Integrador** · «Desde hace 25 años · seguridad
+  electrónica · Rosario»; su bio dice «al frente de una empresa de seguridad electrónica e integración de sistemas»),
+  «con VRIO Estudio entre sus emprendimientos» de la bio de Matías, y en el Laboratorio «la ochava de Byte» pasó a
+  **«nuestra ochava»** y las dos puertas de la casa son «la ochava» y «el taller». Quedan menciones en `/laboratorio/`
+  (otra pasada). Y el producto **RIA Espacio pasó a llamarse RIA Espacios** («explica mejor la naturaleza de la
+  versión reproducible en sabores»): nav, menú, banda, satélites, Laboratorio y metadatos; la entrada de diccionario
+  sigue siendo *espacio.* en singular y el ancla `#espacio` no cambió para no romper enlaces.
 
 ### 0.2 Secuencia de la página (anclas)
 
