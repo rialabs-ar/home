@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- RIA Labs · isotipo anillo (2026-10-13): el anillo del eclipse, grosor uniforme, sin relleno -->
+  <!-- sólo contornos: los dos bordes del anillo, un solo peso -->
+  <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="1.5"/>
+</svg>

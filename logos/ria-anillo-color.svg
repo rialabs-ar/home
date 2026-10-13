@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- RIA Labs · isotipo anillo (2026-10-13): el anillo del eclipse, grosor uniforme, sin relleno -->
+  <defs>
+    <linearGradient id="anillo-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="#f8df6a"/>
+      <stop offset="0.3"  stop-color="#e4753d"/>
+      <stop offset="0.62" stop-color="#d35745"/>
+      <stop offset="1"    stop-color="#c54a45"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="43" fill="none" stroke="url(#anillo-g)" stroke-width="6"/>
+</svg>
