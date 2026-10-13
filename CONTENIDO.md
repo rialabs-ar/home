@@ -179,9 +179,77 @@
   enlace «Universo Dataflow ↗». Qué muestra, de dónde viene la onda, la tabla contador → base → tasa → fuente y cómo
   se fotografía: **§0.5**. Regla de marca intacta: un solo nombre público, *Dataflow*; la onda se muestra, no se
   nombra; *Datamotor* ya no aparece en la página.
-- **Barra de números medidos** (v4 traía cifras de mercado: 70 % de empresas sin IA, etc.):
-  1 motor · 24 analíticas · 30 mil eventos por día en una instalación (Rosental, `dataflow-rosental/docs/ESTADO.md`) ·
-  1.100 vehículos activos (Seprio). Criterio del laboratorio: si no está medido, no se dice.
+- **La máquina** (rama `maquina`, 2026-10-13; pedido verbatim de Matías en el registro de prompts: *«mostrar una
+  reproducción actualizada de la máquina de la página original de RIA Labs… haciéndola más mecánica y más química…
+  esa química que existía en el centro del eclipse original de esta versión podría estar dentro de esta máquina»*).
+  Banda propia `#maquina` a lo ancho, inmediatamente después del hero, **en el lugar de la barra de números**: la
+  ilustración animada del hero de v4 (§9.4: infraestructura → eclipse → inteligencia; referencia en
+  `_capturas/referencias-eclipse/screen4-maquina-v4.png`) reproducida en el lenguaje de los astros vivos (trazo fino,
+  dorado, volumen sutil, piezas que se mueven de verdad). Fondo `--banda`, ~500 px en desktop; un SVG
+  (`viewBox 0 0 1200 380`) que arma y mueve el script «LA MÁQUINA» (vanilla, sin dependencias); abajo, como pie de la
+  imagen, los dos textos de la original: *Tu infraestructura ya existe.* (`--muted`) y **Nosotros la hacemos pensar.**
+  (`--white`), con el mismo fade escalonado: la máquina aparece por partes al entrar en pantalla (estación 0,2 s ·
+  primer texto 1 s · conducciones 1,5 s · reactor 2,1 s · constelación 2,8 s · segundo texto 3,4 s).
+  - **Izquierda, la estación: lo que ya está, como piezas de una máquina.** Tres entradas reales —una **cámara** PTZ
+    en su horquilla (panea ±20° en 26 s, el iris gira, el cono de visión respira, un testigo late), un **sensor**
+    (plato, alimentador y mástil; emite tres anillos cada 5,5 s) y un **registro** (caja con dos carretes que giran y
+    tres testigos)—, cada una con su cañería (sombra, cuerpo dorado y flujo punteado que corre) hasta un
+    **distribuidor rotativo**: corona dentada de 21 dientes que da una vuelta cada 12 s, cuerpo fijo con tres puertas
+    (215°, 180°, 145°) y un rotor de tres canales; un token pasa cuando un canal se alinea con su puerta (cada puerta,
+    cada 4 s), va al centro y sigue por la cañería principal. La corona engrana un **tren de engranajes** del mismo
+    módulo (A de 10 dientes a −45°, B de 8 sobre A, C de 10 a 110°; cada uno al revés del anterior, a la relación real
+    de dientes): B lleva la **manivela** que mueve por biela la **bomba de pistón**, de pie sobre la cañería, y C mueve
+    por correa un **volante** de cinco rayos (la correa corre a la velocidad de la polea). Sobre la cañería, una
+    **compuerta** que levanta la hoja cuando un token se le acerca y la baja al pasar; antes del reactor, una
+    **válvula** (cuerpo hexagonal, vástago y volante que gira una vuelta cada 40 s). Costuras con remaches y marcas de
+    esquina, como la chapa del astro de Automoción. Los tokens llevan el color de su origen: cámara azul
+    (`--maq-p1`), sensor teal (`--maq-p3`), registro violeta (`--maq-p2`).
+  - **Centro, el reactor: el eclipse como cámara de reacción.** Aro de la totalidad (`--gold` + `--gold-hi`, r 100)
+    con los halos de la casa afuera (`--h3…--h6`), el sol tapado como filo cálido (`--sol-tapado`) y la luna
+    (`--luna`) como cámara: vectorial y de trazo, para dialogar con el eclipse fotográfico del hero sin competir.
+    Bridas con bulones en la entrada y la salida, y un **manómetro** arriba a la derecha cuya aguja marca la presión
+    real: la cantidad de enlaces formados adentro. **La química de tokens**, heredera del enjambre `sis-swarm` de la
+    primera v5 y del acto 3 del manifiesto (se muestra, no se dice): una simulación de partículas a paso fijo (60
+    pasos por segundo de reloj, semilla propia; determinista, así `?t=<ms>` da siempre la misma foto). Cada token que
+    llega entra como partícula libre y deriva (paseo al azar, leve corriente hacia la salida, confinada al disco);
+    dos libres que se acercan a menos de 11,5 unidades **se funden**: un destello blanco se expande, quedan unidas
+    por un resorte a 13 unidades y, si una vecina está cerca, se cierra el **triángulo**; hasta 3 enlaces por
+    partícula y 7 por estructura (triángulos, cadenas y mallas que se sostienen y vibran; las enlazadas llevan halo).
+    Una estructura **madura** (≥4 nodos y 2,5 s sin enlaces nuevos, o un triángulo de más de 9 s) se enciende en
+    blanco cálido, cruza hacia la brida de salida (una salida cada ≥9 s) y al atravesarla se vuelve **un pulso**.
+    Población estable de 22–31 partículas; la banda arranca con 42 s de reacción ya andando (`PRE`), así la cámara
+    está poblada al aparecer. Las partículas van en sus colores de noche en los dos temas: viven adentro de la
+    cámara, que es oscura siempre.
+  - **Derecha, la constelación: la inteligencia, resuelta en los tres productos.** Tres conductos dorados salen de la
+    brida al **nodo mayor** de cada producto —**Analítico** (`--c-ana`), **Espacios** (`--c-esp`, al centro; el
+    renombre a plural es del 13/10), **Automoción** (`--c-aut`)—, cada uno un `<a>` a su banda (`#analitico` ·
+    `#espacio` · `#automocion`, con `aria-label`, halo al hover y al foco) y su nombre en mono. Quince nodos menores
+    (cada tercero violeta) unidos por aristas dibujadas a mano, como en la original, más cuatro aristas doradas que
+    respiran (6–11 s). El pulso viaja 1,7 s por su conducto (destino: nunca el mismo producto dos veces seguidas); al
+    llegar, el nodo mayor late (el aro crece 4 unidades, un resplandor de 2,8 s) y manda dos o tres pulsos
+    secundarios a sus menores, que se encienden y decaen en 5 s. De fondo, los menores titilan apenas, cada uno con su
+    período, y la grilla tenue de la original cruza la banda.
+  - **Técnica.** SVG inline; un solo `requestAnimationFrame` para todo (mecanismos, tokens, reacción, pulsos), que
+    corre sólo con la banda a la vista (IntersectionObserver, 120 px de margen) y la pestaña visible; el tiempo real
+    se vuelca en pasos fijos con tope de 100 ms por cuadro (una pausa no hace saltar nada). Todo color por variables de
+    tema; las que no existían se definen en `.maq` con versión de día (`--maq-metal`, `--maq-osc` para rellenos
+    oscuros, `--maq-tubo` para la sombra de la cañería —tostada de día, no marrón—, `--maq-vio`, `--maq-p1/2/3`,
+    `--maq-flash`, `--maq-grilla`). **En ≤860 px la máquina gira a vertical**: la estación rota 90° (los dispositivos
+    quedan en fila arriba), el reactor al medio y los productos en fila abajo (`viewBox 0 0 480 1040`, ~900 px de
+    banda); el trazado se rearma al cruzar el breakpoint sin perder el estado de la reacción. `prefers-reduced-motion`:
+    un cuadro compuesto y quieto (la reacción a los 53 s, Analítico recién encendido), sin transiciones. `?t=<ms>`
+    adelanta el reloj (`QUERY=t=20000 scripts/capturar-home.sh v5`). Gotcha: la regla de reduced-motion no puede
+    declarar `transform: none` sobre los grupos del SVG, porque el CSS pisa el atributo `transform` que ubica la
+    estación. Verificado el 13/10 en noche (t = 0 y t = 20 s), día, móvil y reduced-motion, sin `Uncaught`:
+    `_capturas/maquina/` (ignorado). La dinámica se midió aparte con la simulación corrida en Node (300 s: máximo
+    de estructura 7, un pulso cada ~10 s, presión 0,7–1,3).
+  - **Qué pasó con la barra de números** (1 motor · 24 analíticas · 30 mil eventos por día · 1.100 vehículos activos;
+    v4 traía cifras de mercado): se fue con esta banda. Repetía lo que la página ya cuenta: *un solo motor* lo dicen
+    el título de Productos y la banda Dataflow; los eventos se cuentan en vivo en Dataflow (784.790 y subiendo, más
+    fuerte que «30 mil por día»); los 1.100 vehículos activos siguen en el linaje del laboratorio (vía Automoción).
+    **Las 24 analíticas y los 30 mil eventos por día en una instalación ya no se publican en la home** (siguen
+    medidos; fuentes en §0.5). El count-up (`[data-countup]`) se fue con ella. Criterio intacto: si no está medido,
+    no se dice.
 - **Laboratorio es la casa** (rama `laboratorio-casa`, 2026-10-10; pedido verbatim en el registro de prompts:
   «un laboratorio como un centro de experimentación y creación, más búsqueda y aventura, más imaginación y
   trabajo… más en nuestra cosa, nuestra casa»). Antes era una grilla de seis fichas iguales con rótulo de
@@ -304,7 +372,8 @@
 
 ### 0.2 Secuencia de la página (anclas)
 
-`#inicio` hero → barra de números → `#productos` (`#analitico` · `#espacio` · `#automocion`) → `#dataflow` →
+`#inicio` hero → `#maquina` (la máquina, con el pie «Tu infraestructura ya existe. / Nosotros la hacemos pensar.») →
+`#productos` (`#analitico` · `#espacio` · `#automocion`) → `#dataflow` →
 `#laboratorio` → `#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
 
 ### 0.3 Assets nuevos
@@ -464,6 +533,9 @@ fotósfera de día es marrón, como lo trajo la foto, lo que se lee como oscurec
 - Las maquetas Sapiens y Neander están en vivo (`sapiens.dataflow.rialabs.ar`, `neander.dataflow.rialabs.ar`)
   como prototipos sin control de acceso y con la actividad marcada como simulada; la home no las enlaza
   desde la expedición 04. Decidir si se enlazan.
+- **RIA Espacio pasa a llamarse RIA Espacios** (Matías, 13/10: el plural «explica mejor la naturaleza de la versión
+  reproducible en sabores»). La máquina ya rotula *Espacios*; el resto de la página (nav, banda, laboratorio, metas) y
+  el ancla `#espacio` siguen en singular: renombrar en una pasada aparte, después de integrar las ramas del 13/10.
 - El satélite **Acceso** de RIA Espacio no enlaza a nada: Rosental y Mercado Fisherton son instalaciones con
   login. Cuando Acceso tenga página pública, es agregarle el `href`.
 - El eclipse del separador de Equipo sigue vectorial (anillos de trazo); el del hero ya es fotográfico. Si se quiere
@@ -561,13 +633,15 @@ en y ≈ 3.980–5.000 (desktop) y ≈ 5.580–6.450 (móvil). Reduced-motion se
 3 formas de entrar (`dataflow-jockey-acceso/docs/ESTADO.md`, `dataflow-integradores/docs/ESTADO.md`) · 15 cuadros
 por segundo por cámara (`ria-smartcity/docs/ESTADO.md:81`; tablero `fps_objetivo: 15`) · 0 cambios en la instalación
 (principio del método, no medición) · 24 analíticas (`PROMPT-FUNDACIONAL-AUDITORIA-DATAMOTOR-2026-10-03.md:25`;
-`esquemas.py` tiene 25 claves, `compuerta_movimiento` es un filtro previo; la barra del hero sigue diciendo 24) ·
+`esquemas.py` tiene 25 claves, `compuerta_movimiento` es un filtro previo; la barra del hero dijo 24 hasta el 13/10, cuando la
+reemplazó la máquina) ·
 veredictos normal · atención · alerta (777.630 / 179 / 6.982) · 4 sabores a la vez (`motor.sabores`) · 130.520 el
 2 de octubre (`eventos.serie`, `bucket=dia`) · 23.377 bicicletas (`por_tipo`) · 49 W de placa de video
 (`acumulados.potencia_w`, 529 h desde el 18/09) · −27 % de demora y 300 vehículos por hora en la ochava
-(`byt-traffic-demo/README.md:94,169`; siguen en Laboratorio). Siguen en la **barra de números del hero**: 1.100
-vehículos activos (`drivecore-web/index.html:1008`, heredado de v4) y 30 mil lecturas por día en una puerta
-(`dataflow-rosental/docs/ESTADO.md` en el commit `13377c9`, línea 35).
+(`byt-traffic-demo/README.md:94,169`; siguen en Laboratorio). Hasta el 13/10 seguían en la **barra de números del
+hero** (reemplazada por la máquina, §0.1): 1.100 vehículos activos (`drivecore-web/index.html:1008`, heredado de v4;
+siguen en el linaje del laboratorio) y 30 mil lecturas por día en una puerta (`dataflow-rosental/docs/ESTADO.md` en el
+commit `13377c9`, línea 35; ya no se publican).
 
 ---
 
@@ -609,7 +683,7 @@ Histórica (v2 → primera v5):
 
 > "Tu infraestructura ya existe. Nosotros la hacemos pensar."
 >
-> (Texto incrustado en la ilustración animada del hero en v4 y titular del hero en la primera v5; versión v2 usaba "Tu infraestructura visual ya existe. Nosotros la hacemos pensar." Sobrevive como cierre de la prosa del hero: «una infraestructura que piensa».)
+> (Texto incrustado en la ilustración animada del hero en v4 y titular del hero en la primera v5; versión v2 usaba "Tu infraestructura visual ya existe. Nosotros la hacemos pensar." Sobrevive como cierre de la prosa del hero: «una infraestructura que piensa», y desde el 13/10 vuelve entero como pie de la máquina, §0.1.)
 
 Declaración complementaria (sección Mercado, hover del nodo central en v4):
 > "Lo que transforma a una empresa no es la tecnología que adopta — es el momento en que decide, por primera vez, mirarse de verdad."

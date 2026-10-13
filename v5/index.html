@@ -259,7 +259,9 @@
   .maq a.mq-nodo:hover .mq-nodo-halo, .maq a.mq-nodo:focus-visible .mq-nodo-halo { opacity: .9; }
   .maq a.mq-nodo:hover .mq-lab, .maq a.mq-nodo:focus-visible .mq-lab { opacity: 1; }
   @media (prefers-reduced-motion: reduce) {
-    .maq .mq-fase, .maq-t1, .maq-t2 { transition: none; opacity: 1; transform: none; }
+    /* sin transform: none sobre los grupos del SVG: el CSS pisaría el atributo transform que ubica la estación */
+    .maq .mq-fase { transition: none; opacity: 1; }
+    .maq-t1, .maq-t2 { transition: none; opacity: 1; transform: none; }
   }
 
   /* ── PRODUCTOS ────────────────────────────────────── */
