@@ -235,13 +235,32 @@
   .bdy strong { color: var(--white); font-weight: 400; }
   .bdy + .bdy { margin-top: 16px; }
 
-  /* STAT BAR — números medidos, no de mercado */
-  .stat-bar { background: var(--banda); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 40px 0; }
-  .stat-inner { max-width: 1180px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: repeat(4,1fr); }
-  .stat { padding: 0 32px; }
-  .stat + .stat { border-left: 1px solid var(--border2); }
-  .stat-n { font-weight: 600; font-size: 44px; letter-spacing: 1px; color: var(--gold-hi); line-height: 1; }
-  .stat-l { font-size: 12px; font-weight: 300; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+  /* ── LA MÁQUINA · banda a lo ancho después del hero ─────────────────────────────
+     La ilustración de v4 reproducida: la máquina (SVG que arma el script) y los dos textos como pie.
+     Colores por variables de tema; los que no existían en :root se definen acá. Las partículas del
+     reactor van en sus colores de noche en los dos temas: viven adentro de la cámara, que es oscura siempre. */
+  .maq { background: var(--banda); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 46px 0 42px; overflow: hidden;
+    --maq-metal: #141122; --maq-osc: #07060e; --maq-tubo: #07060e; --maq-vio: #7F77DD; --maq-p1: #4a8fd4; --maq-p2: #7F77DD; --maq-p3: #2fd0c8; --maq-flash: #fff6dc; --maq-grilla: rgba(255,255,255,0.045); }
+  html[data-tema="dia"] .maq { --maq-metal: #e3d9c3; --maq-osc: #3b3429; --maq-tubo: #bfb092; --maq-vio: #5a4fc4; --maq-grilla: rgba(26,23,18,0.07); }
+  .maq-wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+  .maq-svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .maq-t1, .maq-t2 { text-align: center; font-size: 15px; letter-spacing: 0.3px; line-height: 1.5; opacity: 0; transform: translateY(8px); transition: opacity 1.2s ease, transform 1.2s ease, color var(--t-tema) ease; }
+  .maq-t1 { font-weight: 300; color: var(--muted); margin-top: 26px; transition-delay: 1s, 1s, 0s; }
+  .maq-t2 { font-weight: 400; color: var(--white); margin-top: 4px; transition-delay: 3.4s, 3.4s, 0s; }
+  .maq.vis .maq-t1, .maq.vis .maq-t2 { opacity: 1; transform: none; }
+  /* la máquina aparece por partes, como la original: estación · conducciones · reactor · constelación */
+  .maq .mq-fase { opacity: 0; transition: opacity 1.4s ease; }
+  .maq.vis .mq-fase { opacity: 1; }
+  .maq .mq-f1 { transition-delay: .2s; } .maq .mq-f2 { transition-delay: 1.5s; } .maq .mq-f3 { transition-delay: 2.1s; } .maq .mq-f4 { transition-delay: 2.8s; }
+  .maq .mq-lab { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; fill: var(--c); opacity: .85; transition: opacity .25s; }
+  .maq a.mq-nodo { cursor: pointer; outline: none; }
+  .maq .mq-nodo-hit { fill: transparent; }
+  .maq .mq-nodo-halo { fill: none; stroke: var(--c); stroke-width: .8; opacity: 0; transition: opacity .25s; }
+  .maq a.mq-nodo:hover .mq-nodo-halo, .maq a.mq-nodo:focus-visible .mq-nodo-halo { opacity: .9; }
+  .maq a.mq-nodo:hover .mq-lab, .maq a.mq-nodo:focus-visible .mq-lab { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .maq .mq-fase, .maq-t1, .maq-t2 { transition: none; opacity: 1; transform: none; }
+  }
 
   /* ── PRODUCTOS ────────────────────────────────────── */
   .prod { border-top: 1px solid var(--border2); padding: 84px 0; position: relative; overflow: hidden; }
@@ -503,12 +522,10 @@
     .df-n{font-size:26px;}
     .df-nota{margin-top:24px;}
     .princ-grid,.team-grid{grid-template-columns:1fr;}
-    .stat-inner{grid-template-columns:1fr 1fr;padding:0 24px;}
-    .stat{padding:14px 18px;}
-    .stat+.stat{border-left:none;}
-    .stat:nth-child(2){border-left:1px solid var(--border2);}
-    .stat:nth-child(n+3){border-top:1px solid var(--border2);}
-    .stat:nth-child(4){border-left:1px solid var(--border2);}
+    .maq{padding:34px 0 32px;}
+    .maq-wrap{max-width:440px;padding:0 18px;}
+    .maq-t1,.maq-t2{font-size:14px;}
+    .maq-t1{margin-top:22px;}
     .founder{grid-template-columns:1fr;}
     .f-photo{max-width:240px;}
     footer{flex-direction:column;gap:14px;text-align:center;padding:28px 24px;}
@@ -727,15 +744,33 @@
   <p class="hero-origin"><a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">Byte</a> × <a href="https://vrio.ar" target="_blank" rel="noopener" style="color:var(--gold-hi);text-decoration:none;">VRIO</a></p>
 </header>
 
-<!-- STAT BAR: números medidos en instalaciones reales -->
-<div class="stat-bar">
-  <div class="stat-inner">
-    <div class="stat rev"><div class="stat-n">1</div><div class="stat-l">motor debajo de todos los productos</div></div>
-    <div class="stat rev d1"><div class="stat-n" data-countup data-target="24">24</div><div class="stat-l">analíticas en el motor, verificadas una por una</div></div>
-    <div class="stat rev d2"><div class="stat-n" data-countup data-target="30" data-suffix=" mil">30 mil</div><div class="stat-l">eventos por día en una sola instalación, con sus cámaras</div></div>
-    <div class="stat rev d3"><div class="stat-n" data-countup data-target="1100" data-fmt="miles">1.100</div><div class="stat-l">vehículos activos, todos los días, en una concesionaria</div></div>
+<!-- ══════════════ LA MÁQUINA ══════════════
+     La ilustración del hero de v4 (infraestructura → eclipse → inteligencia), reproducida y traída al
+     presente: más mecánica y más química. A la izquierda las entradas que ya están —una cámara, un
+     sensor, un registro— como piezas de una máquina (distribuidor rotativo con corona dentada y su tren
+     de engranajes, bomba de pistón, compuerta, válvula) que conducen tokens hasta el reactor; en el
+     centro el eclipse como cámara de reacción, donde los tokens chocan, se funden y arman estructuras
+     que salen hacia la derecha; a la derecha la constelación que se resuelve en los tres productos.
+     Todo lo arma y lo mueve el script «LA MÁQUINA» (un solo rAF, sólo a la vista; ?t=<ms> adelanta el
+     reloj; prefers-reduced-motion deja un cuadro quieto). Los dos textos son el pie de la imagen. -->
+<section class="maq" id="maquina" aria-label="La máquina: tu infraestructura ya existe, nosotros la hacemos pensar">
+  <div class="maq-wrap">
+    <svg id="mq-svg" class="maq-svg" viewBox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="La máquina: a la izquierda una cámara, un sensor y un registro, piezas de una máquina que conduce datos hasta un reactor con forma de eclipse; adentro los datos se funden y forman estructuras; a la derecha salen como una constelación que se resuelve en RIA Analítico, RIA Espacios y RIA Automoción. Cada producto es un enlace a su sección.">
+      <defs>
+        <clipPath id="mq-clip"><circle id="mq-clip-c" cx="0" cy="0" r="92"/></clipPath>
+      </defs>
+      <g id="mq-grilla" aria-hidden="true"></g>
+      <g class="mq-fase mq-f1" id="mq-est" aria-hidden="true"></g>
+      <g class="mq-fase mq-f2" id="mq-cond" aria-hidden="true"></g>
+      <g class="mq-fase mq-f3" id="mq-re" aria-hidden="true"></g>
+      <g class="mq-fase mq-f4" id="mq-con"></g>
+      <g class="mq-fase mq-f2" id="mq-tok" aria-hidden="true"></g>
+      <g class="mq-fase mq-f4" id="mq-pul" aria-hidden="true"></g>
+    </svg>
+    <p class="maq-t1">Tu infraestructura ya existe.</p>
+    <p class="maq-t2">Nosotros la hacemos pensar.</p>
   </div>
-</div>
+</section>
 
 <!-- ══════════════ PRODUCTOS ══════════════ -->
 <section class="section" id="productos" style="padding-bottom:0;">
@@ -1470,24 +1505,574 @@
   }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
   document.querySelectorAll('.rev').forEach(function(n){ obs.observe(n); });
 
-  /* COUNT-UP de la barra de números */
-  var countupObs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (!e.isIntersecting) return;
-      countupObs.unobserve(e.target);
-      var node = e.target, target = +node.dataset.target, suffix = node.dataset.suffix || '';
-      var fmt = node.dataset.fmt === 'miles' ? function(v){ return v.toLocaleString('es-AR'); } : function(v){ return String(v); };
-      if (RM) { node.textContent = fmt(target) + suffix; return; }
-      var duration = 1400, start = performance.now();
-      var ease = function(t){ return t < 0.5 ? 2*t*t : -1 + (4 - 2*t) * t; };
-      (function frame(now){
-        var p = Math.min((now - start) / duration, 1);
-        node.textContent = fmt(Math.round(ease(p) * target)) + suffix;
-        if (p < 1) requestAnimationFrame(frame);
-      })(start);
-    });
-  }, { threshold: 0.3 });
-  document.querySelectorAll('[data-countup]').forEach(function(n){ countupObs.observe(n); });
+  /* ══════════════════════════════════════════
+     LA MÁQUINA · la ilustración del hero de v4 traída al presente: más mecánica y más química.
+     Izquierda, la estación: las entradas que ya están (una cámara que panea, un sensor que emite,
+     un registro con sus carretes) como piezas de una máquina —distribuidor rotativo con corona
+     dentada y su tren de engranajes, bomba de pistón sobre la cañería, compuerta que levanta al
+     pasar cada token, válvula con volante— que conducen tokens hasta el reactor. Centro, el
+     reactor: el eclipse como cámara de reacción, donde los tokens derivan, chocan, se funden de a
+     dos (destello), cierran triángulos y arman estructuras que se sostienen; cuando una estructura
+     madura cruza hacia la salida y se vuelve un pulso. Derecha, la constelación: el pulso llega a
+     uno de los tres productos y se propaga a los nodos menores. El manómetro del reactor marca la
+     presión real: la cantidad de enlaces formados.
+     Todo lo arma este script. Un solo rAF, sólo con la banda a la vista y la pestaña visible. El
+     enjambre es una simulación determinista a paso fijo (semilla propia, 60 pasos por segundo de
+     reloj), así ?t=<ms> adelanta el reloj y cada foto es reproducible; la banda arranca con PRE ms
+     de reacción ya andando. prefers-reduced-motion: un cuadro compuesto y quieto. En ≤860 px la
+     máquina se reorganiza en vertical: la estación gira 90°, el reactor al medio, los productos abajo.
+     ══════════════════════════════════════════ */
+  (function(){
+    var sec = document.getElementById('maquina'), svg = document.getElementById('mq-svg');
+    if (!sec || !svg) return;
+    var TAU = Math.PI * 2, DT = 1 / 60;
+    var T_INI = +((location.search.match(/[?&]t=(\d+)/) || [])[1] || 0);
+    var PRE = 42000;                      // ms de reacción ya andando cuando la banda aparece (la cámara tarda ~40 s en poblarse)
+    var C = 'var(--gold)', HI = 'var(--gold-hi)', MET = 'var(--maq-metal)', OSC = 'var(--maq-osc)', TUB = 'var(--maq-tubo)', FL = 'var(--maq-flash)', NODO = 'var(--nodo)';
+    var PCOL = ['var(--maq-p1)', 'var(--maq-p2)', 'var(--maq-p3)'];   // azul (cámara) · violeta (registro) · teal (sensor)
+    var PROD = [
+      { nombre: 'Analítico',  href: '#analitico',  col: 'var(--c-ana)', aria: 'RIA Analítico: ir a la sección' },
+      { nombre: 'Espacios',   href: '#espacio',    col: 'var(--c-esp)', aria: 'RIA Espacios: ir a la sección' },
+      { nombre: 'Automoción', href: '#automocion', col: 'var(--c-aut)', aria: 'RIA Automoción: ir a la sección' }
+    ];
+    function f1(v){ return (+v).toFixed(1); } function f2(v){ return (+v).toFixed(2); }
+    function clamp(v, a, b){ return v < a ? a : v > b ? b : v; }
+    function sm(t){ t = clamp(t, 0, 1); return t * t * (3 - 2 * t); }
+    function pol(r, a){ return f1(r * Math.cos(a)) + ' ' + f1(r * Math.sin(a)); }
+    function hash(n){ var x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+    function setOp(n, v){ v = Math.round(v * 50) / 50; if (n.__op !== v) { n.__op = v; n.setAttribute('opacity', v); } }
+    function setTr(n, v){ if (n.__tr !== v) { n.__tr = v; n.setAttribute('transform', v); } }
+    function mk(tag, attrs, parent){ var n = el(tag, attrs); if (parent) parent.appendChild(n); return n; }
+    // azar determinista (mulberry32): la simulación es reproducible, ?t=<ms> da siempre la misma foto
+    var seed = 20261013;
+    function rnd(){ seed = (seed + 0x6D2B79F5) | 0; var t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
+
+    /* ── los dos trazados: horizontal (desktop) y vertical (≤860 px). La estación se dibuja en
+       coordenadas propias (origen a la izquierda, la salida en (360,0) hacia +x) y se gira entera;
+       la constelación también (origen en la salida del reactor, el flujo hacia +x), pero sus nodos
+       se transforman uno por uno para que las etiquetas queden derechas. ── */
+    var R = 100, RIN = 92;    // el aro del reactor y el radio de la cámara
+    var LAY = {
+      desk: { vb: '0 0 1200 380', est: { x: 45, y: 190, rot: 0 }, re: { x: 600, y: 190 }, dir: { x: 1, y: 0 }, k: 1,
+              lab: [[14, 3.5, 'start'], [16, 3.5, 'start'], [14, 3.5, 'start']], grilla: [[0, 95, 1200, 95], [0, 190, 1200, 190], [0, 285, 1200, 285], [300, 0, 300, 380], [600, 0, 600, 380], [900, 0, 900, 380]] },
+      mov:  { vb: '0 0 480 1040', est: { x: 240, y: 24, rot: 90 }, re: { x: 240, y: 560 }, dir: { x: 0, y: 1 }, k: 0.8,
+              lab: [[0, 24, 'middle'], [0, 24, 'middle'], [0, 24, 'middle']], grilla: [[120, 0, 120, 1040], [240, 0, 240, 1040], [360, 0, 360, 1040], [0, 260, 480, 260], [0, 560, 480, 560], [0, 820, 480, 820]] }
+    };
+    var mq = window.matchMedia('(max-width: 860px)');
+    var L = null, V = null;    // trazado vigente y la vista armada sobre él
+    function stToG(x, y){ var e = L.est; return e.rot ? { x: e.x - y, y: e.y + x } : { x: e.x + x, y: e.y + y }; }
+    function conToG(x, y){ var o = V.out, k = L.k; return L.est.rot ? { x: o.x - y * k, y: o.y + x * k } : { x: o.x + x * k, y: o.y + y * k }; }
+
+    /* ── estado de la simulación (independiente del trazado) ── */
+    var simT = 0, nStep = 0, acc = 0, ultimo = null, corriendo = false, visible = false, prewarm = false;
+    var P = [], bonds = [], flashes = [], toks = [], pulsos = [], sec2 = [], lit = [0, 0, 0], litMin = [], ultimaSalida = -1e9, ultimoProd = -1, compuerta = 0, presion = 0;
+    var RMAX = 86, NMAX = 34, REST = 13, SEP = 10, BD = 11.5, MAXB = 3, MAXC = 7, AC = 260, DAMP = 2.4, VMAX = 34, KS = 16, KR = 34, PBOND = 3.2;
+    var INLET = { x: -RIN, y: 0 }, OUTLET = { x: RIN, y: 0 };
+    var DEV = [ { cad: 2.6, next: 0.9, c: 0, port: 215 }, { cad: 3.6, next: 2.3, c: 2, port: 180 }, { cad: 4.8, next: 3.9, c: 1, port: 145 } ];   // s entre tokens de cámara · sensor · registro
+    var T_IN = 3.8, T_ROT = 0.6, T_MAIN = 4.2, T_PUL = 1.7, T_SEC = 0.9;   // s: tramo de entrada · distribuidor · cañería principal · pulso · pulso secundario
+    var ROT_PER = 12;   // s por vuelta del distribuidor (tres canales: cada puerta se alinea cada 4 s)
+    var NMIN = 15;
+    for (var q0 = 0; q0 < NMIN; q0++) litMin.push(-1e9);
+
+    function rotorAng(){ return (simT / ROT_PER * 360) % 360; }
+    function compTam(p){ var vis = [p], out = 0, k; while (vis.length) { var x = vis.pop(); if (x.__m) continue; x.__m = 1; out++; for (k = 0; k < x.b.length; k++) vis.push(x.b[k]); } limpiarMarcas(); return out; }
+    function limpiarMarcas(){ for (var i = 0; i < P.length; i++) P[i].__m = 0; }
+    function componentes(){
+      var comps = [], i, k; limpiarMarcas();
+      for (i = 0; i < P.length; i++) { if (P[i].__m) continue; var c = [], vis = [P[i]]; while (vis.length) { var x = vis.pop(); if (x.__m) continue; x.__m = 1; c.push(x); for (k = 0; k < x.b.length; k++) vis.push(x.b[k]); } comps.push(c); }
+      limpiarMarcas(); return comps;
+    }
+    function unir(p, q, destello){
+      p.b.push(q); q.b.push(p); p.tb = q.tb = simT; p.cool = q.cool = simT + 0.8; p.glow = q.glow = 1;
+      bonds.push({ a: p, b: q, el: null });
+      if (destello) flashes.push({ x: (p.x + q.x) / 2, y: (p.y + q.y) / 2, t0: simT });
+      // cerrar el triángulo: si un vecino de p está cerca de q, se enlaza también (la estructura se sostiene)
+      var k, v; for (k = 0; k < p.b.length; k++) { v = p.b[k]; if (v !== q && q.b.indexOf(v) < 0 && q.b.length < MAXB && v.b.length < MAXB && Math.hypot(v.x - q.x, v.y - q.y) < 21) { q.b.push(v); v.b.push(q); bonds.push({ a: q, b: v, el: null }); break; } }
+    }
+    function nueva(c){
+      var ang = (rnd() - 0.5) * 0.5;
+      P.push({ x: INLET.x + 3, y: (rnd() - 0.5) * 6, vx: 30 * Math.cos(ang), vy: 30 * Math.sin(ang), c: c, b: [], t: simT, tb: simT, cool: simT + 1.4, ex: false, glow: 0, el: null, halo: null });
+    }
+    function matar(p){
+      var i;
+      for (i = bonds.length - 1; i >= 0; i--) if (bonds[i].a === p || bonds[i].b === p) { if (bonds[i].el) { setOp(bonds[i].el, 0); bonds[i].el = null; } bonds.splice(i, 1); }
+      for (i = 0; i < p.b.length; i++) { var v = p.b[i], j = v.b.indexOf(p); if (j >= 0) v.b.splice(j, 1); }
+      p.b = [];
+      if (p.el) { setOp(p.el, 0); setOp(p.halo, 0); p.el.__libre = true; p.el = null; p.halo = null; }
+      i = P.indexOf(p); if (i >= 0) P.splice(i, 1);
+    }
+    function lanzarPulso(){
+      // el producto de destino: nunca el mismo dos veces seguidas, con un poco de azar
+      var i = Math.floor(rnd() * 3); if (i === ultimoProd) i = (i + 1 + Math.floor(rnd() * 2)) % 3;
+      ultimoProd = i; pulsos.push({ i: i, t0: simT });
+    }
+
+    /* ── un paso de 1/60 s: tokens, reacción, salidas, pulsos. Todo lo que decide usa rnd(): el orden es fijo. ── */
+    function paso(){
+      var dt = DT, i, j, p, q, n, dx, dy, d, k;
+      nStep++;
+      // tokens: emisión, viaje, espera en la puerta, alineación del distribuidor, cañería, entrada al reactor
+      var enMain = 0; for (i = 0; i < toks.length; i++) if (toks[i].st === 'main' || toks[i].st === 'rot') enMain++;
+      for (k = 0; k < 3; k++) {
+        var dv = DEV[k];
+        if (simT >= dv.next) {
+          var cola = 0; for (i = 0; i < toks.length; i++) if (toks[i].dev === k && toks[i].st !== 'main' && toks[i].st !== 'rot') cola++;
+          if (cola < 2 && toks.length < 12) { toks.push({ dev: k, st: 'in', t0: simT, q: 0 }); dv.next = simT + dv.cad * (0.72 + rnd() * 0.56); }
+          else dv.next = simT + 0.9;
+        }
+      }
+      var ra = rotorAng();
+      for (i = toks.length - 1; i >= 0; i--) {
+        var tk = toks[i], f = simT - tk.t0;
+        if (tk.st === 'in' && f >= T_IN) { tk.st = 'wait'; tk.t0 = simT; }
+        else if (tk.st === 'wait') {
+          // su lugar en la cola de la puerta
+          var qq = 0; for (j = 0; j < i; j++) if (toks[j].dev === tk.dev && toks[j].st === 'wait') qq++;
+          tk.q = qq;
+          if (qq === 0 && P.length + enMain < NMAX - 2) {
+            var port = DEV[tk.dev].port, al = false;
+            for (k = 0; k < 3; k++) { var da = Math.abs((((ra + k * 120 - port) % 360) + 540) % 360 - 180); if (da < 9) al = true; }
+            if (al) { tk.st = 'rot'; tk.t0 = simT; enMain++; }
+          }
+        }
+        else if (tk.st === 'rot' && f >= T_ROT) { tk.st = 'main'; tk.t0 = simT; }
+        else if (tk.st === 'main' && f >= T_MAIN) { nueva(DEV[tk.dev].c); toks.splice(i, 1); }
+      }
+      // la compuerta se levanta cuando un token se le acerca (está a 100 unidades del centro del distribuidor, de 210 de cañería)
+      var abrir = 0; for (i = 0; i < toks.length; i++) if (toks[i].st === 'main') { var s = (simT - toks[i].t0) / T_MAIN * 210; if (s > 80 && s < 112) abrir = 1; }
+      compuerta += (abrir - compuerta) * (abrir ? 7 : 3) * dt;
+
+      // la reacción
+      n = P.length;
+      for (i = 0; i < n; i++) {
+        p = P[i];
+        p.vx += (rnd() - 0.5) * AC * dt; p.vy += (rnd() - 0.5) * AC * dt;
+        if (p.ex) { dx = OUTLET.x - p.x; dy = OUTLET.y - p.y; d = Math.hypot(dx, dy) || 1; p.vx += (46 * dx / d - p.vx) * 2.6 * dt; p.vy += (46 * dy / d - p.vy) * 2.6 * dt; }
+        else { p.vx += (p.b.length ? 6 : 2.5) * dt; p.vx -= p.x * 0.06 * dt; p.vy -= p.y * 0.06 * dt; }
+        p.vx *= 1 - DAMP * dt; p.vy *= 1 - DAMP * dt;
+        if (p.glow > 0) p.glow = Math.max(0, p.glow - dt * 0.9);
+      }
+      for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) {
+        p = P[i]; q = P[j]; dx = q.x - p.x; dy = q.y - p.y; d = Math.hypot(dx, dy);
+        if (d < 0.01) continue;
+        var bonded = p.b.indexOf(q) >= 0, fz = 0;
+        if (bonded) fz = (d - REST) * KS; else if (d < SEP) fz = (d - SEP) * KR;
+        if (fz) { var fx = fz * dx / d * dt, fy = fz * dy / d * dt; p.vx += fx; p.vy += fy; q.vx -= fx; q.vy -= fy; }
+        if (!bonded && !p.ex && !q.ex && d < BD && p.b.length < MAXB && q.b.length < MAXB && simT > p.cool && simT > q.cool && rnd() < PBOND * dt && compTam(p) + compTam(q) <= MAXC) unir(p, q, true);
+      }
+      for (i = n - 1; i >= 0; i--) {
+        p = P[i]; var sp = Math.hypot(p.vx, p.vy), cap = p.ex ? 64 : VMAX; if (sp > cap) { p.vx *= cap / sp; p.vy *= cap / sp; }
+        p.x += p.vx * dt; p.y += p.vy * dt;
+        var r = Math.hypot(p.x, p.y);
+        if (p.ex && p.x > RIN - 4 && Math.abs(p.y) < 16) { var ex = p.ex; matar(p); if (--ex.n <= 0) lanzarPulso(); continue; }
+        if (r > RMAX && !(p.ex && p.x > 48 && Math.abs(p.y) < 18)) { var nx = p.x / r, ny = p.y / r, vn = p.vx * nx + p.vy * ny; if (vn > 0) { p.vx -= 1.7 * vn * nx; p.vy -= 1.7 * vn * ny; } p.x = nx * RMAX; p.y = ny * RMAX; }
+      }
+      // salidas: una estructura que se sostiene (≥4 nodos y 2,5 s sin enlaces nuevos, o un triángulo viejo) cruza a la salida
+      if (simT - ultimaSalida > 9 && nStep % 30 === 0) {
+        var comps = componentes(), mejor = null, mejorEdad = 0, lleno = P.length >= NMAX - 3;
+        for (i = 0; i < comps.length; i++) {
+          var c = comps[i]; if (c.length < 2 || c[0].ex) continue;
+          var ult = 0, cx = 0; for (k = 0; k < c.length; k++) { ult = Math.max(ult, c[k].tb); cx += c[k].x / c.length; }
+          var edad = simT - ult, ok = (c.length >= 4 && edad > 2.5 && cx > -30) || (c.length === 3 && edad > 9) || (lleno && c.length >= 2 && edad > 1.5);
+          if (ok && edad * c.length > mejorEdad) { mejorEdad = edad * c.length; mejor = c; }
+        }
+        if (mejor) { var tag = { n: mejor.length }; for (k = 0; k < mejor.length; k++) mejor[k].ex = tag; ultimaSalida = simT; }
+      }
+      // pulsos hacia la constelación, y los secundarios a los nodos menores
+      for (i = pulsos.length - 1; i >= 0; i--) if (simT - pulsos[i].t0 >= T_PUL) {
+        var pi = pulsos[i].i; lit[pi] = simT; pulsos.splice(i, 1);
+        var due = V ? V.duenos[pi] : [], cu = 2 + Math.floor(rnd() * 2), usados = [];
+        for (k = 0; k < cu && k < due.length; k++) { var m = due[Math.floor(rnd() * due.length)]; if (usados.indexOf(m) >= 0) continue; usados.push(m); sec2.push({ de: pi, a: m, t0: simT + 0.12 + k * 0.08 }); }
+      }
+      for (i = sec2.length - 1; i >= 0; i--) if (simT - sec2[i].t0 >= T_SEC) { litMin[sec2[i].a] = simT; sec2.splice(i, 1); }
+      for (i = flashes.length - 1; i >= 0; i--) if (simT - flashes[i].t0 > 0.75) flashes.splice(i, 1);
+      presion += ((bonds.length / 30) - presion) * 0.8 * dt;
+    }
+    function avanzar(ms){ var pasos = Math.min(Math.round(ms / 1000 / DT), 24000); while (pasos-- > 0) { paso(); simT += DT; } }
+
+    /* ── la vista: arma todo el SVG para el trazado vigente ── */
+    function engranaje(n, r, prof){
+      var da = Math.PI / n, ro = r + prof * 0.5, ri = r - prof * 0.5, d = '';
+      for (var i = 0; i < n; i++) { var a = i * 2 * da - da / 2; d += (i ? 'L ' : 'M ') + pol(ri, a) + ' L ' + pol(ro, a + da * 0.28) + ' L ' + pol(ro, a + da * 0.72) + ' L ' + pol(ri, a + da) + ' A ' + ri + ' ' + ri + ' 0 0 1 ' + pol(ri, a + 2 * da) + ' '; }
+      return d + 'Z';
+    }
+    function tubo(g, d){
+      mk('path', { d: d, fill: 'none', stroke: TUB, 'stroke-width': 5, opacity: 0.85, 'stroke-linecap': 'round' }, g);
+      mk('path', { d: d, fill: 'none', stroke: C, 'stroke-width': 3.2, opacity: 0.32, 'stroke-linecap': 'round' }, g);
+      return mk('path', { d: d, fill: 'none', stroke: HI, 'stroke-width': 1.1, opacity: 0.5, 'stroke-dasharray': '2 7', 'stroke-linecap': 'round' }, g);
+    }
+    function costura(g, d){
+      mk('path', { d: d, fill: 'none', stroke: OSC, 'stroke-width': 1.6, opacity: 0.8 }, g);
+      var bis = mk('path', { d: d, fill: 'none', stroke: C, 'stroke-width': 0.6, opacity: 0.3, transform: 'translate(0.8 0.8)' }, g);
+      var Lb = bis.getTotalLength();
+      for (var s = 5; s < Lb; s += 10) { var p = bis.getPointAtLength(s); mk('circle', { cx: f1(p.x - 2.6), cy: f1(p.y - 2.6), r: 0.9, fill: C, opacity: 0.45 }, g); }
+    }
+    function gear(g, G, agujeros){
+      var w = mk('g', { transform: 'translate(' + f1(G.x) + ' ' + f1(G.y) + ')' }, g), rot = mk('g', {}, w);
+      mk('path', { d: engranaje(G.n, G.r, 4.2), fill: MET, stroke: C, 'stroke-width': 0.9, opacity: 0.95, 'stroke-linejoin': 'round' }, rot);
+      mk('circle', { r: f1(G.r - 5), fill: 'none', stroke: C, 'stroke-width': 0.6, opacity: 0.5 }, rot);
+      for (var k = 0; k < agujeros; k++) { var a = k / agujeros * TAU, ra = (G.r - 4.5) * 0.56; mk('circle', { cx: f1(ra * Math.cos(a)), cy: f1(ra * Math.sin(a)), r: f1(G.r * 0.14), fill: OSC, stroke: C, 'stroke-width': 0.5, opacity: 0.8 }, rot); }
+      mk('circle', { r: f1(G.r * 0.16 + 1.4), fill: C, opacity: 0.85 }, rot);
+      mk('circle', { r: f1(G.r * 0.08 + 0.6), fill: OSC }, rot);
+      if (agujeros) mk('line', { x1: 0, y1: 0, x2: f1(-(G.r - 5.5)), y2: 0, stroke: C, 'stroke-width': 0.6, opacity: 0.35 }, rot);
+      G.rot = rot; return G;
+    }
+    function brida(g, p, dir){
+      // dos aletas perpendiculares a la cañería, con sus bulones
+      var nx = -dir.y, ny = dir.x, k;
+      for (k = -1; k <= 1; k += 2) {
+        var cx = p.x + dir.x * k * 3, cy = p.y + dir.y * k * 3;
+        mk('line', { x1: f1(cx - nx * 9), y1: f1(cy - ny * 9), x2: f1(cx + nx * 9), y2: f1(cy + ny * 9), stroke: C, 'stroke-width': 1.3, opacity: 0.85, 'stroke-linecap': 'round' }, g);
+        mk('circle', { cx: f1(cx - nx * 7), cy: f1(cy - ny * 7), r: 1, fill: HI, opacity: 0.8 }, g);
+        mk('circle', { cx: f1(cx + nx * 7), cy: f1(cy + ny * 7), r: 1, fill: HI, opacity: 0.8 }, g);
+      }
+    }
+
+    function armarEstacion(g){
+      var E = {};
+      // marcas de esquina del bastidor y costuras con remaches
+      [[6, -138, 1, 1], [6, 138, 1, -1], [300, -138, -1, 1], [300, 138, -1, -1]].forEach(function(c){ mk('path', { d: 'M ' + (c[0] + c[2] * 14) + ' ' + c[1] + ' H ' + c[0] + ' V ' + (c[1] + c[3] * 14), fill: 'none', stroke: C, 'stroke-width': 0.8, opacity: 0.35 }, g); });
+      costura(g, 'M 20 -124 H 112 Q 124 -124 124 -112 V -70');
+      costura(g, 'M 20 124 H 110 Q 122 124 122 112 V 62');
+      costura(g, 'M 236 -112 H 290 Q 300 -112 300 -102 V -70');
+      // ── cámara PTZ: vástago, horquilla, cabeza que panea, lente con iris, cono de visión ──
+      mk('path', { d: 'M 62 -124 V -112', stroke: C, 'stroke-width': 1.4, opacity: 0.8 }, g);
+      mk('path', { d: 'M 46 -96 A 16 16 0 0 1 78 -96', fill: 'none', stroke: C, 'stroke-width': 1, opacity: 0.55 }, g);
+      mk('circle', { cx: 62, cy: -112, r: 2.4, fill: MET, stroke: C, 'stroke-width': 0.8 }, g);
+      var cab = mk('g', { transform: 'translate(62 -96)' }, g), cabRot = mk('g', {}, cab);
+      mk('circle', { r: 11, fill: MET, stroke: C, 'stroke-width': 0.9 }, cabRot);
+      mk('path', { d: 'M -8 -4 H -3 M -8 4 H -3', stroke: C, 'stroke-width': 0.7, opacity: 0.5 }, cabRot);
+      mk('circle', { cx: 7, cy: 0, r: 5, fill: OSC, stroke: HI, 'stroke-width': 0.9 }, cabRot);
+      var iris = mk('g', { transform: 'translate(7 0)' }, cabRot);
+      for (var k = 0; k < 6; k++) { var a = k / 6 * TAU; mk('line', { x1: f1(1.6 * Math.cos(a)), y1: f1(1.6 * Math.sin(a)), x2: f1(4.2 * Math.cos(a + 0.5)), y2: f1(4.2 * Math.sin(a + 0.5)), stroke: HI, 'stroke-width': 0.6, opacity: 0.7 }, iris); }
+      mk('circle', { cx: 7, cy: 0, r: 1.3, fill: PCOL[0], opacity: 0.9 }, cabRot);
+      E.fov = mk('path', { d: 'M 12 0 L 48 -12 M 12 0 L 48 12', fill: 'none', stroke: HI, 'stroke-width': 0.6, 'stroke-dasharray': '3 4', opacity: 0.2 }, cabRot);
+      E.camLed = mk('circle', { cx: -6, cy: -6, r: 1.2, fill: PCOL[0], opacity: 0.3 }, cabRot);
+      E.cabRot = cabRot; E.iris = iris;
+      // ── sensor: plato, alimentador, mástil; emite anillos ──
+      mk('path', { d: 'M 40 -18 Q 28 0 40 18', fill: 'none', stroke: C, 'stroke-width': 1.4, opacity: 0.85 }, g);
+      mk('path', { d: 'M 36 0 H 52 M 36 0 V 30 M 28 30 H 44', fill: 'none', stroke: C, 'stroke-width': 0.9, opacity: 0.65 }, g);
+      mk('circle', { cx: 52, cy: 0, r: 2.1, fill: PCOL[2], opacity: 0.95 }, g);
+      E.anillos = []; for (k = 0; k < 3; k++) E.anillos.push(mk('path', { d: '', fill: 'none', stroke: PCOL[2], 'stroke-width': 0.8, opacity: 0 }, g));
+      // ── registro: caja con dos carretes, la cinta y tres testigos ──
+      mk('rect', { x: 34, y: 82, width: 56, height: 36, rx: 2, fill: MET, stroke: C, 'stroke-width': 0.9 }, g);
+      mk('path', { d: 'M 50 93 H 74', stroke: C, 'stroke-width': 0.7, opacity: 0.6 }, g);
+      E.carretes = [];
+      [50, 74].forEach(function(cx){
+        var w = mk('g', { transform: 'translate(' + cx + ' 100)' }, g), rot = mk('g', {}, w);
+        mk('circle', { r: 7, fill: OSC, stroke: C, 'stroke-width': 0.8 }, rot);
+        for (var s = 0; s < 3; s++) mk('line', { x1: 0, y1: 0, x2: f1(6 * Math.cos(s / 3 * TAU)), y2: f1(6 * Math.sin(s / 3 * TAU)), stroke: C, 'stroke-width': 0.8, opacity: 0.7 }, rot);
+        mk('circle', { r: 1.8, fill: C }, rot);
+        E.carretes.push(rot);
+      });
+      E.leds = [];
+      [[40, PCOL[1], 4300], [46, HI, 6100], [52, FL, 7900]].forEach(function(l){ E.leds.push({ n: mk('circle', { cx: l[0], cy: 112, r: 1.3, fill: l[1], opacity: 0.3 }, g), per: l[2] }); });
+      // ── las tres cañerías hacia las puertas del distribuidor (215° · 180° · 145°) ──
+      E.pipes = [
+        tubo(g, 'M 80 -110 C 80 -70, 180 -42, 218.7 -14.9'),
+        tubo(g, 'M 40 32 C 100 32, 176 0, 214 0'),
+        tubo(g, 'M 90 100 C 130 100, 186 38, 218.7 14.9')
+      ];
+      // ── la cañería principal: del distribuidor a la salida de la estación (la bomba y la compuerta van encima) ──
+      E.pipes.push(tubo(g, 'M 258 0 H 360'));
+      // ── distribuidor rotativo: corona dentada, cuerpo fijo con tres puertas, rotor de tres canales ──
+      var D = { n: 21, r: 26.25, x: 240, y: 0 };
+      gear(g, D, 0);
+      mk('circle', { cx: 240, cy: 0, r: 19, fill: OSC, stroke: C, 'stroke-width': 0.7, opacity: 0.95 }, g);
+      var rotW = mk('g', { transform: 'translate(240 0)' }, g), rot = mk('g', {}, rotW);
+      for (k = 0; k < 3; k++) { var ak = k / 3 * TAU; mk('line', { x1: f1(4 * Math.cos(ak)), y1: f1(4 * Math.sin(ak)), x2: f1(17 * Math.cos(ak)), y2: f1(17 * Math.sin(ak)), stroke: HI, 'stroke-width': 2.4, opacity: 0.75, 'stroke-linecap': 'round' }, rot); mk('circle', { cx: f1(17 * Math.cos(ak)), cy: f1(17 * Math.sin(ak)), r: 1.8, fill: HI, opacity: 0.8 }, rot); }
+      mk('circle', { r: 4.6, fill: C, opacity: 0.9 }, rot); mk('circle', { r: 1.5, fill: OSC }, rot);
+      E.D = D; E.rotor = rot;
+      [215, 180, 145, 0].forEach(function(pa){ var ar = pa * Math.PI / 180; mk('circle', { cx: f1(240 + 19 * Math.cos(ar)), cy: f1(19 * Math.sin(ar)), r: 2.6, fill: OSC, stroke: C, 'stroke-width': 0.8 }, g); });
+      // ── tren de engranajes: A engrana con la corona en -45° (arriba a la derecha), B con A en -35° y lleva la manivela ──
+      var A = { n: 10, r: 12.5 }, thA = -45 * Math.PI / 180; A.x = D.x + (D.r + A.r) * Math.cos(thA); A.y = D.y + (D.r + A.r) * Math.sin(thA);
+      var B = { n: 8, r: 10 }, thB = -35 * Math.PI / 180; B.x = A.x + (A.r + B.r) * Math.cos(thB); B.y = A.y + (A.r + B.r) * Math.sin(thB);
+      gear(g, A, 4); gear(g, B, 0); E.A = A; E.B = B;
+      // ── gear C engrana con la corona en 110° (abajo a la izquierda) y mueve el volante por correa ──
+      var Cg = { n: 10, r: 12.5 }, thC = 110 * Math.PI / 180; Cg.x = D.x + (D.r + Cg.r) * Math.cos(thC); Cg.y = D.y + (D.r + Cg.r) * Math.sin(thC);
+      gear(g, Cg, 0); E.Cg = Cg;
+      var Vo = { x: 292, y: 74, r: 14 };
+      var r1 = 5.5, r2 = 5.5, dx = Vo.x - Cg.x, dy = Vo.y - Cg.y, dist = Math.hypot(dx, dy), base = Math.atan2(dy, dx), off = Math.acos((r1 - r2) / dist);
+      function tp(cx, cy, rr, a){ return f1(cx + rr * Math.cos(a)) + ' ' + f1(cy + rr * Math.sin(a)); }
+      var correa = 'M ' + tp(Cg.x, Cg.y, r1, base + off) + ' L ' + tp(Vo.x, Vo.y, r2, base + off) + ' A ' + r2 + ' ' + r2 + ' 0 1 1 ' + tp(Vo.x, Vo.y, r2, base - off) + ' L ' + tp(Cg.x, Cg.y, r1, base - off) + ' A ' + r1 + ' ' + r1 + ' 0 1 1 ' + tp(Cg.x, Cg.y, r1, base + off);
+      mk('path', { d: correa, fill: 'none', stroke: OSC, 'stroke-width': 2.4, opacity: 0.9 }, g);
+      E.correa = mk('path', { d: correa, fill: 'none', stroke: C, 'stroke-width': 1, opacity: 0.7, 'stroke-dasharray': '3 3' }, g);
+      var volW = mk('g', { transform: 'translate(' + Vo.x + ' ' + Vo.y + ')' }, g), volRot = mk('g', {}, volW);
+      mk('circle', { r: Vo.r, fill: 'none', stroke: C, 'stroke-width': 2.6, opacity: 0.85 }, volRot);
+      mk('circle', { r: Vo.r, fill: 'none', stroke: OSC, 'stroke-width': 0.8, opacity: 0.6 }, volRot);
+      for (k = 0; k < 5; k++) mk('line', { x1: 0, y1: 0, x2: f1((Vo.r - 1) * Math.cos(k / 5 * TAU)), y2: f1((Vo.r - 1) * Math.sin(k / 5 * TAU)), stroke: C, 'stroke-width': 1.1, opacity: 0.8 }, volRot);
+      mk('circle', { r: 5.5, fill: MET, stroke: C, 'stroke-width': 0.8 }, volRot); mk('circle', { r: 1.2, fill: C }, volRot);
+      E.volRot = volRot; E.Vo = Vo;
+      // ── bomba de pistón, vertical, de pie sobre la cañería: la manivela de B la mueve por la biela ──
+      var PX = 286;
+      mk('rect', { x: PX - 6, y: -27, width: 12, height: 24, rx: 1.5, fill: MET, stroke: C, 'stroke-width': 0.9, opacity: 0.95 }, g);
+      mk('path', { d: 'M ' + (PX - 8) + ' -27 H ' + (PX + 8) + ' M ' + (PX - 7) + ' -3 H ' + (PX + 7), stroke: C, 'stroke-width': 1, opacity: 0.6 }, g);
+      E.biela = mk('line', { stroke: OSC, 'stroke-width': 3.2, 'stroke-linecap': 'round' }, g);
+      E.biela2 = mk('line', { stroke: C, 'stroke-width': 1.6, 'stroke-linecap': 'round', opacity: 0.9 }, g);
+      E.piston = mk('rect', { x: PX - 4.5, y: -4.6, width: 9, height: 7, rx: 1, fill: MET, stroke: C, 'stroke-width': 0.9 }, g);
+      E.perno = mk('circle', { r: 1.6, fill: C }, g); E.munon = mk('circle', { r: 1.3, fill: OSC, stroke: C, 'stroke-width': 0.6 }, g);
+      E.PX = PX; E.rc = 4.5; E.Lb = 29;
+      // ── compuerta: bastidor sobre la cañería y la hoja que levanta ──
+      mk('path', { d: 'M 336 -22 V 10 M 344 -22 V 10 M 334 -22 H 346', fill: 'none', stroke: C, 'stroke-width': 0.9, opacity: 0.75 }, g);
+      E.hoja = mk('rect', { x: 338.5, y: -7, width: 3, height: 14, rx: 0.6, fill: HI, opacity: 0.9 }, g);
+      return E;
+    }
+
+    function armarConductos(g){
+      var K = {}, ex = stToG(360, 0), ini = stToG(240, 0), inl = { x: L.re.x - L.dir.x * R, y: L.re.y - L.dir.y * R };
+      K.flujo = tubo(g, 'M ' + f1(ex.x) + ' ' + f1(ex.y) + ' L ' + f1(inl.x) + ' ' + f1(inl.y));
+      // el camino completo de un token por la cañería principal: del centro del distribuidor a la entrada del reactor (210 unidades)
+      K.main = mk('path', { d: 'M ' + f1(ini.x) + ' ' + f1(ini.y) + ' L ' + f1(inl.x) + ' ' + f1(inl.y), fill: 'none', stroke: 'none' }, g);
+      // válvula a mitad de camino: cuerpo hexagonal sobre la cañería, vástago y volante que gira
+      var vx = (ex.x + inl.x) / 2, vy = (ex.y + inl.y) / 2, nx = -L.dir.y, ny = L.dir.x, hex = '';
+      for (var k = 0; k < 6; k++) hex += (k ? 'L ' : 'M ') + f1(vx + 6.5 * Math.cos(k / 6 * TAU + Math.PI / 6)) + ' ' + f1(vy + 6.5 * Math.sin(k / 6 * TAU + Math.PI / 6)) + ' ';
+      mk('path', { d: hex + 'Z', fill: MET, stroke: C, 'stroke-width': 0.9 }, g);
+      mk('line', { x1: f1(vx), y1: f1(vy), x2: f1(vx - nx * 15), y2: f1(vy - ny * 15), stroke: C, 'stroke-width': 1.6, opacity: 0.85 }, g);
+      var w = mk('g', { transform: 'translate(' + f1(vx - nx * 17) + ' ' + f1(vy - ny * 17) + ')' }, g), rot = mk('g', {}, w);
+      mk('circle', { r: 7, fill: 'none', stroke: C, 'stroke-width': 1.8, opacity: 0.9 }, rot);
+      for (k = 0; k < 4; k++) mk('line', { x1: 0, y1: 0, x2: f1(6.5 * Math.cos(k / 4 * TAU)), y2: f1(6.5 * Math.sin(k / 4 * TAU)), stroke: C, 'stroke-width': 1, opacity: 0.8 }, rot);
+      mk('circle', { r: 1.6, fill: C }, rot);
+      K.volante = rot; K.inl = inl;
+      return K;
+    }
+
+    function armarReactor(g){
+      var Rr = {}, cx = L.re.x, cy = L.re.y, k;
+      // la corona difusa (los halos del eclipse de la casa), el aro de la totalidad, el sol detrás y la luna: la cámara
+      [[118, 10, 'var(--h3)', 0.28], [114, 6, 'var(--h4)', 0.24], [110, 3.5, 'var(--h5)', 0.2], [106, 2, 'var(--h6)', 0.16]].forEach(function(h){ mk('circle', { cx: cx, cy: cy, r: h[0], fill: 'none', stroke: h[2], 'stroke-width': h[1], opacity: h[3] }, g); });
+      mk('circle', { cx: cx, cy: cy, r: R, fill: 'none', stroke: C, 'stroke-width': 3, opacity: 0.35 }, g);
+      mk('circle', { cx: cx, cy: cy, r: R, fill: 'none', stroke: HI, 'stroke-width': 1.3, opacity: 0.95 }, g);
+      mk('circle', { cx: cx, cy: cy, r: R - 1, fill: 'var(--sol-tapado)' }, g);
+      mk('circle', { cx: cx, cy: cy, r: RIN + 1, fill: 'var(--luna)' }, g);
+      // bridas de entrada y salida, y el manómetro arriba a la derecha (marca la cantidad de enlaces)
+      brida(g, { x: cx - L.dir.x * R, y: cy - L.dir.y * R }, L.dir);
+      brida(g, { x: cx + L.dir.x * R, y: cy + L.dir.y * R }, L.dir);
+      var am = -Math.PI / 4, gx = cx + Math.cos(am) * (R + 27), gy = cy + Math.sin(am) * (R + 27);
+      mk('line', { x1: f1(cx + Math.cos(am) * R), y1: f1(cy + Math.sin(am) * R), x2: f1(cx + Math.cos(am) * (R + 18)), y2: f1(cy + Math.sin(am) * (R + 18)), stroke: C, 'stroke-width': 1.4, opacity: 0.8 }, g);
+      mk('circle', { cx: f1(gx), cy: f1(gy), r: 9.5, fill: OSC, stroke: C, 'stroke-width': 0.9, opacity: 0.95 }, g);
+      for (k = 0; k <= 6; k++) { var ang = (150 + 40 * k) * Math.PI / 180, rr = k % 3 === 0 ? 6 : 7.4; mk('line', { x1: f1(gx + rr * Math.cos(ang)), y1: f1(gy + rr * Math.sin(ang)), x2: f1(gx + 8.4 * Math.cos(ang)), y2: f1(gy + 8.4 * Math.sin(ang)), stroke: C, 'stroke-width': 0.7, opacity: 0.7 }, g); }
+      var agW = mk('g', { transform: 'translate(' + f1(gx) + ' ' + f1(gy) + ')' }, g);
+      Rr.aguja = mk('line', { x1: 0, y1: 0, x2: 7.4, y2: 0, stroke: HI, 'stroke-width': 1, 'stroke-linecap': 'round', opacity: 0.95 }, agW);
+      mk('circle', { cx: f1(gx), cy: f1(gy), r: 1.3, fill: C }, g);
+      // la cámara de reacción: todo lo que pasa adentro, en coordenadas propias y recortado al disco
+      document.getElementById('mq-clip-c').setAttribute('cx', cx); document.getElementById('mq-clip-c').setAttribute('cy', cy);
+      var cam = mk('g', { 'clip-path': 'url(#mq-clip)' }, g), cc = mk('g', { transform: 'translate(' + cx + ' ' + cy + ')' + (L.est.rot ? ' rotate(90)' : '') }, cam);
+      Rr.enlaces = []; for (k = 0; k < 48; k++) Rr.enlaces.push(mk('line', { stroke: C, 'stroke-width': 1.2, opacity: 0, 'stroke-linecap': 'round' }, cc));
+      Rr.halos = []; Rr.parts = [];
+      for (k = 0; k < NMAX; k++) Rr.halos.push(mk('circle', { r: 7.5, opacity: 0 }, cc));
+      for (k = 0; k < NMAX; k++) { var c = mk('circle', { r: 2.2, opacity: 0 }, cc); c.__libre = true; Rr.parts.push(c); }
+      Rr.flashes = []; for (k = 0; k < 6; k++) Rr.flashes.push(mk('circle', { r: 2, fill: 'none', stroke: FL, 'stroke-width': 1, opacity: 0 }, cc));
+      return Rr;
+    }
+
+    function armarConstelacion(g){
+      var N = {}, k, i, j;
+      V.out = { x: L.re.x + L.dir.x * R, y: L.re.y + L.dir.y * R };
+      // posiciones en coordenadas de la constelación (flujo hacia +x): tres mayores y quince menores, y las
+      // aristas dibujadas a mano, como en la original (0-2 mayores; 3.. menores). Tres doradas, asimétricas.
+      var MAY = [[150, -100], [250, -6], [180, 94]];
+      var MIN = [[88, -52], [96, 58], [210, -132], [300, -80], [318, 60], [340, -130], [372, -22], [320, 122], [410, -92], [436, 34], [458, -36], [262, 130], [400, 110], [230, 56], [120, -10]];
+      N.may = MAY.map(function(p){ return conToG(p[0], p[1]); });
+      N.min = MIN.map(function(p){ return conToG(p[0], p[1]); });
+      var m = function(i){ return 3 + i; };
+      var lineas = [
+        [m(0), 0], [m(0), m(14)], [m(14), 1], [m(14), m(1)], [m(1), 2], [0, m(2)], [m(2), m(5)], [m(5), m(3)], [1, m(6)], [m(6), m(8)],
+        [m(6), m(10)], [m(10), m(9)], [m(9), m(12)], [m(12), m(7)], [m(7), m(11)], [m(11), 2], [2, m(13)], [m(13), 1], [m(4), 1], [m(4), m(7)],
+        [m(4), m(9)], [m(3), m(8)], [m(8), m(10)], [m(2), 1]
+      ].map(function(ab){ return { a: ab[0], b: ab[1], dorada: false }; }).concat([
+        { a: 0, b: 1, dorada: true }, { a: 1, b: 2, dorada: true }, { a: 2, b: m(4), dorada: true }, { a: 0, b: m(3), dorada: true }
+      ]);
+      var todos = N.may.concat(N.min);
+      V.duenos = [[0, 2, 14], [3, 6, 13], [1, 11, 13]];   // a qué menores se propaga cada producto cuando recibe un pulso
+      N.doradas = [];
+      lineas.forEach(function(ln, idx){
+        var a = todos[ln.a], b = todos[ln.b];
+        var e = mk('line', { x1: f1(a.x), y1: f1(a.y), x2: f1(b.x), y2: f1(b.y), stroke: ln.dorada ? (idx % 2 ? HI : C) : NODO, 'stroke-width': ln.dorada ? 1 : 0.8, opacity: ln.dorada ? 0.4 : 0.9 }, g);
+        if (ln.dorada) N.doradas.push({ el: e, per: 6000 + N.doradas.length * 1700, ph: N.doradas.length * 2.1 });
+      });
+      // los conductos de salida del reactor a cada producto, y su longitud para los pulsos
+      N.cond = [];
+      N.may.forEach(function(m, i){
+        var o = V.out, d = L.dir, c1 = { x: o.x + d.x * 54, y: o.y + d.y * 54 }, c2 = { x: m.x - d.x * 64, y: m.y - d.y * 64 };
+        var pth = mk('path', { d: 'M ' + f1(o.x) + ' ' + f1(o.y) + ' C ' + f1(c1.x) + ' ' + f1(c1.y) + ', ' + f1(c2.x) + ' ' + f1(c2.y) + ', ' + f1(m.x) + ' ' + f1(m.y), fill: 'none', stroke: i === 1 ? HI : C, 'stroke-width': i === 1 ? 1.2 : 1, opacity: i === 1 ? 0.5 : 0.38 }, g);
+        N.cond.push({ el: pth, len: pth.getTotalLength() });
+      });
+      // nodos menores: aro tenue, núcleo, halo que se enciende
+      N.menores = N.min.map(function(m, i){
+        var gr = mk('g', {}, g), ph = hash(i + 7);
+        var halo = mk('circle', { cx: f1(m.x), cy: f1(m.y), r: 9, fill: NODO, opacity: 0 }, gr);
+        var aro = mk('circle', { cx: f1(m.x), cy: f1(m.y), r: 3 + hash(i) * 2, fill: 'var(--bg2)', stroke: i % 3 === 0 ? 'var(--maq-vio)' : NODO, 'stroke-width': 0.8, opacity: 0.9 }, gr);
+        var nuc = mk('circle', { cx: f1(m.x), cy: f1(m.y), r: 1.6, fill: i % 3 === 0 ? 'var(--maq-vio)' : NODO, opacity: 0.6 }, gr);
+        return { halo: halo, aro: aro, nuc: nuc, per: 5000 + ph * 9000, ph: ph * TAU };
+      });
+      // nodos mayores: un enlace a la banda del producto, con su etiqueta en mono
+      N.mayores = N.may.map(function(m, i){
+        var pr = PROD[i], a = mk('a', { 'class': 'mq-nodo', href: pr.href, tabindex: 0, 'aria-label': pr.aria, style: '--c:' + pr.col }, g);
+        mk('circle', { 'class': 'mq-nodo-hit', cx: f1(m.x), cy: f1(m.y), r: 18 }, a);
+        var glow = mk('circle', { cx: f1(m.x), cy: f1(m.y), r: 18, fill: pr.col, opacity: 0 }, a);
+        mk('circle', { 'class': 'mq-nodo-halo', cx: f1(m.x), cy: f1(m.y), r: 15 }, a);
+        var aro = mk('circle', { cx: f1(m.x), cy: f1(m.y), r: 10, fill: 'var(--tarjeta)', stroke: pr.col, 'stroke-width': 1.2 }, a);
+        mk('circle', { cx: f1(m.x), cy: f1(m.y), r: 5, fill: 'var(--bg)', opacity: 0.9 }, a);
+        var nuc = mk('circle', { cx: f1(m.x), cy: f1(m.y), r: 2.6, fill: pr.col }, a);
+        var lb = L.lab[i], t = mk('text', { 'class': 'mq-lab', x: f1(m.x + lb[0]), y: f1(m.y + lb[1]), 'text-anchor': lb[2] }, a);
+        t.textContent = pr.nombre;
+        return { glow: glow, aro: aro, nuc: nuc };
+      });
+      return N;
+    }
+
+    function armar(){
+      L = mq.matches ? LAY.mov : LAY.desk;
+      svg.setAttribute('viewBox', L.vb);
+      var gs = {}; ['mq-grilla', 'mq-est', 'mq-cond', 'mq-re', 'mq-con', 'mq-tok', 'mq-pul'].forEach(function(id){ var n = document.getElementById(id); while (n.firstChild) n.removeChild(n.firstChild); gs[id] = n; });
+      V = {};
+      L.grilla.forEach(function(l){ mk('line', { x1: l[0], y1: l[1], x2: l[2], y2: l[3], stroke: 'var(--maq-grilla)', 'stroke-width': 0.6 }, gs['mq-grilla']); });
+      gs['mq-est'].setAttribute('transform', 'translate(' + L.est.x + ' ' + L.est.y + ')' + (L.est.rot ? ' rotate(' + L.est.rot + ')' : ''));
+      V.E = armarEstacion(gs['mq-est']);
+      V.K = armarConductos(gs['mq-cond']);
+      V.Rr = armarReactor(gs['mq-re']);
+      V.N = armarConstelacion(gs['mq-con']);
+      V.toks = []; for (var k = 0; k < 12; k++) { var gl = mk('circle', { r: 5, opacity: 0 }, gs['mq-tok']), c = mk('circle', { r: 2.3, opacity: 0 }, gs['mq-tok']); V.toks.push({ c: c, gl: gl }); }
+      V.pul = []; for (k = 0; k < 6; k++) { var cola = mk('circle', { r: 1.7, fill: HI, opacity: 0 }, gs['mq-pul']), pc = mk('circle', { r: 2.7, fill: FL, opacity: 0 }, gs['mq-pul']); V.pul.push({ c: pc, cola: cola }); }
+      V.sec = []; for (k = 0; k < 8; k++) V.sec.push(mk('circle', { r: 1.8, fill: FL, opacity: 0 }, gs['mq-pul']));
+      V.pipeLen = V.E.pipes.map(function(p){ return p.getTotalLength(); });
+      V.mainLen = V.K.main.getTotalLength();
+      // las partículas vivas vuelven a tomar un círculo de la vista nueva
+      P.forEach(function(p){ p.el = null; p.halo = null; });
+    }
+
+    /* ── pintar un instante ── */
+    function pintar(quieto){
+      var T = simT * 1000, E = V.E, K = V.K, Rr = V.Rr, N = V.N, i, k, p;
+      // la estación
+      var pD = simT / ROT_PER * 360;
+      setTr(E.D.rot, 'rotate(' + f1(pD) + ')'); setTr(E.rotor, 'rotate(' + f1(pD) + ')');
+      var pA = -45 + 180 + (21 / 10) * (-45 - pD) + 180 / 10;          // A engrana con la corona en -45° y gira al revés, a 21/10
+      var pB = -35 + 180 + (10 / 8) * (-35 - pA) + 180 / 8;             // B engrana con A en -35°
+      var pC = 110 + 180 + (21 / 10) * (110 - pD) + 180 / 10;           // C engrana con la corona en 110°
+      setTr(E.A.rot, 'rotate(' + f1(pA) + ')'); setTr(E.B.rot, 'rotate(' + f1(pB) + ')'); setTr(E.Cg.rot, 'rotate(' + f1(pC) + ')');
+      // biela y pistón: manivela en B, el pistón sube y baja en x = PX
+      var ab = pB * Math.PI / 180, px = E.B.x + E.rc * Math.cos(ab), py = E.B.y + E.rc * Math.sin(ab);
+      var yp = py + Math.sqrt(Math.max(1, E.Lb * E.Lb - (px - E.PX) * (px - E.PX)));
+      [E.biela, E.biela2].forEach(function(n){ n.setAttribute('x1', f1(px)); n.setAttribute('y1', f1(py)); n.setAttribute('x2', f1(E.PX)); n.setAttribute('y2', f1(yp)); });
+      setTr(E.piston, 'translate(0 ' + f1(yp) + ')');
+      E.perno.setAttribute('cx', f1(E.PX)); E.perno.setAttribute('cy', f1(yp)); E.munon.setAttribute('cx', f1(px)); E.munon.setAttribute('cy', f1(py));
+      // la correa corre a la velocidad de la polea de C (r 5,5, a 21/10 de la corona); el volante gira con ella
+      var vueltasC = pD * 21 / 10 / 360;
+      setTr(E.volRot, 'rotate(' + f1(-vueltasC * 360) + ')');
+      E.correa.setAttribute('stroke-dashoffset', f1((vueltasC * TAU * 5.5) % 6));
+      var dash = -(T / 1000 * 5) % 9;
+      E.pipes.forEach(function(fl){ fl.setAttribute('stroke-dashoffset', f1(dash)); }); K.flujo.setAttribute('stroke-dashoffset', f1(dash));
+      // cámara: panea despacio, el iris gira, el cono respira, el testigo late
+      setTr(E.cabRot, 'rotate(' + f1(20 * Math.sin(T / 26000 * TAU) + 5 * Math.sin(T / 7100 * TAU + 1)) + ')');
+      setTr(E.iris, 'translate(7 0) rotate(' + f1(T / 9000 * 360) + ')');
+      setOp(E.fov, 0.14 + 0.1 * Math.sin(T / 5000 * TAU));
+      var fl0 = (T % 3100) / 3100; setOp(E.camLed, quieto ? 0.9 : 0.25 + 0.7 * sm(fl0 / 0.05) * sm((0.16 - fl0) / 0.06));
+      // sensor: tres anillos que salen del alimentador cada 5,5 s
+      for (k = 0; k < 3; k++) { var fr = ((T + k * 1833) % 5500) / 5500, rr = 5 + 25 * fr; E.anillos[k].setAttribute('d', 'M ' + f1(52 + rr * Math.cos(-0.95)) + ' ' + f1(rr * Math.sin(-0.95)) + ' A ' + f1(rr) + ' ' + f1(rr) + ' 0 0 1 ' + f1(52 + rr * Math.cos(0.95)) + ' ' + f1(rr * Math.sin(0.95))); setOp(E.anillos[k], quieto ? (k === 1 ? 0.5 : 0) : 0.55 * (1 - fr) * sm(fr / 0.08)); }
+      // registro: los carretes giran, los testigos titilan
+      E.carretes.forEach(function(r, i){ setTr(r, 'rotate(' + f1(T / 11000 * 360 * (i ? 1 : 1.3)) + ')'); });
+      for (i = 0; i < E.leds.length; i++) { var l = E.leds[i], f = (T % l.per) / l.per; setOp(l.n, quieto ? (i === 1 ? 0.95 : 0.3) : 0.25 + 0.7 * sm(f / 0.06) * sm((0.22 - f) / 0.08)); }
+      // compuerta
+      setTr(E.hoja, 'translate(0 ' + f1(-13 * compuerta) + ')');
+      // válvula
+      setTr(K.volante, 'rotate(' + f1(T / 40000 * 360) + ')');
+      // manómetro: la presión es la cantidad de enlaces, con un temblor
+      var v = clamp(presion + 0.03 * Math.sin(T / 2300 * TAU), 0, 1);
+      setTr(Rr.aguja, 'rotate(' + f1(150 + 240 * v) + ')');
+      // tokens
+      for (i = 0; i < V.toks.length; i++) {
+        var tv = V.toks[i], tk = toks[i];
+        if (!tk) { setOp(tv.c, 0); setOp(tv.gl, 0); continue; }
+        var pos, fz = simT - tk.t0, col = PCOL[DEV[tk.dev].c], op = 0.9;
+        if (tk.st === 'in') { var pt = E.pipes[tk.dev].getPointAtLength(V.pipeLen[tk.dev] * clamp(fz / T_IN, 0, 1)); pos = stToG(pt.x, pt.y); op = 0.9 * sm(fz / 0.4); }
+        else if (tk.st === 'wait') { var ar = DEV[tk.dev].port * Math.PI / 180, rw = 30 + tk.q * 6.5; pos = stToG(240 + rw * Math.cos(ar), rw * Math.sin(ar)); }
+        else if (tk.st === 'rot') { var ar2 = DEV[tk.dev].port * Math.PI / 180, e = sm(fz / T_ROT); pos = stToG(240 + 30 * (1 - e) * Math.cos(ar2), 30 * (1 - e) * Math.sin(ar2)); }
+        else { var pm = K.main.getPointAtLength(V.mainLen * clamp(fz / T_MAIN, 0, 1)); pos = pm; }
+        if (tv.col !== col) { tv.col = col; tv.c.setAttribute('fill', col); tv.gl.setAttribute('fill', col); }
+        tv.c.setAttribute('cx', f1(pos.x)); tv.c.setAttribute('cy', f1(pos.y)); tv.gl.setAttribute('cx', f1(pos.x)); tv.gl.setAttribute('cy', f1(pos.y));
+        setOp(tv.c, op); setOp(tv.gl, op * 0.18);
+      }
+      // la cámara de reacción: partículas, halos de las enlazadas, enlaces, destellos
+      for (i = 0; i < P.length; i++) {
+        p = P[i];
+        if (!p.el) { for (k = 0; k < NMAX; k++) if (Rr.parts[k].__libre) { Rr.parts[k].__libre = false; p.el = Rr.parts[k]; p.halo = Rr.halos[k]; p.el.setAttribute('fill', PCOL[p.c]); p.halo.setAttribute('fill', PCOL[p.c]); p.el.setAttribute('stroke', FL); break; } }
+        if (!p.el) continue;
+        var nb = p.b.length, rad = p.ex ? 3.3 : nb ? 3 : 2.4;
+        p.el.setAttribute('cx', f1(p.x)); p.el.setAttribute('cy', f1(p.y)); p.el.setAttribute('r', f1(rad + p.glow * 1.2));
+        p.el.setAttribute('stroke-width', p.ex ? 0.8 : 0); setOp(p.el, 0.92);
+        p.halo.setAttribute('cx', f1(p.x)); p.halo.setAttribute('cy', f1(p.y)); setOp(p.halo, p.ex ? 0.3 : nb ? 0.14 + p.glow * 0.2 : 0);
+      }
+      for (i = 0; i < Rr.enlaces.length; i++) {
+        var bn = bonds[i], le = Rr.enlaces[i];
+        if (!bn) { setOp(le, 0); continue; }
+        if (bn.el !== le) { bn.el = le; le.__ex = null; }
+        var exb = !!bn.a.ex; if (le.__ex !== exb) { le.__ex = exb; le.setAttribute('stroke', exb ? FL : PCOL[bn.a.c]); le.setAttribute('stroke-width', exb ? 1.5 : 1.2); }
+        le.setAttribute('x1', f1(bn.a.x)); le.setAttribute('y1', f1(bn.a.y)); le.setAttribute('x2', f1(bn.b.x)); le.setAttribute('y2', f1(bn.b.y));
+        setOp(le, exb ? 0.85 : 0.55);
+      }
+      for (i = 0; i < Rr.flashes.length; i++) {
+        var fsh = flashes[i], fe = Rr.flashes[i];
+        if (!fsh || quieto) { setOp(fe, 0); continue; }
+        var ff = (simT - fsh.t0) / 0.75; fe.setAttribute('cx', f1(fsh.x)); fe.setAttribute('cy', f1(fsh.y)); fe.setAttribute('r', f1(2 + 13 * ff)); setOp(fe, 0.9 * (1 - ff) * (1 - ff));
+      }
+      // pulsos por los conductos, y los secundarios de un producto a sus nodos menores
+      for (i = 0; i < V.pul.length; i++) {
+        var pv = V.pul[i], pu = pulsos[i];
+        if (!pu) { setOp(pv.c, 0); setOp(pv.cola, 0); continue; }
+        var cd = N.cond[pu.i], fp = clamp((simT - pu.t0) / T_PUL, 0, 1), e1 = fp < 0.5 ? 2 * fp * fp : -1 + (4 - 2 * fp) * fp;
+        var q1 = cd.el.getPointAtLength(cd.len * e1), q2 = cd.el.getPointAtLength(cd.len * Math.max(0, e1 - 0.05));
+        pv.c.setAttribute('cx', f1(q1.x)); pv.c.setAttribute('cy', f1(q1.y)); pv.cola.setAttribute('cx', f1(q2.x)); pv.cola.setAttribute('cy', f1(q2.y));
+        setOp(pv.c, 0.95); setOp(pv.cola, 0.45);
+      }
+      for (i = 0; i < V.sec.length; i++) {
+        var sv = V.sec[i], sp2 = sec2[i];
+        if (!sp2 || simT < sp2.t0) { setOp(sv, 0); continue; }
+        var a0 = N.may[sp2.de], b0 = N.min[sp2.a], fs = clamp((simT - sp2.t0) / T_SEC, 0, 1);
+        sv.setAttribute('cx', f1(a0.x + (b0.x - a0.x) * fs)); sv.setAttribute('cy', f1(a0.y + (b0.y - a0.y) * fs)); setOp(sv, 0.8);
+      }
+      // los nodos: el mayor late al recibir, el menor se enciende y decae, las aristas doradas respiran
+      for (i = 0; i < 3; i++) {
+        var nm = N.mayores[i], f1_ = (simT - lit[i]) / 1.4, f2_ = (simT - lit[i]) / 2.8;
+        var lat = f1_ >= 0 && f1_ < 1 ? Math.sin(f1_ * Math.PI) : 0;
+        nm.aro.setAttribute('r', f1(10 + 4 * lat)); nm.nuc.setAttribute('r', f1(2.6 + 1.2 * lat));
+        setOp(nm.glow, f2_ >= 0 && f2_ < 1 ? 0.32 * (1 - f2_) : 0);
+      }
+      for (i = 0; i < N.menores.length; i++) {
+        var mn = N.menores[i], base = 0.45 + 0.15 * Math.sin(T / mn.per * TAU + mn.ph), fm = (simT - litMin[i]) / 5, enc = fm >= 0 && fm < 1 ? (1 - fm) * (1 - fm) : 0;
+        setOp(mn.nuc, clamp(base + enc * 0.55, 0, 1)); setOp(mn.halo, enc * 0.35); mn.nuc.setAttribute('r', f1(1.6 + enc * 1.4));
+      }
+      for (i = 0; i < N.doradas.length; i++) { var dl = N.doradas[i]; setOp(dl.el, 0.3 + 0.22 * Math.sin(T / dl.per * TAU + dl.ph)); }
+    }
+
+    /* ── el reloj: un rAF, sólo a la vista; el tiempo real se vuelca en pasos fijos ── */
+    function cuadro(now){
+      if (!corriendo) return;
+      if (ultimo === null) ultimo = now;
+      acc += Math.min(0.1, (now - ultimo) / 1000); ultimo = now;
+      while (acc >= DT) { paso(); simT += DT; acc -= DT; }
+      pintar(false);
+      requestAnimationFrame(cuadro);
+    }
+    function calentar(){ if (prewarm) return; prewarm = true; avanzar(PRE + T_INI); }
+    function arrancar(){ if (corriendo || RM) return; calentar(); corriendo = true; ultimo = null; requestAnimationFrame(cuadro); }
+    function parar(){ corriendo = false; }
+
+    armar();
+    mq.addEventListener ? mq.addEventListener('change', function(){ armar(); pintar(RM); }) : mq.addListener(function(){ armar(); pintar(RM); });
+    if (RM) {
+      // un cuadro compuesto y quieto, con el Analítico recién encendido
+      avanzar(PRE + (T_INI || 11000)); lit[0] = simT - 0.5; litMin[V.duenos[0][0]] = simT - 1; pintar(true);
+      sec.classList.add('vis');
+    } else {
+      new IntersectionObserver(function(es){
+        var e = es[0]; visible = e.isIntersecting;
+        if (e.intersectionRatio >= 0.1) sec.classList.add('vis');   // la banda entra en pantalla: arranca la aparición por partes
+        if (visible && !document.hidden) arrancar(); else parar();
+      }, { rootMargin: '120px 0px', threshold: [0, 0.1] }).observe(sec);
+      document.addEventListener('visibilitychange', function(){ if (document.hidden) parar(); else if (visible) arrancar(); });
+    }
+  })();
 
   /* ══════════════════════════════════════════
      HERO · el eclipse: la libración de la luna (apenas, siempre adentro del disco negro de la foto de la
