@@ -165,30 +165,31 @@
      titular bajo el pliegue, y domina también a 390 px. */
   #sistema-wrap { position: relative; z-index: 2; width: min(400px, 78vw, 44vh); margin: 24px auto 0; opacity: 0; animation: rise 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards; }
   #sistema { position: relative; z-index: 1; width: 100%; height: auto; display: block; overflow: visible; }
-  /* La corona de la totalidad es una fotografía (assets/eclipse-corona.webp: generada con nano-banana y pasada a
-     WebP con alfa desde la luminancia, ver scripts/generar-eclipse.py), debajo del SVG y centrada en el sol. Su
-     tamaño sale del disco medido en la imagen: r = 0,1515 del lado ↔ 91,5 unidades del viewBox de 340, así la
-     luna (r 93) la cubre siempre, libración incluida. Dos copias: la de base respira; la otra, al 28 %, gira
-     ±1,1° en 70 s: el shimmer de los filamentos. El ciclo la apaga (style.opacity) apenas asoma la fotósfera. */
-  #sis-corona-img { position: absolute; left: 50%; top: 50%; width: 177.6%; aspect-ratio: 1; transform: translate(-50%,-50%); pointer-events: none; z-index: 0; }
-  #sis-corona-img img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  #sis-corona-img .cor-a { animation: cor-respira 9s ease-in-out infinite; }
-  #sis-corona-img .cor-b { opacity: 0.28; animation: cor-gira 70s ease-in-out infinite alternate; }
-  @keyframes cor-respira { 0%, 100% { opacity: 0.9; } 50% { opacity: 1; } }
-  @keyframes cor-gira { from { transform: rotate(-1.1deg); } to { transform: rotate(1.1deg); } }
-  /* si la foto no carga, queda el halo vectorial de antes */
+  /* La corona de la totalidad es una FLAMA ECUÁNIME (2026-10-13; antes, hasta el 12/10, la foto con streamers
+     de assets/eclipse-corona.webp, que la página ya no carga). Un <canvas> procedural debajo del SVG, centrado en
+     la luna y del mismo ancho que el SVG (340 unidades ↔ 100 %): un hilo de luz amarillo pálido pegado al limbo
+     y, afuera, lenguas cortas de ámbar a rojo, parejas en todo el perímetro, que titilan despacio y recorren el
+     borde (ver el script "FLAMA"). El ciclo la apaga (style.opacity) apenas asoma la fotósfera. */
+  #sis-flama { position: absolute; left: 50%; top: 50%; width: 100%; aspect-ratio: 1; transform: translate(-50%,-50%); pointer-events: none; z-index: 0; }
+  #sis-flama canvas { position: absolute; left: 50%; top: 50%; width: 71.1%; height: 71.1%; transform: translate(-50%,-50%); display: block; }
+  /* la aureola: el resplandor rojizo y suave que la flama deja alrededor (un gradiente, el compositor lo respira) */
+  #sis-aureola { position: absolute; left: 50%; top: 50%; width: 100%; aspect-ratio: 1; transform: translate(-50%,-50%); pointer-events: none; z-index: 0; border-radius: 50%;
+    background: radial-gradient(circle closest-side, rgba(239,159,39,0) 52%, rgba(243,182,74,0.20) 55.5%, rgba(214,90,36,0.12) 62%, rgba(150,45,18,0.05) 74%, rgba(120,30,12,0) 100%);
+    animation: aur-respira 7s ease-in-out infinite; transition: opacity var(--t-tema) ease; }
+  @keyframes aur-respira { 0%, 100% { opacity: 0.82; } 50% { opacity: 1; } }
+  html[data-tema="dia"] #sis-aureola { opacity: 0; }
+  /* si el canvas no existe, queda el halo vectorial de antes */
   #sis-halo { display: none; }
   #sistema-wrap.sin-corona #sis-halo { display: inline; }
-  #sistema-wrap.sin-corona #sis-corona-img { display: none; }
-  @media (prefers-reduced-motion: reduce) { #sis-corona-img img { animation: none; } #sis-corona-img .cor-b { display: none; } }
-  /* tocar el eclipse: el hit es un disco del tamaño de la corona; al hover un hilo de luz fuera del limbo */
+  #sistema-wrap.sin-corona #sis-flama, #sistema-wrap.sin-corona #sis-aureola { display: none; }
+  @media (prefers-reduced-motion: reduce) { #sis-aureola { animation: none; } }
+  /* Lo que queda del juego del clic (DESENCLIPSAR_ACTIVO = false desde el 13/10): el hit, la pista y el botón
+     accesible ya no están en el DOM; estas reglas se conservan para reactivarlo sin rehacerlas. */
   #sis-hit { fill: transparent; cursor: pointer; }
   html[data-ciclo] #sis-hit { cursor: default; }
   #sis-anillo { transition: opacity 0.4s, stroke-width 0.4s; }
   #sis-core.hover #sis-anillo { opacity: 0.55; stroke-width: 0.9; }
   #sis-hint { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 3px; text-anchor: middle; text-transform: uppercase; fill: var(--gold); pointer-events: none; transition: opacity 1.4s ease; }
-  /* el mismo disparador para teclado y lectores de pantalla: un botón invisible sobre el eclipse,
-     que sólo se dibuja (como anillo) cuando recibe el foco */
   .ecl-btn { position: absolute; left: 50%; top: 50%; width: 54.7%; aspect-ratio: 1; transform: translate(-50%,-50%); border-radius: 50%; background: transparent; border: 0; padding: 0; opacity: 0; pointer-events: none; z-index: 4; }
   .ecl-btn:focus-visible { opacity: 1; outline: 1px dashed var(--gold-hi); outline-offset: 10px; }
   /* la luna viajera: un elemento fijo que cruza el viewport entero, por encima del contenido y
@@ -221,7 +222,6 @@
   .hero-escuchar:hover, .hero-escuchar:focus-visible { color: var(--gold-hi); border-color: var(--gold); background: var(--ghost); outline: none; }
   .hero-escuchar[hidden] { display: none; }
   .hero-ctas { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.9s ease 1.1s both; position: relative; z-index: 2; }
-  .hero-origin { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; color: var(--muted); opacity: 0; white-space: nowrap; animation: fadeIn 2s ease 1.6s forwards; }
 
   @keyframes rise   { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
@@ -464,7 +464,8 @@
 
   /* FOOTER */
   footer { border-top: 1px solid var(--border2); padding: 32px 52px; display: flex; align-items: center; justify-content: space-between; background: var(--banda); }
-  .f-logo { font-weight: 500; font-size: 16px; letter-spacing: 3px; color: var(--muted); }
+  .f-logo { font-weight: 500; font-size: 16px; letter-spacing: 3px; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+  .f-logo svg { opacity: 0.8; flex: none; }
   .f-logo em { font-style: normal; font-size: 11px; font-weight: 300; letter-spacing: 2px; color: var(--gold-lo); margin-left: 5px; vertical-align: 1px; }
   .f-copy { font-size: 11px; font-weight: 300; color: var(--muted); opacity: 0.35; }
   .f-links { display: flex; gap: 22px; list-style: none; }
@@ -498,7 +499,6 @@
     .hero{padding:96px 18px 72px;}
     .hero-headline{margin:26px 0 18px;} .hero-cita{font-size:15px;line-height:1.7;margin-bottom:32px;padding-top:26px;}
     .hero-cita::before{left:-2px;top:-14px;font-size:68px;}  /* en una fila propia: colgando se montaba sobre la S del titular */
-    .hero-origin{bottom:22px;}
     #sistema-wrap{margin-top:22px;}
     .prod{padding:64px 0;}
     .prod-grid, .prod.inv .prod-grid { grid-template-columns: 1fr; gap: 28px; }
@@ -533,21 +533,16 @@
 <canvas id="cielo" aria-hidden="true"></canvas>
 
 <nav id="nav">
-  <a href="#inicio" class="nav-logo" id="nav-logo" title="Inicio · tocá para desenclipsar">
-    <!-- el isotipo: la misma totalidad en 24 px, corona de luz con un streamer ecuatorial y la luna negra -->
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <a href="#inicio" class="nav-logo" id="nav-logo" title="Inicio">
+    <!-- el isotipo: el anillo (logos/ria-anillo-color.svg) a 24 px; el grosor sube de 6 a 7,5 de 100 para que
+         a este tamaño siga siendo un aro y no un hilo -->
+    <svg width="24" height="24" viewBox="0 0 100 100" fill="none" aria-hidden="true">
       <defs>
-        <radialGradient id="nav-cor" cx="50%" cy="50%" r="50%">
-          <stop offset="0.58" stop-color="#fff0cf" stop-opacity="1"/>
-          <stop offset="0.72" stop-color="#f3b64a" stop-opacity="0.7"/>
-          <stop offset="0.88" stop-color="#EF9F27" stop-opacity="0.14"/>
-          <stop offset="1" stop-color="#EF9F27" stop-opacity="0"/>
-        </radialGradient>
+        <linearGradient id="nav-anillo" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f8df6a"/><stop offset="0.3" stop-color="#e4753d"/><stop offset="0.62" stop-color="#d35745"/><stop offset="1" stop-color="#c54a45"/>
+        </linearGradient>
       </defs>
-      <ellipse cx="12" cy="12" rx="12" ry="1.5" fill="#EF9F27" opacity="0.32"/>
-      <circle cx="12" cy="12" r="12" fill="url(#nav-cor)"/>
-      <circle cx="12" cy="12" r="7" style="fill:var(--sol-tapado)"/>
-      <circle id="nav-luna" cx="12" cy="12" r="7.1" style="fill:var(--luna)"/>
+      <circle cx="50" cy="50" r="42.5" stroke="url(#nav-anillo)" stroke-width="7.5"/>
     </svg>
     <span class="nav-wm">RIA <em>Labs</em></span>
   </a>
@@ -579,18 +574,18 @@
   <div class="hero-glow"></div>
   <p class="hero-eyebrow">Software e inteligencia artificial · Rosario</p>
 
-  <!-- El eclipse total, solo: figura de portada, cinemático (2026-10-12). Capas, de atrás hacia adelante:
-       [cielo] → [#sis-corona-img: la corona fotográfica, HTML debajo del SVG] → en el SVG: aura · resplandor,
-       rayos y destello anamórfico del sol descubierto · la fotósfera (foto, oculta en la totalidad) ·
-       protuberancias que parpadean · la luna, negra · perlas de Baily y anillo de diamante · pista · hit.
+  <!-- El eclipse total, solo: figura de portada. Capas, de atrás hacia adelante:
+       [cielo] → [#sis-aureola: el resplandor rojizo, CSS] → [#sis-flama: la corona como flama ecuánime, canvas
+       procedural debajo del SVG] → en el SVG: aura · resplandor, rayos y destello anamórfico del sol descubierto
+       (sólo en el ciclo, hoy apagado) · la fotósfera (foto, oculta en la totalidad) · la luna, negra · perlas de
+       Baily y anillo de diamante (ciclo) · la estrella de luz que asoma cada tanto en el borde.
        El viewBox recorta el sistema de coordenadas original (centro en 480,240) al eclipse. La libración de
-       la luna y los rayos los arma el script de abajo; el ciclo (DESENCLIPSAR) lee la geometría del DOM.
+       la luna y los rayos los arma el script de abajo; la flama y la estrella tienen cada una su script; el ciclo
+       (DESENCLIPSAR, apagado con DESENCLIPSAR_ACTIVO = false) lee la geometría del DOM.
        Los gradientes sp-* viven acá porque los usa el diagrama de Dataflow, más abajo. -->
   <div id="sistema-wrap">
-    <div id="sis-corona-img" aria-hidden="true">
-      <img class="cor-a" src="/assets/eclipse-corona.webp" alt="" decoding="async" onerror="this.parentNode.parentNode.classList.add('sin-corona')">
-      <img class="cor-b" src="/assets/eclipse-corona.webp" alt="" decoding="async">
-    </div>
+    <div id="sis-aureola" aria-hidden="true"></div>
+    <div id="sis-flama" aria-hidden="true"><canvas></canvas></div>
     <svg id="sistema" viewBox="310 70 340 340" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="El eclipse total de RIA Labs: la luna cubre el sol y deja ver la corona">
       <defs>
         <radialGradient id="aura" cx="50%" cy="50%" r="50%">
@@ -612,7 +607,6 @@
           <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
         <filter id="blando-f" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.1"/></filter>
-        <filter id="prom-f" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="0.9"/></filter>
         <!-- el sol encendido: la fotósfera (fallback del gradiente bajo la foto), su resplandor y el destello -->
         <radialGradient id="sol-disco" cx="46%" cy="44%" r="56%">
           <stop offset="0%" stop-color="#fff8e6"/><stop offset="62%" stop-color="#ffe3a8"/><stop offset="90%" stop-color="#f2b24a"/><stop offset="100%" stop-color="#c9741a"/>
@@ -638,10 +632,13 @@
         <radialGradient id="luna-disco" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stop-color="#000"/><stop offset="94%" stop-color="#020203"/><stop offset="99%" stop-color="#0d0905"/><stop offset="100%" stop-color="#2a1b0c"/>
         </radialGradient>
-        <!-- protuberancias: hidrógeno alfa, rosa-rojo -->
-        <radialGradient id="prom-g" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#ffc0a8" stop-opacity="1"/><stop offset="38%" stop-color="#ff5a3c" stop-opacity="0.85"/><stop offset="100%" stop-color="#ff2a18" stop-opacity="0"/>
+        <!-- la estrella de luz: el glare suave alrededor del núcleo y el degradé de cada rayo (de la base a la punta) -->
+        <radialGradient id="estrella-glare" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/><stop offset="16%" stop-color="#fff4d6" stop-opacity="0.38"/><stop offset="42%" stop-color="#f3b64a" stop-opacity="0.11"/><stop offset="100%" stop-color="#f3b64a" stop-opacity="0"/>
         </radialGradient>
+        <linearGradient id="rayo-g" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/><stop offset="0.3" stop-color="#fff6e0" stop-opacity="0.5"/><stop offset="1" stop-color="#ffe9b8" stop-opacity="0"/>
+        </linearGradient>
       </defs>
 
       <!-- el aura del eclipse -->
@@ -650,8 +647,8 @@
         <animate attributeName="ry" values="236;252;236" dur="9s" repeatCount="indefinite"/>
       </ellipse>
 
-      <!-- EL ECLIPSE. Tocarlo lo desenclipsa (ver el script "DESENCLIPSAR" abajo): la luna se va,
-           el sol se enciende y la página pasa a día; la luna vuelve y la noche con ella. -->
+      <!-- EL ECLIPSE. El ciclo del desenclipsar (la luna se va, el sol se enciende y la página pasa a día; la
+           luna vuelve y la noche con ella) sigue en el script "DESENCLIPSAR", apagado desde el 13/10. -->
       <g id="sis-core">
         <!-- el halo vectorial de antes: sólo se muestra si la foto de la corona no carga (.sin-corona) -->
         <g id="sis-halo">
@@ -673,28 +670,18 @@
           <ellipse cx="480" cy="240" rx="1.6" ry="150" fill="url(#destello-v)" opacity="0.22" filter="url(#blando-f)"/>
         </g>
         <!-- la fotósfera: una foto del sol en luz blanca (oscurecimiento al limbo, granulación, manchas),
-             calzada sobre el disco r=93 que el ciclo mide. Se enciende cuando la luna lo destapa. -->
+             calzada sobre el disco r=93 que el ciclo mide. Se enciende cuando la luna lo destapa. La imagen
+             (assets/eclipse-sol.webp) no se descarga hasta que el ciclo o ?tema=dia la piden: data-href. -->
         <g id="sis-sol-g" opacity="0">
           <circle id="sis-sol" cx="480" cy="240" r="93" fill="url(#sol-disco)"/>
-          <image href="/assets/eclipse-sol.webp" x="384.57" y="144.57" width="190.85" height="190.85" decoding="async"/>
+          <image data-href="/assets/eclipse-sol.webp" x="384.57" y="144.57" width="190.85" height="190.85" decoding="async"/>
         </g>
-        <!-- la corona en el SVG: las protuberancias, sobre las de la foto, parpadean; la foto va debajo del SVG -->
-        <g id="sis-corona">
-          <circle cx="385.2" cy="243.3" r="5.2" fill="url(#prom-g)" filter="url(#prom-f)">
-            <animate attributeName="opacity" values="0.75;1;0.8;0.95;0.75" dur="6.5s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="421.5" cy="314.7" r="4.4" fill="url(#prom-g)" filter="url(#prom-f)">
-            <animate attributeName="opacity" values="0.6;0.95;0.7;1;0.6" dur="4.8s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="574.9" cy="241.7" r="4.6" fill="url(#prom-g)" filter="url(#prom-f)">
-            <animate attributeName="opacity" values="0.8;1;0.7;0.9;0.8" dur="8.2s" repeatCount="indefinite"/>
-          </circle>
-        </g>
-        <!-- la luna: negra, libra apenas (1,2 unidades), siempre adentro del disco negro de la foto -->
+        <!-- la corona en el SVG quedó vacía el 13/10 (las tres protuberancias que parpadeaban se fueron con la
+             foto: la flama es ecuánime, sin accidentes); el ciclo sigue apagándola y encendiéndola -->
+        <g id="sis-corona"></g>
+        <!-- la luna: negra, libra apenas (1,2 unidades); la flama la sigue, así el aro queda parejo -->
         <circle id="sis-moon" cx="480" cy="240" r="93" fill="url(#luna-disco)"/>
         <g id="sis-swarm"></g>
-        <!-- al hover, un hilo de luz fuera del limbo: la pista de que se toca -->
-        <circle id="sis-anillo" cx="480" cy="240" r="95.5" fill="none" stroke="#ffd9a0" stroke-width="0.6" opacity="0"/>
         <!-- las perlas de Baily: la luz entre las montañas del limbo, un instante antes del diamante.
              El grupo se rota hacia el punto de contacto; las perlas viven en el limbo +x. -->
         <g id="sis-perlas" opacity="0">
@@ -717,11 +704,33 @@
           <circle cx="480" cy="240" r="6" fill="#fff8e4" filter="url(#corona-f)"/>
           <circle cx="480" cy="240" r="2.6" fill="#ffffff"/>
         </g>
-        <text id="sis-hint" x="480" y="402" opacity="0">tocá el eclipse</text>
-        <circle id="sis-hit" cx="480" cy="240" r="120"/>
+        <!-- la estrella de luz: cada tanto asoma en un punto del borde (ver el script "ESTRELLA"): un núcleo
+             blanco que crece y se apaga, seis rayos de lente finos (uno largo) y un glare suave alrededor.
+             El grupo se traslada al punto del limbo; el de adentro escala con el brillo. -->
+        <g id="sis-estrella" opacity="0">
+          <g id="sis-estrella-g">
+            <circle r="64" fill="url(#estrella-glare)"/>
+            <g id="sis-estrella-rayos">
+              <path d="M0 -1.1 L150 0 L0 1.1Z" fill="url(#rayo-g)"/>
+              <path d="M0 -0.8 L58 0 L0 0.8Z" fill="url(#rayo-g)" transform="rotate(180)"/>
+              <path d="M0 -0.8 L78 0 L0 0.8Z" fill="url(#rayo-g)" transform="rotate(62)"/>
+              <path d="M0 -0.7 L52 0 L0 0.7Z" fill="url(#rayo-g)" transform="rotate(118)"/>
+              <path d="M0 -0.8 L70 0 L0 0.8Z" fill="url(#rayo-g)" transform="rotate(236)"/>
+              <path d="M0 -0.7 L46 0 L0 0.7Z" fill="url(#rayo-g)" transform="rotate(300)"/>
+            </g>
+            <circle r="9" fill="#fff8e8" opacity="0.9" filter="url(#corona-f)"/>
+            <circle r="3.2" fill="#ffffff"/>
+          </g>
+        </g>
+        <!-- Para reactivar el juego del clic (DESENCLIPSAR_ACTIVO = true) hay que devolver al DOM, acá adentro del
+             grupo, el hilo de hover, la pista y el hit:
+             <circle id="sis-anillo" cx="480" cy="240" r="95.5" fill="none" stroke="#ffd9a0" stroke-width="0.6" opacity="0"/>
+             <text id="sis-hint" x="480" y="402" opacity="0">tocá el eclipse</text>
+             <circle id="sis-hit" cx="480" cy="240" r="120"/>
+             y, después del </svg>, el botón accesible:
+             <button class="ecl-btn" id="ecl-btn" type="button" aria-pressed="false" aria-label="Desenclipsar: la luna se corre, el sol ilumina la página y vuelve a eclipsarse"></button> -->
       </g>
     </svg>
-    <button class="ecl-btn" id="ecl-btn" type="button" aria-pressed="false" aria-label="Desenclipsar: la luna se corre, el sol ilumina la página y vuelve a eclipsarse"></button>
   </div>
 
   <div class="wordmark">
@@ -746,7 +755,6 @@
     <a href="#productos" class="btn-gold">Ver los productos</a>
     <a href="#dataflow" class="btn-ghost">Conocer el motor →</a>
   </div>
-  <p class="hero-origin"><a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">Byte</a> × <a href="https://vrio.ar" target="_blank" rel="noopener" style="color:var(--gold-hi);text-decoration:none;">VRIO</a></p>
 </header>
 
 <!-- STAT BAR: números medidos en instalaciones reales -->
@@ -1242,49 +1250,17 @@
   </div>
 </section>
 
-<!-- Órbita separadora: Byte y VRIO alrededor del eclipse -->
+<!-- Separador de Equipo → Contacto: el anillo solo, el isotipo de la casa (logos/ria-anillo-color.svg).
+     Hasta el 13/10 era un eclipse vectorial con Byte y VRIO en órbita; las menciones a las dos casas
+     salieron de la página ese día. -->
 <div id="contacto" style="display:flex;justify-content:center;padding:0;">
-  <svg id="equipo-orbit" width="540" height="286" viewBox="0 0 480 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <svg id="equipo-anillo" width="540" height="200" viewBox="0 0 480 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
-      <radialGradient id="vrio-grad" cx="33%" cy="28%" r="68%">
-        <stop offset="0%"   stop-color="#f8d888"/>
-        <stop offset="38%"  stop-color="#EF9F27"/>
-        <stop offset="100%" stop-color="#4a2800"/>
-      </radialGradient>
-      <radialGradient id="byte-grad" cx="33%" cy="28%" r="68%">
-        <stop offset="0%"   stop-color="#b8ddf8"/>
-        <stop offset="38%"  stop-color="#4a8fd4"/>
-        <stop offset="100%" stop-color="#051628"/>
-      </radialGradient>
-      <radialGradient id="corona-bg" cx="50%" cy="50%" r="50%">
-        <stop offset="0%"   stop-color="#EF9F27" stop-opacity="0"/>
-        <stop offset="54%"  stop-color="#EF9F27" stop-opacity="0"/>
-        <stop offset="70%"  stop-color="#EF9F27" stop-opacity="0.22"/>
-        <stop offset="84%"  stop-color="#EF9F27" stop-opacity="0.08"/>
-        <stop offset="100%" stop-color="#EF9F27" stop-opacity="0"/>
-      </radialGradient>
-      <filter id="corona-glow-f" x="-80%" y="-80%" width="260%" height="260%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
-        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
+      <linearGradient id="eq-anillo" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f8df6a"/><stop offset="0.3" stop-color="#e4753d"/><stop offset="0.62" stop-color="#d35745"/><stop offset="1" stop-color="#c54a45"/>
+      </linearGradient>
     </defs>
-    <ellipse cx="240" cy="120" rx="110" ry="30" stroke="#c8860a" stroke-width="0.5" stroke-dasharray="3 10" opacity="0.16" transform="rotate(-12,240,120)"/>
-    <ellipse cx="240" cy="120" rx="74"  ry="26" stroke="#2a4878" stroke-width="0.5" stroke-dasharray="3 10" opacity="0.16" transform="rotate(18,240,120)"/>
-    <circle id="eq-vrio-back"  r="8" fill="url(#vrio-grad)" opacity="0"/>
-    <circle id="eq-vrio-shd-b" r="8" fill="#040210" opacity="0"/>
-    <circle id="eq-byte-back"  r="8" fill="url(#byte-grad)" opacity="0"/>
-    <circle id="eq-byte-shd-b" r="8" fill="#040210" opacity="0"/>
-    <circle cx="240" cy="120" r="66" fill="url(#corona-bg)"/>
-    <circle cx="240" cy="120" r="47" fill="none" stroke="#EF9F27" stroke-width="0.3" stroke-dasharray="0.8 15" opacity="0.22"/>
-    <circle cx="240" cy="120" r="41" fill="none" stroke="#EF9F27" stroke-width="0.45" stroke-dasharray="1.5 11" opacity="0.25"/>
-    <circle cx="240" cy="120" r="31" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.88" filter="url(#corona-glow-f)"/>
-    <circle cx="240" cy="120" r="28" style="fill:var(--luna)"/>
-    <circle cx="240" cy="120" r="27.5" fill="none" stroke="#c8860a" stroke-width="0.5" opacity="0.3"/>
-    <circle cx="240" cy="120" r="25" style="fill:var(--luna)"/>
-    <circle id="eq-vrio-front"  r="8" fill="url(#vrio-grad)" opacity="0"/>
-    <circle id="eq-vrio-shd-f"  r="8" fill="#040210" opacity="0"/>
-    <circle id="eq-byte-front"  r="8" fill="url(#byte-grad)" opacity="0"/>
-    <circle id="eq-byte-shd-f"  r="8" fill="#040210" opacity="0"/>
+    <circle cx="240" cy="90" r="29" stroke="url(#eq-anillo)" stroke-width="4"/>
   </svg>
 </div>
 
@@ -1299,8 +1275,19 @@
 </div>
 
 <footer>
-  <div class="f-logo">RIA <em>Labs</em></div>
-  <p class="f-copy">© 2026 RIA Labs — <a href="https://compu-byte.com.ar" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">Byte</a> × <a href="https://vrio.ar" target="_blank" rel="noopener" style="color:var(--gold-hi);text-decoration:none;">VRIO</a> · Rosario, Argentina</p>
+  <div class="f-logo">
+    <!-- el anillo, 18 px, con el wordmark apagado del pie -->
+    <svg width="18" height="18" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="f-anillo" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f8df6a"/><stop offset="0.3" stop-color="#e4753d"/><stop offset="0.62" stop-color="#d35745"/><stop offset="1" stop-color="#c54a45"/>
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="42" stroke="url(#f-anillo)" stroke-width="8.5"/>
+    </svg>
+    RIA <em>Labs</em>
+  </div>
+  <p class="f-copy">© 2026 RIA Labs · Rosario, Argentina</p>
   <ul class="f-links">
     <li><a href="#productos">Productos</a></li>
     <li><a href="#dataflow">Dataflow</a></li>
@@ -1351,7 +1338,7 @@
          con el gradiente de antes debajo como fallback, y la sombra del terminador encima -->
     <g id="lv-cara" clip-path="url(#lv-clip)" mask="url(#lv-m-luz)" opacity="0">
       <path id="lv-luz" fill="url(#lv-g-luz)"/>
-      <image href="/assets/eclipse-luna.webp" x="-1.026" y="-1.026" width="2.052" height="2.052" decoding="async"/>
+      <image data-href="/assets/eclipse-luna.webp" x="-1.026" y="-1.026" width="2.052" height="2.052" decoding="async"/>
       <path id="lv-sombra" fill="url(#lv-g-sombra)"/>
     </g>
     <circle r="1" fill="none" stroke="url(#lv-g-borde)" stroke-width="0.022"/>
@@ -1537,6 +1524,171 @@
       if (!RM) requestAnimationFrame(tick);
     }
     if (moon) requestAnimationFrame(tick);
+  })();
+
+  /* ══════════════════════════════════════════
+     FLAMA · la corona como una flama ecuánime (2026-10-13; pedido de Matías: «ecuánime en todo el
+     diámetro de la circunferencia y muy sutil, y en movimiento», con la screen 3 de referencia).
+     Un canvas debajo del SVG, centrado en la luna. Para cada ángulo, un perfil: un hilo de luz amarillo
+     pálido pegado al limbo (ancho fijo, brillo apenas modulado) y una lengua corta de ámbar a rojo cuyo
+     largo sale de dos octavas de ruido periódico —48 y 144 puntos de control alrededor del aro, cada
+     uno yendo de un valor al azar al siguiente en 1,4–3,2 s y 0,5–1,2 s— que además derivan despacio en
+     sentidos opuestos (una vuelta en 240 s y en 150 s): el titilar y la turbulencia que recorre el
+     borde, sin saltos. Se pinta por píxel sobre una lista fija del anillo (precalculada al medir: la
+     distancia al limbo y el ángulo de cada píxel), con dos tablas de color, a 24 fps y sólo con el hero
+     a la vista. Con prefers-reduced-motion queda un cuadro. Sin canvas, vuelve el halo vectorial.
+     ══════════════════════════════════════════ */
+  (function(){
+    var wrap = document.getElementById('sis-flama'), cv = wrap && wrap.querySelector('canvas');
+    var sysWrap = document.getElementById('sistema-wrap'), moon = document.getElementById('sis-moon');
+    var ctx = cv && cv.getContext && cv.getContext('2d');
+    if (!ctx || !sysWrap || !moon) { if (sysWrap) sysWrap.classList.add('sin-corona'); return; }
+    var RU = 93, EXT = 0.30;              // radio de la luna en unidades del viewBox; cuánto sobra el canvas fuera del limbo, en radios
+    var N = 720, LMIN = 0.045, LMAX = 0.17;   // muestras angulares del perfil; largo de las lenguas, en radios
+    var S = 0, R = 0, dpr = 1, unit = 1, img = null, data = null, px = null, pr = null, pa = null, n = 0, tnow = 0;
+    var Lpx = new Float32Array(N), B = new Float32Array(N);
+
+    // la lengua: color según u = distancia al limbo / largo de la lengua (amarillo pálido → ámbar → naranja → rojo)
+    // y alfa que cae como (1-u)^1.7; el hilo del limbo: una campana de 1,5 px centrada a 0,9 px fuera de la luna,
+    // llena hacia adentro (lo que la luna tapa no se ve, pero evita un filo oscuro en su borde antialiasado)
+    var LUT_T = new Uint8ClampedArray(256 * 4), LUT_L = new Float32Array(256);
+    (function(){
+      var ramp = [[0, 255, 236, 176], [0.16, 247, 186, 78], [0.42, 230, 112, 42], [0.72, 166, 48, 24], [1, 84, 16, 8]];
+      for (var i = 0; i < 256; i++) {
+        var u = i / 255, j = 1; while (ramp[j][0] < u) j++;
+        var a = ramp[j - 1], b = ramp[j], t = (u - a[0]) / (b[0] - a[0]);
+        LUT_T[i * 4] = a[1] + (b[1] - a[1]) * t; LUT_T[i * 4 + 1] = a[2] + (b[2] - a[2]) * t; LUT_T[i * 4 + 2] = a[3] + (b[3] - a[3]) * t;
+        LUT_T[i * 4 + 3] = Math.round(0.9 * Math.pow(1 - u, 1.7) * 255);
+        var d = i / 32 - 2;    // −2 … +6 px CSS
+        LUT_L[i] = d <= 0.9 ? 1 : Math.exp(-Math.pow((d - 0.9) / 1.5, 2));
+      }
+    })();
+
+    // una octava de ruido periódico: K puntos de control alrededor del aro, cada uno va de un valor al
+    // azar al siguiente (smoothstep) en dmin…dmin+dvar ms; omega es la deriva angular (rad/ms)
+    function octava(K, dmin, dvar, amp, omega){
+      var from = new Float32Array(K), to = new Float32Array(K), t0 = new Float32Array(K), du = new Float32Array(K), val = new Float32Array(K);
+      for (var k = 0; k < K; k++) { from[k] = Math.random(); to[k] = Math.random(); du[k] = dmin + Math.random() * dvar; t0[k] = -Math.random() * du[k]; }
+      return { K: K, amp: amp, omega: omega, val: val, tick: function(now){
+        for (var k = 0; k < K; k++) {
+          var p = (now - t0[k]) / du[k];
+          if (p >= 1) { from[k] = to[k]; to[k] = Math.random(); t0[k] = now; du[k] = dmin + Math.random() * dvar; p = 0; }
+          if (p < 0) p = 0;
+          val[k] = from[k] + (to[k] - from[k]) * p * p * (3 - 2 * p);
+        }
+      } };
+    }
+    var o1 = octava(48, 1400, 1800, 0.62, Math.PI * 2 / 240000), o2 = octava(144, 500, 700, 0.38, -Math.PI * 2 / 150000);
+    function muestrear(o, ang){   // interpolación coseno entre puntos de control, con la deriva
+      var x = ((ang + o.omega * tnow) / (Math.PI * 2)) * o.K; x = ((x % o.K) + o.K) % o.K;
+      var i = x | 0, f = x - i, j = (i + 1) % o.K, s = (1 - Math.cos(f * Math.PI)) / 2;
+      return o.val[i] + (o.val[j] - o.val[i]) * s;
+    }
+
+    function medir(){
+      var w = cv.getBoundingClientRect().width;
+      if (!(w > 0)) return false;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var s = Math.round(w * dpr);
+      if (s > 640) { dpr = 640 / w; s = 640; }    // tope: la flama es blanda, más resolución no se ve
+      unit = w / (2 * RU * (1 + EXT));            // px CSS por unidad del viewBox
+      if (s === S) return true;
+      S = s; cv.width = S; cv.height = S;
+      R = S / 2 / (1 + EXT);
+      img = ctx.createImageData(S, S); data = img.data;
+      var c = S / 2 - 0.5, rin = R - 2 * dpr, rout = R * (1 + LMAX) + 2 * dpr;
+      var max = Math.ceil(Math.PI * (rout * rout - rin * rin)) + 4 * S;
+      px = new Int32Array(max); pr = new Float32Array(max); pa = new Uint16Array(max); n = 0;
+      for (var y = 0; y < S; y++) for (var x = 0; x < S; x++) {
+        var dx = x - c, dy = y - c, r = Math.sqrt(dx * dx + dy * dy);
+        if (r < rin || r > rout || n >= max) continue;
+        px[n] = (y * S + x) * 4; pr[n] = (r - R) / dpr;
+        pa[n] = (((Math.atan2(dy, dx) / (Math.PI * 2)) * N + N) % N) | 0;
+        n++;
+      }
+      return true;
+    }
+
+    function pintar(now){
+      tnow = now;
+      o1.tick(now); o2.tick(now);
+      var Rcss = R / dpr;
+      for (var a = 0; a < N; a++) {
+        var ang = a / N * Math.PI * 2, s1 = muestrear(o1, ang), s2 = muestrear(o2, ang), v = o1.amp * s1 + o2.amp * s2;
+        Lpx[a] = (LMIN + (LMAX - LMIN) * Math.pow(v, 1.25)) * Rcss;
+        B[a] = 0.84 + 0.16 * s1;
+      }
+      for (var i = 0; i < n; i++) {
+        var d = pr[i], k = pa[i], o = px[i], u = d <= 0 ? 0 : d / Lpx[k], tr = 0, tg = 0, tb = 0, ta = 0;
+        if (u < 1) { var q = (u * 255) | 0; tr = LUT_T[q * 4]; tg = LUT_T[q * 4 + 1]; tb = LUT_T[q * 4 + 2]; ta = LUT_T[q * 4 + 3] / 255; }
+        var li = ((d + 2) * 32) | 0, la = li < 0 ? 1 : li > 255 ? 0 : LUT_L[li] * B[k];
+        var A = la + ta * (1 - la);
+        if (A < 0.003) { data[o + 3] = 0; continue; }
+        var w1 = la / A, w2 = ta * (1 - la) / A;
+        data[o] = 255 * w1 + tr * w2; data[o + 1] = 246 * w1 + tg * w2; data[o + 2] = 216 * w1 + tb * w2; data[o + 3] = A * 255;
+      }
+      ctx.putImageData(img, 0, 0);
+      // la flama sigue la libración de la luna: el aro queda parejo
+      var cx = +moon.getAttribute('cx') || 480, cy = +moon.getAttribute('cy') || 240;
+      cv.style.transform = 'translate(-50%,-50%) translate(' + ((cx - 480) * unit).toFixed(2) + 'px,' + ((cy - 240) * unit).toFixed(2) + 'px)';
+    }
+
+    var visible = true, running = false, last = 0, raf = 0;
+    function loop(now){ if (!running) return; raf = requestAnimationFrame(loop); if (now - last < 41) return; last = now; pintar(now); }
+    function start(){ if (running || RM || !visible || document.hidden) return; running = true; raf = requestAnimationFrame(loop); }
+    function stop(){ running = false; cancelAnimationFrame(raf); }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; visible ? start() : stop(); }, { rootMargin: '80px' }).observe(sysWrap);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+    window.addEventListener('resize', function(){ if (medir()) pintar(performance.now()); }, { passive: true });
+    (function arrancar(){ if (!medir()) { requestAnimationFrame(arrancar); return; } pintar(performance.now()); start(); })();
+  })();
+
+  /* ══════════════════════════════════════════
+     ESTRELLA · cada tanto asoma una estrella de luz en un punto del borde (2026-10-13, screen 1 de
+     referencia): el núcleo blanco crece rápido y se apaga despacio en 3,2 s, con seis rayos de lente
+     (uno largo) y un glare suave. La primera a los 4,5 s de cargar; después a intervalos irregulares de
+     25 a 60 s, nunca dos seguidas a menos de 50° una de otra, sólo con el hero a la vista y en noche.
+     ?estrella=<ms> la fija en ese instante (arriba a la derecha, como en la referencia; 1000 = el pico)
+     para fotografiarla; ?estrella=no la apaga. Con prefers-reduced-motion no hay estrella.
+     ══════════════════════════════════════════ */
+  (function(){
+    var g = document.getElementById('sis-estrella'), gi = document.getElementById('sis-estrella-g'), rayos = document.getElementById('sis-estrella-rayos');
+    var sysWrap = document.getElementById('sistema-wrap'), html = document.documentElement;
+    if (!g || !gi || !rayos || !sysWrap) return;
+    var q = /[?&]estrella=([^&]*)/.exec(location.search);
+    if (RM || (q && q[1] === 'no')) return;
+    var CX = 480, CY = 240, R = 93, DUR = 3200, PRIMERA = 4500, MIN = 25000, MAX = 60000;
+    var prev = null, t0 = 0, raf = 0, visible = true;
+    function suave(v){ v = v < 0 ? 0 : v > 1 ? 1 : v; return v * v * (3 - 2 * v); }
+    function angulo(){
+      var a, i = 0;
+      do { a = Math.random() * Math.PI * 2; i++; }
+      while (prev !== null && i < 20 && Math.abs(((a - prev + Math.PI * 3) % (Math.PI * 2)) - Math.PI) < Math.PI / 3.6);
+      prev = a; return a;
+    }
+    function colocar(a, giro){
+      g.setAttribute('transform', 'translate(' + (CX + Math.cos(a) * (R + 1.5)).toFixed(1) + ' ' + (CY + Math.sin(a) * (R + 1.5)).toFixed(1) + ')');
+      rayos.setAttribute('transform', 'rotate(' + (giro === undefined ? Math.random() * 90 - 45 : giro).toFixed(1) + ')');
+    }
+    function pintar(p){   // crece en el primer tercio, se apaga en los dos restantes
+      var e = p < 0.32 ? suave(p / 0.32) : 1 - suave((p - 0.32) / 0.68);
+      g.setAttribute('opacity', e.toFixed(3));
+      gi.setAttribute('transform', 'scale(' + (0.5 + 0.5 * e).toFixed(3) + ')');
+      rayos.setAttribute('opacity', Math.pow(e, 1.5).toFixed(3));
+    }
+    function frame(now){
+      var p = (now - t0) / DUR;
+      if (p >= 1) { g.setAttribute('opacity', 0); programar(); return; }
+      pintar(p); raf = requestAnimationFrame(frame);
+    }
+    function brillar(a){ colocar(a); t0 = performance.now(); pintar(0); raf = requestAnimationFrame(frame); }
+    function puede(){ return visible && !document.hidden && !html.hasAttribute('data-ciclo') && html.getAttribute('data-tema') !== 'dia'; }
+    function programar(ms){
+      setTimeout(function(){ if (puede()) brillar(angulo()); else programar(6000); }, ms || MIN + Math.random() * (MAX - MIN));
+    }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; }, { threshold: 0.2 }).observe(sysWrap);
+    if (q) { colocar(-Math.PI * 0.2, -18); pintar(Math.min(1, (+q[1] || 0) / DUR)); return; }
+    programar(PRIMERA);
   })();
 
   /* ══════════════════════════════════════════
@@ -1943,50 +2095,6 @@
   })();
 
   /* ══════════════════════════════════════════
-     EQUIPO · Byte y VRIO en órbita (heredado de v4)
-     ══════════════════════════════════════════ */
-  (function() {
-    var orbitSvg = document.getElementById('equipo-orbit');
-    if (!orbitSvg) return;
-    var CX = 240, CY = 120;
-    var planets = [
-      { rx: 110, ry: 30, tilt: -12 * Math.PI / 180, period: 20000, a0: 0, dir: -1,
-        front: document.getElementById('eq-vrio-front'), shdF: document.getElementById('eq-vrio-shd-f'),
-        back:  document.getElementById('eq-vrio-back'),  shdB: document.getElementById('eq-vrio-shd-b') },
-      { rx: 74, ry: 26, tilt: 18 * Math.PI / 180, period: 13000, a0: Math.PI, dir: 1,
-        front: document.getElementById('eq-byte-front'), shdF: document.getElementById('eq-byte-shd-f'),
-        back:  document.getElementById('eq-byte-back'),  shdB: document.getElementById('eq-byte-shd-b') }
-    ];
-    var t0 = null;
-    function pos(n, px, py) { n.setAttribute('cx', px); n.setAttribute('cy', py); }
-    function orbitTick(now) {
-      if (!t0) t0 = now;
-      var elapsed = now - t0;
-      planets.forEach(function(p) {
-        var a  = p.a0 + p.dir * (elapsed / p.period) * Math.PI * 2;
-        var lx = p.rx * Math.cos(a), ly = p.ry * Math.sin(a);
-        var x  = CX + lx * Math.cos(p.tilt) - ly * Math.sin(p.tilt);
-        var y  = CY + lx * Math.sin(p.tilt) + ly * Math.cos(p.tilt);
-        var screenDy = lx * Math.sin(p.tilt) + ly * Math.cos(p.tilt);
-        var inFront  = screenDy >= 0;
-        var t = Math.max(-1, Math.min(1, -screenDy / 38));
-        var shadowOpacity = (t + 1) / 2 * 0.74;
-        if (inFront) {
-          pos(p.front, x, y); p.front.setAttribute('opacity', 1);
-          pos(p.shdF,  x, y); p.shdF.setAttribute('opacity', shadowOpacity);
-          p.back.setAttribute('opacity', 0); p.shdB.setAttribute('opacity', 0);
-        } else {
-          pos(p.back, x, y); p.back.setAttribute('opacity', 0.72);
-          pos(p.shdB, x, y); p.shdB.setAttribute('opacity', shadowOpacity);
-          p.front.setAttribute('opacity', 0); p.shdF.setAttribute('opacity', 0);
-        }
-      });
-      if (!RM) requestAnimationFrame(orbitTick);
-    }
-    requestAnimationFrame(orbitTick);
-  })();
-
-  /* ══════════════════════════════════════════
      DESENCLIPSAR · tocar el centro del eclipse (o el logo de la nav) saca a la luna del sol:
      el sol se enciende y la página pasa a día mientras la luna, iluminada del lado del sol,
      cruza la pantalla en elipse y sale por la izquierda; descansa unos segundos; vuelve por la
@@ -1996,8 +2104,16 @@
      #sis-moon): el hero puede cambiar de tamaño sin tocar nada de acá.
      Ganchos de URL: ?tema=dia carga en día con el sol encendido y la luna fuera (sin animar);
      ?ciclo=<ms> congela el ciclo en ese instante, para fotografiarlo.
+     APAGADO desde el 13/10 (pedido de Matías: «el juego del click y la orbita del ente eclipsante lo
+     vamos a apagar por ahora»): DESENCLIPSAR_ACTIVO = false deja el ciclo entero en el código pero sin
+     disparadores —ni el clic en el eclipse, ni el logo (que es sólo el enlace a #inicio), ni el botón
+     accesible, ni la pista—. Los ganchos ?tema=dia y ?ciclo= siguen andando para probarlo. Para
+     reactivarlo: la constante en true y devolver al DOM los tres elementos que el comentario del hero
+     indica (hilo de hover, pista, hit y botón). El isotipo de la nav ya no tiene luna que acompañe el
+     ciclo (es el anillo): si vuelve, navLuna queda en null y el ciclo lo ignora.
      ══════════════════════════════════════════ */
   (function(){
+    var DESENCLIPSAR_ACTIVO = false;
     var T = {
       destape:     2500,   // la luna sale del disco; la página se ilumina en este tiempo
       viajeIda:    3500,   // sigue la elipse hasta salir por el borde izquierdo del viewport
@@ -2016,8 +2132,11 @@
         hit = document.getElementById('sis-hit'), btn = document.getElementById('ecl-btn'),
         logo = document.getElementById('nav-logo'), navLuna = document.getElementById('nav-luna'),
         estado = document.getElementById('estado-tema'), meta = document.querySelector('meta[name="theme-color"]');
-    var solG = document.getElementById('sis-sol-g'), coronaImg = document.getElementById('sis-corona-img'),
+    var solG = document.getElementById('sis-sol-g'), coronaImg = document.getElementById('sis-flama'),
         perlas = document.getElementById('sis-perlas');
+    /* las fotos del sol y de la luna viajera no se descargan hasta que el ciclo (o ?tema=dia) las pide */
+    function cargar(sel){ var im = document.querySelector(sel); if (im && !im.getAttribute('href')) im.setAttribute('href', im.getAttribute('data-href')); }
+    function navLunaA(cx, cy){ if (navLuna) { navLuna.setAttribute('cx', cx); navLuna.setAttribute('cy', cy); } }
     var lvRot = document.getElementById('lv-rot'), lvLuz = document.getElementById('lv-luz'), lvLuzM = document.getElementById('lv-luz-m'),
         lvCara = document.getElementById('lv-cara'), lvSombra = document.getElementById('lv-sombra'),
         lvBrillo = document.getElementById('lv-brillo'), lvSil = document.getElementById('lv-silueta');
@@ -2091,9 +2210,8 @@
       lvBrillo.setAttribute('d', fd); lvBrillo.setAttribute('opacity', (sep * 0.4).toFixed(3));
       lvSil.setAttribute('opacity', (1 - sep).toFixed(3));
       pintarSol(d / R, luz, dx, dy, d);
-      var u = (mx - g.ax) / g.rx;   // -1 (fuera por la izquierda) … 1 (fuera por la derecha): el isotipo de la nav acompaña
-      navLuna.setAttribute('cx', (12 + u * 36).toFixed(2));
-      navLuna.setAttribute('cy', (12 - 2.4 * (1 - Math.sin(phi))).toFixed(2));
+      var u = (mx - g.ax) / g.rx;   // -1 (fuera por la izquierda) … 1 (fuera por la derecha): el isotipo de la nav acompaña (si tiene luna)
+      navLunaA((12 + u * 36).toFixed(2), (12 - 2.4 * (1 - Math.sin(phi))).toFixed(2));
       return d;
     }
     /* el sol del hero según cuánto quedó descubierto (q = d/R): resplandor, corona de totalidad (la foto y
@@ -2156,7 +2274,7 @@
     function fundir(luz){
       luz = suave(luz);
       moon.style.opacity = (1 - luz).toFixed(3);
-      navLuna.style.opacity = (1 - luz).toFixed(3);
+      if (navLuna) navLuna.style.opacity = (1 - luz).toFixed(3);
       pintarSol(luz * 2, luz, 0, 0, 0);
     }
 
@@ -2167,6 +2285,7 @@
       html.setAttribute('data-ciclo', 'salida');
       core.classList.remove('hover');
       ocultarPista();
+      cargar('#sis-sol-g image'); cargar('#lv-cara image');
       solG.setAttribute('opacity', 1);
       if (RM) via.style.display = 'none';
       else { moon.style.visibility = 'hidden'; dimensionar(geo.R); via.style.display = 'block'; colocar(Math.PI / 2, 0); }
@@ -2179,6 +2298,7 @@
       fase = 'regreso'; t0 = now || performance.now();
       geo = medir(sigueSol);
       html.setAttribute('data-ciclo', 'regreso');
+      cargar('#lv-cara image');
       if (RM) tema('noche', T.fundido);
       else { dimensionar(geo.R); via.style.display = 'block'; colocar(0, 0); }
       if (!congelado) raf = requestAnimationFrame(frame);
@@ -2188,20 +2308,21 @@
       cancelAnimationFrame(raf);
       html.removeAttribute('data-ciclo');
       via.style.display = 'none';
-      moon.style.visibility = ''; moon.style.opacity = ''; navLuna.style.opacity = '';
+      moon.style.visibility = ''; moon.style.opacity = ''; if (navLuna) navLuna.style.opacity = '';
       solG.setAttribute('opacity', 0); glare.setAttribute('opacity', 0); halo.setAttribute('opacity', 1); corona.setAttribute('opacity', 1);
       coronaImg.style.opacity = ''; swarm.setAttribute('opacity', 1); diam.setAttribute('opacity', 0); perlas.setAttribute('opacity', 0);
-      navLuna.setAttribute('cx', 12); navLuna.setAttribute('cy', 12);
+      navLunaA(12, 12);
     }
     /* estado "día" sin animación (?tema=dia): el sol encendido, la luna fuera de pantalla */
     function estadoDia(){
       fase = 'dia'; temaPedido = 'dia';
       html.setAttribute('data-ciclo', 'dia');
       ocultarPista();
+      cargar('#sis-sol-g image');
       solG.setAttribute('opacity', 1);
       moon.style.visibility = 'hidden';
       pintarSol(4, 1, 0, 0, 0);
-      navLuna.setAttribute('cx', -24); navLuna.setAttribute('cy', 9.6);
+      navLunaA(-24, 9.6);
       if (btn) btn.setAttribute('aria-pressed', 'true');
       if (meta) meta.setAttribute('content', '#f4efe4');
     }
@@ -2212,13 +2333,17 @@
       if (fase === 'noche') iniciar(now, sigueSol);
       else if (fase === 'dia') volver(now, sigueSol);
     }
-    hit.addEventListener('click', function(){ disparar(); });
-    hit.addEventListener('mouseenter', function(){ if (fase === 'noche') core.classList.add('hover'); });
-    hit.addEventListener('mouseleave', function(){ core.classList.remove('hover'); });
-    if (btn) btn.addEventListener('click', function(){ disparar(); });
-    // el logo sigue siendo el enlace a #inicio: navega (la página sube al hero) y dispara; la luna
-    // sigue al sol aunque todavía no esté en pantalla, así llega con él.
-    if (logo) logo.addEventListener('click', function(){ disparar(true); });
+    if (DESENCLIPSAR_ACTIVO) {
+      if (hit) {
+        hit.addEventListener('click', function(){ disparar(); });
+        hit.addEventListener('mouseenter', function(){ if (fase === 'noche') core.classList.add('hover'); });
+        hit.addEventListener('mouseleave', function(){ core.classList.remove('hover'); });
+      }
+      if (btn) btn.addEventListener('click', function(){ disparar(); });
+      // el logo sigue siendo el enlace a #inicio: navega (la página sube al hero) y dispara; la luna
+      // sigue al sol aunque todavía no esté en pantalla, así llega con él.
+      if (logo) logo.addEventListener('click', function(){ disparar(true); });
+    }
 
     /* la pista: una vez, a los pocos segundos de cargar, y se apaga sola */
     var tHint1 = 0, tHint2 = 0;
@@ -2258,7 +2383,7 @@
         for (var tt = ini; tt < fin && fase === 'regreso'; tt += 16) frame(tt);
         if (fase === 'regreso') frame(fin);
       }); });
-    } else pista();
+    } else if (DESENCLIPSAR_ACTIVO) pista();
   })();
 
   /* ══════════════════════════════════════════

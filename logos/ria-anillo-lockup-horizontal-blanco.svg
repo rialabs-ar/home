@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" width="640" height="180">
+  <!-- RIA Labs · lockup horizontal con el isotipo anillo (2026-10-13) -->
+  <defs>
+    <style>
+      .ria-h  { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; font-size: 118px; letter-spacing: 9px; fill: #ffffff; }
+      .labs-h { font-family: 'Saira', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 50px;  letter-spacing: 4px; fill: #ffffff; }
+    </style>
+  </defs>
+
+  <!-- el anillo a la izquierda -->
+  <g transform="translate(100 90)">
+    <circle r="63.5" fill="none" stroke="#ffffff" stroke-width="9"/>
+  </g>
+
+  <!-- el wordmark a la derecha -->
+  <text class="ria-h"  x="200" y="128">RIA</text>
+  <text class="labs-h" x="478" y="92">Labs</text>
+</svg>

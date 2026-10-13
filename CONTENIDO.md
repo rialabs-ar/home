@@ -127,6 +127,51 @@
   `defs` porque los usa el diagrama de Dataflow. Vuelve en la banda de Dataflow como el motor, en el
   separador de Equipo (Byte y VRIO, heredado de v4) y en los dos retratos: esos siguen vectoriales. Cómo se
   generó, qué se eligió y qué costó: §0.3.
+- **Pulido del hero** (rama `hero-pulido`, 2026-10-13; pedido verbatim de Matías en el registro de prompts: *«el
+  juego del click y la orbita del ente eclipsante lo vamos a apagar por ahora… la flama en el aureola del eclipse es
+  exagerada, prefiero que no haya flama o si la hay que sea ecuanime en todo el diametro de la circunferencia y muy
+  sutil, y en movimiento… si cada tanto puede asomar una estrella de luz… la screen 2 es una idea que me gusta como
+  logo»*; las tres capturas de referencia quedaron en `_capturas/referencias-eclipse/`, fuera de git). Cinco cosas:
+  - **La corona es una flama ecuánime, procedural.** Fuera la foto con streamers (`assets/eclipse-corona.webp` queda
+    en el repo, pero la página ya no la carga). En su lugar un `<canvas>` (`#sis-flama`, script «FLAMA») debajo del
+    SVG, centrado en la luna y siguiéndola en su libración, así el aro queda parejo: para cada ángulo, un hilo de luz
+    amarillo pálido pegado al limbo (una campana de 1,5 px a 0,9 px del borde negro, con el brillo modulado ±8 %) y una
+    lengua corta —de 4,5 a 17 % del radio— que va del amarillo pálido al ámbar, al naranja y al rojo, cuyo largo sale
+    de dos octavas de ruido periódico: 48 y 144 puntos de control alrededor del aro, cada uno pasando de un valor al
+    azar al siguiente (smoothstep) en 1,4–3,2 s y en 0,5–1,2 s, y las dos octavas derivando despacio en sentidos
+    opuestos (una vuelta en 240 s y en 150 s). Titila sin saltos y la turbulencia recorre el borde. Se pinta por píxel
+    sobre una lista fija del anillo (distancia al limbo y ángulo de cada píxel, precalculada al medir: ~80 mil píxeles
+    a 1440) con dos tablas de color, a 24 fps y sólo con el hero a la vista y la pestaña visible; DPR tope 2 y lado
+    tope 640 px. Alrededor, `#sis-aureola`: un gradiente radial rojizo en CSS que respira en 7 s y de día se apaga.
+    Las tres protuberancias rojas del SVG se fueron (la flama es pareja, sin accidentes). Sin canvas, vuelve el halo
+    vectorial (`.sin-corona`). De lejos se lee como un aro de luz fino y vivo, no como fuego; de cerca, como la
+    screen 3. Pesa cero: no hay imagen.
+  - **La estrella de luz.** Cada tanto asoma en un punto del borde (`#sis-estrella`, script «ESTRELLA»): un núcleo
+    blanco que crece en el primer tercio y se apaga en los dos restantes (3,2 s), seis rayos de lente finos con
+    degradé a la punta (uno largo, de 150 unidades; el conjunto rota al azar ±45°) y un glare suave de 64 unidades.
+    La primera a los 4,5 s de cargar; después a intervalos irregulares de 25 a 60 s, nunca dos seguidas a menos de 50°
+    una de otra, sólo con el hero a la vista, la pestaña visible y en noche. `?estrella=<ms>` la fija en ese instante
+    arriba a la derecha (1000 = el pico) para fotografiarla; `?estrella=no` la apaga. Con `prefers-reduced-motion`:
+    sin estrella, flama quieta (un cuadro) y aureola sin respirar.
+  - **El desenclipsar está apagado, no borrado.** `DESENCLIPSAR_ACTIVO = false` al principio de la IIFE: el ciclo
+    entero sigue en el código, sin disparadores —ni clic en el eclipse, ni en el logo (que vuelve a ser sólo el enlace
+    a `#inicio`), ni botón accesible, ni `aria-pressed`, ni cursor, ni la pista «tocá el eclipse»—. Los tres elementos
+    del SVG (`#sis-anillo`, `#sis-hint`, `#sis-hit`) y el botón `.ecl-btn` salieron del DOM; un comentario en el hero
+    los guarda textualmente y sus reglas CSS siguen. Los ganchos `?tema=dia` y `?ciclo=<ms>` andan para probarlo.
+    Para reactivar: la constante en `true` y devolver esos cuatro elementos. Lo que no vuelve solo: el isotipo de la
+    nav ya es el anillo y no tiene luna que acompañe el viaje (el ciclo lo tolera: `navLuna` queda en null). Las
+    fotos del sol y de la luna viajera (`eclipse-sol.webp`, `eclipse-luna.webp`) ya no se descargan al cargar la
+    página: van en `data-href` y el ciclo (o `?tema=dia`) las pide cuando las necesita.
+  - **El logo es el anillo** (la screen 2; §9.3 y `logos/README.md`). En la página, con mesura: el isotipo de la nav
+    (24 px, grosor 7,5 de 100 para que a ese tamaño siga siendo un aro), el pie (18 px, al 80 %), el `favicon.svg`
+    (grosor 9) y el separador entre Equipo y Contacto (58 px). El hero sigue siendo el eclipse grande, no el logo.
+  - **Fuera Byte × VRIO** (pedido de Matías del mismo día: *«vamos también a sacar las menciones a Byte y a VRIO de
+    la página»*): la línea `.hero-origin` del hero («Byte × VRIO», con enlaces a compu-byte.com.ar y vrio.ar) se fue
+    con su CSS; el pie dice «© 2026 RIA Labs · Rosario, Argentina»; el separador orbital de Equipo (los planetas Byte
+    y VRIO alrededor del eclipse, heredado de v4, con sus gradientes `vrio-grad`/`byte-grad` y su script) es ahora
+    el anillo solo (`#equipo-anillo`). Quedan para otra pasada la meta description («Nacidos de Byte y VRIO»), las
+    bios de Equipo (la casa Byte de Sebastián, VRIO Estudio en la de Matías) y el Laboratorio («dos puertas en
+    Rosario»).
 - **Cada vertical es un astro vivo con sus sabores en órbita** (viñeta `.prod-vis` de cada banda, SVG propio de
   480×400, vanilla; la superficie la arma y la mueve el script, según `data-astro`). El astro lleva la tecnología
   de la vertical en su superficie, en línea técnica sobre la esfera, no como ícono, y **se mueve**: mirarlo es
@@ -287,11 +332,13 @@
   la melena vuela al viento de un ventilador, el eclipse chico y al fondo, el mismo en los dos— y el jpg adentro
   como fallback. Arranca solo a la vista, se pausa al salir, y con `prefers-reduced-motion` queda la foto. Cómo
   se hizo y qué se midió, en §0.3.
-- **Nav**: Analítico · Espacio · Automoción (con el punto de color de cada uno) · Dataflow · Laboratorio ·
+- **Nav** (el isotipo es el anillo desde el 13/10): Analítico · Espacio · Automoción (con el punto de color de cada uno) · Dataflow · Laboratorio ·
   Equipo · *Conversemos*. En ≤860 px hay botón MENÚ con panel desplegable (v4 escondía los enlaces).
 - **Contacto**: el pre-título ahora es la pregunta del laboratorio («¿Tenés un problema que nadie resolvió?»)
-  y vuelve el copete de cierre. Footer © 2026.
-- **Desenclipsar: el eclipse se toca** (rama `desenclipsar`, 2026-10-10; pedido verbatim en el registro de
+  y vuelve el copete de cierre. Footer © 2026 (desde el 13/10, «© 2026 RIA Labs · Rosario, Argentina»: sin Byte × VRIO,
+  y con el anillo delante del wordmark).
+- **Desenclipsar: el eclipse se toca** — **apagado desde el 13/10** (`DESENCLIPSAR_ACTIVO = false`; ver el pulido
+  del hero, arriba; lo que sigue describe el ciclo tal como queda en el código) (rama `desenclipsar`, 2026-10-10; pedido verbatim en el registro de
   prompts). Un clic en el centro del eclipse del hero, o en el isotipo + wordmark de la nav (que sigue
   llevando a `#inicio`), dispara **un ciclo completo, no un toggle**: la luna sale del disco hacia la
   izquierda en trayectoria elíptica —*destape*, ~2,5 s, en los que el sol se enciende (disco, resplandor,
@@ -343,13 +390,15 @@
 | `assets/retrato-sebastian.mp4` / `.webm` · `assets/retrato-matias.mp4` / `.webm` | **retratos vivos** (2026-10-11): clips 720×900, 24 fps, en loop (9,67 s y 10,25 s), H.264 `yuv420p` sin audio + VP9. Sebastián 1,09 MB / 0,90 MB · Matías 0,83 MB / 0,65 MB |
 | `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~82 KB y ~79 KB, con el mismo eclipse unificado). Para cambiar de familia alcanza con renombrar; la sobria no tiene clip |
 | `scripts/generar-retratos-vivos.py` | cómo se hicieron el eclipse unificado y los retratos vivos (abajo): `fondo`, `video`, `post`, y `costura` para medir el loop |
-| `assets/eclipse-corona.webp` · `.jpg` | **la corona de la totalidad** (2026-10-12): WebP 1000×1000 con alfa desde la luminancia, 150 KB, el disco negro centrado a r = 0,1515 del lado. El jpg (37 KB) es la misma toma sobre negro, de respaldo y referencia; la página no lo usa |
-| `assets/eclipse-sol.webp` | la fotósfera en luz blanca, 720×720, alfa = disco (r = 0,4873 del lado), 20 KB |
-| `assets/eclipse-luna.webp` | la luna llena teñida al dorado, 720×720, alfa = disco, 22 KB: la cara iluminada de la luna viajera |
+| `assets/eclipse-corona.webp` · `.jpg` | **la corona fotográfica** (2026-10-12): WebP 1000×1000 con alfa desde la luminancia, 150 KB, el disco negro centrado a r = 0,1515 del lado. El jpg (37 KB) es la misma toma sobre negro. **Desde el 13/10 la página no carga ninguno de los dos** (la corona es la flama procedural); quedan en el repo por si el ciclo o la foto vuelven |
+| `assets/eclipse-sol.webp` | la fotósfera en luz blanca, 720×720, alfa = disco (r = 0,4873 del lado), 20 KB. Desde el 13/10 va en `data-href`: se descarga sólo cuando el ciclo o `?tema=dia` la piden |
+| `assets/eclipse-luna.webp` | la luna llena teñida al dorado, 720×720, alfa = disco, 22 KB: la cara iluminada de la luna viajera. Desde el 13/10, `data-href` como la del sol |
+| `logos/ria-anillo-{color,blanco,negro,outline}.svg` · `logos/ria-anillo-lockup-horizontal-{color,blanco,negro,outline}.svg` | **el isotipo anillo** (2026-10-13, la screen 2 de Matías) y su lockup horizontal con el wordmark en Saira; §9.3 y `logos/README.md`. PNG de los cuatro isotipos a 256/512/1024/2048 en `logos/png/` (`bash logos/build-pngs.sh ria-anillo-color.svg …`, ahora con fallback a Chrome headless si no hay cairosvg). Los lockups no tienen PNG: sin Saira instalada saldrían con otra fuente |
+| `favicon.svg` | el anillo (grosor 9 de 92, un poco más grueso que el de marca, para que a 16 px siga siendo un aro). Hasta el 13/10, el eclipse de halos de v4. `favicon.ico` y `ria-favicon/` siguen siendo los viejos |
 | `scripts/generar-eclipse.py` | cómo se generaron y procesaron las tres (abajo): `corona`, `sol`, `luna`, `medir`, `post-*`, `hoja` |
-| `og-image.png` | tarjeta 1200×630: el eclipse solo + RIA Labs + «DE VER A SABER» en Cormorant —**desactualizada desde el 13/10**: el hero dice «Superestructura»; regenerarla— (`OG=1 scripts/capturar-home.sh v5`; el modo OG esconde además la pista «tocá el eclipse»). Regenerada el 10/10 con el titular nuevo y el 12/10 con el eclipse cinemático. La anterior quedó en `og-image-v4.png` |
+| `og-image.png` | tarjeta 1200×630: el eclipse con la flama ecuánime + RIA Labs + «Superestructura» en M PLUS Rounded (regenerada el 13/10 con `OG=1 scripts/capturar-home.sh v5`; el modo OG esconde la cita y el control de audio) |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
-| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia`, `QUERY=ciclo=4200` o `QUERY=t=43200000` fotografía el día, un instante del ciclo del eclipse o la página con el reloj adelantado (astros y banda Dataflow), `NOMBRE=dia` nombra los PNG; `ALTO=9600` para la página entera). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
+| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia`, `QUERY=ciclo=4200`, `QUERY=t=43200000` o `QUERY=estrella=1000` / `estrella=no` fotografía el día, un instante del ciclo del eclipse, la página con el reloj adelantado (astros y banda Dataflow) o la estrella de luz del hero fija en su pico / apagada (sin QUERY sale apagándose: la primera asoma a los 4,5 s y Chrome fotografía a los ~6); la QUERY aplica también a la tarjeta OG; `NOMBRE=dia` nombra los PNG; `ALTO=16000` para la página entera, que mide ~11.300 px en desktop desde el 13/10). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
 
 **Retratos (2026-10-10).** Generados con `google/nano-banana` vía Replicate (token en
 `~/.credentials/replicate.env`) a partir de las fotos reales de `~/dev/RIALabs/Fotos/` (`otra.jpeg` y
@@ -479,6 +528,21 @@ en las capturas del ciclo el tema ya está en día desde el primer cuadro (el sc
 diamante del destape (730 ms) se fotografía sobre papel aunque en el navegador ocurre todavía sobre noche; y el limbo de la
 fotósfera de día es marrón, como lo trajo la foto, lo que se lee como oscurecimiento al limbo pero podría aclararse en post.
 
+**La flama ecuánime, la estrella y el anillo (2026-10-13, rama `hero-pulido`).** Técnica y períodos en §0.1 (pulido del
+hero). Se eligió el canvas procedural y no una imagen generada porque lo que Matías pidió es control —sutileza pareja y
+movimiento sin saltos—, y una foto de nano-banana trae accidentes (lenguas largas, zonas más densas) que después hay que
+disimular; además pesa cero y sigue a la luna. Lo verificado en captura (desktop 1440, móvil 390, noche con y sin
+estrella, `?tema=dia`, `prefers-reduced-motion` forzado, OG y la página entera, sin `Uncaught` en el log de Chrome): de
+noche el aro se lee fino, parejo y vivo, con el hilo pálido en el limbo y las lenguas cortas de ámbar a rojo; la estrella
+asoma con su núcleo, sus seis rayos y el glare y se lee como la screen 1; de día queda el sol con su resplandor, la flama
+y la aureola apagadas; con reduced-motion la flama es un cuadro quieto y no hay estrella; el anillo se ve en la nav, en el
+pie, en el separador y en el favicon a 16/32/64 px sobre oscuro y sobre blanco; la página no descarga
+`eclipse-corona.webp`, `eclipse-sol.webp` ni `eclipse-luna.webp` al cargar. Las capturas quedaron en
+`_capturas/hero-pulido/` (ignorado). Lo que queda dudoso: la lengua más larga (17 % del radio) y el alfa del rojo se
+calibraron mirando capturas fijas, no el movimiento; si en el navegador la flama se siente demasiado quieta o demasiado
+viva, los diales son `LMIN`/`LMAX`, las duraciones de las dos octavas y la deriva (`omega`) al principio del script
+«FLAMA».
+
 ### 0.4 Pendientes que deja la v5
 
 - Renombrar *RIA Comms* → *RIA Diálogo* en `/laboratorio/` (y decidir si va *Diálogo* o *Comunicación*).
@@ -493,9 +557,17 @@ fotósfera de día es marrón, como lo trajo la foto, lo que se lee como oscurec
   desde la expedición 04. Decidir si se enlazan.
 - El satélite **Acceso** de RIA Espacio no enlaza a nada: Rosental y Mercado Fisherton son instalaciones con
   login. Cuando Acceso tenga página pública, es agregarle el `href`.
-- El eclipse del separador de Equipo sigue vectorial (anillos de trazo); el del hero ya es fotográfico. Si se quiere
-  unificar, el camino es la misma corona con alfa (`assets/eclipse-corona.webp`) escalada a su viewBox. (El de la
-  banda Dataflow se fue con la banda-historia el 12/10.)
+- El separador de Equipo es el anillo (el isotipo) desde el 13/10; el eclipse vectorial que tenía, y el de la banda
+  Dataflow, ya no están en la página.
+- `favicon.ico` y la carpeta `ria-favicon/` siguen siendo el eclipse de halos viejo; `favicon.svg` ya es el anillo.
+  Regenerar el `.ico` (y los PNG de `ria-favicon/`) desde `favicon.svg`.
+- Los lockups con el anillo (`logos/ria-anillo-lockup-horizontal-*.svg`) no tienen PNG: hace falta Saira instalada
+  para que el wordmark salga fiel (`logos/build-pngs.sh`).
+- Quedan menciones a Byte y VRIO fuera del hero, el pie y el separador: la meta description («Nacidos de Byte y
+  VRIO»), las fichas de Equipo (la casa Byte de Sebastián, VRIO Estudio en la bio de Matías) y el Laboratorio («dos
+  puertas en Rosario: Byte… y VRIO»). Es otra pasada.
+- Si el desenclipsar vuelve (`DESENCLIPSAR_ACTIVO = true`), el isotipo de la nav —hoy el anillo— ya no tiene luna que
+  acompañe el viaje; decidir si el anillo acompaña de otra forma o no acompaña.
 - Los contadores de la banda Dataflow proyectan la lectura del tablero del 10/10/2026 (§0.5): cada tanto conviene
   cargar una lectura nueva (constantes al principio del script «DATAFLOW · la onda» y la fecha en `.df-nota`), porque
   con los meses la proyección se aleja de lo medido. Y la curva horaria es plausible, no medida: cuando el tablero
@@ -1015,6 +1087,18 @@ Frase central (v2, resumen de la ventaja competitiva):
 - **v5 desde 2026-10-12:** el hero es un eclipse cinemático en capas (foto de la corona con alfa + fotósfera + luna negra,
   §0.1), y el isotipo de la nav, inline en `v5/index.html`, es una corona de luz con un streamer ecuatorial y la luna
   negra centrada (24 px). Dataflow y Equipo conservan el eclipse vectorial.
+- **El anillo (2026-10-13, rama `hero-pulido`) — el isotipo nuevo.** Sale de una referencia que Matías trajo («la
+  screen 2 es una idea que me gusta como logo»): una circunferencia limpia de grosor uniforme, sin relleno, con
+  degradé lineal vertical amarillo → naranja → rojo. Medido en la referencia: grosor 6,3 % del diámetro exterior, el
+  amarillo se sostiene en el 10 % de arriba y pasa rápido al naranja hacia el 30 %, después baja despacio al rojo.
+  Construcción (`logos/ria-anillo-color.svg`, viewBox 100): círculo r 43, trazo 6 (exterior 46, interior 40), gradiente
+  `#f8df6a` (0) → `#e4753d` (0,3) → `#d35745` (0,62) → `#c54a45` (1). Variantes `blanco`, `negro`, `outline` (los dos
+  bordes en `currentColor`) y lockup horizontal con el wordmark RIA Labs en Saira
+  (`ria-anillo-lockup-horizontal-*.svg`, misma caja de 640×180 que el lockup vigente). Convención y usos en
+  `logos/README.md`. En la página: isotipo de la nav (24 px, trazo 7,5), pie (18 px, al 80 %), `favicon.svg` (trazo 9)
+  y el separador entre Equipo y Contacto (`#equipo-anillo`). El hero sigue siendo el eclipse —la flama ecuánime sobre
+  la luna negra— y no el logo; el anillo es la versión gráfica, plana, de esa misma figura. Los isotipos `ria-isotipo-*`
+  (el eclipse de halos de v4) siguen en la carpeta como histórico.
 
 ### 9.4 Lenguaje visual
 
@@ -1039,7 +1123,7 @@ Frase central (v2, resumen de la ventaja competitiva):
 | `assets/equipo-sebastian.jpg` | 52 KB | Retrato de Sebastián Acedo · 360×360, sección Equipo del home |
 | `assets/equipo-matias.jpg` | 50 KB | Retrato de Matías Gallego · 360×360, sección Equipo del home |
 | `assets/ria-labs-eclipse-icon.svg` | 645 B | Icono del eclipse (vector) |
-| `og-image.png` (raíz) | 137 KB | Open Graph 1200×630 para WhatsApp / Twitter Card |
+| `og-image.png` (raíz) | ~600 KB desde v5 (cielo con ruido) | Open Graph 1200×630 para WhatsApp / Twitter Card |
 
 ### 10.2 Favicon system (`ria-favicon/`)
 

@@ -1,29 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- RIA Labs · el anillo (2026-10-13). Grosor 9 sobre un diámetro de 92: a 16 px sigue leyéndose como aro.
+       Fuente: logos/ria-anillo-color.svg (ahí el grosor de marca es 6). -->
   <defs>
-    <radialGradient id="corona-glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%"   stop-color="#EF9F27" stop-opacity="0.0"/>
-      <stop offset="58%"  stop-color="#EF9F27" stop-opacity="0.0"/>
-      <stop offset="78%"  stop-color="#EF9F27" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#EF9F27" stop-opacity="0.0"/>
-    </radialGradient>
-    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="2.2" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
+    <linearGradient id="anillo-fav" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="#f8df6a"/>
+      <stop offset="0.3"  stop-color="#e4753d"/>
+      <stop offset="0.62" stop-color="#d35745"/>
+      <stop offset="1"    stop-color="#c54a45"/>
+    </linearGradient>
   </defs>
-
-  <!-- Corona atmosphere glow -->
-  <circle cx="50" cy="50" r="48" fill="url(#corona-glow)"/>
-
-  <!-- Corona ring — glowing gold -->
-  <circle cx="50" cy="50" r="38" fill="none" stroke="#EF9F27" stroke-width="4.5" opacity="0.92" filter="url(#glow)"/>
-
-  <!-- Inner limb hint -->
-  <circle cx="50" cy="50" r="34" fill="none" stroke="#c8860a" stroke-width="0.8" opacity="0.4"/>
-
-  <!-- Dark moon disc — centered, eclipse total -->
-  <circle cx="50" cy="50" r="32" fill="#07060f"/>
+  <circle cx="50" cy="50" r="41.5" fill="none" stroke="url(#anillo-fav)" stroke-width="9"/>
 </svg>
