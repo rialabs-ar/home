@@ -2,7 +2,9 @@
 # Fotografía la home v5 completa (desktop 1440 y móvil 390) con Chrome headless.
 # Sirve la raíz del repo RIA en un puerto libre 8895-8899 y lo mata por PID al salir.
 # QUERY=tema=dia fotografía el tema día (ver "DESENCLIPSAR" en v5/index.html); QUERY=ciclo=4200
-# congela el ciclo del eclipse a los 4,2 s. NOMBRE=dia cambia el sufijo de los PNG (v5_dia_d.png).
+# congela el ciclo del eclipse a los 4,2 s; QUERY=estrella=1000 fija la estrella de luz del hero en su pico y
+# QUERY=estrella=no la apaga (sin QUERY, Chrome fotografía a los ~6 s virtuales y la primera estrella, que sale a
+# los 4,5 s, aparece apagándose). La QUERY también aplica a la tarjeta OG. NOMBRE=dia cambia el sufijo (v5_dia_d.png).
 set -e
 RAIZ=${RAIZ:-/Users/tano/dev/RIALabs/Proyectos/RIA}   # con RAIZ=... se fotografía otro checkout (un worktree)
 S=${CAPTURAS:-"$(dirname "$0")/capturas"}
@@ -50,7 +52,7 @@ open(f"{d}/_og.html","w").write(src.replace("</head>", inj, 1))
 PY
 "$CH" --headless=new --disable-gpu --hide-scrollbars --window-size=1200,630 \
   --enable-logging=stderr --v=0 --virtual-time-budget=6000 \
-  --screenshot="$S/og-${VER}.png" "http://127.0.0.1:$PUERTO/$VER/_og.html" >>"$LOG" 2>&1 || true
+  --screenshot="$S/og-${VER}.png" "http://127.0.0.1:$PUERTO/$VER/_og.html$Q" >>"$LOG" 2>&1 || true
 rm -f "$RAIZ/$VER/_og.html"
 fi
 grep -i "uncaught\|error" "$LOG" | grep -v "DevTools\|GPU\|gpu\|dbus\|Fontconfig" | head -5 || true
