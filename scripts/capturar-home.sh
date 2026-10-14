@@ -5,6 +5,7 @@
 # congela el ciclo del eclipse a los 4,2 s; QUERY=estrella=1000 fija la estrella de luz del hero en su pico y
 # QUERY=estrella=no la apaga (sin QUERY, Chrome fotografía a los ~6 s virtuales y la primera estrella, que sale a
 # los 4,5 s, aparece apagándose). La QUERY también aplica a la tarjeta OG. NOMBRE=dia cambia el sufijo (v5_dia_d.png).
+# El modo OG (OG=1) esconde la máquina y apila eclipse · RIA LABS · la frase, en cualquier encuadre del hero (?hero=).
 # PANTALLA=1 fotografía UNA pantalla real, sin inyectar el alto fijo del hero: ANCHO×ALTO (ANCHO=1440 por defecto).
 # Con ANCHO≤500 va por el iframe del celular (del ancho y el alto pedidos) y recorta la captura a ese cuadro.
 # Sale una sola captura, ${N}_p<ancho>x<alto>.png: sirve para ver qué entra sin scrollear.
@@ -73,7 +74,7 @@ python3 - "$RAIZ/$VER" <<'PY'
 import sys
 d = sys.argv[1]
 src = open(f"{d}/index.html").read()
-inj = "<style>nav,.hero-eyebrow,.hero-ctas,.hero-origin,.hero-sub,.hero-cita,#sis-hint,#mq-svg{display:none !important}.hero .maq{margin-top:18px !important}.maq-t1,.maq-t2{opacity:1 !important;transform:none !important;font-size:20px !important}.hero{min-height:630px !important;padding:0 24px !important;justify-content:center}#sistema-wrap{width:320px;margin-top:0}.wordmark{margin-top:16px}.ria{font-size:76px}*,*::before,*::after{animation-delay:0s !important;animation-duration:0.01s !important;transition-duration:0s !important}#sistema *{animation-duration:revert !important}#cielo{opacity:1}</style></head>"
+inj = "<style>nav,.hero-eyebrow,.hero-ctas,.hero-origin,.hero-sub,.hero-cita,#sis-hint,#maquina{display:none !important}.maq-pie{margin-top:18px !important}.maq-t1,.maq-t2{opacity:1 !important;transform:none !important;font-size:20px !important}.hero{height:630px !important;min-height:630px !important;padding:0 24px !important;justify-content:center !important}.hero-escena{display:flex !important;flex:0 0 auto !important;flex-direction:column;align-items:center;margin:0 !important}#sistema-wrap{width:320px !important;height:auto !important;margin:0 !important;top:0 !important}.wordmark{margin-top:16px !important}.ria{font-size:76px !important}.labs{font-size:17px !important}*,*::before,*::after{animation-delay:0s !important;animation-duration:0.01s !important;transition-duration:0s !important}#sistema *{animation-duration:revert !important}#cielo{opacity:1}</style></head>"
 open(f"{d}/_og.html","w").write(src.replace("</head>", inj, 1))
 PY
 "$CH" --headless=new --disable-gpu --hide-scrollbars --window-size=1200,630 \
