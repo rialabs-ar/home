@@ -17,6 +17,18 @@
 
 ### 0.1 Qué cambió y por qué
 
+- **El hero, depurado (2026-10-14).** Matías: «Saquemos todo desde Metaestructura hasta los botones inclusive.
+  Dejemos solo debajo del logo el dibujo de la máquina y la frase de siempre.» El hero queda: rótulo · eclipse
+  (flama ecuánime + estrella de luz) · **RIA / LABS** · **la máquina** con su pie «Tu infraestructura ya existe. /
+  Nosotros la hacemos pensar.». Salieron el titular «Metaestructura», la cita, el audio y su script «LA FRASE
+  HABLADA», los botones «Ver los productos» / «Conocer el motor →» y la tipografía M PLUS Rounded 1c (no se usaba
+  en otro lado). La máquina dejó de ser banda propia: vive dentro de `<header>` debajo del logo, sin fondo ni
+  bordes (`.hero .maq`), con el mismo `id="maquina"` y el mismo script. `<title>` vuelve a «RIA Labs — Software e
+  inteligencia artificial»; `og:title`/`twitter:title` y la description arrancan con la frase. La OG muestra eclipse
+  + RIA LABS + la frase (el modo OG del script de captura esconde el dibujo y deja el pie). **El discurso quedó
+  guardado como idea a futuro** en `docs/ideas/2026-10-13-discurso-metaestructura.md` (las dos versiones, cómo se
+  podría producir y cómo no, y dónde está el código en git). Los bullets de «Superestructura/Metaestructura» que
+  siguen más abajo son historia.
 - **Los productos son la espina.** Se fueron las secciones *Servicios* (cuatro líneas de consultoría) y
   *Mercado* (radial de seis rubros): describían una consultora, no la empresa de producto que es hoy. Su
   mensaje útil («partimos de lo que ya tenés») pasó al hero, a la banda de Dataflow y al método.
@@ -463,7 +475,7 @@
 
 ### 0.2 Secuencia de la página (anclas)
 
-`#inicio` hero → `#maquina` (la máquina, con el pie «Tu infraestructura ya existe. / Nosotros la hacemos pensar.») →
+`#inicio` hero (eclipse · RIA LABS · `#maquina` con el pie «Tu infraestructura ya existe. / Nosotros la hacemos pensar.») →
 `#productos` (`#analitico` · `#espacio` · `#automocion`) → `#dataflow` →
 `#laboratorio` → `#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
 
@@ -661,9 +673,8 @@ viva, los diales son `LMIN`/`LMAX`, las duraciones de las dos octavas y la deriv
   cargar una lectura nueva (constantes al principio del script «DATAFLOW · la onda» y la fecha en `.df-nota`), porque
   con los meses la proyección se aleja de lo medido. Y la curva horaria es plausible, no medida: cuando el tablero
   exponga la serie por hora, va la real.
-- **`assets/metaestructura.mp3` todavía no existe** (y `.ogg`, opcional): el audio de la frase del hero lo genera
-  Matías. Con el archivo en esa ruta exacta el hover y el botón «escuchar» se activan solos (§0.1); hasta entonces
-  no se ve nada. Y `og-image.png` sigue mostrando «DE VER A SABER»: regenerarla con `OG=1 scripts/capturar-home.sh v5`.
+- ~~El audio de la frase del hero~~: sin objeto desde el 14/10 (la frase salió del hero; ver la idea guardada en
+  `docs/ideas/2026-10-13-discurso-metaestructura.md`).
 - Las viñetas de las verticales son SVG dibujado, no imágenes generadas: se decidió así para que sobrevivan a
   un tema claro (colores por variables), pesen cero y puedan moverse. Si alguna vez se quiere un render
   fotorrealista, el camino es el de los retratos (`scripts/generar-retratos.py`).
@@ -792,11 +803,16 @@ El **eclipse solar total** (anillos cálidos naranjas/dorados con disco lunar os
 
 ### 1.4 Frase filosófica / corazón narrativo
 
+> "Tu infraestructura ya existe. Nosotros la hacemos pensar."
+>
+> (Vigente de nuevo desde el 2026-10-14: es el pie de la máquina, debajo del logo en el hero. El hero no tiene
+> titular.)
+
 > **Metaestructura**
 >
-> (Titular del hero de v5 desde el 2026-10-13: una sola palabra, sentence case, en M PLUS Rounded 1c 800, la redonda
-> de la onda de Dataflow. Debajo va la frase de Matías como cita —texto completo en §0.1—, que cierra en «está
-> hecha en RIA Labs».)
+> (Histórica: titular del hero del 13 al 14 de octubre de 2026, en M PLUS Rounded 1c 800, con la frase de Matías
+> como cita debajo; antes, unas horas, «Superestructura». Guardada como idea en
+> `docs/ideas/2026-10-13-discurso-metaestructura.md`.)
 
 Históricas:
 

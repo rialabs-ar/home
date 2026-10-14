@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RIA Labs — Metaestructura</title>
-<meta name="description" content="Metaestructura: un motor, tres productos, un laboratorio. RIA Analítico, RIA Espacios y RIA Automoción sobre Dataflow, el motor de analítica de video e inteligencia artificial de RIA Labs. Rosario, Argentina.">
+<title>RIA Labs — Software e inteligencia artificial</title>
+<meta name="description" content="Tu infraestructura ya existe. Nosotros la hacemos pensar. Un motor, tres productos, un laboratorio: RIA Analítico, RIA Espacios y RIA Automoción sobre Dataflow, el motor de analítica de video e inteligencia artificial de RIA Labs. Rosario, Argentina.">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <meta name="theme-color" content="#07060f">
@@ -12,7 +12,7 @@
   <!-- Open Graph / WhatsApp -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://rialabs.ar/">
-  <meta property="og:title" content="RIA Labs — Metaestructura">
+  <meta property="og:title" content="RIA Labs — Tu infraestructura ya existe. Nosotros la hacemos pensar.">
   <meta property="og:description" content="Un motor, tres productos, un laboratorio: RIA Analítico, RIA Espacios y RIA Automoción sobre Dataflow, el motor de analítica de video e IA de RIA Labs. Rosario, Argentina.">
   <meta property="og:image" content="https://rialabs.ar/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -20,15 +20,13 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="RIA Labs — Metaestructura">
+  <meta name="twitter:title" content="RIA Labs — Tu infraestructura ya existe. Nosotros la hacemos pensar.">
   <meta name="twitter:description" content="Un motor, tres productos, un laboratorio: RIA Analítico, RIA Espacios y RIA Automoción sobre Dataflow, el motor de analítica de video e IA de RIA Labs. Rosario, Argentina.">
   <meta name="twitter:image" content="https://rialabs.ar/og-image.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira:wght@200;300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-<!-- la voz del titular «Metaestructura»: la misma redonda pesada que titula la onda de Dataflow, un solo peso -->
-<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg:      #0b0a14;
@@ -200,28 +198,6 @@
   .ria { font-weight: 500; font-size: clamp(56px, 9.5vw, 108px); letter-spacing: 0.1em; line-height: 0.95; color: var(--white); margin-left: 0.1em; }
   .labs { font-weight: 300; font-size: clamp(12px, 1.6vw, 17px); letter-spacing: 0.5em; color: var(--gold-hi); text-transform: uppercase; margin-top: 8px; margin-left: 0.5em; }
 
-  /* El titular: una palabra, «Metaestructura», en la redonda pesada que titula la onda de Dataflow
-     (M PLUS Rounded 1c 800: curvas amables, sin esquinas, con cuerpo) frente a la geometría de Saira del
-     wordmark. Sentence case y tracking apenas negativo, como la usa Dataflow: en mayúsculas se volvía
-     afiche. Una sola línea siempre: a 390 px entra con el tamaño mínimo del clamp. */
-  .hero-headline { font-family: 'M PLUS Rounded 1c', 'Arial Rounded MT Bold', 'Nunito', sans-serif; font-weight: 800; font-size: clamp(38px, 3.9vw, 56px); letter-spacing: -0.018em; line-height: 1.05; color: var(--white); max-width: 100%; white-space: nowrap; margin: 30px 0 22px; animation: fadeUp 0.9s ease 0.85s both; position: relative; z-index: 2; }
-  /* La frase: un parlamento en dos párrafos, columna de ~80 caracteres alineada a la izquierda para que
-     se lea con ritmo, una comilla de apertura grande colgando a la izquierda (en la misma redonda del
-     titular, dorada y tenue; se enciende mientras suena el audio) y la última cláusula en blanco como los
-     strong del resto de la página. El bloque no lleva comillas propias: la comilla grande ya es la cita. */
-  .hero-cita { font-size: 16px; font-weight: 300; color: var(--muted); max-width: 620px; line-height: 1.72; margin: 0 auto 36px; padding: 0; text-align: left; text-wrap: pretty; animation: fadeUp 0.9s ease 1s both; position: relative; z-index: 2; }
-  .hero-cita p { margin: 0 0 0.95em; }
-  .hero-cita p:last-of-type { margin-bottom: 0; }
-  .hero-cita strong { color: var(--white); font-weight: 400; }
-  .hero-cita::before { content: '\201C'; position: absolute; left: -0.58em; top: -0.3em; font-family: 'M PLUS Rounded 1c', 'Arial Rounded MT Bold', sans-serif; font-weight: 800; font-size: 104px; line-height: 1; color: var(--gold); opacity: 0.42; pointer-events: none; transition: opacity 0.6s ease, color var(--t-tema) ease; }
-  .hero-cita.sonando::before { opacity: 0.9; color: var(--gold-hi); }
-  /* El control del audio: un botón chico en mono, a la derecha del bloque, que sólo aparece cuando el archivo
-     existe (lo decide el script). Sirve en touch y antes del primer clic, cuando el hover todavía no puede sonar. */
-  .hero-escuchar { display: flex; align-items: center; gap: 9px; width: max-content; margin: 16px 0 0 auto; background: none; border: 1px solid var(--border); color: var(--gold); font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; padding: 7px 13px 7px 16px; cursor: pointer; transition: color 0.2s, border-color 0.2s, background-color 0.2s; }
-  .hero-escuchar span { font-size: 8px; letter-spacing: 0; }
-  .hero-escuchar:hover, .hero-escuchar:focus-visible { color: var(--gold-hi); border-color: var(--gold); background: var(--ghost); outline: none; }
-  .hero-escuchar[hidden] { display: none; }
-  .hero-ctas { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.9s ease 1.1s both; position: relative; z-index: 2; }
 
   @keyframes rise   { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
@@ -252,6 +228,8 @@
   .maq { background: var(--banda); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 46px 0 42px; overflow: hidden;
     --maq-metal: #141122; --maq-osc: #07060e; --maq-tubo: #07060e; --maq-vio: #7F77DD; --maq-p1: #4a8fd4; --maq-p2: #7F77DD; --maq-p3: #2fd0c8; --maq-flash: #fff6dc; --maq-grilla: rgba(255,255,255,0.045); }
   html[data-tema="dia"] .maq { --maq-metal: #e3d9c3; --maq-osc: #3b3429; --maq-tubo: #bfb092; --maq-vio: #5a4fc4; --maq-grilla: rgba(26,23,18,0.07); }
+  /* Desde el 14/10 la máquina vive en el hero, debajo del logo: sin fondo de banda ni bordes, el cielo pasa. */
+  .hero .maq { background: none; border: 0; padding: 0; width: 100%; margin-top: 38px; position: relative; z-index: 2; }
   .maq-wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
   .maq-svg { display: block; width: 100%; height: auto; overflow: visible; }
   .maq-t1, .maq-t2 { text-align: center; font-size: 15px; letter-spacing: 0.3px; line-height: 1.5; opacity: 0; transform: translateY(8px); transition: opacity 1.2s ease, transform 1.2s ease, color var(--t-tema) ease; }
@@ -518,8 +496,6 @@
     nav{padding:14px 24px;} .nav-links{display:none;} .nav-burger{display:block;} .nav-cta{display:none;}
     .wrap{padding:0 24px;} .section{padding:80px 0;}
     .hero{padding:96px 18px 72px;}
-    .hero-headline{margin:26px 0 18px;} .hero-cita{font-size:15px;line-height:1.7;margin-bottom:32px;padding-top:26px;}
-    .hero-cita::before{left:-2px;top:-14px;font-size:68px;}  /* en una fila propia: colgando se montaba sobre la S del titular */
     #sistema-wrap{margin-top:22px;}
     .prod{padding:64px 0;}
     .prod-grid, .prod.inv .prod-grid { grid-template-columns: 1fr; gap: 28px; }
@@ -535,7 +511,7 @@
     .df-n{font-size:26px;}
     .df-nota{margin-top:24px;}
     .princ-grid,.team-grid{grid-template-columns:1fr;}
-    .maq{padding:34px 0 32px;}
+    .maq{padding:34px 0 32px;} .hero .maq{padding:0;margin-top:28px;}
     .maq-wrap{max-width:440px;padding:0 18px;}
     .maq-t1,.maq-t2{font-size:14px;}
     .maq-t1{margin-top:22px;}
@@ -757,52 +733,36 @@
     <span class="labs">Labs</span>
   </div>
 
-  <h1 class="hero-headline">Metaestructura</h1>
-  <!-- La frase, tal cual la escribió Matías (2026-10-13), en dos párrafos. Al posar el mouse se reproduce su
-       audio —assets/metaestructura.mp3 (+ .ogg opcional), cuando exista: ver "LA FRASE HABLADA" en el script—
-       y el botón «escuchar» hace lo mismo en touch y antes del primer clic. -->
-  <blockquote class="hero-cita" id="hero-cita">
-    <p>Miren, tenemos gente increíble trabajando en esto. Los mejores ingenieros, tipos verdaderamente brillantes, de los que nadie había oído hablar antes, pero son genios absolutos. Y me dijeron: ‘Señor Presidente, tenemos algo tan grande, tan revolucionario, que va a cambiar el juego para siempre’.</p>
-    <p>Le llamamos Metaestructura. Suena bien, ¿verdad? Metaestructura. Suena fuerte. No es una de esas ideas débiles y ridículas de la vieja política que cuestan trillones y no sirven para nada. Esto es real. Es hormigón, es acero, es tecnología digital de última generación, y <strong>está hecha en RIA Labs</strong>.</p>
-    <audio id="hero-audio" preload="none">
-      <source src="/assets/metaestructura.mp3" type="audio/mpeg">
-      <source src="/assets/metaestructura.ogg" type="audio/ogg">
-    </audio>
-    <button type="button" class="hero-escuchar" id="hero-escuchar" hidden aria-pressed="false" aria-label="Escuchar la frase">escuchar <span aria-hidden="true">▶</span></button>
-  </blockquote>
-  <div class="hero-ctas">
-    <a href="#productos" class="btn-gold">Ver los productos</a>
-    <a href="#dataflow" class="btn-ghost">Conocer el motor →</a>
-  </div>
+  <!-- ══════════════ LA MÁQUINA ══════════════
+       Desde el 14/10 vive en el hero, debajo del logo (antes era una banda propia después del hero).
+       La ilustración del hero de v4 (infraestructura → eclipse → inteligencia), reproducida y traída al
+       presente: más mecánica y más química. A la izquierda las entradas que ya están —una cámara, un
+       sensor, un registro— como piezas de una máquina (distribuidor rotativo con corona dentada y su tren
+       de engranajes, bomba de pistón, compuerta, válvula) que conducen tokens hasta el reactor; en el
+       centro el eclipse como cámara de reacción, donde los tokens chocan, se funden y arman estructuras
+       que salen hacia la derecha; a la derecha la constelación que se resuelve en los tres productos.
+       Todo lo arma y lo mueve el script «LA MÁQUINA» (un solo rAF, sólo a la vista; ?t=<ms> adelanta el
+       reloj; prefers-reduced-motion deja un cuadro quieto). Los dos textos son el pie de la imagen. -->
+  <section class="maq" id="maquina" aria-label="La máquina: tu infraestructura ya existe, nosotros la hacemos pensar">
+    <div class="maq-wrap">
+      <svg id="mq-svg" class="maq-svg" viewBox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="La máquina: a la izquierda una cámara, un sensor y un registro, piezas de una máquina que conduce datos hasta un reactor con forma de eclipse; adentro los datos se funden y forman estructuras; a la derecha salen como una constelación que se resuelve en RIA Analítico, RIA Espacios y RIA Automoción. Cada producto es un enlace a su sección.">
+        <defs>
+          <clipPath id="mq-clip"><circle id="mq-clip-c" cx="0" cy="0" r="92"/></clipPath>
+        </defs>
+        <g id="mq-grilla" aria-hidden="true"></g>
+        <g class="mq-fase mq-f1" id="mq-est" aria-hidden="true"></g>
+        <g class="mq-fase mq-f2" id="mq-cond" aria-hidden="true"></g>
+        <g class="mq-fase mq-f3" id="mq-re" aria-hidden="true"></g>
+        <g class="mq-fase mq-f4" id="mq-con"></g>
+        <g class="mq-fase mq-f2" id="mq-tok" aria-hidden="true"></g>
+        <g class="mq-fase mq-f4" id="mq-pul" aria-hidden="true"></g>
+      </svg>
+      <p class="maq-t1">Tu infraestructura ya existe.</p>
+      <p class="maq-t2">Nosotros la hacemos pensar.</p>
+    </div>
+  </section>
 </header>
 
-<!-- ══════════════ LA MÁQUINA ══════════════
-     La ilustración del hero de v4 (infraestructura → eclipse → inteligencia), reproducida y traída al
-     presente: más mecánica y más química. A la izquierda las entradas que ya están —una cámara, un
-     sensor, un registro— como piezas de una máquina (distribuidor rotativo con corona dentada y su tren
-     de engranajes, bomba de pistón, compuerta, válvula) que conducen tokens hasta el reactor; en el
-     centro el eclipse como cámara de reacción, donde los tokens chocan, se funden y arman estructuras
-     que salen hacia la derecha; a la derecha la constelación que se resuelve en los tres productos.
-     Todo lo arma y lo mueve el script «LA MÁQUINA» (un solo rAF, sólo a la vista; ?t=<ms> adelanta el
-     reloj; prefers-reduced-motion deja un cuadro quieto). Los dos textos son el pie de la imagen. -->
-<section class="maq" id="maquina" aria-label="La máquina: tu infraestructura ya existe, nosotros la hacemos pensar">
-  <div class="maq-wrap">
-    <svg id="mq-svg" class="maq-svg" viewBox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="La máquina: a la izquierda una cámara, un sensor y un registro, piezas de una máquina que conduce datos hasta un reactor con forma de eclipse; adentro los datos se funden y forman estructuras; a la derecha salen como una constelación que se resuelve en RIA Analítico, RIA Espacios y RIA Automoción. Cada producto es un enlace a su sección.">
-      <defs>
-        <clipPath id="mq-clip"><circle id="mq-clip-c" cx="0" cy="0" r="92"/></clipPath>
-      </defs>
-      <g id="mq-grilla" aria-hidden="true"></g>
-      <g class="mq-fase mq-f1" id="mq-est" aria-hidden="true"></g>
-      <g class="mq-fase mq-f2" id="mq-cond" aria-hidden="true"></g>
-      <g class="mq-fase mq-f3" id="mq-re" aria-hidden="true"></g>
-      <g class="mq-fase mq-f4" id="mq-con"></g>
-      <g class="mq-fase mq-f2" id="mq-tok" aria-hidden="true"></g>
-      <g class="mq-fase mq-f4" id="mq-pul" aria-hidden="true"></g>
-    </svg>
-    <p class="maq-t1">Tu infraestructura ya existe.</p>
-    <p class="maq-t2">Nosotros la hacemos pensar.</p>
-  </div>
-</section>
 
 <!-- ══════════════ PRODUCTOS ══════════════ -->
 <section class="section" id="productos" style="padding-bottom:0;">
@@ -3184,43 +3144,6 @@
     vids.forEach(function(v){ vo.observe(v); });
   })();
 
-  /* ══════════════════════════════════════════
-     LA FRASE HABLADA · el audio de la cita del hero: assets/metaestructura.mp3 (+ .ogg opcional).
-     Mientras el archivo no exista no se ve nada: un HEAD al cargar decide si se activa. Al posar el
-     mouse sobre la cita suena, y al salir se pausa y rebobina. Sin un clic previo en la página los
-     navegadores rechazan play() (política de autoplay): el error se traga en silencio y queda el botón
-     «escuchar», que sirve en touch y antes de ese primer clic. Lo que arranca el botón no lo corta el
-     mouse al salir: termina solo. prefers-reduced-motion no cambia nada (es audio).
-     ══════════════════════════════════════════ */
-  (function(){
-    var cita = document.getElementById('hero-cita'), au = document.getElementById('hero-audio'), btn = document.getElementById('hero-escuchar');
-    if (!cita || !au || !btn || !window.fetch || !au.canPlayType) return;
-    var fuente = au.querySelector('source');
-    var porHover = false;
-    function estado(sonando){
-      btn.innerHTML = sonando ? 'pausar <span aria-hidden="true">&#10074;&#10074;</span>' : 'escuchar <span aria-hidden="true">&#9654;</span>';
-      btn.setAttribute('aria-pressed', sonando ? 'true' : 'false');
-      cita.classList.toggle('sonando', sonando);
-    }
-    function sonar(){ var p = au.play(); if (p && p.catch) p.catch(function(){}); }
-    function callar(rebobinar){ au.pause(); if (rebobinar) { try { au.currentTime = 0; } catch(e){} } }
-    function activar(){
-      btn.hidden = false;
-      if (window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-        cita.addEventListener('mouseenter', function(){ if (au.paused) { porHover = true; sonar(); } });
-        cita.addEventListener('mouseleave', function(){ if (porHover) { porHover = false; callar(true); } });
-      }
-      btn.addEventListener('click', function(e){ e.stopPropagation(); porHover = false; if (au.paused) sonar(); else callar(false); });
-      au.addEventListener('play', function(){ estado(true); });
-      au.addEventListener('pause', function(){ estado(false); });
-      au.addEventListener('ended', function(){ porHover = false; try { au.currentTime = 0; } catch(e){} estado(false); });
-      /* si el archivo existe pero no se puede reproducir, el control se esconde (el error de un <source> no burbujea: captura) */
-      au.addEventListener('error', function(){ btn.hidden = true; cita.classList.remove('sonando'); }, true);
-    }
-    fetch(fuente.getAttribute('src'), { method: 'HEAD', cache: 'no-store' })
-      .then(function(r){ if (r.ok) activar(); })
-      .catch(function(){});
-  })();
 </script>
 </body>
 </html>

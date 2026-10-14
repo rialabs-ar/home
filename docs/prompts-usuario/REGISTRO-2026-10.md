@@ -97,3 +97,15 @@ RIA Espacio se tiene que renombrar a RIA Espacios, que explica mejor la naturale
 ## 2026-10-13 (cargado a mano, anterior al hook)
 
 vamos a cambiar la idea de "super estructura" donde la mencionemos y la vamos a cambiar por la palabra "meta estructura"
+
+## 2026-10-13 (cargado a mano, anterior al hook)
+
+"Look, we have incredible people working on this. The best engineers, truly brilliant guys—guys nobody had ever heard of before, but they are absolute geniuses. And they told me, 'Mr. President, we have something so big, so revolutionary, that it's going to change the game forever... We call it Superstructure... It's made in the laboratories of a company in Argentina called RIA Labs.. am I pronouncing it right? RIA.. RIA Labs.. I have no idea, but what matters is they make it there, and it's for everybody..... Super-Structure......Sounds good, right? Superstructure. Sounds tough. It's not one of those weak, ridiculous ideas from the old political establishment that cost trillions and do nothing. This is real. It's not concrete, it's not steel, it's the next-generation digital technology, it's working now, and we have to use it... you know... you need it, because at the first moment you look at it you can't stop looking at it, it's beautiful... it's the light machine." Tenemos algun servicio disponible para hacer un video super realista de Donald Trumop en conferencia de prensa de la white house diciendo ese dialogo con todo su estilo?
+
+## 2026-10-13 (cargado a mano, anterior al hook)
+
+donte esta la carpeta de los nuevos logos qye estamos trabajando aca
+
+## 2026-10-14 (cargado a mano, anterior al hook)
+
+Saquemos todo desde Metaestructura hasta los botones inclusive. Dejemos solo debajo del logo el dibujo de la maquina y la frase de siempre. Pero guardemos el discurso de Trump como una idea a futuro.

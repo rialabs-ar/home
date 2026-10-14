@@ -47,7 +47,7 @@ python3 - "$RAIZ/$VER" <<'PY'
 import sys
 d = sys.argv[1]
 src = open(f"{d}/index.html").read()
-inj = "<style>nav,.hero-eyebrow,.hero-ctas,.hero-origin,.hero-sub,.hero-cita,#sis-hint{display:none !important}.hero{min-height:630px !important;padding:0 24px !important;justify-content:center}#sistema-wrap{width:320px;margin-top:0}.wordmark{margin-top:16px}.ria{font-size:76px}.hero-headline{font-size:36px;margin:18px 0 0}*,*::before,*::after{animation-delay:0s !important;animation-duration:0.01s !important;transition-duration:0s !important}#sistema *{animation-duration:revert !important}#cielo{opacity:1}</style></head>"
+inj = "<style>nav,.hero-eyebrow,.hero-ctas,.hero-origin,.hero-sub,.hero-cita,#sis-hint,#mq-svg{display:none !important}.hero .maq{margin-top:18px !important}.maq-t1,.maq-t2{opacity:1 !important;transform:none !important;font-size:20px !important}.hero{min-height:630px !important;padding:0 24px !important;justify-content:center}#sistema-wrap{width:320px;margin-top:0}.wordmark{margin-top:16px}.ria{font-size:76px}*,*::before,*::after{animation-delay:0s !important;animation-duration:0.01s !important;transition-duration:0s !important}#sistema *{animation-duration:revert !important}#cielo{opacity:1}</style></head>"
 open(f"{d}/_og.html","w").write(src.replace("</head>", inj, 1))
 PY
 "$CH" --headless=new --disable-gpu --hide-scrollbars --window-size=1200,630 \
