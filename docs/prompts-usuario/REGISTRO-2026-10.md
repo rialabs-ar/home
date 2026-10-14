@@ -109,3 +109,7 @@ donte esta la carpeta de los nuevos logos qye estamos trabajando aca
 ## 2026-10-14 (cargado a mano, anterior al hook)
 
 Saquemos todo desde Metaestructura hasta los botones inclusive. Dejemos solo debajo del logo el dibujo de la maquina y la frase de siempre. Pero guardemos el discurso de Trump como una idea a futuro.
+
+## 2026-10-14 (cargado a mano, anterior al hook)
+
+ok bien, tratemos de que entre en la pantalla de presentacion de la web. Aunque el dibujo es hermoso verlo en grande, no se como se puede acomodar...hmm
