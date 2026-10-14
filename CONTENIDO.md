@@ -23,12 +23,68 @@
   Nosotros la hacemos pensar.». Salieron el titular «Metaestructura», la cita, el audio y su script «LA FRASE
   HABLADA», los botones «Ver los productos» / «Conocer el motor →» y la tipografía M PLUS Rounded 1c (no se usaba
   en otro lado). La máquina dejó de ser banda propia: vive dentro de `<header>` debajo del logo, sin fondo ni
-  bordes (`.hero .maq`), con el mismo `id="maquina"` y el mismo script. `<title>` vuelve a «RIA Labs — Software e
+  bordes (`.hero .maq`), con el mismo `id="maquina"` y el mismo script (el mismo día, más tarde, el hero pasó a
+  medir una pantalla y el orden depende del encuadre: ver el bullet siguiente). `<title>` vuelve a «RIA Labs — Software e
   inteligencia artificial»; `og:title`/`twitter:title` y la description arrancan con la frase. La OG muestra eclipse
   + RIA LABS + la frase (el modo OG del script de captura esconde el dibujo y deja el pie). **El discurso quedó
   guardado como idea a futuro** en `docs/ideas/2026-10-13-discurso-metaestructura.md` (las dos versiones, cómo se
   podría producir y cómo no, y dónde está el código en git). Los bullets de «Superestructura/Metaestructura» que
   siguen más abajo son historia.
+- **El hero entra en una pantalla: tres encuadres, `?hero=1|2|3` (rama `hero-pantalla`, 2026-10-14).** Matías,
+  verbatim: *«ok bien, tratemos de que entre en la pantalla de presentacion de la web. Aunque el dibujo es hermoso
+  verlo en grande, no se como se puede acomodar...hmm»*. Apilado, el hero medía ~1.300 px (eclipse ~400 · RIA / LABS
+  ~150 · máquina ~355 · pie ~70) y una laptop muestra 720–900: la máquina y la frase quedaban bajo el pliegue. Ahora
+  el hero mide **una pantalla** (`height: 100svh`, piso de 560 px) y adentro una grilla, `.hero-escena`, reparte el
+  alto entre el eclipse, el logo, la máquina y su pie. El pie dejó de estar dentro de `#maquina`: es su hermano
+  (`.maq-pie`), así cada encuadre lo pone al pie aunque entre la máquina y él vaya el logo. **La máquina ya no tiene
+  tamaño propio**: el script «LA MÁQUINA» calcula el viewBox para la caja que la grilla le deja (una unidad de
+  diseño —las de la original de 1200×380— mide g px y el dibujo queda centrado; las etiquetas de los productos no
+  bajan de 8,5 px en pantalla y el radio de clic de cada producto, de 22 px) y se rearma sola cuando la caja cambia (ResizeObserver
+  sobre la sección y, en el 2, sobre el eclipse; también al cargar la fuente), sin perder el estado de la reacción.
+  La grilla tenue de la original se funde hacia los bordes (máscara radial) porque ya no hay banda que la corte. El
+  encuadre lo decide un script en el `<head>` (`data-hero` en `<html>`, antes del primer cuadro); sin parámetro, o con
+  uno inválido, es el 2.
+  1. **Escalonado** (`?hero=1`). Todo apilado como antes, medido por el alto: eclipse `clamp(160px, 32svh, 400px)`
+     (disco de 158 px a 1440×900, 126 a 1280×720), RIA a `9,2svh`, y la máquina horizontal y entera con todo el alto
+     que sobra (1.054 px de ancho a 1440×900, 794 a 1280×720: g 0,94 y 0,71). El más conservador; en pantallas bajas
+     la máquina queda chica.
+  2. **El eclipse es el reactor** (`?hero=2`, **el de por defecto**). La máquina pasa *a través* del eclipse del hero:
+     la estación manda su cañería a una brida en la punta de la flama (de la brida sale una boquilla fina que se
+     apaga antes del limbo), el token cruza la corona y entra al disco, y **la química de partículas se pinta adentro
+     del disco negro, sobre la luna** (recortada a 0,985 del radio de la luna: la flama queda libre); de la brida del
+     otro lado salen los tres conductos a la constelación. El reactor chico, su aro y su manómetro no se dibujan. El
+     script lee el centro y el radio del eclipse del DOM (`offsetLeft/Top/Width` de `#sistema-wrap`, que no ven el
+     transform de la entrada; luna = 93/340 del ancho) y escala la estación y la constelación para que respiren
+     alrededor. El eclipse es tan alto como su fila, con tope de 38vw (disco de 299 px a 1440×900, 251 a 1280×720,
+     399 a 1920×1080) y la estación mide 361×282 px a 1440×900 —como la de la banda original—; RIA / LABS va debajo
+     del conjunto, subido 5vh sobre la aureola de abajo (sólo aureola: la flama queda arriba), y la frase al pie. La
+     estrella de luz no asoma sobre las bridas (±25° del eje de la cañería). De día (`?tema=dia`) el reactor es el sol
+     encendido y la química se ve sobre la fotósfera. **Por qué es el de por defecto:** es el que mejor usa la
+     pantalla —el eclipse deja de ser una figura aparte que se come 400 px de alto y pasa a ser el motor del dibujo,
+     así el dibujo se ve del tamaño de la original y el eclipse, más grande que antes— y el que más sentido tiene: la
+     química vuelve al centro del eclipse, donde nació en la primera v5, y la página dice en una sola imagen lo que
+     dice la frase.
+  3. **Lockup y escenario** (`?hero=3`). El eclipse chico (`clamp(120px, 23svh, 240px)`: disco de 113 px a
+     1440×900) a la izquierda de RIA / LABS, a la altura de la R, como un logo horizontal arriba; la máquina, con su
+     propio reactor, toma el escenario grande de abajo (1.350 px de ancho a 1440×900, g 1,22: un 30 % más grande que
+     la banda original; 1.192 a 1280×720). El dibujo se ve más grande que en ningún otro; el eclipse pierde
+     protagonismo. La estrella sólo asoma del lado de afuera (del lado del logo, los rayos cruzarían la R).
+
+  **Móvil (≤860 px).** La máquina va vertical y compacta: la estación girada arriba, el reactor (o el eclipse) al
+  medio, la constelación apretada a lo largo del flujo (0,6 en el 1 y el 3, 0,78 en el 2) y Analítico y Automoción
+  rotulando hacia afuera, Espacios abajo (centradas bajo sus nodos se pisaban). En 390×844: el **1** muestra eclipse
+  (disco de 107 px) · RIA / LABS · la máquina vertical de ~165 px de ancho (se reconoce, pero chica: g 0,43) · la
+  frase; el **2**, la máquina vertical con el eclipse como reactor al medio (disco de 119 px, estación de 144×184),
+  RIA / LABS y la frase; el **3**, el lockup arriba (disco de 64 px, RIA a 49 px) y la máquina vertical más grande de
+  las tres (g 0,63), con la frase al pie. Las tres entran enteras; en 390×664 (Safari con sus barras: el `svh` real
+  de un iPhone) también, con la máquina chica (g 0,29–0,45).
+
+  Verificado en ventana real (sin el alto fijo que el script de captura le pone al hero): 1440×900, 1280×720,
+  1920×1080, 1440×760 y 390×844 (y 390×664, 768×1024, 1024×768 y 900×600), en noche, `?tema=dia` y reduced-motion,
+  sin errores de consola; en todos el pie termina dentro de la pantalla. Capturas en `_capturas/hero-pantalla/`
+  (ignorado). `scripts/capturar-home.sh` suma `PANTALLA=1` (una pantalla real de `ANCHO`×`ALTO`), `RM=1`
+  (reduced-motion) y un perro guardián para cuando Chrome headless se cuelga. Entre 861 y ~1.000 px de ancho la nav
+  se parte en dos líneas: viene de antes y queda fuera de esta rama.
 - **Los productos son la espina.** Se fueron las secciones *Servicios* (cuatro líneas de consultoría) y
   *Mercado* (radial de seis rubros): describían una consultora, no la empresa de producto que es hoy. Su
   mensaje útil («partimos de lo que ya tenés») pasó al hero, a la banda de Dataflow y al método.
@@ -131,7 +187,8 @@
     horizontal largo, como lo da la lente.
   El SVG `#sistema` conserva el viewBox recortado al eclipse —`310 70 340 340` sobre el sistema de
   coordenadas original, el centro sigue en 480,240— y el tamaño lo da el CSS: `min(400px, 78vw, 44vh)` de
-  ancho, o sea un disco de ~218 px de diámetro en desktop y ~166 en un celular, con la corona desbordando
+  ancho, o sea un disco de ~218 px de diámetro en desktop y ~166 en un celular (desde el 14/10 lo da cada
+  encuadre del hero: ver «El hero entra en una pantalla»), con la corona desbordando
   (177,6 % del ancho; los streamers largos llegan a ~2,6 radios; en 390 px el borde del viewport los corta
   como el cuadro de una cámara). Pesa 248 KB en total (corona 150 + jpg de respaldo 37 + sol 20 + luna 22),
   sin dependencias ni rAF nuevo: el movimiento de la corona es CSS (compositor) y el de las protuberancias,
@@ -320,7 +377,9 @@
     oscuros, `--maq-tubo` para la sombra de la cañería —tostada de día, no marrón—, `--maq-vio`, `--maq-p1/2/3`,
     `--maq-flash`, `--maq-grilla`). **En ≤860 px la máquina gira a vertical**: la estación rota 90° (los dispositivos
     quedan en fila arriba), el reactor al medio y los productos en fila abajo (`viewBox 0 0 480 1040`, ~900 px de
-    banda); el trazado se rearma al cruzar el breakpoint sin perder el estado de la reacción. `prefers-reduced-motion`:
+    banda); el trazado se rearma al cruzar el breakpoint sin perder el estado de la reacción. (Desde el 14/10 el
+    viewBox no es fijo: se calcula para la caja del hero, y la vertical es compacta; ver «El hero entra en una
+    pantalla».) `prefers-reduced-motion`:
     un cuadro compuesto y quieto (la reacción a los 53 s, Analítico recién encendido), sin transiciones. `?t=<ms>`
     adelanta el reloj (`QUERY=t=20000 scripts/capturar-home.sh v5`). Gotcha: la regla de reduced-motion no puede
     declarar `transform: none` sobre los grupos del SVG, porque el CSS pisa el atributo `transform` que ubica la
@@ -475,7 +534,8 @@
 
 ### 0.2 Secuencia de la página (anclas)
 
-`#inicio` hero (eclipse · RIA LABS · `#maquina` con el pie «Tu infraestructura ya existe. / Nosotros la hacemos pensar.») →
+`#inicio` hero, una pantalla (eclipse · RIA LABS · `#maquina` · el pie «Tu infraestructura ya existe. / Nosotros la hacemos pensar.»;
+en el encuadre por defecto, `?hero=2`, la máquina pasa a través del eclipse y RIA LABS va debajo) →
 `#productos` (`#analitico` · `#espacio` · `#automocion`) → `#dataflow` →
 `#laboratorio` → `#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
 
@@ -496,7 +556,7 @@
 | `scripts/generar-eclipse.py` | cómo se generaron y procesaron las tres (abajo): `corona`, `sol`, `luna`, `medir`, `post-*`, `hoja` |
 | `og-image.png` | tarjeta 1200×630: el eclipse con la flama ecuánime + RIA Labs + «Metaestructura» en M PLUS Rounded (regenerada el 13/10 con `OG=1 scripts/capturar-home.sh v5`; el modo OG esconde la cita y el control de audio) |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
-| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia`, `QUERY=ciclo=4200`, `QUERY=t=43200000` o `QUERY=estrella=1000` / `estrella=no` fotografía el día, un instante del ciclo del eclipse, la página con el reloj adelantado (astros y banda Dataflow) o la estrella de luz del hero fija en su pico / apagada (sin QUERY sale apagándose: la primera asoma a los 4,5 s y Chrome fotografía a los ~6); la QUERY aplica también a la tarjeta OG; `NOMBRE=dia` nombra los PNG; `ALTO=16000` para la página entera, que mide ~11.300 px en desktop desde el 13/10). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
+| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia`, `QUERY=ciclo=4200`, `QUERY=t=43200000` o `QUERY=estrella=1000` / `estrella=no` fotografía el día, un instante del ciclo del eclipse, la página con el reloj adelantado (astros y banda Dataflow) o la estrella de luz del hero fija en su pico / apagada (sin QUERY sale apagándose: la primera asoma a los 4,5 s y Chrome fotografía a los ~6); la QUERY aplica también a la tarjeta OG; `NOMBRE=dia` nombra los PNG; `ALTO=16000` para la página entera, que mide ~11.300 px en desktop desde el 13/10). Desde el 14/10: `PANTALLA=1` fotografía una sola pantalla real de `ANCHO`×`ALTO` sin fijarle el alto al hero (≤500 de ancho va por el iframe del celular y se recorta al cuadro), `RM=1` con reduced-motion, y el modo OG apila eclipse · RIA LABS · la frase en cualquier encuadre. Levanta su propio `http.server` en 8895–8899 y lo mata por PID (con `exec`, para que no quede suelto) |
 
 **Retratos (2026-10-10).** Generados con `google/nano-banana` vía Replicate (token en
 `~/.credentials/replicate.env`) a partir de las fotos reales de `~/dev/RIALabs/Fotos/` (`otra.jpeg` y
