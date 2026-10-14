@@ -198,6 +198,50 @@
   .ria { font-weight: 500; font-size: clamp(56px, 9.5vw, 108px); letter-spacing: 0.1em; line-height: 0.95; color: var(--white); margin-left: 0.1em; }
   .labs { font-weight: 300; font-size: clamp(12px, 1.6vw, 17px); letter-spacing: 0.5em; color: var(--gold-hi); text-transform: uppercase; margin-top: 8px; margin-left: 0.5em; }
 
+  /* ── HERO · los tres encuadres (2026-10-14) ─────────────────────────────────────
+     Matías: «tratemos de que entre en la pantalla de presentación». El hero mide una pantalla (100svh, con
+     piso para las muy bajas) y adentro una grilla, .hero-escena, reparte el alto entre el eclipse, RIA / LABS,
+     la máquina y su pie. data-hero en <html> (?hero=1|2|3; por defecto 2) elige el encuadre, y el script
+     «LA MÁQUINA» arma el dibujo para la caja que la grilla le deja:
+       1 · escalonado: todo apilado; el eclipse y el logo se miden por el alto y la máquina toma lo que sobra.
+       2 · el eclipse es el reactor: la máquina pasa a través del eclipse, que hace de cámara (la química va
+           adentro del disco negro); RIA / LABS debajo del conjunto.
+       3 · lockup y escenario: el eclipse chico a la izquierda del logo, a la altura de la R; la máquina,
+           con su propio reactor, toma el escenario grande de abajo.
+     En ≤860 px la máquina va vertical y compacta (la estación arriba, el reactor —o el eclipse— al medio,
+     los productos abajo). Los tamaños van por clamp() con vw y svh: nada depende de un alto fijo. */
+  .hero { height: 100vh; height: 100svh; min-height: 560px; justify-content: flex-start;
+    --h-arriba: clamp(84px, 11.6vh, 104px); --h-abajo: clamp(14px, 3.2vh, 34px); padding: var(--h-arriba) 24px var(--h-abajo); }
+  .hero-escena { flex: 1 1 auto; min-height: 0; width: 100%; display: grid; grid-template-columns: minmax(0, 1fr);
+    justify-items: center; position: relative; z-index: 2; margin-top: clamp(4px, 1.4vh, 16px); }
+  .hero .wordmark { margin-top: 0; }
+  .hero .maq { background: none; border: 0; padding: 0; position: relative; z-index: 3; justify-self: stretch; align-self: stretch; min-height: 0; }
+  .hero .maq-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .maq-pie { position: relative; z-index: 3; }
+  .hero .maq-t1 { margin-top: 0; }
+  /* 1 · escalonado */
+  html[data-hero="1"] .hero-escena { grid-template-rows: auto auto minmax(0, 1fr) auto; row-gap: clamp(10px, 2.3vh, 26px); }
+  html[data-hero="1"] #sistema-wrap { --ecl: clamp(160px, 32svh, 400px); width: var(--ecl); margin: calc(var(--ecl) * -0.05) 0 calc(var(--ecl) * -0.1); }
+  html[data-hero="1"] .ria { font-size: clamp(50px, min(9.5vw, 9.2svh), 108px); }
+  html[data-hero="1"] .labs { font-size: clamp(11px, min(1.6vw, 1.7svh), 17px); margin-top: clamp(4px, 0.8vh, 8px); }
+  /* 2 · el eclipse es el reactor: el eclipse y la máquina comparten la primera fila; la máquina va encima
+     (la química se pinta sobre la luna) y el script calza sus bridas con el borde del eclipse */
+  html[data-hero="2"] .hero-escena { grid-template-rows: minmax(0, 1fr) auto auto; row-gap: clamp(6px, 1.4vh, 14px); }
+  html[data-hero="2"] #sistema-wrap { grid-area: 1 / 1; align-self: center; width: auto; height: min(100%, 36vw, 820px); aspect-ratio: 1; margin: 0; }
+  html[data-hero="2"] .maq { grid-area: 1 / 1; }
+  html[data-hero="2"] .ria { font-size: clamp(50px, min(9vw, 8.6svh), 104px); }
+  html[data-hero="2"] .labs { font-size: clamp(11px, min(1.6vw, 1.7svh), 17px); margin-top: clamp(4px, 0.8vh, 8px); }
+  html[data-hero="2"] .maq-pie { margin-top: clamp(4px, 1.4vh, 16px); }
+  /* 3 · lockup y escenario */
+  html[data-hero="3"] .hero-escena { grid-template-columns: minmax(0, 1fr) auto auto minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; row-gap: clamp(8px, 2vh, 22px); }
+  html[data-hero="3"] #sistema-wrap { grid-area: 1 / 2; --ecl: clamp(120px, 23svh, 240px); width: var(--ecl); align-self: center;
+    margin: calc(var(--ecl) * -0.15) calc(var(--ecl) * -0.1) calc(var(--ecl) * -0.15) 0; top: calc(var(--ecl) * -0.05); }
+  html[data-hero="3"] .wordmark { grid-area: 1 / 3; align-self: center; }
+  html[data-hero="3"] .ria { font-size: clamp(46px, min(8vw, 9.4svh), 100px); }
+  html[data-hero="3"] .labs { font-size: clamp(11px, min(1.5vw, 1.7svh), 17px); margin-top: clamp(4px, 0.7vh, 8px); }
+  html[data-hero="3"] .maq { grid-area: 2 / 1 / 3 / -1; }
+  html[data-hero="3"] .maq-pie { grid-area: 3 / 1 / 4 / -1; }
+
 
   @keyframes rise   { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
@@ -228,14 +272,13 @@
   .maq { background: var(--banda); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 46px 0 42px; overflow: hidden;
     --maq-metal: #141122; --maq-osc: #07060e; --maq-tubo: #07060e; --maq-vio: #7F77DD; --maq-p1: #4a8fd4; --maq-p2: #7F77DD; --maq-p3: #2fd0c8; --maq-flash: #fff6dc; --maq-grilla: rgba(255,255,255,0.045); }
   html[data-tema="dia"] .maq { --maq-metal: #e3d9c3; --maq-osc: #3b3429; --maq-tubo: #bfb092; --maq-vio: #5a4fc4; --maq-grilla: rgba(26,23,18,0.07); }
-  /* Desde el 14/10 la máquina vive en el hero, debajo del logo: sin fondo de banda ni bordes, el cielo pasa. */
-  .hero .maq { background: none; border: 0; padding: 0; width: 100%; margin-top: 38px; position: relative; z-index: 2; }
-  .maq-wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+  /* Desde el 14/10 la máquina vive en el hero, debajo del logo: sin fondo de banda ni bordes, el cielo pasa
+     (cómo se reparte el alto: «HERO · los tres encuadres»). */
   .maq-svg { display: block; width: 100%; height: auto; overflow: visible; }
   .maq-t1, .maq-t2 { text-align: center; font-size: 15px; letter-spacing: 0.3px; line-height: 1.5; opacity: 0; transform: translateY(8px); transition: opacity 1.2s ease, transform 1.2s ease, color var(--t-tema) ease; }
   .maq-t1 { font-weight: 300; color: var(--muted); margin-top: 26px; transition-delay: 1s, 1s, 0s; }
   .maq-t2 { font-weight: 400; color: var(--white); margin-top: 4px; transition-delay: 3.4s, 3.4s, 0s; }
-  .maq.vis .maq-t1, .maq.vis .maq-t2 { opacity: 1; transform: none; }
+  .vis > .maq-t1, .vis > .maq-t2 { opacity: 1; transform: none; }
   /* la máquina aparece por partes, como la original: estación · conducciones · reactor · constelación */
   .maq .mq-fase { opacity: 0; transition: opacity 1.4s ease; }
   .maq.vis .mq-fase { opacity: 1; }
@@ -495,8 +538,13 @@
   @media(max-width:860px){
     nav{padding:14px 24px;} .nav-links{display:none;} .nav-burger{display:block;} .nav-cta{display:none;}
     .wrap{padding:0 24px;} .section{padding:80px 0;}
-    .hero{padding:96px 18px 72px;}
-    #sistema-wrap{margin-top:22px;}
+    .hero{--h-arriba:74px;--h-abajo:clamp(12px,2.4vh,24px);padding:var(--h-arriba) 16px var(--h-abajo);}
+    .hero-eyebrow{font-size:9px;letter-spacing:2.2px;}
+    html[data-hero="1"] #sistema-wrap{--ecl:clamp(140px,min(50vw,25svh),240px);}
+    html[data-hero="1"] .ria, html[data-hero="2"] .ria{font-size:clamp(42px,min(14vw,7svh),64px);}
+    html[data-hero="2"] #sistema-wrap{height:min(40%,56vw,300px);}
+    html[data-hero="3"] #sistema-wrap{--ecl:clamp(104px,min(30vw,16svh),150px);}
+    html[data-hero="3"] .ria{font-size:clamp(40px,min(12.5vw,6.6svh),58px);}
     .prod{padding:64px 0;}
     .prod-grid, .prod.inv .prod-grid { grid-template-columns: 1fr; gap: 28px; }
     .prod.inv .prod-vis { order: 0; }
@@ -511,17 +559,17 @@
     .df-n{font-size:26px;}
     .df-nota{margin-top:24px;}
     .princ-grid,.team-grid{grid-template-columns:1fr;}
-    .maq{padding:34px 0 32px;} .hero .maq{padding:0;margin-top:28px;}
-    .maq-wrap{max-width:440px;padding:0 18px;}
     .maq-t1,.maq-t2{font-size:14px;}
-    .maq-t1{margin-top:22px;}
     .founder{grid-template-columns:1fr;}
     .f-photo{max-width:240px;}
     footer{flex-direction:column;gap:14px;text-align:center;padding:28px 24px;}
     .f-links{display:none;} .contact{padding:80px 24px 100px;}
   }
 </style>
-<script>if (/[?&]tema=dia(&|$)/.test(location.search)) document.documentElement.setAttribute('data-tema', 'dia');</script>
+<script>if (/[?&]tema=dia(&|$)/.test(location.search)) document.documentElement.setAttribute('data-tema', 'dia');
+/* el hero en una pantalla tiene tres encuadres (2026-10-14): ?hero=1 escalonado · ?hero=2 el eclipse es el reactor
+   (el de por defecto) · ?hero=3 lockup y escenario. Se decide antes de pintar para que el primer cuadro ya sea el bueno. */
+(function(){ var m = /[?&]hero=([123])(&|$)/.exec(location.search); document.documentElement.setAttribute('data-hero', m ? m[1] : '2'); })();</script>
 </head>
 <body>
 
@@ -568,6 +616,11 @@
 <header class="hero" id="inicio">
   <div class="hero-glow"></div>
   <p class="hero-eyebrow">Software e inteligencia artificial · Rosario</p>
+
+  <!-- La escena: el eclipse, el logo, la máquina y su pie, en una grilla que cada encuadre (data-hero en <html>,
+       ?hero=1|2|3) acomoda distinto para que todo entre en la primera pantalla. Ver «HERO · los tres encuadres»
+       en el CSS y el script «LA MÁQUINA», que arma el dibujo para la caja que le toca. -->
+  <div class="hero-escena">
 
   <!-- El eclipse total, solo: figura de portada. Capas, de atrás hacia adelante:
        [cielo] → [#sis-aureola: el resplandor rojizo, CSS] → [#sis-flama: la corona como flama ecuánime, canvas
@@ -742,12 +795,24 @@
        centro el eclipse como cámara de reacción, donde los tokens chocan, se funden y arman estructuras
        que salen hacia la derecha; a la derecha la constelación que se resuelve en los tres productos.
        Todo lo arma y lo mueve el script «LA MÁQUINA» (un solo rAF, sólo a la vista; ?t=<ms> adelanta el
-       reloj; prefers-reduced-motion deja un cuadro quieto). Los dos textos son el pie de la imagen. -->
+       reloj; prefers-reduced-motion deja un cuadro quieto). Los dos textos son el pie de la imagen: desde el
+       14/10 van en su propio bloque (.maq-pie), hermano de la máquina, para que cada encuadre los pueda poner
+       al pie de la pantalla aunque entre la máquina y ellos vaya el logo (encuadre 2). El SVG no tiene viewBox
+       fijo: el script lo calcula para la caja que la grilla le da a la sección, y en el encuadre 2 calza el
+       reactor sobre el eclipse de arriba. -->
   <section class="maq" id="maquina" aria-label="La máquina: tu infraestructura ya existe, nosotros la hacemos pensar">
-    <div class="maq-wrap">
       <svg id="mq-svg" class="maq-svg" viewBox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="La máquina: a la izquierda una cámara, un sensor y un registro, piezas de una máquina que conduce datos hasta un reactor con forma de eclipse; adentro los datos se funden y forman estructuras; a la derecha salen como una constelación que se resuelve en RIA Analítico, RIA Espacios y RIA Automoción. Cada producto es un enlace a su sección.">
         <defs>
           <clipPath id="mq-clip"><circle id="mq-clip-c" cx="0" cy="0" r="92"/></clipPath>
+          <!-- la grilla tenue se funde hacia los bordes (ya no hay banda que la corte) y, en el encuadre 2, se abre
+               alrededor del eclipse: la máscara la arma el script para cada caja -->
+          <radialGradient id="mq-grilla-fade" cx="50%" cy="50%" r="50%">
+            <stop offset="0.55" stop-color="#fff"/><stop offset="1" stop-color="#000"/>
+          </radialGradient>
+          <radialGradient id="mq-grilla-hueco" cx="50%" cy="50%" r="50%">
+            <stop offset="0.7" stop-color="#000" stop-opacity="1"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+          </radialGradient>
+          <mask id="mq-grilla-m"></mask>
         </defs>
         <g id="mq-grilla" aria-hidden="true"></g>
         <g class="mq-fase mq-f1" id="mq-est" aria-hidden="true"></g>
@@ -757,10 +822,13 @@
         <g class="mq-fase mq-f2" id="mq-tok" aria-hidden="true"></g>
         <g class="mq-fase mq-f4" id="mq-pul" aria-hidden="true"></g>
       </svg>
-      <p class="maq-t1">Tu infraestructura ya existe.</p>
-      <p class="maq-t2">Nosotros la hacemos pensar.</p>
-    </div>
   </section>
+  <div class="maq-pie" id="maq-pie">
+    <p class="maq-t1">Tu infraestructura ya existe.</p>
+    <p class="maq-t2">Nosotros la hacemos pensar.</p>
+  </div>
+
+  </div><!-- /.hero-escena -->
 </header>
 
 
@@ -1492,6 +1560,10 @@
      reloj), así ?t=<ms> adelanta el reloj y cada foto es reproducible; la banda arranca con PRE ms
      de reacción ya andando. prefers-reduced-motion: un cuadro compuesto y quieto. En ≤860 px la
      máquina se reorganiza en vertical: la estación gira 90°, el reactor al medio, los productos abajo.
+     Desde el 14/10 vive en el hero y se arma para la caja que la grilla del hero le deja (ver «el
+     trazado», abajo): no tiene tamaño propio, el viewBox se calcula, y se rearma sola si la caja cambia
+     (ResizeObserver) sin perder el estado de la reacción. En el encuadre 2 (?hero=2) no dibuja su
+     reactor: el reactor es el eclipse del hero, y la química se pinta adentro de su disco negro.
      ══════════════════════════════════════════ */
   (function(){
     var sec = document.getElementById('maquina'), svg = document.getElementById('mq-svg');
@@ -1518,21 +1590,65 @@
     var seed = 20261013;
     function rnd(){ seed = (seed + 0x6D2B79F5) | 0; var t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
 
-    /* ── los dos trazados: horizontal (desktop) y vertical (≤860 px). La estación se dibuja en
-       coordenadas propias (origen a la izquierda, la salida en (360,0) hacia +x) y se gira entera;
-       la constelación también (origen en la salida del reactor, el flujo hacia +x), pero sus nodos
-       se transforman uno por uno para que las etiquetas queden derechas. ── */
-    var R = 100, RIN = 92;    // el aro del reactor y el radio de la cámara
-    var LAY = {
-      desk: { vb: '0 0 1200 380', est: { x: 45, y: 190, rot: 0 }, re: { x: 600, y: 190 }, dir: { x: 1, y: 0 }, k: 1,
-              lab: [[14, 3.5, 'start'], [16, 3.5, 'start'], [14, 3.5, 'start']], grilla: [[0, 95, 1200, 95], [0, 190, 1200, 190], [0, 285, 1200, 285], [300, 0, 300, 380], [600, 0, 600, 380], [900, 0, 900, 380]] },
-      mov:  { vb: '0 0 480 1040', est: { x: 240, y: 24, rot: 90 }, re: { x: 240, y: 560 }, dir: { x: 0, y: 1 }, k: 0.8,
-              lab: [[0, 24, 'middle'], [0, 24, 'middle'], [0, 24, 'middle']], grilla: [[120, 0, 120, 1040], [240, 0, 240, 1040], [360, 0, 360, 1040], [0, 260, 480, 260], [0, 560, 480, 560], [0, 820, 480, 820]] }
-    };
+    /* ── el trazado: dónde va cada pieza, para la caja que la grilla del hero le deja a la sección.
+       Todo se dibuja en «unidades de diseño» —las de la máquina original de 1200×380: la estación mide 360
+       de largo, el reactor tiene radio 100— y el viewBox se calcula para que una unidad mida g píxeles y el
+       conjunto quede centrado en la caja (encuadres 1 y 3) o calzado con el eclipse (encuadre 2). La
+       estación se dibuja en coordenadas propias (origen a la izquierda, la salida en (360,0) hacia +x) y se
+       gira entera; la constelación también (origen en la salida del reactor, el flujo hacia +x), pero sus
+       nodos se transforman uno por uno, con una escala a lo largo del flujo (kx) y otra a lo ancho (ky),
+       para que las etiquetas queden derechas. Las etiquetas no bajan de 8,5 px en pantalla. ── */
+    var R = 100, RIN = 92;    // el aro del reactor y el radio de la cámara (unidades de la simulación)
+    var VAR = document.documentElement.getAttribute('data-hero') || '2';
+    var ecl = document.getElementById('sistema-wrap'), pie = document.getElementById('maq-pie');
     var mq = window.matchMedia('(max-width: 860px)');
     var L = null, V = null;    // trazado vigente y la vista armada sobre él
     function stToG(x, y){ var e = L.est; return e.rot ? { x: e.x - y, y: e.y + x } : { x: e.x + x, y: e.y + y }; }
-    function conToG(x, y){ var o = V.out, k = L.k; return L.est.rot ? { x: o.x - y * k, y: o.y + x * k } : { x: o.x + x * k, y: o.y + y * k }; }
+    function conToG(x, y){ var o = V.out; return L.est.rot ? { x: o.x - y * L.ky, y: o.y + x * L.kx } : { x: o.x + x * L.kx, y: o.y + y * L.ky }; }
+    function trazado(){
+      var W = sec.clientWidth, H = sec.clientHeight;
+      if (!(W > 40 && H > 40)) return null;
+      var vert = mq.matches, ojo = VAR === '2' && !!ecl && ecl.offsetWidth > 0, T = { vert: vert, ojo: ojo };
+      var g, b, firma = '';
+      T.dir = vert ? { x: 0, y: 1 } : { x: 1, y: 0 };
+      if (!ojo) {
+        // la máquina entera, con su reactor: la horizontal es la de la original; la vertical, compacta (la
+        // cañería al reactor más corta y la constelación apretada a lo largo del flujo)
+        if (!vert) { T.est = { x: 45, y: 190, rot: 0 }; T.re = { x: 600, y: 190 }; T.kx = T.ky = 1; b = { x: 42, y: 44, w: 1126, h: 292 }; }
+        else { T.est = { x: 240, y: 0, rot: 90 }; T.re = { x: 240, y: 504 }; T.kx = 0.6; T.ky = 0.8; b = { x: 86, y: -2, w: 308, h: 896 }; }
+        T.R = R; T.q = 1; T.clip = RIN;
+        g = Math.min((W - 24) / b.w, H / b.h, vert ? 1.1 : 1.45);
+        T.vb = [b.x + b.w / 2 - W / g / 2, b.y + b.h / 2 - H / g / 2, W / g, H / g];
+      } else {
+        // el eclipse del hero, en píxeles de la caja de la sección (offset*: sin el transform de la entrada)
+        var ex = ecl.offsetLeft + ecl.offsetWidth / 2 - sec.offsetLeft, ey = ecl.offsetTop + ecl.offsetHeight / 2 - sec.offsetTop;
+        var rm = ecl.offsetWidth * 93 / 340, rf = rm * 1.17;   // el radio de la luna; las bridas, en la punta de la flama
+        var LC = vert ? 40 : 70;                                // la cañería de la salida de la estación a la brida
+        if (!vert) {
+          T.kx = T.ky = 1;
+          var lado = Math.min(ex, W - ex) - rf - 14;
+          g = Math.min(lado / (354 + LC), lado / 490, (Math.min(ey, H - ey) - 6) / 142, rm / 96, 1.45);
+        } else {
+          T.kx = 0.78; T.ky = 0.8;
+          g = Math.min((ey - rf - 6) / (360 + LC), (H - ey - rf - 6) / (458 * T.kx + 36), (Math.min(ex, W - ex) - 6) / 150, 1.1);
+        }
+        g = Math.max(g, 0.2);
+        T.vb = [0, 0, W / g, H / g];
+        T.re = { x: ex / g, y: ey / g }; T.R = rf / g; T.rm = rm / g;
+        T.clip = T.rm * 0.985; T.q = T.rm * 0.93 / RIN;
+        T.est = vert ? { x: T.re.x, y: T.re.y - T.R - LC - 360, rot: 90 } : { x: T.re.x - T.R - LC - 360, y: T.re.y, rot: 0 };
+        firma = [ex, ey, rm].map(function(v){ return Math.round(v); }).join(',');
+      }
+      T.g = g;
+      T.fs = clamp(9.5 * g, 8.5, 11) / g;   // las etiquetas, en unidades de diseño
+      var u = T.fs / 9.5;
+      // en vertical, Analítico (a la derecha) y Automoción (a la izquierda) rotulan hacia afuera y Espacios, abajo:
+      // centrados bajo sus nodos se pisaban cuando la máquina se compacta
+      T.lab = vert ? [[13 * u, 3.5 * u, 'start'], [0, 23 * u, 'middle'], [-13 * u, 3.5 * u, 'end']] : [[14 * u, 3.5 * u, 'start'], [16 * u, 3.5 * u, 'start'], [14 * u, 3.5 * u, 'start']];
+      T.u = u;
+      T.firma = [W, H, vert, firma].join('|');
+      return T;
+    }
 
     /* ── estado de la simulación (independiente del trazado) ── */
     var simT = 0, nStep = 0, acc = 0, ultimo = null, corriendo = false, visible = false, prewarm = false;
@@ -1609,8 +1725,8 @@
         else if (tk.st === 'rot' && f >= T_ROT) { tk.st = 'main'; tk.t0 = simT; }
         else if (tk.st === 'main' && f >= T_MAIN) { nueva(DEV[tk.dev].c); toks.splice(i, 1); }
       }
-      // la compuerta se levanta cuando un token se le acerca (está a 100 unidades del centro del distribuidor, de 210 de cañería)
-      var abrir = 0; for (i = 0; i < toks.length; i++) if (toks[i].st === 'main') { var s = (simT - toks[i].t0) / T_MAIN * 210; if (s > 80 && s < 112) abrir = 1; }
+      // la compuerta se levanta cuando un token se le acerca (está a 100 unidades del centro del distribuidor; la cañería mide ML)
+      var abrir = 0, ML = V ? V.mainLen : 215; for (i = 0; i < toks.length; i++) if (toks[i].st === 'main') { var s = (simT - toks[i].t0) / T_MAIN * ML; if (s > 80 && s < 112) abrir = 1; }
       compuerta += (abrir - compuerta) * (abrir ? 7 : 3) * dt;
 
       // la reacción
@@ -1790,10 +1906,12 @@
     }
 
     function armarConductos(g){
-      var K = {}, ex = stToG(360, 0), ini = stToG(240, 0), inl = { x: L.re.x - L.dir.x * R, y: L.re.y - L.dir.y * R };
+      var K = {}, ex = stToG(360, 0), ini = stToG(240, 0), inl = { x: L.re.x - L.dir.x * L.R, y: L.re.y - L.dir.y * L.R };
+      // en el encuadre 2 la cañería muere en la brida, afuera de la flama, y el token sigue solo hasta el limbo: entra al disco
+      var fin = L.ojo ? { x: L.re.x - L.dir.x * L.clip, y: L.re.y - L.dir.y * L.clip } : inl;
       K.flujo = tubo(g, 'M ' + f1(ex.x) + ' ' + f1(ex.y) + ' L ' + f1(inl.x) + ' ' + f1(inl.y));
-      // el camino completo de un token por la cañería principal: del centro del distribuidor a la entrada del reactor (210 unidades)
-      K.main = mk('path', { d: 'M ' + f1(ini.x) + ' ' + f1(ini.y) + ' L ' + f1(inl.x) + ' ' + f1(inl.y), fill: 'none', stroke: 'none' }, g);
+      // el camino completo de un token por la cañería principal: del centro del distribuidor a la entrada del reactor (~215 unidades)
+      K.main = mk('path', { d: 'M ' + f1(ini.x) + ' ' + f1(ini.y) + ' L ' + f1(fin.x) + ' ' + f1(fin.y), fill: 'none', stroke: 'none' }, g);
       // válvula a mitad de camino: cuerpo hexagonal sobre la cañería, vástago y volante que gira
       var vx = (ex.x + inl.x) / 2, vy = (ex.y + inl.y) / 2, nx = -L.dir.y, ny = L.dir.x, hex = '';
       for (var k = 0; k < 6; k++) hex += (k ? 'L ' : 'M ') + f1(vx + 6.5 * Math.cos(k / 6 * TAU + Math.PI / 6)) + ' ' + f1(vy + 6.5 * Math.sin(k / 6 * TAU + Math.PI / 6)) + ' ';
@@ -1808,7 +1926,18 @@
     }
 
     function armarReactor(g){
-      var Rr = {}, cx = L.re.x, cy = L.re.y, k;
+      var Rr = { aguja: null }, cx = L.re.x, cy = L.re.y, k;
+      if (L.ojo) {
+        // encuadre 2: el reactor es el eclipse del hero. Las bridas van en la punta de la flama y de cada una sale
+        // una boquilla fina que se apaga antes del limbo: la cañería entra a la corona sin taparla
+        [-1, 1].forEach(function(sg){
+          var b0 = { x: cx + sg * L.dir.x * L.R, y: cy + sg * L.dir.y * L.R }, b1 = { x: cx + sg * L.dir.x * L.rm * 1.01, y: cy + sg * L.dir.y * L.rm * 1.01 };
+          var id = 'mq-boq' + (sg < 0 ? 'e' : 's'), gr = mk('linearGradient', { id: id, gradientUnits: 'userSpaceOnUse', x1: f1(b0.x), y1: f1(b0.y), x2: f1(b1.x), y2: f1(b1.y) }, g);
+          mk('stop', { offset: 0, 'stop-color': HI, 'stop-opacity': 0.85 }, gr); mk('stop', { offset: 1, 'stop-color': HI, 'stop-opacity': 0 }, gr);
+          mk('line', { x1: f1(b0.x), y1: f1(b0.y), x2: f1(b1.x), y2: f1(b1.y), stroke: 'url(#' + id + ')', 'stroke-width': 1.4, 'stroke-linecap': 'round' }, g);
+          brida(g, b0, L.dir);
+        });
+      } else {
       // la corona difusa (los halos del eclipse de la casa), el aro de la totalidad, el sol detrás y la luna: la cámara
       [[118, 10, 'var(--h3)', 0.28], [114, 6, 'var(--h4)', 0.24], [110, 3.5, 'var(--h5)', 0.2], [106, 2, 'var(--h6)', 0.16]].forEach(function(h){ mk('circle', { cx: cx, cy: cy, r: h[0], fill: 'none', stroke: h[2], 'stroke-width': h[1], opacity: h[3] }, g); });
       mk('circle', { cx: cx, cy: cy, r: R, fill: 'none', stroke: C, 'stroke-width': 3, opacity: 0.35 }, g);
@@ -1825,9 +1954,10 @@
       var agW = mk('g', { transform: 'translate(' + f1(gx) + ' ' + f1(gy) + ')' }, g);
       Rr.aguja = mk('line', { x1: 0, y1: 0, x2: 7.4, y2: 0, stroke: HI, 'stroke-width': 1, 'stroke-linecap': 'round', opacity: 0.95 }, agW);
       mk('circle', { cx: f1(gx), cy: f1(gy), r: 1.3, fill: C }, g);
-      // la cámara de reacción: todo lo que pasa adentro, en coordenadas propias y recortado al disco
-      document.getElementById('mq-clip-c').setAttribute('cx', cx); document.getElementById('mq-clip-c').setAttribute('cy', cy);
-      var cam = mk('g', { 'clip-path': 'url(#mq-clip)' }, g), cc = mk('g', { transform: 'translate(' + cx + ' ' + cy + ')' + (L.est.rot ? ' rotate(90)' : '') }, cam);
+      }
+      // la cámara de reacción: todo lo que pasa adentro, en coordenadas propias (escaladas por q) y recortado al disco
+      var cc0 = document.getElementById('mq-clip-c'); cc0.setAttribute('cx', f1(cx)); cc0.setAttribute('cy', f1(cy)); cc0.setAttribute('r', f1(L.clip));
+      var cam = mk('g', { 'clip-path': 'url(#mq-clip)' }, g), cc = mk('g', { transform: 'translate(' + f1(cx) + ' ' + f1(cy) + ')' + (L.q !== 1 ? ' scale(' + L.q.toFixed(3) + ')' : '') + (L.est.rot ? ' rotate(90)' : '') }, cam);
       Rr.enlaces = []; for (k = 0; k < 48; k++) Rr.enlaces.push(mk('line', { stroke: C, 'stroke-width': 1.2, opacity: 0, 'stroke-linecap': 'round' }, cc));
       Rr.halos = []; Rr.parts = [];
       for (k = 0; k < NMAX; k++) Rr.halos.push(mk('circle', { r: 7.5, opacity: 0 }, cc));
@@ -1838,7 +1968,7 @@
 
     function armarConstelacion(g){
       var N = {}, k, i, j;
-      V.out = { x: L.re.x + L.dir.x * R, y: L.re.y + L.dir.y * R };
+      V.out = { x: L.re.x + L.dir.x * L.R, y: L.re.y + L.dir.y * L.R };
       // posiciones en coordenadas de la constelación (flujo hacia +x): tres mayores y quince menores, y las
       // aristas dibujadas a mano, como en la original (0-2 mayores; 3.. menores). Tres doradas, asimétricas.
       var MAY = [[150, -100], [250, -6], [180, 94]];
@@ -1864,9 +1994,13 @@
       // los conductos de salida del reactor a cada producto, y su longitud para los pulsos
       N.cond = [];
       N.may.forEach(function(m, i){
-        var o = V.out, d = L.dir, c1 = { x: o.x + d.x * 54, y: o.y + d.y * 54 }, c2 = { x: m.x - d.x * 64, y: m.y - d.y * 64 };
-        var pth = mk('path', { d: 'M ' + f1(o.x) + ' ' + f1(o.y) + ' C ' + f1(c1.x) + ' ' + f1(c1.y) + ', ' + f1(c2.x) + ' ' + f1(c2.y) + ', ' + f1(m.x) + ' ' + f1(m.y), fill: 'none', stroke: i === 1 ? HI : C, 'stroke-width': i === 1 ? 1.2 : 1, opacity: i === 1 ? 0.5 : 0.38 }, g);
-        N.cond.push({ el: pth, len: pth.getTotalLength() });
+        var o = V.out, d = L.dir, c1 = { x: o.x + d.x * 54 * L.kx, y: o.y + d.y * 54 * L.kx }, c2 = { x: m.x - d.x * 64 * L.kx, y: m.y - d.y * 64 * L.kx };
+        var curva = ' C ' + f1(c1.x) + ' ' + f1(c1.y) + ', ' + f1(c2.x) + ' ' + f1(c2.y) + ', ' + f1(m.x) + ' ' + f1(m.y);
+        var pth = mk('path', { d: 'M ' + f1(o.x) + ' ' + f1(o.y) + curva, fill: 'none', stroke: i === 1 ? HI : C, 'stroke-width': i === 1 ? 1.2 : 1, opacity: i === 1 ? 0.5 : 0.38 }, g);
+        // en el encuadre 2 el pulso nace en el limbo del eclipse y cruza la flama hasta la brida
+        var lim = { x: L.re.x + d.x * L.clip, y: L.re.y + d.y * L.clip };
+        var pp = L.ojo ? mk('path', { d: 'M ' + f1(lim.x) + ' ' + f1(lim.y) + ' L ' + f1(o.x) + ' ' + f1(o.y) + curva, fill: 'none', stroke: 'none' }, g) : pth;
+        N.cond.push({ el: pp, len: pp.getTotalLength() });
       });
       // nodos menores: aro tenue, núcleo, halo que se enciende
       N.menores = N.min.map(function(m, i){
@@ -1879,25 +2013,37 @@
       // nodos mayores: un enlace a la banda del producto, con su etiqueta en mono
       N.mayores = N.may.map(function(m, i){
         var pr = PROD[i], a = mk('a', { 'class': 'mq-nodo', href: pr.href, tabindex: 0, 'aria-label': pr.aria, style: '--c:' + pr.col }, g);
-        mk('circle', { 'class': 'mq-nodo-hit', cx: f1(m.x), cy: f1(m.y), r: 18 }, a);
+        mk('circle', { 'class': 'mq-nodo-hit', cx: f1(m.x), cy: f1(m.y), r: f1(Math.max(18, 22 / L.g)) }, a);
         var glow = mk('circle', { cx: f1(m.x), cy: f1(m.y), r: 18, fill: pr.col, opacity: 0 }, a);
         mk('circle', { 'class': 'mq-nodo-halo', cx: f1(m.x), cy: f1(m.y), r: 15 }, a);
         var aro = mk('circle', { cx: f1(m.x), cy: f1(m.y), r: 10, fill: 'var(--tarjeta)', stroke: pr.col, 'stroke-width': 1.2 }, a);
         mk('circle', { cx: f1(m.x), cy: f1(m.y), r: 5, fill: 'var(--bg)', opacity: 0.9 }, a);
         var nuc = mk('circle', { cx: f1(m.x), cy: f1(m.y), r: 2.6, fill: pr.col }, a);
-        var lb = L.lab[i], t = mk('text', { 'class': 'mq-lab', x: f1(m.x + lb[0]), y: f1(m.y + lb[1]), 'text-anchor': lb[2] }, a);
+        var lb = L.lab[i], t = mk('text', { 'class': 'mq-lab', x: f1(m.x + lb[0]), y: f1(m.y + lb[1]), 'text-anchor': lb[2], style: 'font-size:' + f2(L.fs) + 'px;letter-spacing:' + f2(2 * L.u) + 'px' }, a);
         t.textContent = pr.nombre;
         return { glow: glow, aro: aro, nuc: nuc };
       });
       return N;
     }
 
-    function armar(){
-      L = mq.matches ? LAY.mov : LAY.desk;
-      svg.setAttribute('viewBox', L.vb);
-      var gs = {}; ['mq-grilla', 'mq-est', 'mq-cond', 'mq-re', 'mq-con', 'mq-tok', 'mq-pul'].forEach(function(id){ var n = document.getElementById(id); while (n.firstChild) n.removeChild(n.firstChild); gs[id] = n; });
+    function armar(T){
+      L = T;
+      svg.setAttribute('viewBox', L.vb.map(f1).join(' '));
+      var gs = {}; ['mq-grilla', 'mq-est', 'mq-cond', 'mq-re', 'mq-con', 'mq-tok', 'mq-pul', 'mq-grilla-m'].forEach(function(id){ var n = document.getElementById(id); while (n.firstChild) n.removeChild(n.firstChild); gs[id] = n; });
       V = {};
-      L.grilla.forEach(function(l){ mk('line', { x1: l[0], y1: l[1], x2: l[2], y2: l[3], stroke: 'var(--maq-grilla)', 'stroke-width': 0.6 }, gs['mq-grilla']); });
+      // la grilla tenue de la original: tres líneas por eje alrededor del reactor, que se funden hacia los bordes
+      // de la caja y, en el encuadre 2, se abren alrededor del eclipse (máscara)
+      var vb = L.vb, x0 = vb[0], y0 = vb[1], x1 = vb[0] + vb[2], y1 = vb[1] + vb[3], ox = L.re.x, oy = L.re.y;
+      var dx = L.ojo ? vb[2] * 0.27 : (L.vert ? 120 : 300), dy = L.ojo ? vb[3] * 0.3 : (L.vert ? 300 : 95);
+      [-1, 0, 1].forEach(function(k){
+        mk('line', { x1: f1(x0), y1: f1(oy + k * dy), x2: f1(x1), y2: f1(oy + k * dy), stroke: 'var(--maq-grilla)', 'stroke-width': f2(0.6 / Math.min(1, L.g)) }, gs['mq-grilla']);
+        mk('line', { x1: f1(ox + k * dx), y1: f1(y0), x2: f1(ox + k * dx), y2: f1(y1), stroke: 'var(--maq-grilla)', 'stroke-width': f2(0.6 / Math.min(1, L.g)) }, gs['mq-grilla']);
+      });
+      var mk0 = gs['mq-grilla-m'];
+      mk0.setAttribute('maskUnits', 'userSpaceOnUse'); mk0.setAttribute('x', f1(x0)); mk0.setAttribute('y', f1(y0)); mk0.setAttribute('width', f1(vb[2])); mk0.setAttribute('height', f1(vb[3]));
+      mk('rect', { x: f1(x0), y: f1(y0), width: f1(vb[2]), height: f1(vb[3]), fill: 'url(#mq-grilla-fade)' }, mk0);
+      if (L.ojo) mk('circle', { cx: f1(ox), cy: f1(oy), r: f1(L.rm * 1.9), fill: 'url(#mq-grilla-hueco)' }, mk0);
+      gs['mq-grilla'].setAttribute('mask', 'url(#mq-grilla-m)');
       gs['mq-est'].setAttribute('transform', 'translate(' + L.est.x + ' ' + L.est.y + ')' + (L.est.rot ? ' rotate(' + L.est.rot + ')' : ''));
       V.E = armarEstacion(gs['mq-est']);
       V.K = armarConductos(gs['mq-cond']);
@@ -1950,7 +2096,7 @@
       setTr(K.volante, 'rotate(' + f1(T / 40000 * 360) + ')');
       // manómetro: la presión es la cantidad de enlaces, con un temblor
       var v = clamp(presion + 0.03 * Math.sin(T / 2300 * TAU), 0, 1);
-      setTr(Rr.aguja, 'rotate(' + f1(150 + 240 * v) + ')');
+      if (Rr.aguja) setTr(Rr.aguja, 'rotate(' + f1(150 + 240 * v) + ')');
       // tokens
       for (i = 0; i < V.toks.length; i++) {
         var tv = V.toks[i], tk = toks[i];
@@ -2022,23 +2168,39 @@
       if (ultimo === null) ultimo = now;
       acc += Math.min(0.1, (now - ultimo) / 1000); ultimo = now;
       while (acc >= DT) { paso(); simT += DT; acc -= DT; }
-      pintar(false);
+      if (V) pintar(false);
       requestAnimationFrame(cuadro);
     }
     function calentar(){ if (prewarm) return; prewarm = true; avanzar(PRE + T_INI); }
     function arrancar(){ if (corriendo || RM) return; calentar(); corriendo = true; ultimo = null; requestAnimationFrame(cuadro); }
     function parar(){ corriendo = false; }
 
-    armar();
-    mq.addEventListener ? mq.addEventListener('change', function(){ armar(); pintar(RM); }) : mq.addListener(function(){ armar(); pintar(RM); });
+    /* se rearma cuando cambia la caja (la ventana, el breakpoint, la fuente que termina de cargar y mueve el logo)
+       o, en el encuadre 2, el eclipse; un rAF junta los avisos y la firma evita rearmar si nada cambió */
+    var pend = 0;
+    function rearmar(){
+      if (pend) return;
+      pend = requestAnimationFrame(function(){
+        pend = 0;
+        var T = trazado();
+        if (!T || (L && T.firma === L.firma)) return;
+        armar(T); pintar(RM);
+      });
+    }
+    var T0 = trazado(); if (T0) armar(T0);
+    if ('ResizeObserver' in window) { var ro = new ResizeObserver(rearmar); ro.observe(sec); if (VAR === '2' && ecl) ro.observe(ecl); }
+    window.addEventListener('resize', rearmar, { passive: true });
+    mq.addEventListener ? mq.addEventListener('change', rearmar) : mq.addListener(rearmar);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(rearmar);
+    function mostrar(){ sec.classList.add('vis'); if (pie) pie.classList.add('vis'); }
     if (RM) {
       // un cuadro compuesto y quieto, con el Analítico recién encendido
-      avanzar(PRE + (T_INI || 11000)); lit[0] = simT - 0.5; litMin[V.duenos[0][0]] = simT - 1; pintar(true);
-      sec.classList.add('vis');
+      avanzar(PRE + (T_INI || 11000)); lit[0] = simT - 0.5; litMin[0] = simT - 1; if (V) pintar(true);
+      mostrar();
     } else {
       new IntersectionObserver(function(es){
         var e = es[0]; visible = e.isIntersecting;
-        if (e.intersectionRatio >= 0.1) sec.classList.add('vis');   // la banda entra en pantalla: arranca la aparición por partes
+        if (e.intersectionRatio >= 0.1) mostrar();   // la máquina entra en pantalla: arranca la aparición por partes
         if (visible && !document.hidden) arrancar(); else parar();
       }, { rootMargin: '120px 0px', threshold: [0, 0.1] }).observe(sec);
       document.addEventListener('visibilitychange', function(){ if (document.hidden) parar(); else if (visible) arrancar(); });
@@ -2187,6 +2349,9 @@
     if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; visible ? start() : stop(); }, { rootMargin: '80px' }).observe(sysWrap);
     document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
     window.addEventListener('resize', function(){ if (medir()) pintar(performance.now()); }, { passive: true });
+    // el eclipse del hero cambia de tamaño también sin que cambie la ventana (la grilla del hero se reacomoda
+    // cuando termina de cargar la fuente del logo): se vuelve a medir
+    if ('ResizeObserver' in window) new ResizeObserver(function(){ if (S && medir()) pintar(performance.now()); }).observe(sysWrap);
     (function arrancar(){ if (!medir()) { requestAnimationFrame(arrancar); return; } pintar(performance.now()); start(); })();
   })();
 
@@ -2206,11 +2371,19 @@
     if (RM || (q && q[1] === 'no')) return;
     var CX = 480, CY = 240, R = 93, DUR = 3200, PRIMERA = 4500, MIN = 25000, MAX = 60000;
     var prev = null, t0 = 0, raf = 0, visible = true;
+    var VAR = html.getAttribute('data-hero'), vertical = window.matchMedia('(max-width: 860px)');
     function suave(v){ v = v < 0 ? 0 : v > 1 ? 1 : v; return v * v * (3 - 2 * v); }
+    // dónde no asoma: en el encuadre 2, sobre las bridas de la máquina (±25° del eje de la cañería); en el 3,
+    // del lado del logo, que los rayos cruzarían
+    function vedado(a){
+      if (VAR === '2') return vertical.matches ? Math.abs(Math.cos(a)) < 0.42 : Math.abs(Math.sin(a)) < 0.42;
+      if (VAR === '3') return Math.cos(a) > 0.3;
+      return false;
+    }
     function angulo(){
       var a, i = 0;
       do { a = Math.random() * Math.PI * 2; i++; }
-      while (prev !== null && i < 20 && Math.abs(((a - prev + Math.PI * 3) % (Math.PI * 2)) - Math.PI) < Math.PI / 3.6);
+      while (i < 40 && (vedado(a) || (prev !== null && Math.abs(((a - prev + Math.PI * 3) % (Math.PI * 2)) - Math.PI) < Math.PI / 3.6)));
       prev = a; return a;
     }
     function colocar(a, giro){
@@ -2234,7 +2407,7 @@
       setTimeout(function(){ if (puede()) brillar(angulo()); else programar(6000); }, ms || MIN + Math.random() * (MAX - MIN));
     }
     if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; }, { threshold: 0.2 }).observe(sysWrap);
-    if (q) { colocar(-Math.PI * 0.2, -18); pintar(Math.min(1, (+q[1] || 0) / DUR)); return; }
+    if (q) { if (VAR === '3') colocar(-Math.PI * 0.8, 198); else colocar(-Math.PI * 0.2, -18); pintar(Math.min(1, (+q[1] || 0) / DUR)); return; }
     programar(PRIMERA);
   })();
 
