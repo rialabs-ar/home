@@ -17,6 +17,22 @@
 
 ### 0.1 Qué cambió y por qué
 
+- **RIA Smartcity (2026-10-29).** «Creo que tenemos que renombrar RIA Espacios a RIA Smartcity para poder abarcar
+  esta expo Barcelona a la que estamos a punto de ir y nuestro nuevo producto RIA Smartcity Entrypoint. Sin perder el
+  resto de las cosas que ya hicimos.» El producto 02 vuelve a llamarse **RIA Smartcity** (Smart City Expo World
+  Congress, Barcelona, 3–5/11/2026): nav, menú, banda, astro, máquina del hero, Laboratorio y metadatos; el ancla pasa
+  de `#espacio` a **`#smartcity`** (v5 no está publicada, no hay enlaces externos que romper). Bajo el nombre ya no va
+  una entrada de la RAE (no tiene «smart city»): va una definición propia en el mismo formato, *smart city. Voz inglesa;
+  en español, ciudad inteligente. 1. Ciudad que mide lo que pasa en sus calles y usa esa medición para decidir. 2. Por
+  ext., todo lugar —un club, un barrio, un mercado— que hace lo mismo con su espacio.* (la segunda acepción conserva la
+  idea de «Espacios»: el mismo producto reproducido en sabores). **Entrypoint** entra como sabor nuevo: primer ítem de la
+  lista («el acceso instantáneo a la experiencia Smartcity: en un mes, con el parque de cámaras que ya tenés y sensores de
+  bajo costo, sin licitar una cifra extraordinaria. Un chat guía arma tu Presente; las analíticas se suman por vertical o
+  por paquete, y se pagan por mes», con las palabras del prompt fundacional del 26/10 en
+  `ria-smartcity-machine/docs/prompts-usuario/2026-10-26-ria-smartcity-entrypoint.md`) y satélite nuevo del astro, sin
+  enlace (todavía no tiene página pública), rotulado «la puerta de entrada». El satélite que decía «Smartcity · ciudad»
+  pasa a **«Ciudad · municipios»** (mismo enlace a smartcity.rialabs.ar), para no repetir el nombre del producto. Todo
+  lo demás de la banda quedó igual.
 - **El hero, depurado (2026-10-14).** Matías: «Saquemos todo desde Metaestructura hasta los botones inclusive.
   Dejemos solo debajo del logo el dibujo de la máquina y la frase de siempre.» El hero queda: rótulo · eclipse
   (flama ecuánime + estrella de luz) · **RIA / LABS** · **la máquina** con su pie «Tu infraestructura ya existe. /
@@ -38,7 +54,7 @@
 | # | Nombre | Definición mostrada (fuente: RAE) | Qué agrupa | Color | Sitio |
 |---|---|---|---|---|---|
 | 01 | **RIA Analítico** | *analítico, ca.* Perteneciente o relativo al análisis. Que procede descomponiendo, o que pasa del todo a las partes. | seguridad: los dos brazos **Integradores** y **Monitoreo** | `#4a8fd4` azul | analitico.rialabs.ar |
-| 02 | **RIA Espacios** (antes RIA Espacio, hasta el 13/10) | *espacio.* Extensión que contiene toda la materia existente. Parte de esa extensión que ocupa cada objeto sensible. Capacidad de un lugar. | los **sabores** de smartcity: Ciudad · Predio · Acceso · Barrio y centro comercial | `#2fd0c8` teal | smartcity.rialabs.ar |
+| 02 | **RIA Smartcity** (fue RIA Espacio y RIA Espacios del 10 al 29/10) | *espacio.* Extensión que contiene toda la materia existente. Parte de esa extensión que ocupa cada objeto sensible. Capacidad de un lugar. | los **sabores** de smartcity: Ciudad · Predio · Acceso · Barrio y centro comercial | `#2fd0c8` teal | smartcity.rialabs.ar |
 | 03 | **RIA Automoción** | *automoción.* Facultad o condición de lo que se mueve por sí mismo. Estudio o descripción de las máquinas que se desplazan por la acción de un motor y particularmente de los automóviles. | la concesionaria (antes **RIA Drivecore**; la página lo dice debajo del nombre) | `#EF9F27` dorado | drivecore.rialabs.ar |
 
   Los nombres públicos de los sitios de destino todavía dicen *Byte Analítico* y *RIA Drivecore*: la home
@@ -476,7 +492,7 @@
 ### 0.2 Secuencia de la página (anclas)
 
 `#inicio` hero (eclipse · RIA LABS · `#maquina` con el pie «Tu infraestructura ya existe. / Nosotros la hacemos pensar.») →
-`#productos` (`#analitico` · `#espacio` · `#automocion`) → `#dataflow` →
+`#productos` (`#analitico` · `#smartcity` · `#automocion`) → `#dataflow` →
 `#laboratorio` → `#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
 
 ### 0.3 Assets nuevos

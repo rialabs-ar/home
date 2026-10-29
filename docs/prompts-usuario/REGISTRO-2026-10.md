@@ -113,3 +113,7 @@ Saquemos todo desde Metaestructura hasta los botones inclusive. Dejemos solo deb
 ## 2026-10-14 (cargado a mano, anterior al hook)
 
 ok bien, tratemos de que entre en la pantalla de presentacion de la web. Aunque el dibujo es hermoso verlo en grande, no se como se puede acomodar...hmm
+
+## 2026-10-29 (cargado a mano, anterior al hook)
+
+Creo que tenemos que renombrar RIA Espacios a RIA Smartcity para poder abarcar esta expo barcelona a la que estamos a punto de ir y nuestro nuevo producto RIA Smartcirty Entrypoint. Sin perder el resto de las cosas que ya hicimos
