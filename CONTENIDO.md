@@ -98,7 +98,7 @@
   `data-hero="4"`**: en los otros encuadres no existe en el DOM y no se descarga ni el póster (verificado por DOM). En
   el 4 el script del `<head>` pide los dos pósters con `<link rel=preload fetchpriority=high>`: son lo más grande que
   pinta la primera pantalla. Los clips van con `autoplay muted loop playsinline` sobre su póster; el script «EL
-  STAND» arranca el segundo en otro punto del loop (`DESFASE = 0,42` del largo, así no pestañean a la vez), los pausa
+  STAND» arranca el segundo en otro punto del loop (`DESFASE` del largo: 0,42 al principio, 0,87 desde la tercera vuelta de los retratos, para que se turnen la sonrisa lenta; ver §0.3), los pausa
   fuera de pantalla y con la pestaña oculta (IntersectionObserver + visibilitychange) y los retoma al volver. Con
   `prefers-reduced-motion` o Save-Data el estampado cambia cada `<video>` por su póster (el `<img>` de adentro, con
   su `alt`). `alt` y `aria-label` describen a cada uno con su contexto, sin melena. La máquina y la estrella tratan

@@ -3721,7 +3721,10 @@
   (function(){
     var vids = Array.prototype.slice.call(document.querySelectorAll('.stand video'));
     if (!vids.length) return;
-    var DESFASE = 0.42;   // fracción del loop en la que arranca el segundo retrato
+    // fracción del loop en la que arranca el segundo retrato (Sebastián). Cada loop dura ~18 s con una sola sonrisa lenta:
+    // Matías sonríe a los 0,8–8,8 s de su loop y Sebastián a los 7,5–15,1 s del suyo. Arrancando a Sebastián en 0,87 (15,6 s)
+    // su sonrisa cae a los ~9,8 s de página, después de la de Matías, y se turnan: nunca sonríen a la vez.
+    var DESFASE = 0.87;
     var visible = true;
     function tocar(v){ var pr = v.play(); if (pr && pr.catch) pr.catch(function(){}); }
     function sincronizar(){ vids.forEach(function(v){ if (visible && !document.hidden) tocar(v); else v.pause(); }); }

@@ -25,3 +25,15 @@ Bien ahora, abajo de la maquina, del lado izquierdo, a la altura de RIA, pone la
 **2026-11-01 12:44** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA/.worktrees/hero-stand`
 
 Saca el nombre del oficio. Agrega la linea de "Smart City Expo · Barcelona · 3–5 de noviembre". Saca los pequeños eclipses sobre las cabezas de Matias y Sebastian y trata de redondear las imagenes de fondo de esas dos fotos. Los fondos de las fotos se tienen que difuminar con el fondo de la pagina. Y recuerda hacer las fotos vivas, como dos personas que miran a la camara sonrien y pestanean. Hagamos también que todo el titulo RIA Labs este mas grande y acomodemos bien los elementos en la portada, midamos para que todo quede bien armonico en el espacio entre ellos y con los margenes. Por ultimo, la parte de la red a la derecha de la maquina (la salida del eclipse) quisiera que fuera una red abierta que no termine, que se difumine y pierda en el espacio para que parezca mas grande, y sacaria los nombres de los productos como items en la red, solo salen de la maquina quimica pulsos de energia que se distribiyen por la red, de diferentes colores.
+
+---
+
+**2026-11-01 13:53** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA/.worktrees/hero-stand`
+
+Podemos hacer que los videos de Sebastian y Matias sean más largos, y las sonrizas mas lentas? En loop, esos videos parece como que rien y se ponen serios muy rapidos.
+
+---
+
+**2026-11-01 14:14** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA/.worktrees/hero-stand`
+
+continue
