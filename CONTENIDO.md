@@ -24,7 +24,7 @@
   idea es mostrar los CEOs que estan presentes en el stand como una primera vista cuando se visita la home de la
   empresa»*; y después, sobre una captura del encuadre 2: *«abajo de la maquina, del lado izquierdo, a la altura de
   RIA, pone la imagen viva de Matias desarrollador, y a la misma altura pero del lado derecho, abajo de la red de
-  sistemas, pone la foto viva de Sebastian de Byte»* (los dos en `docs/prompts-usuario/2026-10-31-portada-stand.md`).
+  sistemas, pone la foto viva de Sebastian de Byte»* (los dos en `docs/prompts-usuario/2026-11-01-portada-ceos-en-el-stand.md`).
   Contexto: Smart City Expo World Congress, Barcelona, 3–5/11/2026; los dos están en el stand y la home es lo primero
   que ve quien los visita. **Qué es:** el encuadre 2 tal cual (el eclipse es el reactor, RIA / LABS debajo, la frase al
   pie) más **los dos retratos vivos en las esquinas de abajo, a la altura de RIA / LABS**: Matías a la izquierda, bajo
