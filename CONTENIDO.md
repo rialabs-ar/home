@@ -598,7 +598,9 @@
   motor. Palabras: *Dataflow · el motor* / **Todo sigue pasando** / *Lo que el motor lleva contado, ahora mismo.* y el
   enlace «Universo Dataflow ↗». Qué muestra, de dónde viene la onda, la tabla contador → base → tasa → fuente y cómo
   se fotografía: **§0.5**. Regla de marca intacta: un solo nombre público, *Dataflow*; la onda se muestra, no se
-  nombra; *Datamotor* ya no aparece en la página.
+  nombra; *Datamotor* ya no aparece en la página. **Desde el 01/11 la banda ya no está en la home**: los contadores se
+  mudaron a la página propia, `/dataflow/`, y la onda de colores se fue; en su lugar, el motor en pleno funcionamiento
+  (§0.6).
 - **La máquina** (rama `maquina`, 2026-10-13; pedido verbatim de Matías en el registro de prompts: *«mostrar una
   reproducción actualizada de la máquina de la página original de RIA Labs… haciéndola más mecánica y más química…
   esa química que existía en el centro del eclipse original de esta versión podría estar dentro de esta máquina»*).
@@ -818,8 +820,10 @@ en el encuadre por defecto, `?hero=2`, la máquina pasa a través del eclipse y 
 lo mismo más los retratos vivos de Matías y Sebastián en las esquinas de abajo, con nombre y oficio; en el 5, `?hero=5`, el
 hero es sólo la portada —eclipse, RIA LABS, los dos retratos a los costados del eclipse y la expo— y `#maquina` con su pie
 pasa a una banda propia, `#banda-maquina`, entre el hero y `#productos`) →
-`#productos` (`#analitico` · `#smartcity` · `#automocion`) → `#dataflow` →
+`#productos` (`#analitico` · `#smartcity` · `#automocion`) →
 `#laboratorio` → `#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
+
+Dataflow tiene página propia desde el 01/11: `/dataflow/` (§0.6); la banda `#dataflow` salió de la home.
 
 ### 0.3 Assets nuevos
 
@@ -1110,8 +1114,9 @@ visita. Costo de la tercera vuelta: US$ 1,40; la familia stand completa, ≈ US$
   puertas en Rosario: Byte… y VRIO»). Es otra pasada.
 - Si el desenclipsar vuelve (`DESENCLIPSAR_ACTIVO = true`), el isotipo de la nav —hoy el anillo— ya no tiene luna que
   acompañe el viaje; decidir si el anillo acompaña de otra forma o no acompaña.
-- Los contadores de la banda Dataflow proyectan la lectura del tablero del 10/10/2026 (§0.5): cada tanto conviene
-  cargar una lectura nueva (constantes al principio del script «DATAFLOW · la onda» y la fecha en `.df-nota`), porque
+- Los contadores de Dataflow (desde el 01/11 en `/dataflow/`, §0.6) proyectan la lectura del tablero del 10/10/2026
+  (§0.5): cada tanto conviene cargar una lectura nueva (constantes al principio del script «EL MOTOR» de
+  `dataflow/index.html` y la fecha en `.df-nota`), porque
   con los meses la proyección se aleja de lo medido. Y la curva horaria es plausible, no medida: cuando el tablero
   exponga la serie por hora, va la real.
 - ~~El audio de la frase del hero~~: sin objeto desde el 14/10 (la frase salió del hero; ver la idea guardada en
@@ -1121,6 +1126,11 @@ visita. Costo de la tercera vuelta: US$ 1,40; la familia stand completa, ≈ US$
   fotorrealista, el camino es el de los retratos (`scripts/generar-retratos.py`).
 
 ### 0.5 La banda Dataflow como onda (2026-10-12)
+
+> **Histórico desde el 01/11:** la banda salió de la home y la onda de colores se fue (§0.6). Los contadores siguen,
+> **tal cual**, en `/dataflow/`: la sección «Los contadores, vivos» y la tabla contador → base → tasa → fuente de acá
+> abajo valen para la página nueva; las constantes ahora están al principio del script «EL MOTOR» de
+> `dataflow/index.html`.
 
 > Prompt de Matías, verbatim (registro de prompts, 12/10): «La expresión del Dataflow no me gustó. No era la idea que
 > tenía en mente. … lo actual me parece grotesco y de mal gusto.» Y la dirección: «En la parte del motor creo que
@@ -1213,6 +1223,101 @@ veredictos normal · atención · alerta (777.630 / 179 / 6.982) · 4 sabores a 
 hero** (reemplazada por la máquina, §0.1): 1.100 vehículos activos (`drivecore-web/index.html:1008`, heredado de v4;
 siguen en el linaje del laboratorio) y 30 mil lecturas por día en una puerta (`dataflow-rosental/docs/ESTADO.md` en el
 commit `13377c9`, línea 35; ya no se publican).
+
+### 0.6 La página de Dataflow (`/dataflow/`, 2026-11-01)
+
+> Matías, verbatim (prompt de giro del 01/11, `docs/prompts-usuario/2026-11-01-home-en-paginas-y-oficina-rosario.md`):
+> «La sección "TODO SIEGUE PASANDO" tiene que ser en realidad una sección en su propia página, dedicada a Dataflow.
+> Hay que mantener los datos que se muestran, que son excelentes, pero hay que cambiar ese banner de flujo de onda
+> porque contradice mucho el diseño general de la pagina. No estaría mal buscar otra expresión de onda que sea acorde
+> a la visual expresada en el sitio, y también sería bueno replicar la visual expresada en la pagina del Datamotor con
+> entradas de sensores hacia el motor de dataflow y la salida en las analiticas y los datos, algo que resulta una muy
+> buena expresión del Dataflow en pleno funcionamiento.»
+
+**Qué cambió en la home.** La banda `#dataflow` salió entera: el `<section class="df">`, su CSS «DATAFLOW · la onda»
+(con sus reglas en reduced-motion, ≤1020 y ≤860) y su script (LO MEDIDO, el tablero y la onda). Donde estaba no queda
+nada: `#productos` termina y empieza `#laboratorio`. Ningún otro script de la home la leía; la nav y el pie ya
+apuntaban a `/dataflow/` (commit `33563bb`).
+
+**La página.** `dataflow/index.html`, autocontenida y sin librerías. La base es la de la home **copiada tal cual**
+(fuentes, `:root`, la base, el cielo, la nav, los botones, el layout, el reveal, el contacto y el pie; cada bloque con su
+comentario «copiado de v5/index.html (…) el 01/11 — mantener igual»); sólo noche, sin el tema día ni su transición. La
+nav lleva los enlaces absolutos, el logo a `/` y `aria-current="page"` en Dataflow —lo único agregado: la página propia
+va en blanco en la nav y en dorado en el menú—; «Conversemos» baja al `#contacto` de la propia página; el pie va a
+`/#productos · /dataflow/ · /laboratorio/ · /metodo/ · /#rosario · /#contacto`. `<title>` *Dataflow — RIA Labs*;
+description, og y twitter propios (*Dataflow — el motor de RIA Labs. Todo sigue pasando.*), og:image la de la home.
+
+Secuencia: `#dataflow` (rótulo *Dataflow · el motor*, título **Todo sigue pasando**, la línea *El motor detrás de RIA
+Smartcity, RIA Analítico y RIA Automotrices. Lee la realidad con las cámaras y los sensores que ya están, la comprende y
+actúa. Esto es lo que lleva contado, **ahora mismo**.*, el botón «Universo Dataflow ↗» a dataflow.rialabs.ar y **el
+motor**) → `#como` (*Cómo trabaja* / **Lee, comprende, actúa.** y tres pasos: *Lo que ya está* · *Un catálogo de
+analíticas* · *Cada evento, a quien lo necesita*) → `#productos` (*Los productos* / **Tres formas del mismo motor.**:
+Smartcity, Analítico y Automotrices, cada uno a su ancla de la home, con una línea tomada de su sección) → `#contacto`
+(el anillo, «Hablemos.») → pie. Mide ~2.850 px en 1440 y ~4.570 en 390.
+
+**El motor** (`<figure class="mot" id="motor">`, la pieza central, ~480 px de alto en 1440). La idea del tablero del
+Datamotor (`datamotor.rialabs.ar`; su dibujo es `ria-datamotor/ria_datamotor/tablero/ui/flujo.js`) dicha con la
+gramática de la máquina y su red abierta, no con la piel del tablero: línea fina de plano técnico sobre el cielo, el
+dorado del eclipse en el núcleo y el color de cada producto en las salidas. Cuatro columnas:
+
+- **Entradas** (dibujos SVG de línea fina, 40×26; de su borde sale el cable). Tipos de fuente que el motor lee hoy, cada
+  uno anclado en un repo o en la home: *Tránsito · una esquina de Rosario* (la cámara de la ochava) · *Acceso · la
+  barrera de un club* (`dataflow-jockey-acceso`, la cámara de la barrera) · *Predio · un mercado concentrador*
+  (Smartcity, «Acceso»; «midiendo 24/7 · municipio, club y mercado») · *Concesionaria · el ingreso al taller* (la
+  lectura de patentes del ingreso) · *Monitoreo · las cámaras de una central* (Analítico; el motor lee VMS, `tipo: nx`)
+  · *Grabador · el video que ya se graba* (el «registro» de la máquina; fuentes `nx` y `archivo` de
+  `ria_datamotor/ingesta/spec.py`). Ninguna es un sensor que no sea cámara: el sensor es la cámara («Convertimos las
+  cámaras en sensores de ciudad», `GUION-SMARTCITY-PELICULA-2026-09-10.md`).
+- **El motor**: el eclipse de la casa (halos `--h3…--h6`, aro dorado, sol tapado, luna), con un dial alrededor (el
+  manómetro de la máquina) y las bridas de entrada y salida; por dentro gira el anillo de tres arcos del tablero, los
+  cuadros entran por el aro, giran hacia la salida y se doran, y la corona respira con lo que entra. Debajo (al costado,
+  en el flujo vertical) **el instrumento**: las tres cintas de la onda de la identidad —frecuencias 1,8 · 2,3 · 2,7 y
+  el perfil de crestas achatadas de `sitios/lambda`— en hilo dorado, con la amplitud de la hora de Rosario (la curva
+  horaria de los contadores).
+- **Analíticas**: *vehículos · personas · patentes · zonas · merodeo · sabotaje · aforo · fauna*, cada una con el punto
+  de color de los productos que la usan, según los textos de la home (Analítico: personas, vehículos, patentes, zonas,
+  merodeo, sabotaje; Smartcity: movilidad, espacio público, aforo, fauna, patentes en el predio; Automotrices:
+  patentes). Son analíticas del catálogo del motor (`ria_datamotor/esquemas.py`: `deteccion_objetos`,
+  `conteo_personas`, `lpr`, `invasion_zona`/`cruce_linea`, `merodeo`, `sabotaje`, `ocupacion`/`permanencia`,
+  `conteo_poblacional`).
+- **Lo que lleva contado**: los seis contadores de la banda, **tal cual** —mismas constantes, misma proyección y curva
+  horaria, la nota *proyección sobre lo medido el 10 oct 2026 · 8 cámaras · un equipo en Rosario*; la tabla de §0.5
+  sigue valiendo—, con *eventos* grande arriba (50 px) y un renglón por conteo, la cifra a la derecha. Los números
+  escritos en el HTML son la base medida: sin script se ven tal cual.
+
+**La otra onda.** Por cada cable corre un pulso de luz dorada, u = A·sen(ks − ωt), con fase propia (un degradé a lo
+largo del cable): la onda de Dataflow dicha como pulsos que viajan por el cableado, no como cintas de colores. Los
+cuadros son puntos de blanco cálido que van de cada cámara al aro (2,7 s; uno cada 0,4–1,1 s por cámara: expresión,
+no el fps medido). **Las chispas son los contadores**: cada subida programada sale del núcleo 2,6 s antes, llega a su
+analítica —que se enciende y suelta un anillo en el color de la chispa—, corre por la línea punteada de la analítica y
+por la barra de los datos y entra en la cifra justo cuando el número cambia. Color: uno de los productos que usan esa
+analítica, al azar. De dónde sale: autos, camiones y motos, de *vehículos*; personas, de *personas*; patentes leídas,
+de *patentes*; las de *eventos*, de cualquiera, en las proporciones de lo medido (vehículos 0,588 · personas 0,219 ·
+patentes 0,026) y el resto (0,166: bicicletas y lo que el tablero no desglosa) en partes iguales entre las otras cinco
+—**ese reparto no está medido**—. El pie del motor lo dice: los tres productos con su color, *el color de cada chispa es
+el producto que la usa*, y la nota de la proyección.
+
+**Cómo se arma.** El marcado (rótulos, nodos vacíos, contadores) es HTML y lo ordena la grilla; el script «EL MOTOR»
+mide dónde quedó cada cosa y dibuja en dos canvas: el plano (cruces de grilla, marcas de esquina, cables, núcleo y
+nodos; se traza al entrar, como un plotter, en 1,9 s, y se redibuja con ResizeObserver) y lo vivo (un solo
+`requestAnimationFrame`, sólo con el motor a la vista —IntersectionObserver, 120 px de margen— y la pestaña visible;
+una pausa corta congela el reloj, una de más de 15 s resincroniza con la proyección). Todo se fecha con su instante
+programado, así la escena es la misma aunque el navegador dibuje pocos cuadros. ≤980 px el flujo va de arriba hacia
+abajo: entradas y analíticas en dos filas trabadas (grillas de 7 y 9 columnas, así los cables de la primera fila pasan
+entre las celdas de la segunda), el instrumento al costado del núcleo y, de la analítica a la cifra, la chispa vuela
+sin cable. `prefers-reduced-motion`: un cuadro quieto compuesto (cuadros a mitad de camino, giros en el núcleo, cinco
+chispas, una analítica encendida) y los contadores con la proyección, sin animar. `?t=<ms>` adelanta el reloj. Se
+fotografía con `scripts/capturar-home.sh dataflow` (el argumento es la carpeta). Lo verificado el 01/11 (1440, 1100,
+920, 390, reduced-motion, y la home sin la banda): `_capturas/pagina-dataflow/` (ignorado).
+
+**Pendiente.**
+- El reparto de las chispas de *eventos* entre zonas, merodeo, sabotaje, aforo y fauna es parejo, no medido: cuando el
+  tablero desglose `por_analitica`, va el real (constante `PESOS` de «EL MOTOR»).
+- Las entradas son tipos de fuente, no las ocho cámaras del tablero; si se quiere dibujar el parque real (cuántas
+  cámaras y de qué sabor), sale de `/api/estado` del tablero.
+- La nav compartida (siete enlaces y «Conversemos») no entra entre 861 y ~1.100 px: «RIA Labs» y los enlaces se parten
+  en dos renglones, en la home y en esta página por igual. Arreglarlo en la home y recopiar.
+- La salida a productos cita la home del 01/11; si `#productos` cambia sus textos, actualizar acá.
 
 ---
 
@@ -1752,6 +1857,7 @@ El CTA secundario del hero dice **"Ver el laboratorio →"** y baja a `#laborato
 |---|---|---|
 | `/` | Home institucional (rewrite a `/v4/index.html`) | `v4/index.html` |
 | `/laboratorio/` | Laboratorio — modalidad de trabajo + cinco proyectos | `laboratorio/index.html` |
+| `/dataflow/` | Dataflow — el motor en pleno funcionamiento, lo que lleva contado, cómo trabaja y la salida a los productos (desde el 01/11; §0.6) | `dataflow/index.html` |
 | `/v1/`, `/v2/`, `/v3/` | Prototipos históricos | — |
 
 ### 12.5 Anchors de `/laboratorio/`
