@@ -13,3 +13,9 @@ Probemos una version de portada con el logo de RIA Labs como esta ahora con el e
 **2026-11-01 02:27** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
 
 no funciona creo que el server ese se cayo
+
+---
+
+**2026-11-01 02:28** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA/.worktrees/hero-stand`
+
+Bien ahora, abajo de la maquina, del lado izquierdo, a la altura de RIA, pone la imagen viva de Matias desarrollador, y a la misma altura pero del lado derecho, abajo de la red de sistemas, pone la foto viva de Sebastian de Byte
