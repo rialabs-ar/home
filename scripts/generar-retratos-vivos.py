@@ -24,6 +24,17 @@ Uso:
   generar-retratos-vivos.py ladoalado <salida.png> <a.jpg> <b.jpg> [...]
   generar-retratos-vivos.py costura <persona> [clip.mp4]   # ¿empalma el loop? ¿pestañea en el corte? ¿salta del póster?
 
+Familia stand (2026-10-31, ver §4 abajo): persona = `matias-stand` | `sebastian-stand`; salida `assets/retrato-stand-<p>.{jpg,mp4,webm}`.
+  generar-retratos-vivos.py fondo-stand <sebastian|matias> [n=3]   # el sobrio sin su eclipse chico + luz de borde del lado del centro
+  generar-retratos-vivos.py fondo-stand-plano <persona> [n]        # la alternativa del primer brief (fondo liso); no se usa
+  generar-retratos-vivos.py medir-stand <sobrio.jpg> <variante.jpg> [...]   # parecido (cara), contexto, ¿se fue el eclipse?, ¿de qué lado la luz?
+  generar-retratos-vivos.py video kling <persona>-stand [n] <variante.jpg>  # prompt sin viento; el contexto casi quieto
+  generar-retratos-vivos.py medir-fondo <clip.mp4>                 # como `medir`, con cajas de cielo (no hay eclipse)
+  generar-retratos-vivos.py vinetear <origen> <destino> [w h]      # para mirar la viñeta antes del post
+  generar-retratos-vivos.py post <persona>-stand <clip> [clip2]    # clips enteros, rotado al cuadro más quieto, viñeta, 480×600, póster = cuadro 0
+  generar-retratos-vivos.py costura <persona>-stand                # con el póster de la familia
+  GUARDAR_CUADROS=1 deja los PNG del loop en `_capturas/retratos-vivos/final/<persona>-cuadros/` para probar codificaciones.
+
 Las variantes caen en `_capturas/retratos-vivos/` (ignorado); sólo lo elegido se exporta a `assets/`.
 Token de Replicate en ~/.credentials/replicate.env. Precios leídos de Replicate el 2026-10-11:
 nano-banana US$ 0,039/imagen · kling-v2.5-turbo-pro US$ 0,07/s (0,35 el clip) · seedance-1-pro US$ 0,03/0,06/0,15
@@ -39,14 +50,32 @@ Lo que quedó hecho (2026-10-11, rama `retratos-vivos`; reconstruido de los .jso
           cuadros con los ojos iguales, y los iguales son los cerrados. La costura del cierre mide menos que un paso entre
           cuadros consecutivos, y póster ↔ cuadro 0 también (`costura`): el arranque no salta, pestañea.
   costo   ≈ US$ 5,85 en total (sin contar generaciones fallidas, si las hubo; no quedaron registradas).
+
+Lo que quedó hecho (2026-10-31, rama `retratos-stand`, familia stand; ver CONTENIDO.md §0.3):
+  fondo   12 ediciones nano-banana (US$ 0,47): 6 con fondo liso (primer brief, descartadas, `fondo-stand-plano-*`) y 6 con el
+          contexto conservado y sólo el eclipse chico afuera. Elegidas `fondo-stand-matias-1` (borde dorado a la derecha,
+          legible) y `fondo-stand-sebastian-3` (borde a la izquierda). Cara intacta en las seis (mirado cara a cara al 100 %).
+  video   5 kling (US$ 1,75), 1268×1632, 122 cuadros: matias 1–3, sebastian 1–2. Pelo quieto en todos, fondo sin pulsos
+          (lum del cielo ×1,00–1,09, dif de fondo ≤ 1,6), cámara fija. Descartado matias-1: pestañeo lento (0,4 s de ojos
+          cerrados) y deriva de cabeza entre 1,3 y 2,5 s.
+  post    sebastian ← kling-1 → kling-2 enteros, juntas 107→3 y 118→9, rotado 83: 215 cuadros, 8,96 s; matias ← kling-2 → kling-3,
+          juntas 118→4 y 116→3, rotado 73: 229 cuadros, 9,54 s. Fundido de 6 cuadros; las juntas empalman cuadros casi
+          iguales (los dos clips salen de la misma foto: cara 0,7–0,8 contra 0,6 de paso medio). El cuadro 0 (= póster) es el
+          centro del segundo más quieto con los ojos abiertos. Cierre a 192×240 (la escala de la portada): 0,55–0,71 total,
+          grano del códec (I-frame contra último P-frame), no un salto de imagen; póster ↔ cuadro 0: 0,67–0,76.
+  costo   ≈ US$ 2,22 (12 ediciones + 5 clips; sin fallos cobrados: el único 429 fue al crear, antes del cobro).
 """
-import base64, json, os, subprocess, sys, time, urllib.request, pathlib, concurrent.futures
+import base64, json, os, re, subprocess, sys, time, urllib.request, pathlib, concurrent.futures
 
 TOKEN = None
 for line in open(os.path.expanduser("~/.credentials/replicate.env")):
     if line.startswith("REPLICATE_API_TOKEN="):
         TOKEN = line.split("=", 1)[1].strip()
 assert TOKEN, "sin token"
+# Desde el 31/10 api.replicate.com responde 403 al User-Agent por defecto de urllib («Python-urllib/3.x»);
+# con cualquier otro responde 200. Se instala un opener con nombre propio para todas las llamadas (y las descargas).
+urllib.request.install_opener(urllib.request.build_opener())
+urllib.request._opener.addheaders = [("User-Agent", "rialabs-retratos-vivos/1.0")]
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 ASSETS = RAIZ / "assets"
@@ -136,6 +165,104 @@ NEGATIVO = ("camera movement, zoom, pan, dolly, handheld shake, face change, ide
             "smile change, talking, mouth opening, head turning away, extra limbs, extra hands, text, watermark, flicker, lighting change, "
             "warping, morphing, blur, cartoon, hair covering the face, background movement")
 
+# ══════════════════════════════════════════════════════════════════════════════════════════════════
+# 4. STAND (2026-10-31) — los dos en las esquinas de abajo de la portada, posando para la foto, sin pelo agregado
+# ══════════════════════════════════════════════════════════════════════════════════════════════════
+# Pedido textual de Matías: «a cada costado del logo las imagenes de los ceos, Matias y Sebastian, en movimiento como
+# posando esperando que le saquen la foto con el parpadeo de ojos y todo, pero sin pelo agregado. La idea es mostrar los
+# CEOs que estan presentes en el stand como una primera vista cuando se visita la home de la empresa». Y, al ver la
+# portada: «abajo de la maquina, del lado izquierdo, a la altura de RIA, pone la imagen viva de Matias desarrollador, y
+# a la misma altura pero del lado derecho, abajo de la red de sistemas, pone la foto viva de Sebastian de Byte».
+# Parte de la familia sobria (`retrato-*-sobrio.jpg`), que es «sin pelo agregado». MATÍAS va a la IZQUIERDA y SEBASTIÁN
+# a la DERECHA (al revés que en #equipo). El contexto se conserva —«Matías desarrollador»: las pantallas de código y la
+# maqueta; «Sebastián de Byte»: el muro de cámaras y el rack—; lo único que sale es el eclipse chico de cada uno, porque
+# en la portada hay UN solo eclipse, el del hero. Una luz de borde cálida y sutil del lado que mira al centro: derecha
+# en Matías, izquierda en Sebastián. En post, una viñeta que cae a #0b0a14 (el cielo de v5) subordina el contexto y
+# deja el borde listo para que la portada lo funda con el cielo de estrellas con una máscara CSS. Nunca se espeja una
+# cara. Medido en los sobrios: la luz cálida de Matías entra por la IZQUIERDA (mejilla izquierda 170 contra 82) y la
+# de Sebastián por la DERECHA (169 contra 91); con los lados invertidos la clave de cada uno queda del lado de afuera
+# y el borde dorado del lado del eclipse: dos luces, no una contradicción, pero queda anotado.
+CIELO = (11, 10, 20)   # #0b0a14, el cielo de v5
+FONDO_STAND_COMUN = (
+    "Make exactly two changes. "
+    "ONE: remove the small solar eclipse ring floating above his head, filling that area with the same plain dark wall "
+    "that surrounds it, seamlessly, with no trace, no glow and no mark left. "
+    "TWO: add a thin, soft, warm golden rim light coming from the {LADO} edge of the frame, grazing only the {LADO} "
+    "outline of his hair, ear, cheek, jaw and shoulder, as if a distant golden eclipse glowed off-frame to the {LADO}. "
+    "It is gentle and narrow, never a flare, never a halo on the wall, and it does not brighten the background. "
+    "Keep absolutely everything else pixel-identical: his face, expression, eyes, gaze, skin, hair (every strand, same "
+    "shape, no added hair), beard, glasses, clothes, pose, framing, scale and position in the frame, the existing key "
+    "light and fill light on him, {CONTEXTO}, the grain and the colors. Do not mirror or flip the image. Photorealistic."
+)
+FONDO_STAND = {
+    "matias":    ("Edit this photograph. The man with crossed arms, dark blazer over a black tee, stubble beard and short dark "
+                  "hair stays exactly as he is. "
+                  + FONDO_STAND_COMUN.format(LADO="RIGHT", CONTEXTO="the monitors with code and the blue wireframe city model behind him")),
+    "sebastian": ("Edit this photograph. The man with rectangular glasses, short hair, a grey-streaked beard and a navy jacket "
+                  "over a beige tee stays exactly as he is. "
+                  + FONDO_STAND_COMUN.format(LADO="LEFT", CONTEXTO="the video wall of street-camera feeds on the left and the "
+                                                                    "equipment rack with blue LEDs on the right")),
+}
+# Alternativa descartada el mismo día (primer brief: «fondo casi plano y muy oscuro, sin objetos»): las seis variantes
+# quedaron en `_capturas/retratos-vivos/fondo-stand-plano-*.jpg` (3 por persona, US$ 0,23), con el parecido intacto y el
+# fondo liso pero más gris-azul que #0b0a14. No se usan: Matías pidió conservar el contexto que los identifica.
+FONDO_STAND_PLANO_COMUN = (
+    "Replace the ENTIRE background with a plain, flat, matte backdrop of one uniform, very dark color: an almost-black "
+    "night blue-violet, hex #0b0a14 (RGB 11, 10, 20). No objects at all, no screens, no furniture, no walls with texture, "
+    "no eclipse, no light sources, no gradient, no vignette, no haze, no bokeh circles: just the dark flat color edge to "
+    "edge, including above his head and at the corners, as if he were photographed in front of a dark velvet cloth in a "
+    "black studio. Remove every trace of {OBJETOS}. "
+    "Then add ONE subtle touch: a thin, soft, warm golden rim light coming from the {LADO} edge of the frame, grazing "
+    "only the {LADO} outline of his hair, ear, cheek, jaw and shoulder, as if a distant golden eclipse glowed off-frame "
+    "to the {LADO}. It is gentle and narrow, never a flare, never a halo on the backdrop, and it does not brighten the "
+    "backdrop itself. "
+    "Keep absolutely everything else pixel-identical: his face, expression, eyes, gaze, skin, hair (every strand, same "
+    "shape, no added hair), beard, glasses, clothes, pose, framing, scale and position in the frame, the existing key "
+    "light and fill light on him, the grain and the colors. Do not mirror or flip the image. Photorealistic."
+)
+FONDO_STAND_PLANO = {   # con los lados del PRIMER brief (Sebastián a la izquierda, luz desde la derecha; Matías al revés)
+    "sebastian": ("Edit this photograph. The man with rectangular glasses, short hair, a grey-streaked beard and a navy jacket "
+                  "over a beige tee stays exactly as he is. "
+                  + FONDO_STAND_PLANO_COMUN.format(OBJETOS="the video wall of street-camera feeds on the left, the equipment rack "
+                                                           "with blue LEDs on the right and the small eclipse ring above his head",
+                                                   LADO="RIGHT")),
+    "matias":    ("Edit this photograph. The man with crossed arms, dark blazer over a black tee, stubble beard and short dark "
+                  "hair stays exactly as he is. "
+                  + FONDO_STAND_PLANO_COMUN.format(OBJETOS="the monitors with code on the left, the blue wireframe city model on "
+                                                           "the right, the desk, and the small eclipse ring above his head",
+                                                   LADO="LEFT")),
+}
+# El clip: lo mismo que VIVO_COMUN pero SIN viento. Posando quietos esperando la foto: respiración, dos o tres pestañeos,
+# micro-ajustes de la sonrisa, la mirada a cámara. El pelo no se mueve (ni ventilador ni brisa), cámara fija, luz constante.
+# El contexto puede tener vida mínima (un cursor, un brillo leve en el código; las cámaras del muro casi quietas), nunca
+# scroll ni cambios de contenido: la costura del loop funde dos clips, y si las pantallas cambian de contenido el fundido
+# se ve. Si aun así complica la costura, quietas.
+VIVO_STAND_COMUN = (
+    "Locked-off photographic portrait on a tripod: the camera does not move at all, the framing is identical from the "
+    "first frame to the last. The man holds his pose completely still, looking straight into the lens, waiting for the "
+    "photographer to take the picture. He is clearly alive: he blinks naturally two or three times, his chest rises and "
+    "falls with slow quiet breathing, his {SONRISA} tightens and relaxes almost imperceptibly, and his head has the "
+    "tiniest natural micro-movements, as a person posing does. There is NO wind and NO fan: his hair does not move at "
+    "all, not a single strand, and his clothes do not move. {ROPA} The background stays in place and almost still: "
+    "{FONDO}. No scrolling, no content changing, no flashing, no shadows passing, no light pulsing. Constant lighting "
+    "throughout: the same warm key light on his face and the same thin golden rim light on his {LADO} edge. Same face, "
+    "same identity, {RASGOS} from start to finish. Photoreal, cinematic, 24 fps, no morphing. The last frame matches "
+    "the first frame exactly so the clip loops seamlessly."
+)
+VIVO_STAND = {
+    "matias-stand":    VIVO_STAND_COMUN.format(
+        SONRISA="knowing half-smile", ROPA="He keeps his arms crossed, still.", LADO="right",
+        FONDO="the monitors with code may show at most a cursor blinking or a faint shimmer of the text, and the blue "
+              "wireframe city model does not move",
+        RASGOS="same stubble beard, same knowing half-smile, same crossed arms"),
+    "sebastian-stand": VIVO_STAND_COMUN.format(
+        SONRISA="calm half-smile", ROPA="The collar of his navy jacket stays still.", LADO="left",
+        FONDO="the video wall of street-camera feeds is nearly frozen, with at most a faint shimmer, and the equipment "
+              "rack with blue LEDs keeps its LEDs steadily lit, not blinking",
+        RASGOS="same rectangular glasses, same grey-streaked beard, same calm half-smile"),
+}
+NEGATIVO_STAND = NEGATIVO + ", wind, breeze, fan, hair moving, hair blowing, clothes moving, scrolling text, screens changing, LEDs blinking"
+
 
 # ── Replicate ─────────────────────────────────────────────────────────────────────────────────────
 def data_uri(p):
@@ -145,8 +272,14 @@ def replicate(modelo, entrada, timeout=900):
     body = json.dumps({"input": entrada}).encode()
     req = urllib.request.Request(f"https://api.replicate.com/v1/models/{modelo}/predictions", data=body, method="POST",
                                  headers={"Authorization": f"Bearer {TOKEN}", "Content-Type": "application/json", "Prefer": "wait=60"})
-    with urllib.request.urlopen(req, timeout=120) as r:
-        pred = json.load(r)
+    for intento in range(6):   # 429 al crear (seis a la vez lo disparan): esperar y volver a intentar; no se cobró nada
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                pred = json.load(r)
+            break
+        except urllib.error.HTTPError as e:
+            if e.code != 429 or intento == 5: raise
+            time.sleep(8 * (intento + 1))
     t0 = time.time()
     while pred.get("status") not in ("succeeded", "failed", "canceled"):
         if time.time() - t0 > timeout:
@@ -156,6 +289,11 @@ def replicate(modelo, entrada, timeout=900):
         with urllib.request.urlopen(req, timeout=60) as r:
             pred = json.load(r)
     return pred
+
+def _siguiente(patron):
+    """Número de la próxima variante: el mayor que haya + 1 (contar archivos pisa huecos: pasó el 31/10 con sebastian-3)."""
+    nums = [int(m.group(1)) for f in OUT.glob(patron) for m in [re.search(r"-(\d+)\.\w+$", f.name)] if m]
+    return (max(nums) if nums else 0) + 1
 
 def bajar(pred, dest):
     url = pred["output"] if isinstance(pred["output"], str) else pred["output"][0]
@@ -185,14 +323,99 @@ def fondo(persona, n=3, referencia=None):
             print(f.result(), flush=True)
 
 
+# ── 4. fondo-stand: el sobrio sin su eclipse chico, con luz de borde del lado del centro (contexto conservado) ──
+def fondo_stand(persona, n=3, plano=False):
+    origen = ASSETS / f"retrato-{persona}-sobrio.jpg"
+    pref = f"fondo-stand-{'plano-' if plano else ''}{persona}"
+    base = _siguiente(f"{pref}-*.jpg") - 1
+    prompt = (FONDO_STAND_PLANO if plano else FONDO_STAND)[persona]
+    def uno(i):
+        dest = OUT / f"{pref}-{base + i + 1}.jpg"
+        pred = replicate("google/nano-banana", {"prompt": prompt, "image_input": [data_uri(origen)],
+                                                "aspect_ratio": "4:5", "output_format": "jpg"})
+        if pred["status"] != "succeeded":
+            return f"{dest.name} FALLÓ: {pred.get('error')}"
+        bajar(pred, dest)
+        return f"{dest.name} ok ({pred.get('metrics', {}).get('predict_time')} s, US$ {PRECIO['nano-banana']:.3f})"
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:
+        for f in concurrent.futures.as_completed([ex.submit(uno, i) for i in range(n)]):
+            print(f.result(), flush=True)
+
+# Caja del eclipse chico en los sobrios (las dos familias lo tienen en el mismo lugar: igualado el 11/10).
+CAJA_ECLIPSE_SOBRIO = (0.38, 0.03, 0.66, 0.22)
+
+def medir_stand(origen, *variantes):
+    """Para elegir la variante de fondo-stand, contra el sobrio original: la diferencia en la zona de la cara (el
+    parecido: cuanto menor, menos tocó nano-banana la cara), la diferencia del resto del cuadro fuera de la caja del
+    eclipse (¿conservó el contexto?), la luminancia en la caja del eclipse (en el original ≈ 25–30 con el anillo; sin
+    anillo baja a la de la pared, ≈ 13–19), y el brillo del borde de la persona a cada lado (zona de hombro y oreja
+    sin fondo), para ver de qué lado quedó la luz de borde y cuánto subió."""
+    from PIL import Image, ImageChops, ImageStat
+    persona = "matias" if "matias" in str(origen) else "sebastian"
+    o = Image.open(origen).convert("RGB")
+    w, h = o.size
+    box = lambda c: (int(c[0] * w), int(c[1] * h), int(c[2] * w), int(c[3] * h))
+    cara, ecl = box(ZONA_CARA[persona]), box(CAJA_ECLIPSE_SOBRIO)
+    # bordes de la persona: la franja de la oreja/mejilla y del hombro a cada lado (mismo encuadre en los dos sobrios)
+    bordes = {"matias": {"izq": (0.28, 0.38, 0.36, 0.72), "der": (0.62, 0.38, 0.70, 0.72)},
+              "sebastian": {"izq": (0.28, 0.38, 0.36, 0.72), "der": (0.64, 0.38, 0.72, 0.72)}}[persona]
+    lum = lambda im, c: ImageStat.Stat(im.crop(box(c) if isinstance(c[0], float) else c).convert("L")).mean[0]
+    print(f"{pathlib.Path(origen).name}: eclipse lum {lum(o, ecl):.1f} · borde izq {lum(o, bordes['izq']):.1f} · borde der {lum(o, bordes['der']):.1f}")
+    for v in variantes:
+        im = Image.open(v).convert("RGB")
+        if im.size != o.size: im = im.resize(o.size, Image.LANCZOS)
+        d = ImageChops.difference(o, im)
+        dcara = sum(ImageStat.Stat(d.crop(cara)).mean) / 3
+        resto = d.copy(); resto.paste((0, 0, 0), ecl)        # fuera de la caja del eclipse
+        dresto = sum(ImageStat.Stat(resto).mean) / 3
+        print(f"{pathlib.Path(v).name}: {Image.open(v).size[0]}×{Image.open(v).size[1]} · cara dif {dcara:.2f} · resto dif {dresto:.2f}"
+              f" · eclipse lum {lum(im, ecl):.1f} · borde izq {lum(im, bordes['izq']):.1f} ({lum(im, bordes['izq']) - lum(o, bordes['izq']):+.1f})"
+              f" · borde der {lum(im, bordes['der']):.1f} ({lum(im, bordes['der']) - lum(o, bordes['der']):+.1f})")
+
+
+# ── viñeta hacia el cielo (post, PIL): subordina el contexto y deja el borde listo para la máscara CSS ──
+# Rectángulo redondeado (norma p = 3) centrado un poco por debajo del centro: f = 1 dentro de R0, cae con suavidad
+# (smoothstep) a 0 en R1, y el píxel se mezcla hacia CIELO con 1 − f. Se calcula una sola vez por tamaño y se aplica
+# con Image.composite a cada cuadro y al póster, así todos reciben exactamente la misma viñeta.
+VINETA = {"R0": 0.42, "R1": 1.02, "P": 3.0, "CY": 0.54, "RY": 0.66}   # radios en fracción del semilado; RY estira el eje vertical
+_mascaras = {}
+
+def mascara_vineta(tam):
+    from PIL import Image
+    if tam in _mascaras: return _mascaras[tam]
+    w, h = tam; R0, R1, P, CY, RY = (VINETA[k] for k in ("R0", "R1", "P", "CY", "RY"))
+    m = Image.new("L", tam); px = m.load()
+    for y in range(h):
+        ny = abs((y / (h - 1)) - CY) / RY
+        for x in range(w):
+            nx = abs((x / (w - 1)) - 0.5) / 0.5
+            r = (nx ** P + ny ** P) ** (1 / P)
+            t = min(max((r - R0) / (R1 - R0), 0.0), 1.0)
+            px[x, y] = round(255 * (1 - t * t * (3 - 2 * t)))
+    _mascaras[tam] = m
+    return m
+
+def vinetear(im):
+    from PIL import Image
+    return Image.composite(im, Image.new("RGB", im.size, CIELO), mascara_vineta(im.size))
+
+def vinetear_archivo(origen, destino, tam=None):
+    from PIL import Image
+    im = Image.open(origen).convert("RGB")
+    if tam: im = im.resize(tam, Image.LANCZOS)
+    vinetear(im).save(destino, "JPEG", quality=90)
+    print(destino)
+
+
 # ── 2. video ──────────────────────────────────────────────────────────────────────────────────────
 def video(modelo, persona, n=1, imagen=None, resolucion="720p"):
+    stand = persona in VIVO_STAND
     img = pathlib.Path(imagen) if imagen else ASSETS / f"retrato-{persona}.jpg"
     uri = data_uri(img)
-    prompt = VIVO[persona] + (VIENTO_FUERTE if os.environ.get("VIENTO") == "fuerte" else "")
+    prompt = VIVO_STAND[persona] if stand else VIVO[persona] + (VIENTO_FUERTE if os.environ.get("VIENTO") == "fuerte" else "")
     if modelo == "kling":
         nombre, entrada = "kwaivgi/kling-v2.5-turbo-pro", {
-            "prompt": prompt, "negative_prompt": NEGATIVO, "start_image": uri, "end_image": uri, "duration": 5}
+            "prompt": prompt, "negative_prompt": NEGATIVO_STAND if stand else NEGATIVO, "start_image": uri, "end_image": uri, "duration": 5}
         costo = PRECIO["kling"]
     elif modelo == "seedance":
         nombre, entrada = "bytedance/seedance-1-pro", {
@@ -201,8 +424,7 @@ def video(modelo, persona, n=1, imagen=None, resolucion="720p"):
         costo = PRECIO["seedance"][resolucion]
     else:
         raise SystemExit("modelo: kling | seedance")
-    existentes = sorted(OUT.glob(f"{modelo}-{persona}-*.mp4"))
-    base = len(existentes)
+    base = _siguiente(f"{modelo}-{persona}-*.mp4") - 1
     def uno(i):
         k = base + i + 1
         dest = OUT / f"{modelo}-{persona}-{k}.mp4"
@@ -227,7 +449,7 @@ def video(modelo, persona, n=1, imagen=None, resolucion="720p"):
 # ── tira de cuadros, primer y último cuadro ────────────────────────────────────────────────────────
 def tira(clip):
     clip = pathlib.Path(clip)
-    base = clip.with_suffix("")
+    base = (clip if clip.resolve().parent == OUT.resolve() else OUT / clip.name).with_suffix("")   # nunca al lado de un asset
     sh = lambda *a: subprocess.run([FFMPEG, "-hide_banner", "-loglevel", "error", "-y", *a], check=True)
     sh("-i", str(clip), "-vf", "fps=2,scale=240:-1,tile=10x1", "-frames:v", "1", f"{base}-tira.png")
     sh("-i", str(clip), "-vf", "scale=480:-1", "-frames:v", "1", f"{base}-primero.png")
@@ -270,15 +492,42 @@ ZONA_CARA = {"matias": (0.35, 0.30, 0.65, 0.60), "sebastian": (0.33, 0.28, 0.67,
 PESO_CARA = 25
 # La zona de los ojos sola, para `costura`: ahí se ven los pestañeos.
 ZONA_OJOS = {"matias": (0.40, 0.40, 0.62, 0.50), "sebastian": (0.36, 0.36, 0.64, 0.46)}
+# Familia stand: el mismo encuadre que los sobrios, así que las zonas de cara y ojos son las mismas. Lo que no hay es
+# melena: la «zona del pelo» pasa a ser la persona entera (cara y pecho: pestañeos, respiración, micro-movimientos) y
+# sirve para medir en `costura`, no para recortar: en los clips stand NO hay cabeza ni cola congeladas (medido el 31/10:
+# contra el cuadro 0 la persona ya difiere 0,2 en el cuadro 2 y la diferencia crece suave hasta ~2,5; contra el último
+# cuadro baja suave hasta 0,34 en el penúltimo). Posando quieto, el tramo útil es el clip entero, y la junta la elige
+# la búsqueda de pares con el peso de la cara, en las ventanas de la cola y la cabeza (30 cuadros).
+for _p in ("matias", "sebastian"):
+    ZONA_CARA[f"{_p}-stand"] = ZONA_CARA[_p]; ZONA_OJOS[f"{_p}-stand"] = ZONA_OJOS[_p]
+    ZONA_PELO[f"{_p}-stand"] = (0.15, 0.15, 0.85, 1.0)
+TAMANO = {"stand": (480, 600)}   # por defecto 720×900; stand va chico (200–260 CSS px de alto) en la primera pantalla, ≤ 1 MB por clip
+# Codificación (H.264 crf, VP9 crf, extras x264, extras vp9). Barrido del 31/10 sobre el loop stand de Sebastián (215 cuadros,
+# 480×600): a crf 24 el mp4 pesa 135 KB pero cada cuadro queda a 0,90 del PNG (ruido de cuantización en la viñeta y la cara);
+# crf 22 + aq-mode=3 (más bits a lo oscuro) baja a 0,79 por 216 KB; crf 18, a 0,67 por 457 KB. VP9 crf 24 + aq-mode 2: 0,78
+# por 163 KB. Con ≤ 1 MB de tope por archivo, el medio es el punto: la nitidez a 240 px de alto no cambia entre 22 y 18.
+CRF = {"stand": (22, 24)}        # por defecto (24, 34)
+# Un solo keyframe por loop: libvpx-vp9 mete uno cada 128 cuadros por defecto (medido: cuadro 128 del webm de Sebastián) y
+# x264 cada 250; cada keyframe adentro del loop es un «pop» de grano como el del cierre. `-g 999` > cualquier loop.
+EXTRA_X264 = {"stand": ["-g", "999", "-x264-params", "aq-mode=3"]}
+EXTRA_VP9 = {"stand": ["-g", "999", "-aq-mode", "2"]}
+
+def _familia(persona):
+    return ("stand", persona[:-6]) if persona.endswith("-stand") else (None, persona)
+
+def _salida(persona):
+    fam, nombre = _familia(persona)
+    return ASSETS / (f"retrato-{fam}-{nombre}" if fam else f"retrato-{nombre}")
 
 def duracion(clip):
     out = subprocess.run([FFPROBE, "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(clip)],
                          capture_output=True, text=True, check=True).stdout.strip()
     return float(out)
 
-def _extraer(clip, td, nombre):
+def _extraer(clip, td, nombre, tam=(720, 900)):
+    w, h = tam
     subprocess.run([FFMPEG, "-hide_banner", "-loglevel", "error", "-i", str(clip), "-vf",
-                    "scale=720:900:force_original_aspect_ratio=increase:flags=lanczos,crop=720:900,setsar=1,fps=24",
+                    f"scale={w}:{h}:force_original_aspect_ratio=increase:flags=lanczos,crop={w}:{h},setsar=1,fps=24",
                     f"{td}/{nombre}-%04d.png"], check=True)
     import glob
     return sorted(glob.glob(f"{td}/{nombre}-*.png"))
@@ -300,20 +549,44 @@ def _dif(a, b, cara=None):
         d += PESO_CARA * ImageStat.Stat(ImageChops.difference(a.crop(cara), b.crop(cara))).mean[0]
     return d
 
+def _cuadro_quieto(cuadros, zona_ojos, radio=12):
+    """Índice del cuadro cuyo entorno (±radio) tiene la menor desviación máxima de los ojos contra su mediana por píxel:
+    lejos de cualquier pestañeo, con los ojos como están casi todo el tiempo (abiertos)."""
+    from PIL import Image, ImageChops, ImageStat
+    w, h = cuadros[0].size
+    z = (int(zona_ojos[0] * w), int(zona_ojos[1] * h), int(zona_ojos[2] * w), int(zona_ojos[3] * h))
+    ojos = [im.convert("L").crop(z).resize((60, 20), Image.BILINEAR) for im in cuadros]
+    px = [o.load() for o in ojos]; ref = Image.new("L", ojos[0].size); rp = ref.load()
+    for y in range(ojos[0].height):
+        for x in range(ojos[0].width):
+            v = sorted(p[x, y] for p in px); rp[x, y] = v[len(v) // 2]
+    dev = [ImageStat.Stat(ImageChops.difference(o, ref)).mean[0] for o in ojos]
+    n = len(dev)
+    peor = [max(dev[(i + k) % n] for k in range(-radio, radio + 1)) for i in range(n)]
+    return min(range(n), key=lambda i: (peor[i], dev[i]))
+
 def post(persona, clips, fundido=6, ventana=30):
     """clips: uno o más mp4 de la misma persona (y del mismo modelo, para que no cambie el color). Salida:
-    assets/retrato-<persona>.mp4 (H.264 yuv420p, sin audio, faststart) y .webm (VP9), 720×900, 24 fps."""
+    assets/retrato-<persona>.mp4 (H.264 yuv420p, sin audio, faststart) y .webm (VP9), 720×900, 24 fps.
+    Familia stand (`<persona>-stand`): assets/retrato-stand-<persona>.{mp4,webm} a TAMANO['stand'] y además el
+    póster assets/retrato-stand-<persona>.jpg, que es EXACTAMENTE el cuadro 0 del loop (JPG progresivo q84)."""
     import tempfile
     from PIL import Image
     F = int(fundido)
+    fam, _ = _familia(persona)
+    tam, (crf_h264, crf_vp9) = TAMANO.get(fam, (720, 900)), CRF.get(fam, (24, 34))
     with tempfile.TemporaryDirectory() as td:
-        rutas = [_extraer(c, td, f"c{k}") for k, c in enumerate(clips)]
+        rutas = [_extraer(c, td, f"c{k}", tam) for k, c in enumerate(clips)]
         chicos = [[Image.open(r).convert("L").resize((240, 300), Image.BILINEAR) for r in rs] for rs in rutas]
         tramos = []
         for k, ch in enumerate(chicos):
-            a, z, _ = _tramo_movil(ch, ZONA_PELO[persona])
+            if fam == "stand":   # posando quieto no hay tramo congelado que recortar: el clip entero
+                a, z = 0, len(ch) - 1
+                print(f"  {pathlib.Path(clips[k]).name}: {len(ch)} cuadros, entero ({len(ch) / 24:.2f} s)")
+            else:
+                a, z, _ = _tramo_movil(ch, ZONA_PELO[persona])
+                print(f"  {pathlib.Path(clips[k]).name}: {len(ch)} cuadros, pelo en movimiento del {a} al {z} ({(z - a) / 24:.2f} s)")
             tramos.append([a, z])
-            print(f"  {pathlib.Path(clips[k]).name}: {len(ch)} cuadros, pelo en movimiento del {a} al {z} ({(z - a) / 24:.2f} s)")
         n = len(clips)
         w, h = chicos[0][0].size; zc = ZONA_CARA[persona]
         cara = (int(zc[0] * w), int(zc[1] * h), int(zc[2] * w), int(zc[3] * h))
@@ -325,8 +598,9 @@ def post(persona, clips, fundido=6, ventana=30):
             mejor = None
             # la cola puede entrar unos cuadros en la zona quieta (el pelo frena, la cara vuelve a la pose) y la cabeza
             # arrancar unos cuadros antes del movimiento: ahí las dos caras del fundido son casi la misma foto
-            for i in range(max(z - ventana, a + 24), min(z + 12, len(chicos[k]) - 1) + 1):
-                for j in range(max(a2 - 8, 0), min(a2 + ventana, len(chicos[k2]) - 1) + 1):
+            # (el fundido necesita F/2 cuadros a cada lado del corte: en la familia stand la cola y la cabeza llegan al borde)
+            for i in range(max(z - ventana, a + 24), min(z + 12, len(chicos[k]) - 1 - F // 2) + 1):
+                for j in range(max(a2 - 8, F // 2), min(a2 + ventana, len(chicos[k2]) - 1) + 1):
                     if k == k2 and j + 24 > i: continue
                     v = _dif(chicos[k][i], chicos[k2][j], cara)
                     if mejor is None or v < mejor[0]: mejor = (v, i, j)
@@ -352,22 +626,39 @@ def post(persona, clips, fundido=6, ventana=30):
             for t in range(F):
                 al = (t + 1) / (F + 1)
                 final.append(Image.blend(cuerpo[-F + t], sig[t], al))
+        if fam == "stand":
+            # El cuadro 0 es el póster, así que no puede caer en un pestañeo ni al lado de uno. Como es un loop, se rota:
+            # el cuadro 0 pasa a ser el centro del segundo más quieto en la zona de los ojos (la menor desviación máxima
+            # contra la mediana por píxel en ±12 cuadros), los fundidos quedan adentro y el cierre es un paso cualquiera.
+            R = _cuadro_quieto(final, ZONA_OJOS[persona])
+            final = final[R:] + final[:R]
+            centros = sorted((c - R) % len(final) for c in centros)
+            print(f"  rotado {R} cuadros: el cuadro 0 es el más quieto con los ojos abiertos; fundidos en "
+                  + ", ".join(f"{c / 24:.2f} s" for c in centros))
+            if not os.environ.get("SIN_VINETA"):   # la misma viñeta en todos los cuadros (y en el póster)
+                final = [vinetear(im) for im in final]
         (OUT / "final").mkdir(exist_ok=True)
         for k, c in enumerate(centros):   # el cuadro del centro de cada fundido, para mirarlo
             final[c].save(OUT / "final" / f"{persona}-junta-{k + 1}.png")
         for q, im in enumerate(final):
             im.save(f"{td}/o-{q:04d}.png")
+        if os.environ.get("GUARDAR_CUADROS"):   # los PNG del loop, para probar codificaciones sin rearmar
+            import shutil
+            cu = OUT / "final" / f"{persona}-cuadros"; shutil.rmtree(cu, ignore_errors=True); shutil.copytree(td, cu, ignore=shutil.ignore_patterns("c*"))
         print(f"  loop: {len(final)} cuadros = {len(final) / 24:.2f} s · centros de fundido en "
               + ", ".join(f"{c / 24:.2f} s" for c in centros) + f" (cuadros guardados en {OUT / 'final'})")
-        dest = ASSETS / f"retrato-{persona}"
+        dest = _salida(persona)
+        if fam == "stand":   # el póster es el cuadro 0 del loop, el mismo PNG que entra al encoder
+            final[0].save(f"{dest}.jpg", "JPEG", quality=84, progressive=True, optimize=True)
+            final[0].save(OUT / "final" / f"{persona}-cuadro-0.png")
         ent = ["-hide_banner", "-loglevel", "error", "-y", "-framerate", "24", "-i", f"{td}/o-%04d.png", "-an"]
-        subprocess.run([FFMPEG, *ent, "-c:v", "libx264", "-preset", "slow", "-crf", "24", "-pix_fmt", "yuv420p",
-                        "-movflags", "+faststart", "-tune", "film", f"{dest}.mp4"], check=True)
-        subprocess.run([FFMPEG, *ent, "-c:v", "libvpx-vp9", "-b:v", "0", "-crf", "34", "-row-mt", "1", "-deadline", "good",
-                        "-cpu-used", "1", "-pix_fmt", "yuv420p", f"{dest}.webm"], check=True)
-    for ext in ("mp4", "webm"):
+        subprocess.run([FFMPEG, *ent, "-c:v", "libx264", "-preset", "slow", "-crf", str(crf_h264), "-pix_fmt", "yuv420p",
+                        "-movflags", "+faststart", "-tune", "film", *EXTRA_X264.get(fam, []), f"{dest}.mp4"], check=True)
+        subprocess.run([FFMPEG, *ent, "-c:v", "libvpx-vp9", "-b:v", "0", "-crf", str(crf_vp9), "-row-mt", "1", "-deadline", "good",
+                        "-cpu-used", "1", "-pix_fmt", "yuv420p", *EXTRA_VP9.get(fam, []), f"{dest}.webm"], check=True)
+    for ext in (("jpg", "mp4", "webm") if fam == "stand" else ("mp4", "webm")):
         pth = pathlib.Path(f"{dest}.{ext}")
-        print(f"{pth.name}: {pth.stat().st_size / 1024:.0f} KB, {duracion(pth):.2f} s")
+        print(f"{pth.name}: {pth.stat().st_size / 1024:.0f} KB" + ("" if ext == "jpg" else f", {duracion(pth):.2f} s"))
 
 
 # ── costura: ¿empalma el loop? ¿pestañea en el corte? ¿salta del póster al cuadro 0? ─────────────────
@@ -379,7 +670,7 @@ def costura(persona, clip=None):
     póster (assets/retrato-<persona>.jpg) contra el cuadro 0 —si en el pelo es menor que el paso, el arranque no salta."""
     import tempfile, glob
     from PIL import Image, ImageChops, ImageStat
-    clip = pathlib.Path(clip) if clip else ASSETS / f"retrato-{persona}.mp4"
+    clip = pathlib.Path(clip) if clip else pathlib.Path(f"{_salida(persona)}.mp4")
     with tempfile.TemporaryDirectory() as td:
         subprocess.run([FFMPEG, "-hide_banner", "-loglevel", "error", "-i", str(clip), "-vf", "scale=240:300",
                         "-fps_mode", "passthrough", f"{td}/f%04d.png"], check=True)
@@ -391,9 +682,10 @@ def costura(persona, clip=None):
     media = lambda xs: sum(xs) / len(xs)
     ct, cp, cc = ([d(a, b, z) for a, b in zip(fr, fr[1:])] for z in (None, zp, zc))
     print(f"{clip.name}: {len(fr)} cuadros = {len(fr) / 24:.2f} s")
-    print(f"  paso entre cuadros consecutivos · total {media(ct):.2f} (máx {max(ct):.2f}) · pelo {media(cp):.2f} (máx {max(cp):.2f})"
+    zona = "persona" if _familia(persona)[0] == "stand" else "pelo"   # en la familia stand la zona móvil es la persona entera
+    print(f"  paso entre cuadros consecutivos · total {media(ct):.2f} (máx {max(ct):.2f}) · {zona} {media(cp):.2f} (máx {max(cp):.2f})"
           f" · cara {media(cc):.2f} (máx {max(cc):.2f})")
-    print(f"  último ↔ primero                · total {d(fr[-1], fr[0]):.2f} · pelo {d(fr[-1], fr[0], zp):.2f} · cara {d(fr[-1], fr[0], zc):.2f}")
+    print(f"  último ↔ primero                · total {d(fr[-1], fr[0]):.2f} · {zona} {d(fr[-1], fr[0], zp):.2f} · cara {d(fr[-1], fr[0], zc):.2f}")
     ojos = [f.crop(zo) for f in fr]; px = [o.load() for o in ojos]; bw, bh = ojos[0].size
     ref = Image.new("L", (bw, bh)); rp = ref.load()      # mediana por píxel: los ojos están abiertos casi todo el tiempo
     for y in range(bh):
@@ -408,10 +700,10 @@ def costura(persona, clip=None):
     cruza = bool(tramos) and (tramos[0][0] == 0 or tramos[-1][1] == len(fr) - 1)
     print("  pestañeos (ojos lejos de la mediana): " + (", ".join(f"{a}–{b} ({a / 24:.2f} s)" for a, b in tramos) or "ninguno")
           + (" · uno cruza el corte" if cruza else ""))
-    poster = ASSETS / f"retrato-{persona}.jpg"
+    poster = pathlib.Path(f"{_salida(persona)}.jpg")
     if poster.exists():
         p = Image.open(poster).convert("L").resize((w, h), Image.LANCZOS)
-        print(f"  póster ↔ cuadro 0               · total {d(p, fr[0]):.2f} · pelo {d(p, fr[0], zp):.2f} · cara {d(p, fr[0], zc):.2f}")
+        print(f"  póster ↔ cuadro 0               · total {d(p, fr[0]):.2f} · {zona} {d(p, fr[0], zp):.2f} · cara {d(p, fr[0], zc):.2f}")
 
 
 # ── igualar el eclipse en post (PIL) ──────────────────────────────────────────────────────────────
@@ -497,12 +789,23 @@ if __name__ == "__main__":
         fondo(a[1], int(a[2]) if len(a) > 2 else 3)
     elif a[0] == "fondo-ref":
         fondo(a[1], int(a[3]) if len(a) > 3 else 3, referencia=a[2])
+    elif a[0] == "fondo-stand":   # fondo-stand <sebastian|matias> [n=3]
+        fondo_stand(a[1], int(a[2]) if len(a) > 2 else 3)
+    elif a[0] == "fondo-stand-plano":   # la alternativa del primer brief (fondo liso); no se usa
+        fondo_stand(a[1], int(a[2]) if len(a) > 2 else 3, plano=True)
+    elif a[0] == "medir-stand":   # medir-stand <sobrio-original.jpg> <variante.jpg> [...]
+        medir_stand(a[1], *a[2:])
+    elif a[0] == "vinetear":   # vinetear <origen.jpg> <destino.jpg> [ancho alto]: para mirar la viñeta antes del post
+        vinetear_archivo(a[1], a[2], (int(a[3]), int(a[4])) if len(a) > 4 else None)
     elif a[0] == "video":
         video(a[1], a[2], int(a[3]) if len(a) > 3 else 1, a[4] if len(a) > 4 else None,
               os.environ.get("RESOLUCION", "720p"))
     elif a[0] == "medir":
         for c in a[1:]:
             medir(c)
+    elif a[0] == "medir-fondo":   # medir-fondo <clip.mp4> [...]: el stand no tiene eclipse; las cajas son dos parches de cielo
+        for c in a[1:]:
+            medir(c, caja_eclipse=(0.0, 0.0, 0.2, 0.12), caja_fondo=(0.84, 0.3, 1.0, 0.6))
     elif a[0] == "tira":
         for c in a[1:]:
             tira(c)

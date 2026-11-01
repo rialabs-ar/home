@@ -609,8 +609,9 @@ lo mismo más los retratos vivos de Matías y Sebastián en las esquinas de abaj
 | `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos vigentes 720×900 (4:5): la familia **con melena** (~120 KB y ~103 KB desde el 11/10, con el eclipse unificado). Son el **póster** de los retratos vivos y la foto que queda con `prefers-reduced-motion` |
 | `assets/retrato-sebastian.mp4` / `.webm` · `assets/retrato-matias.mp4` / `.webm` | **retratos vivos** (2026-10-11): clips 720×900, 24 fps, en loop (9,67 s y 10,25 s), H.264 `yuv420p` sin audio + VP9. Sebastián 1,09 MB / 0,90 MB · Matías 0,83 MB / 0,65 MB |
 | `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~82 KB y ~79 KB, con el mismo eclipse unificado). Para cambiar de familia alcanza con renombrar; la sobria no tiene clip |
-| `assets/retrato-stand-matias.{jpg,webm,mp4}` · `assets/retrato-stand-sebastian.{jpg,webm,mp4}` | **los retratos vivos del stand** (encuadre 4, `?hero=4`, 2026-10-31): los produce otra sesión y los integra la madre; el marcado de `v5/index.html` ya apunta a estos nombres. Contrato: póster jpg 4:5 de hasta 720×900 igual al cuadro 0 del loop; clip H.264 (`.mp4`) y VP9 (`.webm`), mudo, en loop, quietos esperando la foto y pestañeando, sin melena, cada uno con su contexto (Matías: pantallas de código y maqueta de ciudad; Sebastián: muro de cámaras y rack), sin el eclipse chico y con el fondo oscurecido hacia los bordes. Hasta que lleguen, para capturar se copian a mano los sobrios con estos nombres, sin commitearlos |
-| `scripts/generar-retratos-vivos.py` | cómo se hicieron el eclipse unificado y los retratos vivos (abajo): `fondo`, `video`, `post`, y `costura` para medir el loop |
+| `assets/retrato-stand-matias.jpg` · `assets/retrato-stand-sebastian.jpg` | **retratos stand** (2026-10-31), el póster: 480×600 (4:5) JPG progresivo q84, 26 KB y 30 KB. Es **exactamente el cuadro 0** del loop de al lado. La familia sobria sin su eclipse chico, con el contexto de cada uno conservado y viñeteado hacia el cielo `#0b0a14`, y una luz de borde dorada del lado que mira al centro de la portada: Matías va a la IZQUIERDA (borde a la derecha), Sebastián a la DERECHA (borde a la izquierda) Los usa el encuadre 4 de la portada (`?hero=4`, §0.1), que apunta a estos nombres. |
+| `assets/retrato-stand-matias.mp4` / `.webm` · `assets/retrato-stand-sebastian.mp4` / `.webm` | los **retratos stand vivos**: posando quietos esperando la foto, pestañeos, respiración, pelo inmóvil, contexto casi quieto. 480×600, 24 fps, loop de 9,54 s (Matías, 229 cuadros) y 8,96 s (Sebastián, 215), H.264 `yuv420p` sin audio + VP9, un solo keyframe. Matías 184 KB / 101 KB · Sebastián 212 KB / 121 KB |
+| `scripts/generar-retratos-vivos.py` | cómo se hicieron el eclipse unificado y los retratos vivos (abajo): `fondo`, `video`, `post`, y `costura` para medir el loop; y la familia `stand` (`fondo-stand`, `medir-stand`, `vinetear`, `post <p>-stand`) |
 | `assets/eclipse-corona.webp` · `.jpg` | **la corona fotográfica** (2026-10-12): WebP 1000×1000 con alfa desde la luminancia, 150 KB, el disco negro centrado a r = 0,1515 del lado. El jpg (37 KB) es la misma toma sobre negro. **Desde el 13/10 la página no carga ninguno de los dos** (la corona es la flama procedural); quedan en el repo por si el ciclo o la foto vuelven |
 | `assets/eclipse-sol.webp` | la fotósfera en luz blanca, 720×720, alfa = disco (r = 0,4873 del lado), 20 KB. Desde el 13/10 va en `data-href`: se descarga sólo cuando el ciclo o `?tema=dia` la piden |
 | `assets/eclipse-luna.webp` | la luna llena teñida al dorado, 720×720, alfa = disco, 22 KB: la cara iluminada de la luna viajera. Desde el 13/10, `data-href` como la del sol |
@@ -763,6 +764,51 @@ pie, en el separador y en el favicon a 16/32/64 px sobre oscuro y sobre blanco; 
 calibraron mirando capturas fijas, no el movimiento; si en el navegador la flama se siente demasiado quieta o demasiado
 viva, los diales son `LMIN`/`LMAX`, las duraciones de las dos octavas y la deriva (`omega`) al principio del script
 «FLAMA».
+
+**Retratos stand (2026-10-31, rama `retratos-stand`).** Pedido textual de Matías, el día antes de la Smart City Expo
+Barcelona (3–5/11, los dos en el stand): «a cada costado del logo las imagenes de los ceos, Matias y Sebastian, en movimiento
+como posando esperando que le saquen la foto con el parpadeo de ojos y todo, pero sin pelo agregado. La idea es mostrar los
+CEOs que estan presentes en el stand como una primera vista cuando se visita la home de la empresa». Y al ver la portada:
+«abajo de la maquina, del lado izquierdo, a la altura de RIA, pone la imagen viva de Matias desarrollador, y a la misma
+altura pero del lado derecho, abajo de la red de sistemas, pone la foto viva de Sebastian de Byte». Tres etapas, las tres en
+`scripts/generar-retratos-vivos.py` (familia `stand`); la portada que los usa es de la rama de la otra sesión.
+
+1. **El fijo.** Parte de la familia sobria («sin pelo agregado»). Edición nano-banana con dos cambios y nada más: sacar el
+   eclipse chico (en la portada hay un solo eclipse, el del hero) y agregar una luz de borde dorada, fina, del lado que mira al
+   centro: derecha en Matías (va a la izquierda), izquierda en Sebastián (va a la derecha). El contexto que los identifica
+   —«Matías desarrollador»: las pantallas de código y la maqueta; «Sebastián de Byte»: el muro de cámaras y el rack— se
+   conserva. 3 variantes por persona, cara intacta en las seis (mirada cara a cara al 100 %); elegidas `fondo-stand-matias-1`
+   (el borde más legible) y `fondo-stand-sebastian-3`. Antes de ese giro del brief se habían hecho 6 con **fondo liso** del
+   color del cielo (`fondo-stand-plano-*`): salieron bien de parecido pero más gris-azules que `#0b0a14`; quedan en
+   `_capturas/retratos-vivos/` como alternativa. 12 ediciones, US$ 0,47. Medido en los sobrios: la luz cálida de Matías entra
+   por la izquierda del cuadro y la de Sebastián por la derecha, o sea que con los lados invertidos la clave de cada uno queda
+   del lado de afuera y el borde dorado del lado del eclipse —dos luces, no una contradicción, pero queda anotado. **Nunca se
+   espejó una cara.**
+2. **El clip.** Kling v2.5 turbo pro, `start_image` = `end_image` (el truco del loop), 5 s, 1268×1632, 122 cuadros. Prompt:
+   cámara fija, posando quieto mirando a la lente esperando la foto, dos o tres pestañeos, respiración, micro-ajustes de la
+   sonrisa; **sin viento ni ventilador**, ni un pelo se mueve; el contexto en su lugar y casi quieto (a lo sumo un cursor, sin
+   scroll ni cambios de contenido, porque la costura funde dos clips y un cambio de contenido se vería). 5 clips, US$ 1,75:
+   Matías 1–3 y Sebastián 1–2. Pelo quieto en todos, fondo sin pulsos (cielo ×1,00–1,09, dif de fondo ≤ 1,6). Descartado
+   `matias-1`: un pestañeo lento (0,4 s de ojos cerrados, se lee somnoliento) y una deriva de cabeza entre 1,3 y 2,5 s.
+3. **El loop, en post.** A diferencia de la melena, los clips stand **no tienen cabeza ni cola congeladas** (contra el cuadro
+   0 ya difieren 0,2 en el cuadro 2 y la diferencia crece suave): el tramo útil es el clip entero. Dos clips por persona
+   (Sebastián 1 → 2, Matías 2 → 3), juntas elegidas por el par de cuadros más parecido con la cara pesando ×25 (empalman cuadros
+   casi iguales: los dos clips salen de la misma foto), fundido de 6 cuadros. Como el cuadro 0 es el póster, el loop **se rota**
+   al centro del segundo más quieto con los ojos abiertos (menor desviación máxima de los ojos contra su mediana en ±12
+   cuadros): los fundidos quedan adentro y el cierre es un paso cualquiera. Después, la **viñeta** —rectángulo redondeado
+   (norma 3), plena hasta 0,42 del semilado, a cero en 1,02, centro al 54 % de la altura— mezcla cada cuadro y el póster hacia
+   `#0b0a14`, la misma en todos, para que la portada funda los bordes con el cielo con una máscara CSS. 480×600 porque van
+   chicos (200–260 CSS px de alto) y en la primera pantalla. Sebastián 215 cuadros (8,96 s), Matías 229 (9,54 s).
+
+**Lo medido.** A 192×240 (la escala de la portada) el cierre mide 0,55–0,71 contra un paso medio de 0,10–0,13: es **grano del
+códec** (el I-frame contra el último P-frame; el mapa ×20 es ruido fino parejo, sin contorno), no un salto de imagen, y está
+por debajo de 1/255. Póster ↔ cuadro 0: 0,67–0,76 (JPEG q84 contra H.264), ojos abiertos en los dos. La codificación salió de un
+barrido sobre los PNG del loop de Sebastián: a crf 24 el mp4 pesa 135 KB pero cada cuadro queda a 0,90 del origen (ruido en la
+viñeta); **crf 22 + `aq-mode=3`** (más bits a lo oscuro) baja a 0,79 por 216 KB, y crf 18 a 0,67 por 457 KB sin ganancia visible
+a 240 px. VP9 crf 24 + `aq-mode 2`. **Un solo keyframe por loop** (`-g 999`): libvpx-vp9 metía uno en el cuadro 128, un «pop»
+del mismo tipo que el cierre, adentro del loop. Si en el navegador el reinicio se nota, el dial es crf 18 (≈ el doble de peso).
+Costo total: ≈ US$ 2,22. Variantes, clips crudos, tiras, hojas de contacto y los PNG de los dos loops en `_capturas/retratos-vivos/`
+(ignorado); `ladoalado-stand-final.png` y `hoja-final-stand.png` son las piezas con que se verificó.
 
 ### 0.4 Pendientes que deja la v5
 
