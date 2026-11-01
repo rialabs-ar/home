@@ -2251,7 +2251,7 @@
       var yb = (H + X.arr) * g0;   // el pie de la caja, en px desde el borde de arriba de la ventana
       // el retrato de Sebastián (abajo a la derecha, delante de la red): su foto, leída del DOM, en px de ventana
       var ret = !L.vert && document.querySelector('.stand-der .stand-media'), RB = null;
-      if (ret && ret.offsetWidth > 0) { var rp = posPag(ret); RB = { x0: rp.x, y0: rp.y, x1: rp.x + ret.offsetWidth, y1: rp.y + ret.offsetHeight }; }
+      if (ret && ret.offsetWidth > 0) { var rr = ret.getBoundingClientRect(), sx = window.scrollX || 0, sy = window.scrollY || 0; RB = { x0: rr.left + sx, y0: rr.top + sy, x1: rr.right + sx, y1: rr.bottom + sy }; }   // con su translate(-50%,-50%); su animación es sólo de opacidad
       // cuánto se ve un punto: decae con la distancia a la salida (piso: una estrella); se apaga bajo el nav; en
       // horizontal se atenúa bajo la caja y alrededor de la foto del retrato (pasa por detrás, muy tenue); en
       // vertical muere antes del wordmark y los retratos
@@ -2274,10 +2274,17 @@
         var p = conToG(u, v); return Math.hypot(p.x - L.re.x, p.y - L.re.y) > L.R * 1.3;
       }
       // muestreo de Poisson con radio que baja con la distancia (64 px cerca → 32 lejos; en vertical 46 → 24, que hay
-      // menos lugar): más nodos cuanto más lejos
+      // menos lugar): más nodos cuanto más lejos. Los candidatos se tiran en píxeles desde la salida sobre una caja
+      // canónica fija (más grande que cualquier ventana) y el radio decae en píxeles con escala fija, así la secuencia
+      // de candidatos es siempre la misma y un cambio chico de la caja (la fuente que carga y mueve el logo unos px)
+      // sólo cambia la aceptación en el borde: la red es casi la misma y los destellos en vuelo sobreviven al
+      // rearmado (ver armar). Lo que cae fuera de la zona se rechaza barato en adentro()
       var RN = (L.vert ? 46 : 64) / g0, RF = (L.vert ? 24 : 32) / g0, TR = [[150, -100], [250, -6], [180, 94]], pts = [], celda = {}, CEL = RN, tries = 0;
-      function rad(u, v){ return RN + (RF - RN) * sm(Math.hypot(u * L.kx, v * L.ky) / (Dfar * 0.9)); }
-      function meter(p){ var cx = Math.floor(p.u * L.kx / CEL), cy = Math.floor(p.v * L.ky / CEL); (celda[cx + ',' + cy] = celda[cx + ',' + cy] || []).push(p); pts.push(p); }
+      var kxg = L.kx * g0, kyg = L.ky * g0, DR = L.vert ? 500 : 1000, u0p = -200, u1p = 1400, v0p = -1400, v1p = 1400;
+      function rad(u, v){ return RN + (RF - RN) * sm(Math.hypot(u * kxg, v * kyg) / DR); }
+      // cada nodo lleva una clave estable entre rearmados (su candidato en px; los troncos, T0..T2): con ella los
+      // destellos en vuelo encuentran su nodo en la red nueva (ver armar)
+      function meter(p, clave){ p.key = clave; var cx = Math.floor(p.u * L.kx / CEL), cy = Math.floor(p.v * L.ky / CEL); (celda[cx + ',' + cy] = celda[cx + ',' + cy] || []).push(p); pts.push(p); }
       function libre(u, v, r){
         var cx = Math.floor(u * L.kx / CEL), cy = Math.floor(v * L.ky / CEL), a, b;
         for (a = cx - 1; a <= cx + 1; a++) for (b = cy - 1; b <= cy + 1; b++) {
@@ -2286,15 +2293,15 @@
         }
         return true;
       }
-      TR.forEach(function(p, q){ meter({ u: p[0], v: p[1], tronco: q }); });
-      while (pts.length < 420 && tries++ < 14000) {
-        var u = U0 + rndR() * (umax - U0), v = vmin + rndR() * (vmax - vmin);
-        if (adentro(u, v) && libre(u, v, rad(u, v))) meter({ u: u, v: v, tronco: -1 });
+      TR.forEach(function(p, q){ meter({ u: p[0], v: p[1], tronco: q }, 'T' + q); });
+      while (pts.length < 420 && tries++ < 80000) {
+        var up = u0p + rndR() * (u1p - u0p), vp = v0p + rndR() * (v1p - v0p), u = up / kxg, v = vp / kyg;
+        if (adentro(u, v) && libre(u, v, rad(u, v))) meter({ u: u, v: v, tronco: -1 }, Math.round(up) + ',' + Math.round(vp));
       }
       pts.forEach(function(p){ var q = conToG(p.u, p.v); p.x = q.x; p.y = q.y; p.d = Math.hypot(p.u * L.kx, p.v * L.ky); p.f = fade(p.u, p.v); p.out = []; });
       pts.sort(function(a, b){ return a.d - b.d; });
-      N.nodos = pts;
-      pts.forEach(function(p, q){ p.i = q; if (p.tronco >= 0) N.troncos[p.tronco] = q; });
+      N.nodos = pts; N.porClave = {};
+      pts.forEach(function(p, q){ p.i = q; N.porClave[p.key] = q; if (p.tronco >= 0) N.troncos[p.tronco] = q; });
       // aristas: cada nodo con sus 2 vecinos más cercanos (3 a lo lejos) a menos de 2,4 radios, y siempre con uno
       // más cercano a la salida que él, para que un destello pueda llegarle. a es la punta de adentro
       var claves = {};
@@ -2394,6 +2401,7 @@
     }
 
     function armar(T){
+      var Nant = V && V.N && V.N.abierta ? V.N : null;   // la red abierta anterior, para re-mapear los destellos en vuelo
       L = T;
       svg.setAttribute('viewBox', L.vb.map(f1).join(' '));
       var gs = {}; ['mq-grilla', 'mq-est', 'mq-cond', 'mq-re', 'mq-con', 'mq-tok', 'mq-pul', 'mq-grilla-m'].forEach(function(id){ var n = document.getElementById(id); while (n.firstChild) n.removeChild(n.firstChild); gs[id] = n; });
@@ -2418,9 +2426,19 @@
       V.N = ABIERTA && L.ojo ? armarRedAbierta(gs['mq-con']) : armarConstelacion(gs['mq-con']);
       V.toks = []; for (var k = 0; k < 12; k++) { var gl = mk('circle', { r: 5, opacity: 0 }, gs['mq-tok']), c = mk('circle', { r: 2.3, opacity: 0 }, gs['mq-tok']); V.toks.push({ c: c, gl: gl }); }
       if (V.N.abierta) {
-        // los destellos de la red abierta: núcleo y cola; los recorridos en vuelo apuntaban a la red anterior
+        // los destellos de la red abierta: núcleo y cola
         V.chispas = []; for (k = 0; k < 28; k++) { var cl = mk('line', { stroke: HI, 'stroke-width': 1.1, opacity: 0, 'stroke-linecap': 'round' }, gs['mq-pul']), cc2 = mk('circle', { r: 2.4, fill: FL, opacity: 0 }, gs['mq-pul']); V.chispas.push({ c: cc2, cola: cl, col: null }); }
-        segs.length = 0;
+        // los recorridos en vuelo apuntaban a la red anterior: siguen los que encuentran sus nodos (por clave) y su
+        // arista en la nueva (la red se muestrea de forma estable: tras un rearmado chico es casi la misma); el resto se pierde
+        for (k = segs.length - 1; k >= 0; k--) {
+          var sg = segs[k], ok = false, NN = V.N, nb = Nant && Nant.nodos[sg.b] ? NN.porClave[Nant.nodos[sg.b].key] : undefined;
+          if (nb !== undefined) {
+            if (sg.cond !== undefined) { if (NN.troncos[sg.cond] === nb) { sg.b = nb; ok = true; } }
+            else { var na = NN.porClave[Nant.nodos[sg.a].key], ed2 = null; if (na !== undefined) { for (var q2 = 0; q2 < NN.nodos[na].out.length; q2++) if (NN.nodos[na].out[q2].b === nb) ed2 = NN.nodos[na].out[q2]; }
+              if (ed2) { sg.a = na; sg.b = nb; sg.ed = ed2; ok = true; } }
+          }
+          if (!ok) segs.splice(k, 1);
+        }
       } else {
         V.pul = []; for (k = 0; k < 6; k++) { var cola = mk('circle', { r: 1.7, fill: HI, opacity: 0 }, gs['mq-pul']), pc = mk('circle', { r: 2.7, fill: FL, opacity: 0 }, gs['mq-pul']); V.pul.push({ c: pc, cola: cola }); }
         V.sec = []; for (k = 0; k < 8; k++) V.sec.push(mk('circle', { r: 1.8, fill: FL, opacity: 0 }, gs['mq-pul']));

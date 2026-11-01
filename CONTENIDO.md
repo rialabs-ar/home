@@ -17,6 +17,59 @@
 
 ### 0.1 Qué cambió y por qué
 
+- **La red abierta (encuadre 4, rama `red-abierta`, 2026-11-01).** Matías, verbatim, sobre la portada del stand: *«Por
+  ultimo, la parte de la red a la derecha de la maquina (la salida del eclipse) quisiera que fuera una red abierta que no
+  termine, que se difumine y pierda en el espacio para que parezca mas grande, y sacaria los nombres de los productos
+  como items en la red, solo salen de la maquina quimica pulsos de energia que se distribuyen por la red, de diferentes
+  colores.»* **Qué es.** Sólo en el stand (`?hero=4`; los encuadres 1–3 no cambian): la constelación cerrada de la
+  salida —tres nodos con ANALÍTICO · SMARTCITY · AUTOMOCIÓN y quince menores con borde— deja lugar a una **red sin
+  nombres** que sale de la brida en abanico y sigue hacia la derecha, arriba y abajo **hasta el borde de la ventana y más
+  allá**: la sección deja de recortar en este encuadre, así las aristas cruzan el borde y no se le ve el final. Más
+  nodos y más aristas cuanto más lejos, y más tenues y más finos, hasta quedar como estrellas entre las del cielo. Los
+  productos ya están en el nav; de la red salen los tres **troncos** dorados de siempre (en el lugar de los tres
+  productos, con sus conductos desde la brida y las dos aristas doradas que respiran) y de ahí la malla. **Los pulsos
+  de energía salen de la química**: cada partícula de una estructura madura que cruza la brida lanza un destello **de
+  su color** (azul de la cámara `--maq-p1` = `--c-ana`, violeta del registro `--maq-p2`, teal del sensor `--maq-p3` =
+  `--c-esp`; las tres primeras de cada estructura) y la estructura entera, al terminar de cruzar, uno **dorado**
+  (`--gold-hi` = `--c-aut`). Cada destello viaja por el conducto hasta un tronco (nunca el mismo dos veces seguidas),
+  sigue de nodo en nodo siempre alejándose de la salida, prefiriendo la arista que mantiene el rumbo, se **bifurca** en
+  algunos nodos (una rama más débil) y pierde energía en cada salto hasta apagarse a lo lejos; la arista por la que pasa
+  y el nodo al que llega quedan brillando en su color (2,6 y 3,4 s). Cadencia medida con 192 s de reacción: una ráfaga
+  cada 9–10 s (32,9 · 46,9 · 55,7 · 64,9 · 73,9 · 83,2 · 93,3 s…), de 3–4 destellos de colores distintos en ~2 s. Vivo
+  pero sereno: la red está «respirando» la mitad del tiempo y quieta la otra mitad. **Cómo está hecho** (script «LA
+  MÁQUINA», `ABIERTA = VAR === '4'`; `armarRedAbierta`, `lanzarChispa`/`ramificar`, `pintarRed`): la red se muestrea
+  con un **Poisson de radio decreciente** (separación mínima 64 px cerca → 32 lejos; en vertical 46 → 24) con azar
+  propio (`rndR`, semilla fija: la misma caja da siempre la misma red y la reacción no gasta su azar en armarla), en un
+  abanico desde la brida (horizontal: |v| < 60 + 1,25·u desde u = 95; vertical: un sector de 100° desde u = −140, que
+  alcanza los flancos de abajo del eclipse; nunca sobre la flama, a 1,3 R del centro). Aristas a los 2 vecinos más
+  cercanos (3 a lo lejos) a menos de 2,4 radios, y siempre una hacia un nodo más cercano a la salida, para que un
+  destello pueda llegarle; cada arista va del nodo de adentro al de afuera, y por ahí corren los destellos. **El
+  fade** de cada punto: decae con la distancia a la brida (piso 0,08: una estrella), se apaga bajo el nav (48 → 148 px
+  de ventana), bajo la caja se atenúa y alrededor de la **foto de Sebastián** —leída del DOM con
+  `getBoundingClientRect`, así sigue al layout de la otra sesión— baja a 0,1 (la red pasa por detrás, muy tenue: la
+  sección baja al z-index de los retratos, que vienen después en el DOM, y sigue encima del eclipse); en vertical muere
+  80 px antes del pie de la caja, delante del wordmark y los retratos. El color va del gris violeta de la constelación
+  (`--nodo`) al violeta de los nodos (`--maq-vio`) con **`color-mix()` por fade**, declarado por `style` con el gris
+  antes en la misma cascada (un navegador sin color-mix ve la red gris); la opacidad baja con el fade; los nodos lejanos
+  pierden el aro y quedan como puntos violeta tenues; cada tercero es violeta, como antes. Lo que no se ve no se dibuja
+  (bajo 0,04). Unos 160 nodos y 300 aristas a 1440×900, 320 a 1920×1080, 75 a 390×844. **Los destellos** son estado
+  de la simulación (`segs`: cada salto con su arista, su instante, su color y su energía, decididos al lanzarlo con
+  `rndR`: pintar es sólo leer; `?t=` da siempre la misma foto), un pool de 28 (núcleo + cola) en el mismo rAF; los
+  nodos cercanos titilan como antes. Los pulsos de la constelación siguen lanzándose invisibles, así **la reacción es
+  idéntica en el 2 y en el 4** al mismo `?t=`. Con `prefers-reduced-motion`, un cuadro con cuatro destellos ya en camino,
+  de los cuatro colores. **Rearmado sin perder los destellos:** los candidatos del Poisson se tiran en px sobre una caja
+  canónica fija alrededor de la salida (u ∈ [−200, 1400], v ∈ [−1400, 1400]) y el radio decae en px, así un cambio
+  chico de la caja (la fuente que carga y corre el logo unos px, un resize) da casi la misma red; cada nodo lleva una
+  clave estable (su candidato; los troncos `T0..T2`) y `armar` re-mapea por clave los destellos en vuelo a la red nueva
+  (verificado en el log: 63 → 58 → 52 recorridos a través de dos rearmados al cargar la fuente). **Accesibilidad:** el
+  grupo de la red va `aria-hidden` y sin `pointer-events` (ya no tiene enlaces) y el `aria-label` del SVG en este
+  encuadre describe los pulsos de colores en vez de «cada producto es un enlace». **CSS:** una sola regla, en el bloque
+  de la máquina: `html[data-hero="4"] .hero .maq { overflow: visible; z-index: 2 }`. **Verificado en captura real**
+  (`PANTALLA=1 … QUERY=hero=4`): 1440×900 (también `t=7500` con la ráfaga de los 46,9 s en vuelo, reduced-motion y
+  `tema=dia`), 1280×720, 1920×1080, 390×844 y 360×740; sin `Uncaught`. Capturas en `_capturas/red-abierta/`
+  (ignorado). Gotcha de captura: Chrome headless con `--virtual-time-budget` casi no corre cuadros de rAF (la
+  simulación avanza apenas 0,1 s después del precalentamiento), así que para fotografiar una ráfaga hay que apuntar
+  `?t=` 2–3 s después de una salida conocida (`t=7500` → 49,5 s de reacción: la de los 46,9 s), no esperar a que pase.
 - **El stand: cuarto encuadre del hero, `?hero=4` (rama `hero-stand`, 2026-10-31).** Matías, verbatim: *«Probemos
   una version de portada con el logo de RIA Labs como esta ahora con el eclipse actual y la maquina dibujada pero que
   entre todo en una sola pagina de pantalla, y a cada costado del logo las imagenes de los ceos, Matias y Sebastian, en
