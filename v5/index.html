@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RIA Labs — Software e inteligencia artificial</title>
-<meta name="description" content="Tu infraestructura ya existe. Nosotros la hacemos pensar. Un motor, tres productos, un laboratorio: RIA Analítico, RIA Smartcity y RIA Automoción sobre Dataflow, el motor de analítica de video e inteligencia artificial de RIA Labs. Rosario, Argentina.">
+<meta name="description" content="Tu infraestructura ya existe. Nosotros la hacemos pensar. Un motor, tres productos, un laboratorio: RIA Smartcity, RIA Analítico y RIA Automotrices sobre Dataflow, el motor de analítica de video e inteligencia artificial de RIA Labs. Rosario, Argentina.">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <meta name="theme-color" content="#07060f">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://rialabs.ar/">
   <meta property="og:title" content="RIA Labs — Tu infraestructura ya existe. Nosotros la hacemos pensar.">
-  <meta property="og:description" content="Un motor, tres productos, un laboratorio: RIA Analítico, RIA Smartcity y RIA Automoción sobre Dataflow, el motor de analítica de video e IA de RIA Labs. Rosario, Argentina.">
+  <meta property="og:description" content="Un motor, tres productos, un laboratorio: RIA Smartcity, RIA Analítico y RIA Automotrices sobre Dataflow, el motor de analítica de video e IA de RIA Labs. Rosario, Argentina.">
   <meta property="og:image" content="https://rialabs.ar/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -21,7 +21,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="RIA Labs — Tu infraestructura ya existe. Nosotros la hacemos pensar.">
-  <meta name="twitter:description" content="Un motor, tres productos, un laboratorio: RIA Analítico, RIA Smartcity y RIA Automoción sobre Dataflow, el motor de analítica de video e IA de RIA Labs. Rosario, Argentina.">
+  <meta name="twitter:description" content="Un motor, tres productos, un laboratorio: RIA Smartcity, RIA Analítico y RIA Automotrices sobre Dataflow, el motor de analítica de video e IA de RIA Labs. Rosario, Argentina.">
   <meta name="twitter:image" content="https://rialabs.ar/og-image.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -113,7 +113,7 @@
                 fill var(--t-tema) ease, stroke var(--t-tema) ease, stop-color var(--t-tema) ease;
   }
   /* Mientras cambia el tema, los elementos con transición rápida propia (hover) van al ritmo del tema. */
-  html[data-transicion] :is(nav, .nav-links a, .nav-cta, .btn-gold, .btn-ghost, .prod-link, .c-email, .pr) { transition-duration: var(--t-tema); }
+  html[data-transicion] :is(nav, .nav-links a, .nav-cta, .btn-gold, .btn-ghost, .prod-pres a, .prod-dest, .c-email, .pr) { transition-duration: var(--t-tema); }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -140,8 +140,8 @@
   .nav-logo:hover svg { filter: drop-shadow(0 0 6px rgba(239,159,39,0.6)); }
   .nav-wm { font-weight: 500; font-size: 18px; letter-spacing: 3px; color: var(--white); }
   .nav-wm em { font-style: normal; font-size: 12px; font-weight: 300; letter-spacing: 2px; color: var(--gold-hi); margin-left: 4px; vertical-align: 2px; }
-  .nav-links { display: flex; gap: 32px; list-style: none; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 0.8px; transition: color 0.2s; }
+  .nav-links { display: flex; gap: clamp(16px, 3.2vw - 14px, 32px); list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 0.8px; white-space: nowrap; transition: color 0.2s; }
   .nav-links a:hover { color: var(--white); }
   .nav-links a .pt { display: inline-block; width: 5px; height: 5px; border-radius: 50%; margin-right: 7px; vertical-align: 2px; background: var(--c); opacity: 0.8; }
   .nav-right { display: flex; align-items: center; gap: 14px; }
@@ -152,6 +152,12 @@
   .nav-menu.open { display: flex; }
   .nav-menu a { color: var(--white); text-decoration: none; font-size: 16px; font-weight: 300; letter-spacing: 0.5px; padding: 12px 0; border-bottom: 1px solid var(--border2); }
   .nav-menu a:last-child { border-bottom: none; color: var(--gold-hi); }
+  /* Siete enlaces: el gap baja de 32 (desde 1440) a 18 (en 1024) y entre 861 y 1023 px no entran, así que va el menú
+     (MENÚ) con el botón Conversemos a la vista; por debajo de 861, el de celular de siempre (sin el botón) */
+  @media (min-width: 861px) and (max-width: 1023px) {
+    .nav-links { display: none; } .nav-burger { display: block; }
+    .nav-menu { padding-left: 52px; padding-right: 52px; }
+  }
 
   /* ── HERO ─────────────────────────────────────────── */
   .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 104px 24px 76px; position: relative; overflow: hidden; }
@@ -397,11 +403,17 @@
   }
 
   /* ── PRODUCTOS ────────────────────────────────────── */
-  .prod { border-top: 1px solid var(--border2); padding: 84px 0; position: relative; overflow: hidden; }
+  .prod { border-top: 1px solid var(--border2); padding: 84px 0; position: relative; overflow: hidden; overflow: clip; }
   .prod:last-of-type { border-bottom: 1px solid var(--border2); }
   .prod-grid { display: grid; grid-template-columns: minmax(0, 470px) 1fr; gap: 56px; align-items: center; }
   .prod.inv .prod-grid { grid-template-columns: 1fr minmax(0, 470px); }
   .prod.inv .prod-vis { order: 2; }
+  /* Smartcity tiene más texto que astro: en desktop el astro arranca arriba y se queda a media pantalla mientras se lee
+     (sticky; .prod corta con overflow: clip, que no crea contenedor de scroll; con hidden, sticky no andaría) */
+  @media (min-width: 861px) {
+    .prod-larga .prod-grid { align-items: start; }
+    .prod-larga .prod-vis { position: sticky; top: max(84px, calc(50vh - 190px)); }
+  }
   /* La viñeta: la vertical como un astro vivo con sus sabores en órbita, cada uno un enlace a su web.
      Sangra hacia el borde (margen negativo) para que los satélites tengan aire y no se lea como un recuadro. */
   .prod-vis { position: relative; margin-left: -44px; }
@@ -415,7 +427,7 @@
      propio sol; los satélites, las etiquetas y la estela sí siguen al tema (--c). */
   #analitico { --pv-c: #4a8fd4; --pv-hi: #a8d0f5; }
   #smartcity { --pv-c: #2fd0c8; --pv-hi: #aef5ee; }
-  #automocion { --pv-c: #EF9F27; --pv-hi: #ffd489; --pv-metal: #1c1208; }
+  #automotrices { --pv-c: #EF9F27; --pv-hi: #ffd489; --pv-metal: #1c1208; }
   .prod-vis .pv-astro { --c: var(--pv-c); }
   .prod-vis .sat { cursor: pointer; outline: none; transition: filter 0.4s; }
   .prod-vis .sat.far { filter: blur(0.7px); }
@@ -425,15 +437,18 @@
   .prod-vis .sat-shd { fill: #05040c; }
   .prod-vis .sat-lab { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; fill: var(--c); opacity: 0.82; transition: opacity 0.25s; }
   .prod-vis .sat:hover .sat-lab, .prod-vis .sat:focus-visible .sat-lab { opacity: 1; }
+  /* la etiqueta de un satélite que pasa por detrás del astro se apaga casi del todo (vuelve al hover): con seis sabores en
+     órbita, así no se enreda con las de adelante */
+  .prod-vis .sat.far:not(:hover):not(:focus-visible) .sat-lab { opacity: 0.28; }
+  /* Bird Map, el satélite destacado de Smartcity: más grande, con la etiqueta entera y un anillo tenue siempre */
+  .prod-vis .sat-dest .sat-lab { opacity: 1; }
+  .prod-vis .sat-dest .sat-halo { opacity: 0.4; }
   .prod-vis .sat-s { font-size: 7.5px; letter-spacing: 1px; fill: var(--muted); text-transform: none; }
   .prod-vis .sat-mudo { cursor: default; }
   .prod-vis .sat-mudo .sat-lab { opacity: 0.55; }
   .prod-n { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; color: var(--c); margin-bottom: 14px; }
   .prod-name { font-weight: 500; font-size: clamp(34px, 4.4vw, 54px); letter-spacing: 0.5px; line-height: 1.05; color: var(--white); margin-bottom: 18px; }
   .prod-name em { font-style: normal; color: var(--c); }
-  /* La definición de diccionario: la palabra elegida, con el sentido que la justifica. */
-  .prod-def { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 300; line-height: 1.75; color: var(--muted); border-left: 1px solid var(--c); padding-left: 16px; margin-bottom: 24px; max-width: 580px; opacity: 0.92; }
-  .prod-def b { font-weight: 400; color: var(--white); }
   .prod-lead { font-size: 17px; font-weight: 300; line-height: 1.75; color: var(--muted); max-width: 600px; margin-bottom: 22px; }
   .prod-lead strong { color: var(--white); font-weight: 400; }
   .prod-items { list-style: none; display: grid; gap: 10px; margin-bottom: 28px; max-width: 600px; }
@@ -442,9 +457,49 @@
   .prod-items b { font-weight: 500; color: var(--white); }
   .prod-foot { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
   .prod-state { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; color: var(--c); opacity: 0.85; }
-  .prod-link { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 300; letter-spacing: 1px; color: var(--white); text-decoration: none; border: 1px solid var(--border2); padding: 10px 18px; transition: all 0.2s; }
-  .prod-link:hover { border-color: var(--c); color: var(--c); }
-  .prod-antes { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 1.5px; color: var(--muted); opacity: 0.55; margin-top: -10px; margin-bottom: 18px; }
+  /* «Un solo motor.» y «Dataflow» de la intro llevan a /dataflow/, la página del motor: el título no cambia de
+     color, sólo lo subraya un filo dorado que se enciende al pasar */
+  .ttl-motor { color: inherit; text-decoration: none; background: linear-gradient(var(--gold), var(--gold)) 0 100% / 100% 1px no-repeat; padding-bottom: 2px; transition: background-size 0.25s, color 0.2s; }
+  .ttl-motor:hover, .ttl-motor:focus-visible { color: var(--gold-hi); background-size: 100% 2px; }
+  .bdy-motor { color: var(--gold-hi); text-decoration: none; border-bottom: 1px solid var(--gold); transition: color 0.2s; }
+  .bdy-motor:hover { color: var(--white); }
+  /* un ancla vieja (#automocion) que cae en el mismo lugar que el id nuevo: al tope del bloque */
+  .ancla-vieja { position: absolute; top: -1px; left: 0; width: 1px; height: 1px; pointer-events: none; }
+  /* Bird Map, destacado dentro de Smartcity: una tarjeta-enlace con su dibujo (aves que pasan, palomas en la plaza y
+     las cajas de la detección que se encienden de a una, como contándolas). Va entre el lead y los sabores. */
+  .prod-dest { display: flex; align-items: center; gap: 22px; max-width: 600px; margin: 2px 0 30px; padding: 18px 22px 18px 18px; text-decoration: none;
+    border: 1px solid var(--border3); border-color: color-mix(in srgb, var(--c) 42%, transparent);
+    background: rgba(47,208,200,0.05); background: color-mix(in srgb, var(--c) 6%, transparent); transition: border-color 0.2s, background-color 0.2s; }
+  .prod-dest:hover, .prod-dest:focus-visible { border-color: var(--c); background: color-mix(in srgb, var(--c) 11%, transparent); }
+  .pd-vis { flex: none; width: 148px; height: auto; display: block; overflow: visible; }
+  .pd-suelo { fill: none; stroke: var(--c); stroke-width: 1; opacity: 0.4; stroke-linecap: round; }
+  .pd-tenue { opacity: 0.18; stroke-dasharray: 2 4; }
+  .pd-ave path { fill: none; stroke: var(--white); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .pd-ave { animation: pd-vuela 4.8s ease-in-out infinite; }
+  .pd-ave path { transform-box: fill-box; transform-origin: 50% 100%; animation: pd-aletea 0.9s ease-in-out infinite; }
+  .pd-a2, .pd-a2 path { animation-delay: -1.7s; } .pd-a3, .pd-a3 path { animation-delay: -3.1s; }
+  .pd-a2 path { animation-duration: 0.75s; } .pd-a3 path { animation-duration: 1.05s; }
+  .pd-paloma { fill: var(--muted); opacity: 0.9; }
+  .pd-caja { fill: none; stroke: var(--c); stroke-width: 1.1; opacity: 0; animation: pd-caja 4s linear infinite; }
+  .pd-c2 { animation-delay: 1s; } .pd-c3 { animation-delay: 2s; } .pd-c4 { animation-delay: 3s; }
+  @keyframes pd-vuela { 0%, 100% { translate: 0 0; } 50% { translate: 3px -2px; } }
+  @keyframes pd-aletea { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.35); } }
+  @keyframes pd-caja { 0% { opacity: 0; } 4% { opacity: 1; } 22% { opacity: 1; } 34%, 100% { opacity: 0.12; } }
+  .pd-txt { display: block; min-width: 0; }
+  .pd-k { display: block; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 400; letter-spacing: 2.5px; text-transform: uppercase; color: var(--c); }
+  .pd-t { display: block; font-size: 19px; font-weight: 400; line-height: 1.3; color: var(--white); margin: 7px 0 7px; }
+  .pd-d { display: block; font-size: 13.5px; font-weight: 300; line-height: 1.6; color: var(--muted); }
+  .pd-cta { display: inline-block; margin-top: 11px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300; letter-spacing: 0.6px; color: var(--white); border-bottom: 1px solid var(--c); padding-bottom: 2px; transition: color 0.2s; }
+  .prod-dest:hover .pd-cta { color: var(--c); }
+  /* Las presentaciones de cada producto: una fila por enlace (qué es, de qué se trata, y su dirección con ↗) */
+  .prod-pres-t { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; color: var(--c); opacity: 0.85; margin: 2px 0 8px; }
+  .prod-pres { list-style: none; max-width: 600px; margin-bottom: 24px; border-bottom: 1px solid var(--border2); }
+  .prod-pres a { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 20px; align-items: center; padding: 11px 0 12px; border-top: 1px solid var(--border2); text-decoration: none; transition: border-color 0.2s; }
+  .prod-pres b { grid-column: 1; font-size: 14.5px; font-weight: 500; color: var(--white); transition: color 0.2s; }
+  .prod-pres .pp-d { grid-column: 1; font-size: 13px; font-weight: 300; line-height: 1.5; color: var(--muted); margin-top: 2px; }
+  .prod-pres .pp-u { grid-column: 2; grid-row: 1 / span 2; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300; letter-spacing: 0.4px; color: var(--c); white-space: nowrap; }
+  .prod-pres a:hover b, .prod-pres a:focus-visible b { color: var(--c); }
+  .prod-pres a:hover { border-top-color: color-mix(in srgb, var(--c) 50%, transparent); }
 
   /* ── DATAFLOW · la onda ───────────────────────────────
      Una ventana al universo Dataflow (dataflow.rialabs.ar): la onda de la identidad —las tres cintas,
@@ -625,6 +680,8 @@
     .rev { opacity: 1; transform: none; transition: none; }
     .df-n { transition: none; }
     .prod-vis .sat, .prod-vis .sat-halo, .prod-vis .sat-lab { transition: none; }
+    .pd-ave, .pd-ave path { animation: none; }
+    .pd-caja { animation: none; opacity: 0.8; }
   }
 
   @media(max-width:1020px){
@@ -683,6 +740,11 @@
     .prod-grid, .prod.inv .prod-grid { grid-template-columns: 1fr; gap: 28px; }
     .prod.inv .prod-vis { order: 0; }
     .prod-vis, .prod.inv .prod-vis { max-width: 400px; width: 100%; margin: 0 auto; }
+    .prod-dest{flex-direction:column;align-items:flex-start;gap:12px;padding:16px 18px 18px;}
+    .pd-vis{width:110px;}
+    .pd-t{font-size:17px;}
+    .prod-pres a{grid-template-columns:minmax(0,1fr);}
+    .prod-pres .pp-u{grid-column:1;grid-row:auto;margin-top:5px;white-space:normal;}
     .df{padding:72px 0 64px;}
     .df-cab{gap:18px;}
     .df-cab .btn-ghost{padding:12px 26px;}
@@ -945,7 +1007,7 @@
        fijo: el script lo calcula para la caja que la grilla le da a la sección, y en el encuadre 2 calza el
        reactor sobre el eclipse de arriba. -->
   <section class="maq" id="maquina" aria-label="La máquina: tu infraestructura ya existe, nosotros la hacemos pensar">
-      <svg id="mq-svg" class="maq-svg" viewBox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="La máquina: a la izquierda una cámara, un sensor y un registro, piezas de una máquina que conduce datos hasta un reactor con forma de eclipse; adentro los datos se funden y forman estructuras; a la derecha salen como una constelación que se resuelve en RIA Analítico, RIA Smartcity y RIA Automoción. Cada producto es un enlace a su sección.">
+      <svg id="mq-svg" class="maq-svg" viewBox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="La máquina: a la izquierda una cámara, un sensor y un registro, piezas de una máquina que conduce datos hasta un reactor con forma de eclipse; adentro los datos se funden y forman estructuras; a la derecha salen como una constelación que se resuelve en RIA Analítico, RIA Smartcity y RIA Automotrices. Cada producto es un enlace a su sección.">
         <defs>
           <clipPath id="mq-clip"><circle id="mq-clip-c" cx="0" cy="0" r="92"/></clipPath>
           <!-- la grilla tenue se funde hacia los bordes (ya no hay banda que la corte) y, en el encuadre 2, se abre
@@ -1045,12 +1107,147 @@
 <section class="section" id="productos" style="padding-bottom:0;">
   <div class="wrap">
     <p class="lbl rev">Productos</p>
-    <h2 class="ttl rev d1">Tres verticales.<br>Un solo motor.</h2>
-    <p class="bdy rev d2" style="margin-bottom:72px;">Cada producto es una forma distinta del mismo motor: lee la realidad con las cámaras y los sensores que ya están, la comprende y actúa. <strong>Una palabra para cada uno, y una definición que le queda justa.</strong></p>
+    <h2 class="ttl rev d1">Tres verticales.<br><a class="ttl-motor" href="/dataflow/">Un solo motor.</a></h2>
+    <p class="bdy rev d2" style="margin-bottom:72px;">Cada producto es una forma distinta del mismo motor, <a class="bdy-motor" href="/dataflow/">Dataflow</a>: lee la realidad con las cámaras y los sensores que ya están, la comprende y actúa. <strong>Cada uno con sus presentaciones, para verlo funcionar.</strong></p>
   </div>
 
-  <!-- 01 · ANALÍTICO -->
-  <div class="prod" id="analitico" style="--c:var(--c-ana)">
+  <!-- 01 · SMARTCITY (prod-larga: el texto es más largo que el astro, y en desktop el astro lo acompaña al bajar) -->
+  <div class="prod prod-larga" id="smartcity" style="--c:var(--c-esp)">
+    <div class="wrap prod-grid">
+      <div class="prod-vis rev" data-sistema>
+        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Smartcity como un astro: una ciudad que se enciende desde el centro, la red creciendo hacia afuera, con sus sabores en órbita: Ciudad, Bird Map, Centros comerciales, Country, Eco Aceite y Entrypoint. Cada satélite con enlace abre la presentación de ese sabor.">
+          <defs>
+            <radialGradient id="esp-sat" cx="34%" cy="30%" r="72%"><stop offset="0" stop-color="#aef5ee"/><stop offset="0.55" stop-color="#2fd0c8"/><stop offset="1" stop-color="#12615d"/></radialGradient>
+            <radialGradient id="esp-astro" cx="32%" cy="28%" r="78%"><stop offset="0" stop-color="#1b5a55"/><stop offset="0.45" stop-color="#0c2e2b"/><stop offset="1" stop-color="#050f0f"/></radialGradient>
+            <radialGradient id="esp-night" cx="30%" cy="26%" r="86%"><stop offset="0.46" stop-color="#05040c" stop-opacity="0"/><stop offset="1" stop-color="#05040c" stop-opacity="0.82"/></radialGradient>
+            <radialGradient id="esp-atmo" cx="50%" cy="50%" r="50%"><stop offset="0.66" stop-color="#2fd0c8" stop-opacity="0"/><stop offset="0.73" stop-color="#2fd0c8" stop-opacity="0.14"/><stop offset="1" stop-color="#2fd0c8" stop-opacity="0"/></radialGradient>
+            <linearGradient id="esp-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#aef5ee" stop-opacity="0.85"/><stop offset="0.5" stop-color="#2fd0c8" stop-opacity="0.12"/><stop offset="1" stop-color="#2fd0c8" stop-opacity="0"/></linearGradient>
+            <filter id="esp-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <clipPath id="esp-clip"><circle cx="240" cy="200" r="84"/></clipPath>
+          </defs>
+          <g class="pv-dust"></g>
+          <circle cx="240" cy="200" r="122" fill="url(#esp-atmo)"/>
+          <g class="pv-estela-b"></g>
+          <g class="pv-back"></g>
+          <!-- el astro: la ciudad que se enciende desde el centro. La trama del globo es fija; la red de manzanas la arma
+               el script sobre la esfera y la enciende en ondas desde el centro hacia afuera, con pulsos que viajan
+               por las aristas. Se dibuja sobre la sombra, porque son luces. -->
+          <g class="pv-astro" data-astro="red">
+            <circle cx="240" cy="200" r="84" fill="url(#esp-astro)"/>
+            <g clip-path="url(#esp-clip)">
+              <g class="ck" opacity="0.14">
+                <ellipse cx="240" cy="200" rx="15" ry="84"/><ellipse cx="240" cy="200" rx="41" ry="84"/><ellipse cx="240" cy="200" rx="64" ry="84"/><ellipse cx="240" cy="200" rx="79" ry="84"/>
+                <ellipse cx="240" cy="261.4" rx="54.0" ry="16.2"/><ellipse cx="240" cy="233.9" rx="76.1" ry="22.8"/><ellipse cx="240" cy="200.0" rx="84.0" ry="25.2"/><ellipse cx="240" cy="166.1" rx="76.1" ry="22.8"/><ellipse cx="240" cy="138.6" rx="54.0" ry="16.2"/>
+              </g>
+            </g>
+            <circle cx="240" cy="200" r="84" fill="url(#esp-night)"/>
+            <g clip-path="url(#esp-clip)">
+              <g class="red-aristas" stroke-linecap="round"></g>
+              <circle class="red-onda ck" cx="231.2" cy="192.7" r="3" opacity="0" stroke-width="0.8"/>
+              <g class="red-nodos" filter="url(#esp-glow)"></g>
+              <g class="red-pulsos" filter="url(#esp-glow)"></g>
+            </g>
+            <circle cx="240" cy="200" r="83.5" fill="none" stroke="url(#esp-rim)" stroke-width="1.2"/>
+          </g>
+          <g class="pv-estela-f"></g>
+          <g class="pv-front">
+            <a class="sat" href="https://smartcity.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Ciudad, la presentación de RIA Smartcity para municipios: abre smartcity.rialabs.ar" data-orb="96 64 -14 22000 1.0 1 7" transform="translate(176 256)">
+              <circle class="sat-hit" r="18"/>
+              <circle class="sat-halo" r="13"/>
+              <circle class="sat-body" r="7" fill="url(#esp-sat)"/>
+              <circle class="sat-shd" r="7"/>
+              <text class="sat-lab" y="3"><tspan class="sat-n">Ciudad</tspan><tspan class="sat-s" dy="11">municipios</tspan></text>
+            </a>
+            <!-- Bird Map, el destacado: el satélite más grande de Smartcity (el mismo radio que Drivecore) -->
+            <a class="sat sat-dest" href="https://birdmap.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Bird Map, el sensor de fauna urbana de RIA Smartcity: abre birdmap.rialabs.ar" data-orb="170 85 18 30000 5.5 1 8.5" transform="translate(386 274)">
+              <circle class="sat-hit" r="18"/>
+              <circle class="sat-halo" r="13"/>
+              <circle class="sat-body" r="8.5" fill="url(#esp-sat)"/>
+              <circle class="sat-shd" r="8.5"/>
+              <text class="sat-lab" y="3"><tspan class="sat-n">Bird Map</tspan><tspan class="sat-s" dy="11">fauna urbana</tspan></text>
+            </a>
+            <a class="sat" href="https://grit.rialabs.ar/neander/" target="_blank" rel="noopener" tabindex="0" aria-label="Centros comerciales, la presentación de RIA Smartcity para centros comerciales: abre grit.rialabs.ar/neander" data-orb="206 47 -35 38000 4.2 -1 6" transform="translate(69 308)">
+              <circle class="sat-hit" r="18"/>
+              <circle class="sat-halo" r="13"/>
+              <circle class="sat-body" r="6" fill="url(#esp-sat)"/>
+              <circle class="sat-shd" r="6"/>
+              <text class="sat-lab" y="3"><tspan class="sat-n">Centros comerciales</tspan><tspan class="sat-s" dy="11">la playa y los locales</tspan></text>
+            </a>
+            <a class="sat" href="https://grit.rialabs.ar/sapiens/" target="_blank" rel="noopener" tabindex="0" aria-label="Country, la presentación de RIA Smartcity para barrios: abre grit.rialabs.ar/sapiens" data-orb="174 93 31 24000 5.5 1 6.5" transform="translate(339 319)">
+              <circle class="sat-hit" r="18"/>
+              <circle class="sat-halo" r="13"/>
+              <circle class="sat-body" r="6.5" fill="url(#esp-sat)"/>
+              <circle class="sat-shd" r="6.5"/>
+              <text class="sat-lab" y="3"><tspan class="sat-n">Country</tspan><tspan class="sat-s" dy="11">barrios</tspan></text>
+            </a>
+            <a class="sat" href="https://ecoaceite.byt.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Eco Aceite, el caso de reciclaje de RIA Smartcity: abre ecoaceite.byt.ar" data-orb="159 85 -42 37000 0.8 -1 5.5" transform="translate(353 89)">
+              <circle class="sat-hit" r="18"/>
+              <circle class="sat-halo" r="13"/>
+              <circle class="sat-body" r="5.5" fill="url(#esp-sat)"/>
+              <circle class="sat-shd" r="5.5"/>
+              <text class="sat-lab" y="3"><tspan class="sat-n">Eco Aceite</tspan><tspan class="sat-s" dy="11">reciclaje</tspan></text>
+            </a>
+            <g class="sat sat-mudo" aria-label="Entrypoint, la puerta de entrada a RIA Smartcity; todavía sin página pública" data-orb="163 35 14 18000 2.5 1 6.5" transform="translate(187 153)">
+              <circle class="sat-hit" r="18"/>
+              <circle class="sat-halo" r="13"/>
+              <circle class="sat-body" r="6.5" fill="url(#esp-sat)"/>
+              <circle class="sat-shd" r="6.5"/>
+              <text class="sat-lab" y="3"><tspan class="sat-n">Entrypoint</tspan><tspan class="sat-s" dy="11">la puerta de entrada</tspan></text>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="prod-txt">
+        <p class="prod-n rev">01 · Ciudad y espacios</p>
+        <h3 class="prod-name rev d1">RIA <em>Smartcity</em></h3>
+        <p class="prod-lead rev d2">La ciudad, el barrio o el centro comercial, medidos con las cámaras que ya tienen. El video se procesa y se descarta: es medición, no vigilancia. <strong>Un producto con sabores: cada lugar es el mismo motor expresado de otra forma.</strong></p>
+        <!-- Bird Map, destacado: una tarjeta-enlace con su propio dibujo (aves que pasan y la caja de la detección que
+             las va contando); el resto de las presentaciones va en la lista de abajo -->
+        <a class="prod-dest rev d2" href="https://birdmap.rialabs.ar/" target="_blank" rel="noopener">
+          <svg class="pd-vis" viewBox="0 0 132 84" aria-hidden="true">
+            <path class="pd-suelo" d="M 4 74 H 128"/>
+            <path class="pd-suelo pd-tenue" d="M 12 80 H 58 M 76 80 H 120"/>
+            <g class="pd-ave pd-a1" transform="translate(34 26)"><path d="M -11 0 Q -5.5 -8 0 0 Q 5.5 -8 11 0"/></g>
+            <g class="pd-ave pd-a2" transform="translate(76 12)"><path d="M -8 0 Q -4 -6 0 0 Q 4 -6 8 0"/></g>
+            <g class="pd-ave pd-a3" transform="translate(108 36)"><path d="M -9 0 Q -4.5 -7 0 0 Q 4.5 -7 9 0"/></g>
+            <g class="pd-paloma" transform="translate(52 66)"><ellipse rx="8" ry="4.6"/><circle cx="7" cy="-4.4" r="2.9"/></g>
+            <g class="pd-paloma" transform="translate(96 66)"><ellipse rx="7.4" ry="4.3"/><circle cx="-6.4" cy="-4.1" r="2.7"/></g>
+            <rect class="pd-caja pd-c1" x="19" y="14" width="30" height="18" rx="1"/>
+            <rect class="pd-caja pd-c2" x="40" y="56" width="27" height="17" rx="1"/>
+            <rect class="pd-caja pd-c3" x="95" y="25" width="26" height="16" rx="1"/>
+            <rect class="pd-caja pd-c4" x="84" y="56" width="26" height="17" rx="1"/>
+          </svg>
+          <span class="pd-txt">
+            <span class="pd-k">Bird Map · fauna urbana</span>
+            <span class="pd-t">Una cámara que mira una plaza y cuenta las aves.</span>
+            <span class="pd-d">Analiza el video en el lugar y guarda números, nunca imágenes: la serie por hora y por plaza con la que una ciudad decide cuándo intervenir.</span>
+            <span class="pd-cta">Ver la presentación · birdmap.rialabs.ar ↗</span>
+          </span>
+        </a>
+        <ul class="prod-items rev d3">
+          <li><b>Entrypoint</b> — el acceso instantáneo a la experiencia Smartcity: en un mes, con el parque de cámaras que ya tenés y sensores de bajo costo, sin licitar una cifra extraordinaria.</li>
+          <li><b>Ciudad</b> — movilidad, seguridad vial, espacio público, estacionamiento y ambiente para un municipio, en un equipo del tamaño de un módem.</li>
+          <li><b>Centros comerciales</b> — la playa que cuenta sin barrera, el tráfico y la conversión de cada local, y el tablero de quien administra.</li>
+          <li><b>Country</b> — el barrio que se cuida sin operadores: la patente es la llave y las cámaras hacen la ronda solas.</li>
+          <li><b>Acceso</b> — control de ingreso de un mercado concentrador o de un barrio: quién entró, cuándo, con qué.</li>
+          <li><b>Reciclaje</b> — cada litro de aceite usado, trazado del restaurante al biodiésel. Un caso particular, pero de ciudad: un proyecto en pleno desarrollo para empresas de Rosario.</li>
+        </ul>
+        <p class="prod-pres-t rev d4">Las presentaciones</p>
+        <ul class="prod-pres rev d4">
+          <li><a href="https://smartcity.rialabs.ar/" target="_blank" rel="noopener"><b>Ciudad</b><span class="pp-d">las cámaras de una ciudad, convertidas en sensores</span><span class="pp-u">smartcity.rialabs.ar ↗</span></a></li>
+          <li><a href="https://grit.rialabs.ar/neander/" target="_blank" rel="noopener"><b>Centros comerciales</b><span class="pp-d">un sábado medido, de la playa al tablero</span><span class="pp-u">grit.rialabs.ar/neander ↗</span></a></li>
+          <li><a href="https://grit.rialabs.ar/sapiens/" target="_blank" rel="noopener"><b>Country</b><span class="pp-d">un día en el barrio, sin una sala de monitoreo</span><span class="pp-u">grit.rialabs.ar/sapiens ↗</span></a></li>
+          <li><a href="https://ecoaceite.byt.ar/" target="_blank" rel="noopener"><b>Eco Aceite</b><span class="pp-d">reciclaje: la trazabilidad del aceite usado</span><span class="pp-u">ecoaceite.byt.ar ↗</span></a></li>
+        </ul>
+        <div class="prod-foot rev d4">
+          <span class="prod-state">Midiendo 24/7 · municipio y mercado en Rosario</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 · ANALÍTICO -->
+  <div class="prod inv" id="analitico" style="--c:var(--c-ana)">
     <div class="wrap prod-grid">
       <div class="prod-vis rev" data-sistema>
         <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Analítico como un astro: un ojo que lee, con sus dos brazos en órbita, Integradores y Monitoreo. Cada satélite abre la página de ese brazo.">
@@ -1120,125 +1317,32 @@
         </svg>
       </div>
       <div class="prod-txt">
-        <p class="prod-n rev">01 · Seguridad</p>
+        <p class="prod-n rev">02 · Seguridad</p>
         <h3 class="prod-name rev d1">RIA <em>Analítico</em></h3>
-        <p class="prod-def rev d2"><b>analítico, ca.</b> Del gr. ἀναλυτικός. 1. adj. Perteneciente o relativo al análisis. 2. adj. Que procede descomponiendo, o que pasa del todo a las partes.</p>
         <p class="prod-lead rev d2">Las cámaras que una central de monitoreo ya tiene, ahora leídas por el motor: personas, vehículos, patentes, zonas, merodeo, sabotaje. <strong>Un producto, dos brazos.</strong></p>
         <ul class="prod-items rev d3">
           <li><b>Integradores</b> — cualquier cámara, cualquier evento, entregado a la central con foto, video, detalles y descripción.</li>
-          <li><b>Monitoreo</b> — una consola al lado de la central: vivo con analítica, búsqueda forense en castellano, alertas que siguen buscando solas, casos que duran más que el turno.</li>
+          <li><b>Monitoreo</b> — una consola al lado de la central: vivo con analítica, búsqueda forense en tu idioma, alertas que siguen buscando solas, casos que duran más que el turno.</li>
+        </ul>
+        <p class="prod-pres-t rev d4">Las presentaciones</p>
+        <ul class="prod-pres rev d4">
+          <li><a href="https://analitico.rialabs.ar/" target="_blank" rel="noopener"><b>Analítico</b><span class="pp-d">un producto, dos brazos: la puerta a las dos películas</span><span class="pp-u">analitico.rialabs.ar ↗</span></a></li>
+          <li><a href="https://analitico.rialabs.ar/integradores" target="_blank" rel="noopener"><b>Integradores</b><span class="pp-d">de la cámara a la central: cómo viaja el evento, con su evidencia</span><span class="pp-u">analitico.rialabs.ar/integradores ↗</span></a></li>
+          <li><a href="https://analitico.rialabs.ar/monitoreo" target="_blank" rel="noopener"><b>Monitoreo</b><span class="pp-d">ver ahora y volver atrás: la consola, vista por vista</span><span class="pp-u">analitico.rialabs.ar/monitoreo ↗</span></a></li>
         </ul>
         <div class="prod-foot rev d4">
           <span class="prod-state">En producción · integradores y centrales de monitoreo</span>
-          <a class="prod-link" href="https://analitico.rialabs.ar" target="_blank" rel="noopener">analitico.rialabs.ar ↗</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 02 · ESPACIO -->
-  <div class="prod inv" id="smartcity" style="--c:var(--c-esp)">
+  <!-- 03 · AUTOMOTRICES (fue RIA Automoción hasta el 01/11: #automocion queda como ancla vieja, al tope del bloque) -->
+  <div class="prod" id="automotrices" style="--c:var(--c-aut)">
+    <span class="ancla-vieja" id="automocion" aria-hidden="true"></span>
     <div class="wrap prod-grid">
       <div class="prod-vis rev" data-sistema>
-        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Smartcity como un astro: una ciudad que se enciende desde el centro, la red creciendo hacia afuera, con sus sabores en órbita: Entrypoint, Ciudad, Jockey, Grit y Acceso. Cada satélite con enlace abre la página de ese sabor.">
-          <defs>
-            <radialGradient id="esp-sat" cx="34%" cy="30%" r="72%"><stop offset="0" stop-color="#aef5ee"/><stop offset="0.55" stop-color="#2fd0c8"/><stop offset="1" stop-color="#12615d"/></radialGradient>
-            <radialGradient id="esp-astro" cx="32%" cy="28%" r="78%"><stop offset="0" stop-color="#1b5a55"/><stop offset="0.45" stop-color="#0c2e2b"/><stop offset="1" stop-color="#050f0f"/></radialGradient>
-            <radialGradient id="esp-night" cx="30%" cy="26%" r="86%"><stop offset="0.46" stop-color="#05040c" stop-opacity="0"/><stop offset="1" stop-color="#05040c" stop-opacity="0.82"/></radialGradient>
-            <radialGradient id="esp-atmo" cx="50%" cy="50%" r="50%"><stop offset="0.66" stop-color="#2fd0c8" stop-opacity="0"/><stop offset="0.73" stop-color="#2fd0c8" stop-opacity="0.14"/><stop offset="1" stop-color="#2fd0c8" stop-opacity="0"/></radialGradient>
-            <linearGradient id="esp-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#aef5ee" stop-opacity="0.85"/><stop offset="0.5" stop-color="#2fd0c8" stop-opacity="0.12"/><stop offset="1" stop-color="#2fd0c8" stop-opacity="0"/></linearGradient>
-            <filter id="esp-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <clipPath id="esp-clip"><circle cx="240" cy="200" r="84"/></clipPath>
-          </defs>
-          <g class="pv-dust"></g>
-          <circle cx="240" cy="200" r="122" fill="url(#esp-atmo)"/>
-          <g class="pv-estela-b"></g>
-          <g class="pv-back"></g>
-          <!-- el astro: la ciudad que se enciende desde el centro. La trama del globo es fija; la red de manzanas la arma
-               el script sobre la esfera y la enciende en ondas desde el centro hacia afuera, con pulsos que viajan
-               por las aristas. Se dibuja sobre la sombra, porque son luces. -->
-          <g class="pv-astro" data-astro="red">
-            <circle cx="240" cy="200" r="84" fill="url(#esp-astro)"/>
-            <g clip-path="url(#esp-clip)">
-              <g class="ck" opacity="0.14">
-                <ellipse cx="240" cy="200" rx="15" ry="84"/><ellipse cx="240" cy="200" rx="41" ry="84"/><ellipse cx="240" cy="200" rx="64" ry="84"/><ellipse cx="240" cy="200" rx="79" ry="84"/>
-                <ellipse cx="240" cy="261.4" rx="54.0" ry="16.2"/><ellipse cx="240" cy="233.9" rx="76.1" ry="22.8"/><ellipse cx="240" cy="200.0" rx="84.0" ry="25.2"/><ellipse cx="240" cy="166.1" rx="76.1" ry="22.8"/><ellipse cx="240" cy="138.6" rx="54.0" ry="16.2"/>
-              </g>
-            </g>
-            <circle cx="240" cy="200" r="84" fill="url(#esp-night)"/>
-            <g clip-path="url(#esp-clip)">
-              <g class="red-aristas" stroke-linecap="round"></g>
-              <circle class="red-onda ck" cx="231.2" cy="192.7" r="3" opacity="0" stroke-width="0.8"/>
-              <g class="red-nodos" filter="url(#esp-glow)"></g>
-              <g class="red-pulsos" filter="url(#esp-glow)"></g>
-            </g>
-            <circle cx="240" cy="200" r="83.5" fill="none" stroke="url(#esp-rim)" stroke-width="1.2"/>
-          </g>
-          <g class="pv-estela-f"></g>
-          <g class="pv-front">
-            <a class="sat" href="https://smartcity.rialabs.ar" target="_blank" rel="noopener" tabindex="0" aria-label="Ciudad, el sabor para municipios de RIA Smartcity: abre smartcity.rialabs.ar" data-orb="132 42 -8 22000 0.6 -1 7" transform="translate(346 230)">
-              <circle class="sat-hit" r="18"/>
-              <circle class="sat-halo" r="13"/>
-              <circle class="sat-body" r="7" fill="url(#esp-sat)"/>
-              <circle class="sat-shd" r="7"/>
-              <text class="sat-lab" y="3"><tspan class="sat-n">Ciudad</tspan><tspan class="sat-s" dy="11">municipios</tspan></text>
-            </a>
-            <a class="sat" href="https://jockey.rialabs.ar" target="_blank" rel="noopener" tabindex="0" aria-label="Jockey, el sabor Predio de RIA Smartcity: abre jockey.rialabs.ar" data-orb="166 54 14 30000 2.4 1 6.5" transform="translate(128 180)">
-              <circle class="sat-hit" r="18"/>
-              <circle class="sat-halo" r="13"/>
-              <circle class="sat-body" r="7" fill="url(#esp-sat)"/>
-              <circle class="sat-shd" r="7"/>
-              <text class="sat-lab" y="3"><tspan class="sat-n">Jockey</tspan><tspan class="sat-s" dy="11">predio</tspan></text>
-            </a>
-            <a class="sat" href="https://grit.rialabs.ar" target="_blank" rel="noopener" tabindex="0" aria-label="Grit, el sabor Barrio y centro comercial de RIA Smartcity: abre grit.rialabs.ar" data-orb="200 64 -20 38000 4.6 -1 6" transform="translate(300 120)">
-              <circle class="sat-hit" r="18"/>
-              <circle class="sat-halo" r="13"/>
-              <circle class="sat-body" r="7" fill="url(#esp-sat)"/>
-              <circle class="sat-shd" r="7"/>
-              <text class="sat-lab" y="3"><tspan class="sat-n">Grit</tspan><tspan class="sat-s" dy="11">barrio y centro comercial</tspan></text>
-            </a>
-            <g class="sat sat-mudo" aria-label="Entrypoint, la puerta de entrada a RIA Smartcity; todavía sin página pública" data-orb="108 30 24 17000 3.2 1 6.5" transform="translate(240 120)">
-              <circle class="sat-hit" r="18"/>
-              <circle class="sat-halo" r="13"/>
-              <circle class="sat-body" r="6.5" fill="url(#esp-sat)"/>
-              <circle class="sat-shd" r="6.5"/>
-              <text class="sat-lab" y="3"><tspan class="sat-n">Entrypoint</tspan><tspan class="sat-s" dy="11">la puerta de entrada</tspan></text>
-            </g>
-            <g class="sat sat-mudo" aria-label="Acceso, el sabor de control de ingreso de RIA Smartcity; todavía sin página pública" data-orb="150 82 34 27000 5.6 1 5.5" transform="translate(200 290)">
-              <circle class="sat-hit" r="18"/>
-              <circle class="sat-halo" r="13"/>
-              <circle class="sat-body" r="7" fill="url(#esp-sat)"/>
-              <circle class="sat-shd" r="7"/>
-              <text class="sat-lab" y="3"><tspan class="sat-n">Acceso</tspan><tspan class="sat-s" dy="11">sin web pública</tspan></text>
-            </g>
-          </g>
-        </svg>
-      </div>
-      <div class="prod-txt">
-        <p class="prod-n rev">02 · Ciudad y predio</p>
-        <h3 class="prod-name rev d1">RIA <em>Smartcity</em></h3>
-        <p class="prod-def rev d2"><b>smart city.</b> Voz inglesa; en español, ciudad inteligente. 1. Ciudad que mide lo que pasa en sus calles y usa esa medición para decidir. 2. Por ext., todo lugar —un club, un barrio, un mercado— que hace lo mismo con su espacio.</p>
-        <p class="prod-lead rev d2">La ciudad, el club, el barrio o el centro comercial, medidos con las cámaras que ya tienen. El video se procesa y se descarta: es medición, no vigilancia. <strong>Un producto con sabores: cada lugar es el mismo motor expresado de otra forma.</strong></p>
-        <ul class="prod-items rev d3">
-          <li><b>Entrypoint</b> — el acceso instantáneo a la experiencia Smartcity: en un mes, con el parque de cámaras que ya tenés y sensores de bajo costo, sin licitar una cifra extraordinaria. Un chat guía arma tu Presente; las analíticas se suman por vertical o por paquete, y se pagan por mes.</li>
-          <li><b>Ciudad</b> — movilidad, espacio público, ambiente, fauna y urbanismo para un municipio, en un equipo al lado del poste, sin nube y sin obra.</li>
-          <li><b>Predio</b> — el portal del club sobre un plano navegable, y el acceso vehicular con lectura de patentes, aforo y búsqueda forense.</li>
-          <li><b>Acceso</b> — control de ingreso de un mercado concentrador o de un barrio: quién entró, cuándo, con qué.</li>
-          <li><b>Barrio y centro comercial</b> — conversión de vidriera, ocupación de playa, actas y energía, en una maqueta que se recorre por capas.</li>
-        </ul>
-        <div class="prod-foot rev d4">
-          <span class="prod-state">Midiendo 24/7 · municipio, club y mercado en Rosario</span>
-          <a class="prod-link" href="https://smartcity.rialabs.ar" target="_blank" rel="noopener">smartcity.rialabs.ar ↗</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 03 · AUTOMOCIÓN -->
-  <div class="prod" id="automocion" style="--c:var(--c-aut)">
-    <div class="wrap prod-grid">
-      <div class="prod-vis rev" data-sistema>
-        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Automoción como un astro-máquina: engranajes, biela y pistón en marcha, con Drivecore en órbita. El satélite abre la página de Drivecore.">
+        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="RIA Automotrices como un astro-máquina: engranajes, biela y pistón en marcha, con Drivecore en órbita. El satélite abre la presentación de Drivecore.">
           <defs>
             <radialGradient id="aut-sat" cx="34%" cy="30%" r="72%"><stop offset="0" stop-color="#ffd489"/><stop offset="0.55" stop-color="#EF9F27"/><stop offset="1" stop-color="#7a5008"/></radialGradient>
             <radialGradient id="aut-astro" cx="32%" cy="28%" r="78%"><stop offset="0" stop-color="#7a4c0e"/><stop offset="0.45" stop-color="#33200a"/><stop offset="1" stop-color="#0d0904"/></radialGradient>
@@ -1272,7 +1376,7 @@
           </g>
           <g class="pv-estela-f"></g>
           <g class="pv-front">
-            <a class="sat" href="https://drivecore.rialabs.ar" target="_blank" rel="noopener" tabindex="0" aria-label="Drivecore, el sistema de la concesionaria de RIA Automoción: abre drivecore.rialabs.ar" data-orb="186 54 -12 28000 0.7 -1 8.5" transform="translate(368 234)">
+            <a class="sat" href="https://drivecore.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Drivecore, el sistema de la concesionaria de RIA Automotrices: abre drivecore.rialabs.ar" data-orb="186 54 -12 28000 0.7 -1 8.5" transform="translate(368 234)">
               <circle class="sat-hit" r="18"/>
               <circle class="sat-halo" r="13"/>
               <circle class="sat-body" r="7" fill="url(#aut-sat)"/>
@@ -1284,18 +1388,19 @@
       </div>
       <div class="prod-txt">
         <p class="prod-n rev">03 · Concesionarias</p>
-        <h3 class="prod-name rev d1">RIA <em>Automoción</em></h3>
-        <p class="prod-antes rev d1">antes RIA Drivecore</p>
-        <p class="prod-def rev d2"><b>automoción.</b> 1. f. Facultad o condición de lo que se mueve por sí mismo. 2. f. Estudio o descripción de las máquinas que se desplazan por la acción de un motor y particularmente de los automóviles.</p>
+        <h3 class="prod-name rev d1">RIA <em>Automotrices</em></h3>
         <p class="prod-lead rev d2">El sistema operativo de la concesionaria: de la consulta que entra por un aviso a la entrega del service, seis meses después. <strong>Ventas, Administración, Gestoría, Entregas, Taller, Repuestos y Gerencia sobre la misma información.</strong> La patente que nace en Gestoría es la que la cámara lee cuando el auto vuelve.</p>
         <ul class="prod-items rev d3">
           <li><b>Ventas y entregas</b> — del lead a la unidad entregada sin un Excel en el medio.</li>
           <li><b>Taller y posventa</b> — el auto entra y el sistema ya lo conoce; cada paso del circuito trazado, nada se entrega sin control de calidad.</li>
-          <li><b>Gerencia</b> — conversa con sus números en castellano, sobre lo que pasó de verdad.</li>
+          <li><b>Gerencia</b> — conversá con tus números en tu idioma, sobre lo que pasó de verdad.</li>
+        </ul>
+        <p class="prod-pres-t rev d4">La presentación</p>
+        <ul class="prod-pres rev d4">
+          <li><a href="https://drivecore.rialabs.ar/" target="_blank" rel="noopener"><b>Drivecore</b><span class="pp-d">el sistema operativo de la concesionaria, área por área</span><span class="pp-u">drivecore.rialabs.ar ↗</span></a></li>
         </ul>
         <div class="prod-foot rev d4">
           <span class="prod-state">En producción · concesionaria oficial Fiat, Rosario</span>
-          <a class="prod-link" href="https://drivecore.rialabs.ar" target="_blank" rel="noopener">drivecore.rialabs.ar ↗</a>
         </div>
       </div>
     </div>
@@ -1795,7 +1900,7 @@
     var PROD = [
       { nombre: 'Analítico',  href: '#analitico',  col: 'var(--c-ana)', aria: 'RIA Analítico: ir a la sección' },
       { nombre: 'Smartcity',  href: '#smartcity',  col: 'var(--c-esp)', aria: 'RIA Smartcity: ir a la sección' },
-      { nombre: 'Automoción', href: '#automocion', col: 'var(--c-aut)', aria: 'RIA Automoción: ir a la sección' }
+      { nombre: 'Automotrices', href: '#automotrices', col: 'var(--c-aut)', aria: 'RIA Automotrices: ir a la sección' }
     ];
     function f1(v){ return (+v).toFixed(1); } function f2(v){ return (+v).toFixed(2); }
     function clamp(v, a, b){ return v < a ? a : v > b ? b : v; }
@@ -1891,7 +1996,7 @@
       T.g = g;
       T.fs = clamp(9.5 * g, 8.5, 11) / g;   // las etiquetas, en unidades de diseño
       var u = T.fs / 9.5;
-      // en vertical, Analítico (a la derecha) y Automoción (a la izquierda) rotulan hacia afuera y Smartcity, abajo:
+      // en vertical, Analítico (a la derecha) y Automotrices (a la izquierda) rotulan hacia afuera y Smartcity, abajo:
       // centrados bajo sus nodos se pisaban cuando la máquina se compacta
       T.lab = vert ? [[13 * u, 3.5 * u, 'start'], [0, 23 * u, 'middle'], [-13 * u, 3.5 * u, 'end']] : [[14 * u, 3.5 * u, 'start'], [16 * u, 3.5 * u, 'start'], [14 * u, 3.5 * u, 'start']];
       T.u = u;
@@ -3113,7 +3218,7 @@
       }
     }
 
-    /* ── MÁQUINA (Automoción) · chapa remachada, tren de engranajes, biela y pistón, volante con correa, tubería con flujo, manómetro y testigos ── */
+    /* ── MÁQUINA (Automotrices) · chapa remachada, tren de engranajes, biela y pistón, volante con correa, tubería con flujo, manómetro y testigos ── */
     function engranaje(n, r, prof){
       var da = Math.PI / n, ro = r + prof * 0.5, ri = r - prof * 0.5, d = '';
       for (var i = 0; i < n; i++) {
@@ -3282,8 +3387,13 @@
           var ef = (p0.dy + p1.dy) >= 0;
           if (ef !== e.front) { (ef ? sys.estF : sys.estB).appendChild(e.n); e.front = ef; }
         }
-        // la etiqueta va del lado de afuera; cerca de los bordes del cuadro, centrada debajo
+        // la etiqueta va del lado de afuera; cerca de los bordes del cuadro, o si de costado se saldría más de 20 unidades
+        // (en celular la viñeta llega al borde de la pantalla), centrada debajo. El ancho se estima por caracteres: DM Mono
+        // es monoespaciada (7,6 unidades por letra del nombre, 5,5 del subtítulo)
+        if (s.w == null) { var tn = s.lab.querySelector('.sat-n'), tsub = s.lab.querySelector('.sat-s');
+          s.w = Math.max(tn ? tn.textContent.length * 7.6 : 0, tsub ? tsub.textContent.length * 5.5 : 0); }
         var mode = (x > 404 || x < 76) ? 'middle' : (x >= CX ? 'start' : 'end');
+        if ((mode === 'start' && x + r + 9 + s.w > 500) || (mode === 'end' && x - r - 9 - s.w < -20)) mode = 'middle';
         var lx2 = mode === 'start' ? (r + 9) : mode === 'end' ? -(r + 9) : 0;
         s.lab.setAttribute('text-anchor', mode);
         s.lab.setAttribute('x', lx2); s.lab.setAttribute('y', mode === 'middle' ? (r + 15) : 3);

@@ -17,6 +17,89 @@
 
 ### 0.1 Qué cambió y por qué
 
+- **Productos: sin definición, en otro orden, Automotrices y las presentaciones a la vista (rama `productos`,
+  2026-11-01).** Prompt de giro verbatim en `docs/prompts-usuario/2026-11-01-home-en-paginas-y-oficina-rosario.md`:
+  *«sacar la definición etimologica de la palabra, eso no debe estar, y tambien cambiar el orden […] primero deberia estar
+  SmartCity y luego Analítico, despues automocion, aunque Automocion no es un nombre que nos resuene mucho, probemos RIA
+  Automotrices. En estas descripciones de productos tenemos que poner los links a las presentaciones»*, y del borrador:
+  *«DAR más protagonismo a Brid Map»*. Corrección posterior de Matías: smartcity.rialabs.ar va (se olvidó de nombrarla),
+  **Jockey no**. Esta entrada reemplaza, para la banda de productos, la tabla «Tres verticales, una palabra cada una» y la
+  de satélites que siguen más abajo (quedan como historia).
+  **Qué cambió.** (1) *Sin definición de diccionario*: fuera los tres `.prod-def` y su CSS. La intro dice ahora «Cada
+  producto es una forma distinta del mismo motor, **Dataflow**: lee la realidad con las cámaras y los sensores que ya están,
+  la comprende y actúa. **Cada uno con sus presentaciones, para verlo funcionar.**»; **«Un solo motor.»** del título y
+  **«Dataflow»** enlazan a `/dataflow/` (el título con un filo dorado debajo, sin cambiar de color). (2) *Orden*: **01
+  Smartcity** (astro a la izquierda) · **02 Analítico** (`.inv`, astro a la derecha) · **03 Automotrices** (izquierda). Los
+  rótulos: «01 · Ciudad y espacios» (era «02 · Ciudad y predio»: sin Jockey no hay predio), «02 · Seguridad», «03 ·
+  Concesionarias». (3) *RIA Automoción → **RIA Automotrices***: nombre, id **`#automotrices`** (la nav ya apuntaba ahí) con
+  **`#automocion` como ancla vieja** (un `<span class="ancla-vieja">` absoluto al tope del bloque: cae en el mismo píxel,
+  medido), aria-labels del astro y del satélite, `description`/`og:description`/`twitter:description` (que además van en el
+  orden nuevo: «RIA Smartcity, RIA Analítico y RIA Automotrices»), la constelación de la máquina del hero en los encuadres
+  1–3 (`PROD`: «AUTOMOTRICES» entra sin pisarse en 1440 y 390, capturado con `?hero=1`) y los comentarios. **Sale «antes RIA
+  Drivecore»**: Drivecore sigue vivo como el nombre del sistema y de su presentación, y así aparece ahora en la lista
+  («Drivecore — el sistema operativo de la concesionaria»); la línea contaba un nombre viejo del producto, y con el nombre
+  nuevo confundía (¿cuál es cuál?). El «RIA Automoción» de Laboratorio no se tocó: lo mueve la rama de `/laboratorio/`.
+  (4) *«en castellano» → «en tu idioma»*: Monitoreo («búsqueda forense en tu idioma») y Gerencia («conversá con tus números
+  en tu idioma, sobre lo que pasó de verdad»); el «en español» estaba en la definición de Smartcity y se fue con ella. Queda
+  un «en castellano» en Laboratorio, para esa rama. (5) *Las presentaciones*: bajo los sabores de cada producto, «Las
+  presentaciones» — una fila por enlace con qué es, de qué se trata y su dirección con ↗ (todas `target="_blank"
+  rel="noopener"`); el botón suelto `prod-link` de cada producto desaparece (su CSS también; la regla de transición de tema
+  de la línea 116 cambia `.prod-link` por `.prod-pres a, .prod-dest`). Leídas el 01/11 a la noche, todas responden 200:
+
+  | Producto | Rótulo en la home | Enlace | Qué dice la página (el 01/11) |
+  |---|---|---|---|
+  | Smartcity | **Bird Map** · fauna urbana (destacado) | birdmap.rialabs.ar | «RIA Bird Map — Sensores urbanos»: conteo de fauna urbana por visión sobre una cámara IP común, guarda números y nunca imágenes, serie por hora y por plaza; «un módulo más» de Smartcity |
+  | Smartcity | **Ciudad** · las cámaras de una ciudad, convertidas en sensores | smartcity.rialabs.ar | «RIA Smartcity — Cinco verticales sobre las cámaras que ya están»: movilidad, seguridad vial, espacio público, estacionamiento y ambiente, en un equipo del tamaño de un módem; multilingüe |
+  | Smartcity | **Centros comerciales** · un sábado medido, de la playa al tablero | grit.rialabs.ar/neander/ | Hoy «Grit IA · Neander — Un sábado en el centro comercial» (Villa Amelia): playa con patente sin barrera, tráfico y conversión por local, cruce entre locales, eventos, incidentes, tablero. Se transforma hoy en la de Centros comerciales: rotulada por lo que va a ser |
+  | Smartcity | **Country** · un día en el barrio, sin una sala de monitoreo | grit.rialabs.ar/sapiens/ | Hoy «Grit IA · Sapiens — Un día en el barrio» (barrio cerrado, Álvarez): actas, la patente es la llave, patrulla virtual, avisos, perímetro. Se transforma hoy en Country |
+  | Smartcity | **Eco Aceite** · reciclaje: la trazabilidad del aceite usado | ecoaceite.byt.ar | «Eco Aceite · Trazabilidad 360° — con tecnología RIA Labs»: cada litro de aceite vegetal usado del bidón al biodiésel, firma digital en el retiro, certificados verificables; cooperativa de Rosario, proyecto presentado al Programa Kit 4.0 |
+  | Analítico | **Analítico** · un producto, dos brazos: la puerta a las dos películas | analitico.rialabs.ar | «Byte Analítico — monitoreo inteligente»: un concepto, dos brazos, con enlace a cada película |
+  | Analítico | **Integradores** · de la cámara a la central | analitico.rialabs.ar/integradores | «Byte Analítico Integradores — de la cámara a la central»: cualquier cámara, cualquier evento, con evidencia |
+  | Analítico | **Monitoreo** · ver ahora y volver atrás: la consola, vista por vista | analitico.rialabs.ar/monitoreo | «Byte Analítico Monitoreo — ver ahora, volver atrás»: la consola al lado de la central, vista por vista |
+  | Automotrices | **Drivecore** · el sistema operativo de la concesionaria, área por área | drivecore.rialabs.ar | «RIA Drivecore · El sistema operativo de la concesionaria»: toda la concesionaria en un solo sistema vivo, en producción real |
+
+  jockey.rialabs.ar también responde, pero **no está** (pedido de Matías). (6) ***Bird Map, protagonista***: dentro de
+  Smartcity, entre el lead y los sabores, una **tarjeta-enlace propia** (`.prod-dest`): borde y fondo teñidos del color de
+  Smartcity, un dibujo chico animado —tres aves que aletean, dos palomas en la plaza y las cajas de la detección que se
+  encienden de a una, como contándolas; quieto con reduced-motion— y «Bird Map · fauna urbana / Una cámara que mira una
+  plaza y cuenta las aves. / Analiza el video en el lugar y guarda números, nunca imágenes: la serie por hora y por plaza
+  con la que una ciudad decide cuándo intervenir. / Ver la presentación · birdmap.rialabs.ar ↗». En el astro es **el
+  satélite más grande** (radio 8,5, el de Drivecore), con la etiqueta siempre entera y un anillo tenue; y **es el que está
+  delante cuando se llega a la sección** (los primeros 12 s de reloj). No se repite en la lista de abajo: la tarjeta es su
+  enlace. La cifra «−40 %» de su presentación no se trajo a la home: no queda claro de qué medición sale. (7) *Smartcity, los
+  sabores*: los ítems son **Entrypoint** (acortado a su primera frase, la del prompt del 26/10), **Ciudad** (con las cinco
+  verticales de su presentación), **Centros comerciales**, **Country**, **Acceso** (igual que antes) y **Reciclaje** («cada
+  litro de aceite usado, trazado del restaurante al biodiésel. Un caso particular, pero de ciudad: un proyecto en pleno
+  desarrollo para empresas de Rosario» — las palabras de Matías). Salen **Predio** (era Jockey) y **Barrio y centro
+  comercial** (se abrió en dos). El lead pierde «el club»: «La ciudad, el barrio o el centro comercial, medidos con las
+  cámaras que ya tienen…». El estado: **«Midiendo 24/7 · municipio y mercado en Rosario»** (sin el club; se lee natural).
+  **Satélites (seis)**: Ciudad · municipios → smartcity.rialabs.ar; **Bird Map · fauna urbana** → birdmap; **Centros
+  comerciales · la playa y los locales** → grit/neander; **Country · barrios** → grit/sapiens; **Eco Aceite · reciclaje** →
+  ecoaceite.byt.ar; Entrypoint · la puerta de entrada (mudo, sin web). **Acceso deja de ser satélite** (no tiene web y eran
+  siete): sigue en la lista de sabores. Las órbitas se eligieron con una simulación de las etiquetas (misma matemática que el
+  script, 300 s de reloj): con las dos de adelante a la vista, se pisan el **23 %** del tiempo contra el **35 %** de los cinco
+  satélites de antes, y **nada en los primeros 15 s**. Además, la etiqueta de un satélite que pasa por detrás del astro baja
+  a 0,28 de opacidad (vuelve al hover), y la etiqueta deja de ir de costado si se saldría más de 20 unidades del cuadro
+  (centrada debajo): en 390, «CENTROS COMERCIALES» se cortaba contra el borde. (8) *El astro acompaña*: el texto de
+  Smartcity mide unas tres veces el astro, así que en desktop (≥861) su viñeta arranca arriba y queda **sticky** a media
+  pantalla mientras se lee (`.prod-larga`; `.prod` pasa de `overflow: hidden` a `clip`, que corta igual pero no crea
+  contenedor de scroll; `hidden` queda de respaldo para navegadores viejos). Analítico y Automotrices no cambian de
+  composición. (9) ***La nav***: medida por iframes del ancho exacto, antes los siete enlaces se partían en dos líneas y
+  aplastaban logo y botón **por debajo de ~1045 px** (no sólo entre 861 y 1000). Cambios en el CSS «NAV», para que las
+  páginas nuevas los copien: `.nav-links { gap: clamp(16px, 3.2vw - 14px, 32px) }` (era `32px`: 32 en 1440, 27 en 1280,
+  18,8 en 1024), `white-space: nowrap` en `.nav-links a`, y un corte nuevo **`@media (min-width: 861px) and (max-width:
+  1023px) { .nav-links { display: none } .nav-burger { display: block } .nav-menu { padding-left: 52px; padding-right:
+  52px } }`**: entre 861 y 1023 va el MENÚ con «Conversemos» a la vista (≤860 sigue igual que siempre). Medido: una línea
+  desde 1024, con 30 px libres a cada lado de los enlaces en 1024, 61 en 1100, 133 en 1280 y 198 en 1440.
+  **Verificado:** los `<script>` pasan `node --check`; sin errores de JS (colector en iframe); `#automocion` y
+  `#automotrices` a la misma altura (4156 px en 1440); capturas en `_capturas/productos/` (ignorado): los tres productos en
+  1440×900 y 390×844, Smartcity entero en 1440×1500 y 390×2300, Smartcity de día y a t=15 s y 40 s, la nav en 861/1024/1280/
+  1440 × 700 y la máquina del hero 1 en 1440 y 390. **Pendiente / para Matías:** (a) si Neander y Sapiens cambian de dirección
+  al transformarse, hay que cambiarla en dos lugares cada una (satélite y fila); hoy los rótulos ya dicen Centros comerciales
+  y Country aunque las páginas todavía digan Neander y Sapiens; (b) las presentaciones de Analítico se siguen llamando *Byte
+  Analítico* y la de Automotrices *RIA Drivecore*; (c) Acceso dice «de un mercado concentrador o de un barrio» y el barrio
+  ahora tiene Country: ¿Acceso queda sólo para el mercado?; (d) Eco Aceite vive en `byt.ar`, no en `rialabs.ar`; (e)
+  Entrypoint sigue sin web: cuando la tenga, su satélite pasa de mudo a enlace.
 - **El stand con la máquina abajo: quinto encuadre del hero, `?hero=5` (rama `hero-stand`, 2026-11-01).** Matías,
   verbatim: *«Probemos ahora una version donde la maquina pasa a estar abajo del nombre, como la teniamos antes. El eclipse
   como logo y el nombre de la empresa con las animaciones de los CEOs quedan como portada pero la maquina la pasamos
