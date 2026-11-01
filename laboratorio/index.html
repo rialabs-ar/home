@@ -98,8 +98,8 @@
   .nav-logo:hover svg { filter: drop-shadow(0 0 6px rgba(239,159,39,0.6)); }
   .nav-wm { font-weight: 500; font-size: 18px; letter-spacing: 3px; color: var(--white); }
   .nav-wm em { font-style: normal; font-size: 12px; font-weight: 300; letter-spacing: 2px; color: var(--gold-hi); margin-left: 4px; vertical-align: 2px; }
-  .nav-links { display: flex; gap: 32px; list-style: none; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 0.8px; transition: color 0.2s; }
+  .nav-links { display: flex; gap: clamp(16px, 3.2vw - 14px, 32px); list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 0.8px; white-space: nowrap; transition: color 0.2s; }
   .nav-links a:hover { color: var(--white); }
   .nav-links a .pt { display: inline-block; width: 5px; height: 5px; border-radius: 50%; margin-right: 7px; vertical-align: 2px; background: var(--c); opacity: 0.8; }
   .nav-right { display: flex; align-items: center; gap: 14px; }
@@ -110,6 +110,12 @@
   .nav-menu.open { display: flex; }
   .nav-menu a { color: var(--white); text-decoration: none; font-size: 16px; font-weight: 300; letter-spacing: 0.5px; padding: 12px 0; border-bottom: 1px solid var(--border2); }
   .nav-menu a:last-child { border-bottom: none; color: var(--gold-hi); }
+  /* Siete enlaces: el gap baja de 32 (desde 1440) a 18 (en 1024) y entre 861 y 1023 px no entran, así que va el menú
+     (MENÚ) con el botón Conversemos a la vista; por debajo de 861, el de celular de siempre (sin el botón) */
+  @media (min-width: 861px) and (max-width: 1023px) {
+    .nav-links { display: none; } .nav-burger { display: block; }
+    .nav-menu { padding-left: 52px; padding-right: 52px; }
+  }
 
   /* copiado de v5/index.html (BUTTONS y LAYOUT) el 01/11 — mantener igual */
   /* BUTTONS */

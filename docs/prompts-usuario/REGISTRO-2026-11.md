@@ -96,3 +96,9 @@ Todo lo que ea Laboratorio tiene que ir en su propia pagina, dedicada exclusivam
 La sección de El Metodo tiene que pasar a una página propia y estar expresada con mas espacio y acompañada de artefactos visuales en movimiento que expresen el mensaje de cada item.
 
 Por ultimo, y esto si queda en la pagina principal, lo que hoy dice "El Equipo", ya no tiene que mostrar los personajes con su historia, sino que tiene que transformarse en una idea dibujada. Una animación visual creada para representar nuestras oficinas en Rosario. Hay que hablar de que salimos de la ciudad de Rosario, de la provincia de Santa Fe, de Argentina. De nuestra idiosincracia y cultura. Nuestra oficina esta compuesta por espacios para programadores, laboratorio, showrroom para el público y una sala de reuniones. Seria bueno representarlo con un edificio sin pared que muestra el interior donde estan los espacios con gente trabajando, presentando, probando, mirando, etc. Te dejo una guia de la idea en la imagen adjunta, no necesariamente para copiar, podemos crear nuestro propio dibujo animado.
+
+---
+
+**2026-11-01 23:53** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
+
+smartcity.rialabs.ar me olvide de mencionarla, tiene que estar, pero jockey no entra
