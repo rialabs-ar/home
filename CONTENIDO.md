@@ -612,8 +612,8 @@ lo mismo más los retratos vivos de Matías y Sebastián en las esquinas de abaj
 | `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos vigentes 720×900 (4:5): la familia **con melena** (~120 KB y ~103 KB desde el 11/10, con el eclipse unificado). Son el **póster** de los retratos vivos y la foto que queda con `prefers-reduced-motion` |
 | `assets/retrato-sebastian.mp4` / `.webm` · `assets/retrato-matias.mp4` / `.webm` | **retratos vivos** (2026-10-11): clips 720×900, 24 fps, en loop (9,67 s y 10,25 s), H.264 `yuv420p` sin audio + VP9. Sebastián 1,09 MB / 0,90 MB · Matías 0,83 MB / 0,65 MB |
 | `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~82 KB y ~79 KB, con el mismo eclipse unificado). Para cambiar de familia alcanza con renombrar; la sobria no tiene clip |
-| `assets/retrato-stand-matias.jpg` · `assets/retrato-stand-sebastian.jpg` | **retratos stand** (2026-10-31), el póster: 480×600 (4:5) JPG progresivo q84, 26 KB y 30 KB. Es **exactamente el cuadro 0** del loop de al lado. La familia sobria sin su eclipse chico, con el contexto de cada uno conservado y viñeteado hacia el cielo `#0b0a14`, y una luz de borde dorada del lado que mira al centro de la portada: Matías va a la IZQUIERDA (borde a la derecha), Sebastián a la DERECHA (borde a la izquierda) Los usa el encuadre 4 de la portada (`?hero=4`, §0.1), que apunta a estos nombres. |
-| `assets/retrato-stand-matias.mp4` / `.webm` · `assets/retrato-stand-sebastian.mp4` / `.webm` | los **retratos stand vivos**: posando quietos esperando la foto, pestañeos, respiración, pelo inmóvil, contexto casi quieto. 480×600, 24 fps, loop de 9,54 s (Matías, 229 cuadros) y 8,96 s (Sebastián, 215), H.264 `yuv420p` sin audio + VP9, un solo keyframe. Matías 184 KB / 101 KB · Sebastián 212 KB / 121 KB |
+| `assets/retrato-stand-matias.jpg` · `assets/retrato-stand-sebastian.jpg` | **retratos stand** (2026-10-31, segunda vuelta 01/11), el póster: 480×600 (4:5) JPG progresivo q84, 15 KB y 19 KB. Es **exactamente el cuadro 0** del loop de al lado, un momento neutro (ojos abiertos, boca en reposo). La familia sobria sin su eclipse chico, con el contexto de cada uno conservado y fundido **en redondo** hacia el cielo `#0b0a14` (viñeta elíptica centrada en la cara: cielo puro antes del borde, sin rectángulo), y una luz de borde dorada del lado que mira al centro de la portada: Matías va a la IZQUIERDA (borde a la derecha), Sebastián a la DERECHA (borde a la izquierda). Los usa el encuadre 4 de la portada (`?hero=4`, §0.1), que apunta a estos nombres. |
+| `assets/retrato-stand-matias.mp4` / `.webm` · `assets/retrato-stand-sebastian.mp4` / `.webm` | los **retratos stand vivos**: posando, miran a cámara, **sonríen** (una sonrisa franca que aparece, se sostiene y se relaja, dos veces por loop) y pestañean; pelo inmóvil, contexto casi quieto. 480×600, 24 fps, loop de 9,46 s (Matías, 227 cuadros) y 9,50 s (Sebastián, 228), H.264 `yuv420p` sin audio + VP9, un solo keyframe. Matías 141 KB / 96 KB · Sebastián 173 KB / 117 KB. |
 | `scripts/generar-retratos-vivos.py` | cómo se hicieron el eclipse unificado y los retratos vivos (abajo): `fondo`, `video`, `post`, y `costura` para medir el loop; y la familia `stand` (`fondo-stand`, `medir-stand`, `vinetear`, `post <p>-stand`) |
 | `assets/eclipse-corona.webp` · `.jpg` | **la corona fotográfica** (2026-10-12): WebP 1000×1000 con alfa desde la luminancia, 150 KB, el disco negro centrado a r = 0,1515 del lado. El jpg (37 KB) es la misma toma sobre negro. **Desde el 13/10 la página no carga ninguno de los dos** (la corona es la flama procedural); quedan en el repo por si el ciclo o la foto vuelven |
 | `assets/eclipse-sol.webp` | la fotósfera en luz blanca, 720×720, alfa = disco (r = 0,4873 del lado), 20 KB. Desde el 13/10 va en `data-href`: se descarga sólo cuando el ciclo o `?tema=dia` la piden |
@@ -810,8 +810,37 @@ barrido sobre los PNG del loop de Sebastián: a crf 24 el mp4 pesa 135 KB pero c
 viñeta); **crf 22 + `aq-mode=3`** (más bits a lo oscuro) baja a 0,79 por 216 KB, y crf 18 a 0,67 por 457 KB sin ganancia visible
 a 240 px. VP9 crf 24 + `aq-mode 2`. **Un solo keyframe por loop** (`-g 999`): libvpx-vp9 metía uno en el cuadro 128, un «pop»
 del mismo tipo que el cierre, adentro del loop. Si en el navegador el reinicio se nota, el dial es crf 18 (≈ el doble de peso).
-Costo total: ≈ US$ 2,22. Variantes, clips crudos, tiras, hojas de contacto y los PNG de los dos loops en `_capturas/retratos-vivos/`
-(ignorado); `ladoalado-stand-final.png` y `hoja-final-stand.png` son las piezas con que se verificó.
+Costo de la primera vuelta: ≈ US$ 2,22. Variantes, clips crudos, tiras, hojas de contacto y los PNG de los dos loops en
+`_capturas/retratos-vivos/` (ignorado); `ladoalado-stand-final.png` y `hoja-final-stand.png` son las piezas con que se verificó.
+
+**Segunda vuelta (2026-11-01): la sonrisa y el fundido redondo.** Matías, al ver la portada: «Saca los pequeños eclipses sobre
+las cabezas de Matias y Sebastian y trata de redondear las imagenes de fondo de esas dos fotos. Los fondos de las fotos se
+tienen que difuminar con el fondo de la pagina. Y recuerda hacer las fotos vivas, como dos personas que miran a la camara
+sonrien y pestanean». Los eclipses ya no estaban en los clips (veía en caché los pósters provisorios y el server local no
+servía `Range`, así que Safari no reproducía el video; lo arregló la madre). Lo que sí faltaba: la **sonrisa** de la primera
+vuelta era mínima, con la boca cerrada —el prompt pedía «la media sonrisa se tensa y se relaja casi imperceptiblemente» y el
+negativo llevaba «expression change, smile change, mouth opening»—, y la viñeta era un rectángulo redondeado que llegaba a
+cero recién en el borde: sin máscara CSS se leía el rectángulo.
+
+1. **Clips con la sonrisa como evento.** Mismo Kling, mismos fijos, prompt nuevo: posando, mirando a la lente, «rompe en una
+   sonrisa cálida y franca: se arma en un segundo, los labios se abren y asoman los dientes, las mejillas suben y los ojos se
+   arrugan; la sostiene un par de segundos y vuelve con suavidad a su media sonrisa serena al final» (el truco del loop exige
+   volver a la foto). Negativo sin expresión ni boca; con «grimace, exaggerated smile, laughing». 4 clips, US$ 1,40 (Matías 4–5,
+   Sebastián 3–4), **los cuatro sirven**: en todos la sonrisa aparece a ~1,1 s, abierta entre ~1,4 y ~3,3 s, de vuelta a ~3,6 s;
+   pestañeos naturales, cabeza quieta, pelo inmóvil, fondo sin pulsos. Se lee «persona posando que sonríe a la cámara».
+2. **El loop.** Dos clips por persona, dos sonrisas por loop (Matías 4 → 5: 227 cuadros, 9,46 s; Sebastián 3 → 4: 228, 9,50 s).
+   Las juntas caen en tramos neutros (cola relajada ↔ cabeza antes de la sonrisa). El cuadro 0 (= póster) se elige ahora con
+   **ojos y boca** en reposo (menor desviación contra la mediana por píxel de las dos zonas en ±12 cuadros): neutro, sin
+   pestañeo ni sonrisa.
+3. **Fundido redondo en el asset.** Viñeta **elíptica** centrada en la cara (centro al 44 % de la altura; plena hasta 0,28 del
+   radio, `#0b0a14` puro desde 0,80; radios = semiancho y distancia del centro al borde de abajo): los cuatro bordes del cuadro
+   miden (12, 10, 20) en el mp4, las pantallas de Matías y el muro de Sebastián se pierden en redondo, el torso se funde a la
+   altura del pecho. Aunque no hubiera máscara CSS, no se lee ningún rectángulo. De paso, el cierre del loop a 192×240 bajó a
+   0,35 (antes 0,55–0,71): la elipse deja más cielo puro y menos ruido de códec.
+
+Costo de la segunda vuelta: ≈ US$ 1,40; la familia stand completa, ≈ US$ 3,62 (12 ediciones + 9 clips). Las tiras donde se ve
+la sonrisa: `_capturas/retratos-vivos/retrato-stand-{matias,sebastian}-sonrisa.png` (los loops finales a 8 fps) y
+`kling-*-stand-{3,4,5}-sonrisa.png` (los clips crudos); `hoja-final-stand-sonrisa.png` y `ladoalado-stand-sonrisa.png`, la verificación.
 
 ### 0.4 Pendientes que deja la v5
 
