@@ -201,7 +201,7 @@
   /* ── HERO · los tres encuadres (2026-10-14) ─────────────────────────────────────
      Matías: «tratemos de que entre en la pantalla de presentación». El hero mide una pantalla (100svh, con
      piso para las muy bajas) y adentro una grilla, .hero-escena, reparte el alto entre el eclipse, RIA / LABS,
-     la máquina y su pie. data-hero en <html> (?hero=1|2|3; por defecto 2) elige el encuadre, y el script
+     la máquina y su pie. data-hero en <html> (?hero=1|2|3|4; por defecto 2) elige el encuadre, y el script
      «LA MÁQUINA» arma el dibujo para la caja que la grilla le deja:
        1 · escalonado: todo apilado; el eclipse y el logo se miden por el alto y la máquina toma lo que sobra.
        2 · el eclipse es el reactor: la máquina pasa a través del eclipse, que hace de cámara (la química va
@@ -243,6 +243,42 @@
   html[data-hero="3"] .labs { font-size: clamp(11px, min(1.5vw, 1.7svh), 17px); margin-top: clamp(4px, 0.7vh, 8px); }
   html[data-hero="3"] .maq { grid-area: 2 / 1 / 3 / -1; }
   html[data-hero="3"] .maq-pie { grid-area: 3 / 1 / 4 / -1; }
+  /* 4 · el stand (2026-10-31): el encuadre 2 tal cual, más los dos retratos vivos en las esquinas de abajo,
+     a la altura de RIA / LABS —Matías a la izquierda, bajo la estación; Sebastián a la derecha, bajo la red—,
+     como recepción de la home mientras los dos están en el stand (Smart City Expo, Barcelona, 3–5/11).
+     La grilla es la misma del 2: los retratos son <figure> absolutas dentro de .hero-escena (no miden, no
+     empujan la máquina ni el logo), cada una en la franja que va del borde a la mitad menos lo que reserva el
+     wordmark (--stand-centro), y centradas en esa franja, que es donde caen la estación y la red. El marcado
+     vive en <template id="stand-tpl"> y sólo se estampa con data-hero="4" (ver el script al pie de la escena):
+     en los otros encuadres no se descarga ni el póster. Sin tarjeta ni marco: una máscara radial funde la foto
+     con el cielo; se funde con decisión porque los retratos traen su contexto (pantallas, muro de cámaras). */
+  html[data-hero="4"] .hero-escena { grid-template-rows: minmax(0, 1fr) auto auto; row-gap: clamp(6px, 1.4vh, 14px); }
+  html[data-hero="4"] #sistema-wrap { grid-area: 1 / 1; align-self: center; width: auto; height: min(100%, 38vw, 820px); aspect-ratio: 1; margin: 0; }
+  html[data-hero="4"] .maq { grid-area: 1 / 1; }
+  html[data-hero="4"] .ria { font-size: clamp(50px, min(9vw, 9.4svh), 108px); }
+  html[data-hero="4"] .labs { font-size: clamp(11px, min(1.6vw, 1.7svh), 17px); margin-top: clamp(4px, 0.8vh, 8px); }
+  html[data-hero="4"] .maq-pie { margin-top: clamp(4px, 1.4vh, 16px); }
+  @media (min-width: 861px) { html[data-hero="4"] .wordmark { margin-top: calc(-1 * clamp(20px, 5vh, 60px)); } }
+  .stand { --ret-h: clamp(140px, 27svh, 290px); --stand-centro: clamp(120px, 9vw, 150px);
+    position: absolute; bottom: 0; z-index: 2; width: calc(50% - var(--stand-centro)); margin: 0;
+    display: flex; flex-direction: column; align-items: center; pointer-events: none;
+    opacity: 0; animation: rise 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards; }
+  .stand-izq { left: 0; } .stand-der { right: 0; }
+  .stand-media { position: relative; width: calc(var(--ret-h) * 0.8); height: var(--ret-h); overflow: hidden;
+    -webkit-mask-image: radial-gradient(ellipse 54% 52% at 50% 44%, #000 26%, rgba(0,0,0,0.72) 50%, rgba(0,0,0,0.22) 78%, transparent 100%);
+            mask-image: radial-gradient(ellipse 54% 52% at 50% 44%, #000 26%, rgba(0,0,0,0.72) 50%, rgba(0,0,0,0.22) 78%, transparent 100%); }
+  .stand-media video, .stand-media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .stand-rotulo { margin-top: clamp(4px, 1vh, 10px); text-align: center; line-height: 1.25; }
+  .stand-rotulo b { display: block; font-weight: 500; font-size: clamp(12px, 1.05vw, 15px); letter-spacing: 1px; color: var(--white); }
+  .stand-rotulo span { display: block; margin-top: 4px; font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 300; letter-spacing: 2.2px; text-transform: uppercase; color: var(--gold); opacity: 0.9; }
+  /* de día el retrato sigue siendo una foto nocturna sobre papel: el óvalo se funde más despacio, para que no
+     quede un agujero oscuro con borde */
+  html[data-tema="dia"] .stand-media { opacity: 0.9;
+    -webkit-mask-image: radial-gradient(ellipse 54% 52% at 50% 44%, #000 12%, rgba(0,0,0,0.55) 42%, rgba(0,0,0,0.12) 72%, transparent 100%);
+            mask-image: radial-gradient(ellipse 54% 52% at 50% 44%, #000 12%, rgba(0,0,0,0.55) 42%, rgba(0,0,0,0.12) 72%, transparent 100%); }
+  /* la línea opcional de la feria (EXPO en el script del stand), debajo del rótulo del hero, en gris */
+  .hero-expo { color: var(--muted); margin-top: 6px; }
+  @media (prefers-reduced-motion: reduce) { .stand { animation: none; opacity: 1; } }
 
 
   @keyframes rise   { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
@@ -547,6 +583,16 @@
     html[data-hero="2"] #sistema-wrap{height:min(40%,56vw,300px);}
     html[data-hero="3"] #sistema-wrap{--ecl:clamp(104px,min(30vw,16svh),150px);}
     html[data-hero="3"] .ria{font-size:clamp(40px,min(12.5vw,6.6svh),58px);}
+    html[data-hero="4"] #sistema-wrap{height:min(40%,56vw,300px);}
+    html[data-hero="4"] .ria{font-size:clamp(42px,min(14vw,7svh),64px);}
+    /* el stand en celular: los dos flanquean RIA / LABS, con el pie de la foto a la altura de LABS (el pie de
+       la escena —dos líneas de 21 px, su margen y el gap de la grilla— queda debajo, a lo ancho), más chicos y
+       acercados a la cara (la escala) para que se lean en 100 px de ancho */
+    .stand{--ret-w:clamp(84px,28vw,112px);--stand-centro:62px;bottom:calc(46px + clamp(4px,1.4vh,16px) + clamp(6px,1.4vh,14px));}
+    .stand-media{width:var(--ret-w);height:calc(var(--ret-w) * 1.25);}
+    .stand-media video,.stand-media img{transform:scale(1.3);transform-origin:50% 26%;}
+    .stand-rotulo b{font-size:11px;letter-spacing:0.4px;}
+    .stand-rotulo span{font-size:8.5px;letter-spacing:1.6px;margin-top:3px;}
     .prod{padding:64px 0;}
     .prod-grid, .prod.inv .prod-grid { grid-template-columns: 1fr; gap: 28px; }
     .prod.inv .prod-vis { order: 0; }
@@ -569,9 +615,15 @@
   }
 </style>
 <script>if (/[?&]tema=dia(&|$)/.test(location.search)) document.documentElement.setAttribute('data-tema', 'dia');
-/* el hero en una pantalla tiene tres encuadres (2026-10-14): ?hero=1 escalonado · ?hero=2 el eclipse es el reactor
-   (el de por defecto) · ?hero=3 lockup y escenario. Se decide antes de pintar para que el primer cuadro ya sea el bueno. */
-(function(){ var m = /[?&]hero=([123])(&|$)/.exec(location.search); document.documentElement.setAttribute('data-hero', m ? m[1] : '2'); })();</script>
+/* el hero en una pantalla tiene cuatro encuadres (2026-10-14; el 4, 2026-10-31): ?hero=1 escalonado · ?hero=2 el eclipse
+   es el reactor (el de por defecto) · ?hero=3 lockup y escenario · ?hero=4 el stand (el 2 con los dos retratos vivos en las
+   esquinas). Se decide antes de pintar para que el primer cuadro ya sea el bueno. En el 4 se piden los pósters de los
+   retratos desde ya, con prioridad: son lo más grande que pinta la primera pantalla. */
+(function(){
+  var m = /[?&]hero=([1-4])(&|$)/.exec(location.search), h = m ? m[1] : '2';
+  document.documentElement.setAttribute('data-hero', h);
+  if (h === '4') ['matias', 'sebastian'].forEach(function(n){ var l = document.createElement('link'); l.rel = 'preload'; l.as = 'image'; l.href = '/assets/retrato-stand-' + n + '.jpg'; l.fetchPriority = 'high'; document.head.appendChild(l); });
+})();</script>
 </head>
 <body>
 
@@ -829,6 +881,61 @@
     <p class="maq-t1">Tu infraestructura ya existe.</p>
     <p class="maq-t2">Nosotros la hacemos pensar.</p>
   </div>
+
+  <!-- ══════════════ EL STAND (encuadre 4, 2026-10-31) ══════════════
+       Matías: «abajo de la maquina, del lado izquierdo, a la altura de RIA, pone la imagen viva de Matias
+       desarrollador, y a la misma altura pero del lado derecho, abajo de la red de sistemas, pone la foto viva de
+       Sebastian». Los dos están en el stand de la Smart City Expo y la home es lo primero que ve quien los visita.
+       Dos retratos vivos (clips de unos segundos en loop: quietos esperando la foto, pestañean cada tanto) con su
+       póster, en las esquinas de abajo, a la altura de RIA / LABS, con nombre y oficio como en #equipo. El marcado
+       está en este <template> y lo estampa el script de abajo sólo con data-hero="4": en los otros encuadres no
+       existe en el DOM y no se descarga nada. Con prefers-reduced-motion o Save-Data se estampa sólo el póster.
+       Assets: assets/retrato-stand-{matias,sebastian}.{jpg,webm,mp4} (póster 4:5 = cuadro 0 del loop). -->
+  <template id="stand-tpl">
+    <figure class="stand stand-izq">
+      <div class="stand-media">
+        <video muted loop playsinline autoplay disablepictureinpicture disableremoteplayback width="720" height="900" poster="/assets/retrato-stand-matias.jpg" aria-label="Matías Gallego, co-fundador de RIA Labs, frente a sus pantallas de código y la maqueta de ciudad, quieto esperando que le saquen la foto; pestañea cada tanto">
+          <source src="/assets/retrato-stand-matias.webm" type="video/webm">
+          <source src="/assets/retrato-stand-matias.mp4" type="video/mp4">
+          <img src="/assets/retrato-stand-matias.jpg" width="720" height="900" alt="Matías Gallego, co-fundador de RIA Labs, frente a sus pantallas de código y la maqueta de ciudad">
+        </video>
+      </div>
+      <figcaption class="stand-rotulo"><b>Matías Gallego</b><span>Programador</span></figcaption>
+    </figure>
+    <figure class="stand stand-der">
+      <div class="stand-media">
+        <video muted loop playsinline autoplay disablepictureinpicture disableremoteplayback width="720" height="900" poster="/assets/retrato-stand-sebastian.jpg" aria-label="Sebastián Acedo, co-fundador de RIA Labs, frente al muro de cámaras y el rack, quieto esperando que le saquen la foto; pestañea cada tanto">
+          <source src="/assets/retrato-stand-sebastian.webm" type="video/webm">
+          <source src="/assets/retrato-stand-sebastian.mp4" type="video/mp4">
+          <img src="/assets/retrato-stand-sebastian.jpg" width="720" height="900" alt="Sebastián Acedo, co-fundador de RIA Labs, frente al muro de cámaras y el rack">
+        </video>
+      </div>
+      <figcaption class="stand-rotulo"><b>Sebastián Acedo</b><span>Integrador</span></figcaption>
+    </figure>
+  </template>
+  <script>
+  /* estampa el stand sólo en el encuadre 4, durante el parseo (antes del primer cuadro). Con reduced-motion o
+     Save-Data cada <video> se cambia por su póster (el <img> de adentro, con su alt). EXPO: una línea opcional
+     bajo el rótulo del hero mientras dure la feria —apagada; para encenderla, escribir el texto, p. ej.
+     'Smart City Expo World Congress · Barcelona · 3–5 de noviembre'. */
+  (function(){
+    if (document.documentElement.getAttribute('data-hero') !== '4') return;
+    var EXPO = '';
+    var tpl = document.getElementById('stand-tpl'), esc = tpl && tpl.parentNode;
+    if (!tpl || !esc || !('content' in tpl)) return;
+    var quieto = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) || !!(navigator.connection && navigator.connection.saveData);
+    var frag = tpl.content.cloneNode(true);
+    if (quieto) Array.prototype.forEach.call(frag.querySelectorAll('video'), function(v){
+      var img = v.querySelector('img'); if (img) { img.setAttribute('decoding', 'async'); v.parentNode.replaceChild(img, v); }
+    });
+    esc.appendChild(frag);
+    if (EXPO) {
+      var ey = document.querySelector('.hero-eyebrow'), p = document.createElement('p');
+      p.className = 'hero-eyebrow hero-expo'; p.textContent = EXPO;
+      if (ey && ey.parentNode) ey.parentNode.insertBefore(p, ey.nextSibling);
+    }
+  })();
+  </script>
 
   </div><!-- /.hero-escena -->
 </header>
@@ -1572,8 +1679,8 @@
      máquina se reorganiza en vertical: la estación gira 90°, el reactor al medio, los productos abajo.
      Desde el 14/10 vive en el hero y se arma para la caja que la grilla del hero le deja (ver «el
      trazado», abajo): no tiene tamaño propio, el viewBox se calcula, y se rearma sola si la caja cambia
-     (ResizeObserver) sin perder el estado de la reacción. En el encuadre 2 (?hero=2) no dibuja su
-     reactor: el reactor es el eclipse del hero, y la química se pinta adentro de su disco negro.
+     (ResizeObserver) sin perder el estado de la reacción. En los encuadres 2 y 4 (?hero=2, el stand ?hero=4)
+     no dibuja su reactor: el reactor es el eclipse del hero, y la química se pinta adentro de su disco negro.
      ══════════════════════════════════════════ */
   (function(){
     var sec = document.getElementById('maquina'), svg = document.getElementById('mq-svg');
@@ -1610,6 +1717,7 @@
        para que las etiquetas queden derechas. Las etiquetas no bajan de 8,5 px en pantalla. ── */
     var R = 100, RIN = 92;    // el aro del reactor y el radio de la cámara (unidades de la simulación)
     var VAR = document.documentElement.getAttribute('data-hero') || '2';
+    var OJO = VAR === '2' || VAR === '4';   // el eclipse es el reactor (el 4, el stand, es el 2 con los retratos)
     var ecl = document.getElementById('sistema-wrap'), pie = document.getElementById('maq-pie');
     var mq = window.matchMedia('(max-width: 860px)');
     var L = null, V = null;    // trazado vigente y la vista armada sobre él
@@ -1618,7 +1726,7 @@
     function trazado(){
       var W = sec.clientWidth, H = sec.clientHeight;
       if (!(W > 40 && H > 40)) return null;
-      var vert = mq.matches, ojo = VAR === '2' && !!ecl && ecl.offsetWidth > 0, T = { vert: vert, ojo: ojo };
+      var vert = mq.matches, ojo = OJO && !!ecl && ecl.offsetWidth > 0, T = { vert: vert, ojo: ojo };
       var g, b, firma = '';
       T.dir = vert ? { x: 0, y: 1 } : { x: 1, y: 0 };
       if (!ojo) {
@@ -2198,7 +2306,7 @@
       });
     }
     var T0 = trazado(); if (T0) armar(T0);
-    if ('ResizeObserver' in window) { var ro = new ResizeObserver(rearmar); ro.observe(sec); if (VAR === '2' && ecl) ro.observe(ecl); }
+    if ('ResizeObserver' in window) { var ro = new ResizeObserver(rearmar); ro.observe(sec); if (OJO && ecl) ro.observe(ecl); }
     window.addEventListener('resize', rearmar, { passive: true });
     mq.addEventListener ? mq.addEventListener('change', rearmar) : mq.addListener(rearmar);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(rearmar);
@@ -2383,10 +2491,10 @@
     var prev = null, t0 = 0, raf = 0, visible = true;
     var VAR = html.getAttribute('data-hero'), vertical = window.matchMedia('(max-width: 860px)');
     function suave(v){ v = v < 0 ? 0 : v > 1 ? 1 : v; return v * v * (3 - 2 * v); }
-    // dónde no asoma: en el encuadre 2, sobre las bridas de la máquina (±25° del eje de la cañería); en el 3,
-    // del lado del logo, que los rayos cruzarían
+    // dónde no asoma: en los encuadres 2 y 4 (el eclipse es el reactor), sobre las bridas de la máquina (±25° del
+    // eje de la cañería); en el 3, del lado del logo, que los rayos cruzarían
     function vedado(a){
-      if (VAR === '2') return vertical.matches ? Math.abs(Math.cos(a)) < 0.42 : Math.abs(Math.sin(a)) < 0.42;
+      if (VAR === '2' || VAR === '4') return vertical.matches ? Math.abs(Math.cos(a)) < 0.42 : Math.abs(Math.sin(a)) < 0.42;
       if (VAR === '3') return Math.cos(a) > 0.3;
       return false;
     }
@@ -3325,6 +3433,29 @@
       });
     }, { threshold: 0.25 });
     vids.forEach(function(v){ vo.observe(v); });
+  })();
+
+  /* ══════════════════════════════════════════
+     EL STAND · los retratos vivos del encuadre 4 (?hero=4). Arrancan solos (autoplay, mudos); acá se desfasan
+     —el segundo empieza en otro punto del loop, así no pestañean a la vez—, se pausan fuera de pantalla y con la
+     pestaña oculta, y vuelven al entrar. Con reduced-motion o Save-Data el estampado no puso <video>: no hay nada
+     que hacer.
+     ══════════════════════════════════════════ */
+  (function(){
+    var vids = Array.prototype.slice.call(document.querySelectorAll('.stand video'));
+    if (!vids.length) return;
+    var DESFASE = 0.42;   // fracción del loop en la que arranca el segundo retrato
+    var visible = true;
+    function tocar(v){ var pr = v.play(); if (pr && pr.catch) pr.catch(function(){}); }
+    function sincronizar(){ vids.forEach(function(v){ if (visible && !document.hidden) tocar(v); else v.pause(); }); }
+    vids.forEach(function(v, i){
+      if (!i) return;
+      var corrido = false;
+      function correr(){ if (corrido || !(v.duration > 0) || !isFinite(v.duration)) return; corrido = true; v.currentTime = (DESFASE * v.duration) % v.duration; }
+      if (v.readyState >= 1) correr(); else v.addEventListener('loadedmetadata', correr);
+    });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; sincronizar(); }, { threshold: 0.15 }).observe(vids[0].closest('.hero-escena') || vids[0]);
+    document.addEventListener('visibilitychange', sincronizar);
   })();
 
 </script>

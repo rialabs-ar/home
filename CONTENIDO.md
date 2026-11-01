@@ -17,6 +17,51 @@
 
 ### 0.1 Qué cambió y por qué
 
+- **El stand: cuarto encuadre del hero, `?hero=4` (rama `hero-stand`, 2026-10-31).** Matías, verbatim: *«Probemos
+  una version de portada con el logo de RIA Labs como esta ahora con el eclipse actual y la maquina dibujada pero que
+  entre todo en una sola pagina de pantalla, y a cada costado del logo las imagenes de los ceos, Matias y Sebastian, en
+  movimiento como posando esperando que le saquen la foto con el parpadeo de ojos y todo, pero sin pelo agregado. La
+  idea es mostrar los CEOs que estan presentes en el stand como una primera vista cuando se visita la home de la
+  empresa»*; y después, sobre una captura del encuadre 2: *«abajo de la maquina, del lado izquierdo, a la altura de
+  RIA, pone la imagen viva de Matias desarrollador, y a la misma altura pero del lado derecho, abajo de la red de
+  sistemas, pone la foto viva de Sebastian de Byte»* (los dos en `docs/prompts-usuario/2026-10-31-portada-stand.md`).
+  Contexto: Smart City Expo World Congress, Barcelona, 3–5/11/2026; los dos están en el stand y la home es lo primero
+  que ve quien los visita. **Qué es:** el encuadre 2 tal cual (el eclipse es el reactor, RIA / LABS debajo, la frase al
+  pie) más **los dos retratos vivos en las esquinas de abajo, a la altura de RIA / LABS**: Matías a la izquierda, bajo
+  la estación (engranajes y entradas); Sebastián a la derecha, bajo la red; del mismo tamaño, simétricos respecto del
+  logo, con el rótulo **nombre · oficio** como en `#equipo` (Matías Gallego · Programador, Sebastián Acedo ·
+  Integrador) a la altura de la frase. No es la sección de equipo subida: es la recepción. Ningún otro texto nuevo
+  («desarrollador» y «de Byte» son cómo Matías identifica las fotos; Byte no vuelve a la página). Una línea opcional
+  con la feria queda **apagada** detrás de la constante `EXPO` del script del stand (debajo del rótulo del hero, en
+  gris; el texto sugerido está en el comentario). **Cómo está hecho:** la grilla es la misma del 2; los retratos son
+  dos `<figure class="stand">` absolutas dentro de `.hero-escena` (no miden: no empujan ni la máquina ni el logo),
+  cada una en la franja que va del borde a la mitad menos lo que reserva el wordmark (`--stand-centro`) y centrada en
+  esa franja —que es justo donde caen la estación y la red, en todos los anchos—, con el pie del rótulo al ras del pie
+  de la escena. Sin tarjeta ni marco: una **máscara radial** (`mask-image`, óvalo centrado en la cara) funde la foto
+  con el cielo, con decisión porque los retratos traen su contexto (Matías con las pantallas de código y la maqueta,
+  Sebastián con el muro de cámaras y el rack) y el fondo oscurecido hacia los bordes. Alto `clamp(140px, 27svh,
+  290px)` (243 px a 1440×900, 194 a 1280×720, 290 a 1920×1080), 4:5; el eclipse sigue siendo la figura (disco de 299
+  px a 1440×900). El marcado vive en `<template id="stand-tpl">` y un script lo estampa durante el parseo **sólo con
+  `data-hero="4"`**: en los otros encuadres no existe en el DOM y no se descarga ni el póster (verificado por DOM). En
+  el 4 el script del `<head>` pide los dos pósters con `<link rel=preload fetchpriority=high>`: son lo más grande que
+  pinta la primera pantalla. Los clips van con `autoplay muted loop playsinline` sobre su póster; el script «EL
+  STAND» arranca el segundo en otro punto del loop (`DESFASE = 0,42` del largo, así no pestañean a la vez), los pausa
+  fuera de pantalla y con la pestaña oculta (IntersectionObserver + visibilitychange) y los retoma al volver. Con
+  `prefers-reduced-motion` o Save-Data el estampado cambia cada `<video>` por su póster (el `<img>` de adentro, con
+  su `alt`). `alt` y `aria-label` describen a cada uno con su contexto, sin melena. La máquina y la estrella tratan
+  al 4 como al 2 (`OJO` en «LA MÁQUINA»; la estrella no asoma sobre las bridas). De día (`?tema=dia&hero=4`) el
+  retrato sigue siendo una foto nocturna sobre papel: el óvalo se funde más despacio para no quedar como un agujero
+  con borde. **Celular (≤860 px):** los dos flanquean RIA / LABS, con el pie de la foto a la altura de LABS y el rótulo
+  al lado del wordmark; la frase sigue debajo a lo ancho; la máquina vertical no cambia (los retratos no miden).
+  Más chicos (`clamp(84px, 28vw, 112px)` de ancho: 109 a 390, 100 a 360) y acercados a la cara (escala 1,3 con origen
+  en la cara) para que se lean en 100 px; el nombre a 11 px en una línea, el oficio a 8,5. En 390×844 y 360×740
+  quedan por fuera de la constelación (sus vértices bajos están en x 140–250). **Verificado en captura real**
+  (`PANTALLA=1 … QUERY=hero=4`): 1440×900, 1280×720, 1920×1080, 1024×768, 390×844 y 360×740, más `?tema=dia` y
+  reduced-motion a 1440×900; en todos entra en la pantalla y no tapa nodos ni etiquetas. Capturas en
+  `_capturas/hero-stand/` (ignorado). **Depende de los retratos reales** (`assets/retrato-stand-*`, §0.3, los produce
+  otra sesión): el ajuste fino de la máscara, el `object-position` (hoy 50 % 30 %: con los provisorios Matías queda un
+  poco más abajo que Sebastián porque su cabeza viene más baja en el cuadro) y el `DESFASE`, que hay que mirar con los
+  pestañeos reales. Los encuadres 1–3 y el de por defecto (2) no cambian.
 - **RIA Smartcity (2026-10-29).** «Creo que tenemos que renombrar RIA Espacios a RIA Smartcity para poder abarcar
   esta expo Barcelona a la que estamos a punto de ir y nuestro nuevo producto RIA Smartcity Entrypoint. Sin perder el
   resto de las cosas que ya hicimos.» El producto 02 vuelve a llamarse **RIA Smartcity** (Smart City Expo World
@@ -551,7 +596,8 @@
 ### 0.2 Secuencia de la página (anclas)
 
 `#inicio` hero, una pantalla (eclipse · RIA LABS · `#maquina` · el pie «Tu infraestructura ya existe. / Nosotros la hacemos pensar.»;
-en el encuadre por defecto, `?hero=2`, la máquina pasa a través del eclipse y RIA LABS va debajo) →
+en el encuadre por defecto, `?hero=2`, la máquina pasa a través del eclipse y RIA LABS va debajo; en el 4, `?hero=4`, el stand:
+lo mismo más los retratos vivos de Matías y Sebastián en las esquinas de abajo, con nombre y oficio) →
 `#productos` (`#analitico` · `#smartcity` · `#automocion`) → `#dataflow` →
 `#laboratorio` → `#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
 
@@ -563,6 +609,7 @@ en el encuadre por defecto, `?hero=2`, la máquina pasa a través del eclipse y 
 | `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos vigentes 720×900 (4:5): la familia **con melena** (~120 KB y ~103 KB desde el 11/10, con el eclipse unificado). Son el **póster** de los retratos vivos y la foto que queda con `prefers-reduced-motion` |
 | `assets/retrato-sebastian.mp4` / `.webm` · `assets/retrato-matias.mp4` / `.webm` | **retratos vivos** (2026-10-11): clips 720×900, 24 fps, en loop (9,67 s y 10,25 s), H.264 `yuv420p` sin audio + VP9. Sebastián 1,09 MB / 0,90 MB · Matías 0,83 MB / 0,65 MB |
 | `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~82 KB y ~79 KB, con el mismo eclipse unificado). Para cambiar de familia alcanza con renombrar; la sobria no tiene clip |
+| `assets/retrato-stand-matias.{jpg,webm,mp4}` · `assets/retrato-stand-sebastian.{jpg,webm,mp4}` | **los retratos vivos del stand** (encuadre 4, `?hero=4`, 2026-10-31): los produce otra sesión y los integra la madre; el marcado de `v5/index.html` ya apunta a estos nombres. Contrato: póster jpg 4:5 de hasta 720×900 igual al cuadro 0 del loop; clip H.264 (`.mp4`) y VP9 (`.webm`), mudo, en loop, quietos esperando la foto y pestañeando, sin melena, cada uno con su contexto (Matías: pantallas de código y maqueta de ciudad; Sebastián: muro de cámaras y rack), sin el eclipse chico y con el fondo oscurecido hacia los bordes. Hasta que lleguen, para capturar se copian a mano los sobrios con estos nombres, sin commitearlos |
 | `scripts/generar-retratos-vivos.py` | cómo se hicieron el eclipse unificado y los retratos vivos (abajo): `fondo`, `video`, `post`, y `costura` para medir el loop |
 | `assets/eclipse-corona.webp` · `.jpg` | **la corona fotográfica** (2026-10-12): WebP 1000×1000 con alfa desde la luminancia, 150 KB, el disco negro centrado a r = 0,1515 del lado. El jpg (37 KB) es la misma toma sobre negro. **Desde el 13/10 la página no carga ninguno de los dos** (la corona es la flama procedural); quedan en el repo por si el ciclo o la foto vuelven |
 | `assets/eclipse-sol.webp` | la fotósfera en luz blanca, 720×720, alfa = disco (r = 0,4873 del lado), 20 KB. Desde el 13/10 va en `data-href`: se descarga sólo cuando el ciclo o `?tema=dia` la piden |
