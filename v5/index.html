@@ -201,7 +201,7 @@
   /* ── HERO · los tres encuadres (2026-10-14) ─────────────────────────────────────
      Matías: «tratemos de que entre en la pantalla de presentación». El hero mide una pantalla (100svh, con
      piso para las muy bajas) y adentro una grilla, .hero-escena, reparte el alto entre el eclipse, RIA / LABS,
-     la máquina y su pie. data-hero en <html> (?hero=1…5; por defecto 2) elige el encuadre, y el script
+     la máquina y su pie. data-hero en <html> (?hero=1…5; por defecto 5 desde el 01/11, elegido por Matías para la expo) elige el encuadre, y el script
      «LA MÁQUINA» arma el dibujo para la caja que la grilla le deja:
        1 · escalonado: todo apilado; el eclipse y el logo se miden por el alto y la máquina toma lo que sobra.
        2 · el eclipse es el reactor: la máquina pasa a través del eclipse, que hace de cámara (la química va
@@ -708,7 +708,7 @@
    y el 5 se piden los pósters de los retratos desde ya, con prioridad: son lo más grande que pinta la primera pantalla
    después del eclipse. */
 (function(){
-  var m = /[?&]hero=([1-5])(&|$)/.exec(location.search), h = m ? m[1] : '2';
+  var m = /[?&]hero=([1-5])(&|$)/.exec(location.search), h = m ? m[1] : '5';
   document.documentElement.setAttribute('data-hero', h);
   if (h === '4' || h === '5') ['matias', 'sebastian'].forEach(function(n){ var l = document.createElement('link'); l.rel = 'preload'; l.as = 'image'; l.href = '/assets/retrato-stand-' + n + '.jpg'; l.fetchPriority = 'high'; document.head.appendChild(l); });
 })();</script>
