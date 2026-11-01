@@ -579,21 +579,35 @@
   .pr-t { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 12px; }
   .pr-b { font-size: 13px; font-weight: 300; line-height: 1.7; color: var(--muted); }
 
-  /* ── EQUIPO ───────────────────────────────────────── */
-  .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 56px; background: var(--border2); }
-  .founder { background: var(--tarjeta); padding: 40px 36px; display: grid; grid-template-columns: 210px 1fr; gap: 30px; align-items: start; }
-  /* Retrato vertical 4:5 en contexto: el de la casa en su terreno, con el eclipse arriba.
-     Desde el 11/10 el retrato está vivo: un clip de 5 s en loop (quietos esperando la foto, la melena al viento de un
-     ventilador) con el jpg de póster; arranca sólo a la vista (ver "LABORATORIO Y EQUIPO · videos" abajo). Con
-     prefers-reduced-motion no se reproduce y queda el póster, que es la misma foto. */
-  .f-photo { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; border: 1px solid var(--border); background: var(--bg3); position: relative; }
-  .f-photo img, .f-photo video { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; display: block; }
-  .f-init { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 26px; letter-spacing: 2px; color: var(--gold); }
-  .f-name { font-weight: 500; font-size: 26px; letter-spacing: 1px; color: var(--white); margin-bottom: 4px; }
-  .f-role { font-size: 11px; font-weight: 300; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 18px; }
-  .f-bio { font-size: 14.5px; font-weight: 300; line-height: 1.72; color: var(--muted); margin-bottom: 22px; }
-  .f-co { font-weight: 500; font-size: 16px; letter-spacing: 2px; color: var(--white); opacity: 0.5; margin-bottom: 4px; }
-  .f-col { font-size: 12px; font-weight: 300; color: var(--muted); }
+  /* ── ROSARIO · la oficina dibujada ──────────────────
+     De dónde salimos (el texto) y la oficina en corte (el dibujo, que arma el script «ROSARIO · la oficina dibujada»):
+     un edificio de dos pisos en una ochava, sin la pared del frente, con sus cuatro espacios. Línea fina de plano en el
+     dorado de la casa; las luces son los colores por producto. Los tonos del dibujo son variables de la sección, con su
+     versión de día; lo que pasa adentro de las pantallas va en sus colores de noche siempre (una pantalla es oscura en
+     los dos temas). */
+  .ros { position: relative;
+    --ros-int: #100e1d; --ros-fondo: #15132a; --ros-lado: #0f0d1c; --ros-piso: #121022; --ros-poche: #1d1a31;
+    --ros-muro: #131120; --ros-casa: #0e0d19; --ros-mueble: #1a1729; --ros-mueble-top: #24203a; --ros-mueble-lado: #141222;
+    --ros-gente: #e6dfcb; --ros-cuerpo: #2a2737; --ros-pant: #07060e; --ros-pizarra: #1e1b30; --ros-arbol: #8a8478;
+    --ros-vidrio: #06050d; --ros-perfil: #0e0c1a; --ros-luces: 1; --ros-halo: #0b0a14; }
+  html[data-tema="dia"] .ros {
+    --ros-int: #efe8d9; --ros-fondo: #f6f1e5; --ros-lado: #e7dfcc; --ros-piso: #e9e1cf; --ros-poche: #d6c9ad;
+    --ros-muro: #ece4d2; --ros-casa: #f1ebde; --ros-mueble: #e0d6bf; --ros-mueble-top: #ebe3d1; --ros-mueble-lado: #d7cbb2;
+    --ros-gente: #2a251c; --ros-cuerpo: #e2d9c6; --ros-pant: #1a1712; --ros-pizarra: #fbf8f1; --ros-arbol: #645d50;
+    --ros-vidrio: #dfe4e2; --ros-perfil: #cbc4b3; --ros-luces: 0.25; --ros-halo: #f4efe4; }
+  .ros-ancla-vieja { position: absolute; top: 0; left: 0; width: 1px; height: 1px; pointer-events: none; }
+  .ros-txt { display: grid; grid-template-columns: 1fr 1fr; gap: 0 56px; margin-top: 8px; }
+  .ros-txt .bdy { max-width: 540px; }
+  .ros-txt .bdy + .bdy { margin-top: 0; }
+  /* el dibujo va a lo ancho, más allá de la caja del texto: el barrio se pierde en el cielo a los costados */
+  .ros-fig { margin: 40px auto 0; max-width: 1480px; padding: 0 12px; }
+  .ros-svg { display: block; width: 100%; height: auto; overflow: visible;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%); }
+  .ros-svg .vivo { transition: none; }
+  .ros-svg .ros-luces { opacity: var(--ros-luces); transition: opacity var(--t-tema) ease; }
+  .ros-svg text { font-family: 'DM Mono', monospace; font-weight: 400; text-transform: uppercase; paint-order: stroke; stroke: var(--ros-halo); stroke-linejoin: round; }
+  .ros-pie { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); opacity: 0.6; text-align: center; margin-top: 14px; }
 
   /* CONTACT */
   .contact { text-align: center; padding: 0 48px 140px; position: relative; overflow: hidden; }
@@ -633,7 +647,6 @@
     .df-tab { gap: 16px 20px; }
     .df-n { font-size: 24px; }
     .df-tab li:first-child .df-n { font-size: 48px; }
-    .founder { grid-template-columns: 170px 1fr; gap: 24px; padding: 32px 28px; }
     .princ-grid { grid-template-columns: 1fr 1fr; }
   }
   @media(max-width:860px){
@@ -694,8 +707,9 @@
     .df-nota{margin-top:24px;}
     .princ-grid,.team-grid{grid-template-columns:1fr;}
     .maq-t1,.maq-t2{font-size:14px;}
-    .founder{grid-template-columns:1fr;}
-    .f-photo{max-width:240px;}
+    .ros-txt{grid-template-columns:1fr;gap:16px;}
+    .ros-fig{margin-top:28px;padding:0;}
+    .ros-svg{-webkit-mask-image:none;mask-image:none;}
     footer{flex-direction:column;gap:14px;text-align:center;padding:28px 24px;}
     .f-links{display:none;} .contact{padding:80px 24px 100px;}
   }
@@ -1484,52 +1498,25 @@
 
 <div class="divider"></div>
 
-<!-- ══════════════ EQUIPO ══════════════ -->
-<section class="section" id="equipo" style="padding-bottom:0;">
+<!-- ══════════════ ROSARIO · la oficina dibujada ══════════════
+     Hasta el 01/11 era «El equipo» (los dos fundadores con su retrato vivo y su historia). Matías: «ya no tiene que
+     mostrar los personajes con su historia, sino que tiene que transformarse en una idea dibujada». De dónde salimos y
+     la oficina en corte, sin la pared del frente, con sus cuatro espacios: el dibujo lo arma el script «ROSARIO · la
+     oficina dibujada», al final de la página. El ancla vieja #equipo queda para los enlaces de antes. -->
+<section class="section ros" id="rosario" style="padding-bottom:0;">
+  <span id="equipo" class="ros-ancla-vieja" aria-hidden="true"></span>
   <div class="wrap">
-    <p class="lbl rev">El equipo</p>
-    <h2 class="ttl rev d1">Dos oficios<br>consolidados</h2>
-    <p class="bdy rev d2">RIA Labs nace de la convergencia de dos trayectorias distintas y complementarias: la infraestructura instalada y el software que la hace pensar. <strong>La combinación que no existe en el mercado argentino.</strong></p>
-
-    <div class="team-grid">
-      <div class="founder rev d1">
-        <div class="f-photo">
-          <span class="f-init">SA</span>
-          <video muted loop playsinline preload="none" disablepictureinpicture width="720" height="900" poster="/assets/retrato-sebastian.jpg" aria-label="Sebastián Acedo en un centro de monitoreo, quieto esperando la foto, con la melena al viento y el eclipse de RIA Labs al fondo">
-            <source src="/assets/retrato-sebastian.webm" type="video/webm">
-            <source src="/assets/retrato-sebastian.mp4" type="video/mp4">
-            <img src="/assets/retrato-sebastian.jpg" width="720" height="900" loading="lazy" decoding="async" alt="Sebastián Acedo en un centro de monitoreo, con el eclipse de RIA Labs sobre su cabeza">
-          </video>
-        </div>
-        <div>
-          <div class="f-name">Sebastián Acedo</div>
-          <div class="f-role">Co-fundador · Infraestructura & Seguridad</div>
-          <p class="f-bio">Más de 25 años al frente de una empresa de seguridad electrónica e integración de sistemas, diseñando e implementando infraestructuras tecnológicas para empresas e instituciones de la región. Especialista en integración de sistemas, operaciones físicas y redes de alta complejidad. Aporta el acceso directo a clientes con infraestructura instalada, la solidez operativa y el conocimiento profundo de los entornos reales donde la tecnología tiene que funcionar.</p>
-          <div class="f-co">Integrador</div>
-          <div class="f-col">Desde hace 25 años · seguridad electrónica · Rosario</div>
-        </div>
-      </div>
-      <div class="founder rev d2">
-        <div class="f-photo">
-          <span class="f-init">MG</span>
-          <video muted loop playsinline preload="none" disablepictureinpicture width="720" height="900" poster="/assets/retrato-matias.jpg" aria-label="Matías Gallego de brazos cruzados frente a pantallas de código y una maqueta de ciudad, quieto esperando la foto, con el pelo volando hacia atrás y el eclipse de RIA Labs al fondo">
-            <source src="/assets/retrato-matias.webm" type="video/webm">
-            <source src="/assets/retrato-matias.mp4" type="video/mp4">
-            <img src="/assets/retrato-matias.jpg" width="720" height="900" loading="lazy" decoding="async" alt="Matías Gallego de brazos cruzados frente a pantallas de código y una maqueta de ciudad, con el eclipse de RIA Labs sobre su cabeza">
-          </video>
-        </div>
-        <div>
-          <div class="f-name">Matías Gallego</div>
-          <div class="f-role">Co-fundador · Software & Estrategia</div>
-          <p class="f-bio">Programador desde 2001, hizo carrera en empresas de software y en grandes compañías de Estados Unidos, donde también tuvo su éxito emprendedor: Redeeem. Impulsor de startups del ecosistema joven, mentor de proyectos y emprendedor constante. Hoy abre el juego a la creación de software de impacto en Argentina.</p>
-          <!-- Sin empresas que mostrar (decisión del 13/10): los dos cierran con su oficio. Misma forma, mismo lugar. -->
-          <div class="f-co">Programador</div>
-          <div class="f-col">Desde 2001 · Redeeem · Estados&nbsp;Unidos&nbsp;→&nbsp;Argentina</div>
-        </div>
-      </div>
+    <p class="lbl rev">Rosario</p>
+    <h2 class="ttl rev d1">De dónde salimos</h2>
+    <div class="ros-txt">
+      <p class="bdy rev d2"><strong>De Rosario, provincia de Santa Fe, Argentina.</strong> Una ciudad puerto sobre el Paraná, de ingenieros y de programadores. De acá traemos la costumbre de trabajar con lo que ya está —la cámara que ya cuelga en la esquina, el sensor que ya mide, el cuaderno que alguien ya llena a birome— y la de decir lo que todavía no sabemos.</p>
+      <p class="bdy rev d3">Esta es la oficina, sin la pared del frente. Arriba, <strong>los programadores</strong>, donde el motor se escribe, y <strong>la sala de reuniones</strong>, donde un cliente ve sus propios números. Abajo, <strong>el laboratorio</strong>, donde se prueba lo que todavía es pregunta, y <strong>el showroom</strong>, abierto a la vereda. En la ochava, una cámara mira la calle las veinticuatro horas. La regla es la misma en las cuatro salas: si no está medido, no se dice.</p>
     </div>
-
   </div>
+  <figure class="ros-fig rev d2" id="oficina">
+    <svg id="ros-svg" class="ros-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dibujo animado de la oficina de RIA Labs en Rosario: un edificio de dos pisos en una esquina con ochava, sin la pared del frente. Arriba, la sala de programadores, con gente escribiendo frente a pantallas de código y alguien dibujando en una pizarra, y la sala de reuniones, donde alguien le presenta un gráfico a clientes sentados a la mesa. Abajo, el laboratorio, con un brazo robótico que se mueve y alguien probando una cámara, y el showroom, donde la gente mira una pantalla grande y alguien entra desde la vereda. En la ochava, una cámara mira la calle; por la vereda pasa gente y por la calle, un auto y una bici."></svg>
+    <figcaption class="ros-pie">corte de la oficina · una esquina de Rosario</figcaption>
+  </figure>
 </section>
 
 <!-- Separador de Equipo → Contacto: el anillo solo, el isotipo de la casa (logos/ria-anillo-color.svg).
@@ -3851,6 +3838,846 @@
     document.addEventListener('visibilitychange', sincronizar);
   })();
 
+</script>
+<script>
+/* ══════════════════════════════════════════
+   ROSARIO · la oficina dibujada (2026-11-01). Matías: «Seria bueno representarlo con un edificio sin pared que muestra
+   el interior donde estan los espacios con gente trabajando, presentando, probando, mirando». Un corte fugado, en el
+   lenguaje de la máquina (línea fina de plano en el dorado de la casa, las luces en los colores por producto): el
+   edificio de dos pisos en su ochava, sin la pared del frente, mirado desde la vereda de enfrente con el ojo a la
+   altura de la terraza (se ven los pisos, no los techos). Arriba, los programadores y la sala de reuniones; abajo, el
+   laboratorio y el showroom, que se abre a la vereda por la puerta de la ochava. En la ochava, la cámara que mira la
+   calle; por la vereda pasa gente (uno entra al showroom), por la calle un auto y una bici, y la cámara los marca.
+   Cómo está hecho: todo en «unidades» (20 = 1 m; una persona mide 34) con una proyección de un solo punto de fuga,
+   P(x, y, z), donde z es la profundidad desde el plano del corte. Las cajas (escritorios, mesas, pedestales) se
+   proyectan cara por cara; la gente y los aparatos son figuras planas paradas a su profundidad (escala k(z)). Se
+   arma una vez por trazado (≤860 px: salas angostas y menos gente) y cada cuadro sólo mueve lo vivo, sin tocar
+   colores (la transición del tema no se entera). Un rAF a ~30 cuadros por segundo, sólo con el dibujo a la vista y la
+   pestaña visible; ?t=<ms> adelanta el reloj (la misma foto siempre); con prefers-reduced-motion, un cuadro quieto
+   elegido (T_QUIETO).
+   ══════════════════════════════════════════ */
+(function(){
+  var fig = document.getElementById('oficina'), svg = document.getElementById('ros-svg');
+  if (!fig || !svg) return;
+  var NS = 'http://www.w3.org/2000/svg', TAU = Math.PI * 2;
+  var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var mq = window.matchMedia('(max-width: 860px)');
+  var T_PRE = 18, T_QUIETO = 24.8;   // s: el reloj arranca andando (nada empieza vacío); el cuadro quieto de reduced-motion
+  var T_URL = +((location.search.match(/[?&]t=(\d+)/) || [])[1] || 0) / 1000;
+  var C = 'var(--gold)', HI = 'var(--gold-hi)', GEN = 'var(--ros-gente)', CUE = 'var(--ros-cuerpo)', PANT = 'var(--ros-pant)', MUE = 'var(--ros-mueble)';
+  // adentro de las pantallas, los colores de noche siempre (una pantalla es oscura en los dos temas)
+  var L_ESP = '#2fd0c8', L_ANA = '#4a8fd4', L_AUT = '#EF9F27', L_CREMA = '#f0ece0';
+
+  function r1(v){ return Math.round(v * 10) / 10; }
+  function r2(v){ return Math.round(v * 100) / 100; }
+  function clamp(v, a, b){ return v < a ? a : v > b ? b : v; }
+  function sm(t){ t = clamp(t, 0, 1); return t * t * (3 - 2 * t); }
+  function tramo(t, a, b){ return sm((t - a) / (b - a)); }
+  function hash(n){ var x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+  function mk(tag, a, p){ var n = document.createElementNS(NS, tag); if (a) for (var q in a) n.setAttribute(q, a[q]); if (p) p.appendChild(n); return n; }
+  // escribe un atributo sólo si cambió
+  function at(n, q, v){ var c = '_' + q; if (n[c] !== v) { n[c] = v; n.setAttribute(q, v); } }
+  function op(n, v){ at(n, 'opacity', r2(clamp(v, 0, 1))); }
+  function dl(pts){ var s = ''; for (var i = 0; i < pts.length; i++) s += (i ? ' L ' : 'M ') + r1(pts[i][0]) + ' ' + r1(pts[i][1]); return s; }
+
+  /* ── la proyección: un punto de fuga (VX, VY) y la distancia F del ojo al plano del corte ── */
+  var F = 800, D = 100, VX = 0, VY = -170, T = null, defs = null, nId = 0;
+  function k(z){ return F / (F + z); }
+  function P(x, y, z){ var s = k(z); return [VX + (x - VX) * s, VY + (y - VY) * s]; }
+  function Ps(x, y, z){ var p = P(x, y, z); return r1(p[0]) + ' ' + r1(p[1]); }
+  function poli(pts, abierta){ var s = ''; for (var i = 0; i < pts.length; i++) s += (i ? ' L ' : 'M ') + Ps(pts[i][0], pts[i][1], pts[i][2]); return abierta ? s : s + ' Z'; }
+  function tr(x, y, z){ var p = P(x, y, z); return 'translate(' + r1(p[0]) + ' ' + r1(p[1]) + ') scale(' + (Math.round(k(z) * 1000) / 1000) + ')'; }
+  // una figura plana parada en (x, y, z): adentro se dibuja en unidades, con el pie en (0, 0)
+  function bb(p, x, y, z){ return mk('g', { transform: tr(x, y, z) }, p); }
+  // lo mismo en coordenadas de una sala (x desde su pared izquierda, y desde su piso)
+  function bbL(s, p, lx, ly, z){ return bb(p, s.x0 + lx, s.yF + ly, z); }
+  // pasar un punto de una figura plana a otra (para que una mano llegue a un punto de una pantalla)
+  function aLocal(x, y, z, bx, by, bz){ var q = P(x, y, z), o = P(bx, by, bz), s = k(bz); return [(q[0] - o[0]) / s, (q[1] - o[1]) / s]; }
+
+  // una caja proyectada cara por cara: x0..x1, yA (arriba)..yB (abajo), z0 (frente)..z1 (fondo)
+  function caja(p, x0, x1, yA, yB, z0, z1, o){
+    o = o || {};
+    var g = mk('g', { stroke: o.st || C, 'stroke-width': o.sw || 0.4, 'stroke-linejoin': 'round' }, p);
+    if (o.op) g.setAttribute('stroke-opacity', o.op);
+    if (x0 > VX) mk('path', { d: poli([[x0, yA, z0], [x0, yA, z1], [x0, yB, z1], [x0, yB, z0]]), fill: 'var(--ros-mueble-lado)' }, g);
+    if (x1 < VX) mk('path', { d: poli([[x1, yA, z0], [x1, yA, z1], [x1, yB, z1], [x1, yB, z0]]), fill: 'var(--ros-mueble-lado)' }, g);
+    if (yA > VY) mk('path', { d: poli([[x0, yA, z0], [x1, yA, z0], [x1, yA, z1], [x0, yA, z1]]), fill: o.top || 'var(--ros-mueble-top)' }, g);
+    mk('path', { d: poli([[x0, yA, z0], [x1, yA, z0], [x1, yB, z0], [x0, yB, z0]]), fill: o.fill || MUE }, g);
+    return g;
+  }
+  function cajaL(s, p, a, b, yA, yB, z0, z1, o){ return caja(p, s.x0 + a, s.x0 + b, s.yF + yA, s.yF + yB, z0, z1, o); }
+
+  /* ── la gente: figura de arquitecto en trazo. 34 unidades de alto parada (1,70 m). El cuerpo con relleno opaco y
+     contorno crema; brazos y piernas con doble trazo (el contorno ancho y el relleno angosto encima), así una pose
+     es cambiar un solo 'd'. Vista 'frente' (de frente o de espaldas: simétrica) o 'perfil' (mira a +x; dir -1 la espeja). ── */
+  function miembro(p, w, col, rel){
+    var a = mk('path', { fill: 'none', stroke: col || GEN, 'stroke-width': w, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, p);
+    var b = mk('path', { fill: 'none', stroke: rel || CUE, 'stroke-width': w - 1, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, p);
+    return function(pts){ var d = dl(pts); at(a, 'd', d); at(b, 'd', d); };
+  }
+  // dos tramos (l1, l2) de s hacia t; lado elige para dónde dobla el codo. Si no llega, se estira hacia t: señala.
+  function ik(s, t, l1, l2, lado){
+    var dx = t[0] - s[0], dy = t[1] - s[1], d = Math.hypot(dx, dy) || 0.001, dd = clamp(d, Math.abs(l1 - l2) + 0.3, l1 + l2 - 0.15);
+    var a = Math.atan2(dy, dx), b = Math.acos(clamp((l1 * l1 + dd * dd - l2 * l2) / (2 * l1 * dd), -1, 1));
+    return [s, [s[0] + l1 * Math.cos(a + lado * b), s[1] + l1 * Math.sin(a + lado * b)], [s[0] + dx / d * dd, s[1] + dy / d * dd]];
+  }
+  var TORSO_F = 'M -4.3 -26 Q -4.4 -27.8 -2.4 -27.9 L 2.4 -27.9 Q 4.4 -27.8 4.3 -26 L 3.3 -18 L 3.7 -15 L -3.7 -15 L -3.3 -18 Z';
+  var TORSO_P = 'M -2.3 -26.4 Q -0.4 -28.5 2.2 -27 Q 3.3 -22.6 2.5 -18 L 2.8 -15 L -2.7 -15 L -2.5 -18 Q -3.1 -22.6 -2.3 -26.4 Z';
+  function persona(p, o){
+    var g = mk('g', o.dir === -1 ? { transform: 'scale(-1 1)' } : {}, p), gi = mk('g', {}, g);
+    var H = { g: g, gi: gi, perfil: o.v === 'perfil', dy: o.sentada ? 6.5 : 0 }, dy = H.dy;
+    if (o.piernas !== false) { H.p0 = miembro(gi, 2.5); H.p1 = miembro(gi, 2.5); }
+    if (o.atras) { H.b0 = miembro(gi, 1.9); H.b1 = miembro(gi, 1.9); }
+    else if (H.perfil) H.b0 = miembro(gi, 1.9);
+    var t = mk('path', { d: H.perfil ? TORSO_P : TORSO_F, fill: CUE, stroke: GEN, 'stroke-width': 0.5, 'stroke-linejoin': 'round' }, gi);
+    if (dy) t.setAttribute('transform', 'translate(0 ' + dy + ')');
+    if (!o.atras) { if (H.perfil) H.b1 = miembro(gi, 1.9); else { H.b0 = miembro(gi, 1.9); H.b1 = miembro(gi, 1.9); } }
+    H.cab = mk('circle', { cx: H.perfil ? 0.5 : 0, cy: -31.2 + dy, r: 3, fill: CUE, stroke: GEN, 'stroke-width': 0.5 }, gi);
+    H.hom = H.perfil ? [[-0.2, -25.8 + dy], [0.3, -25.8 + dy]] : [[-3.9, -26 + dy], [3.9, -26 + dy]];
+    if (H.p0) {
+      if (H.perfil && o.sentada) { H.p0([[-0.6, -9.5], [7.4, -9.6], [7.6, -0.6], [9.6, -0.5]]); H.p1([[0, -9.2], [8.2, -9.2], [8.5, -0.6], [10.6, -0.5]]); }
+      else if (H.perfil) andar(H, 0, 0);
+      else if (o.sentada) { H.p0([[-1.8, -9], [-2.4, -5], [-2.3, -0.6]]); H.p1([[1.8, -9], [2.4, -5], [2.3, -0.6]]); }
+      else pisar(H, 0, 0);
+    }
+    brazo(H, 0); brazo(H, 1);
+    return H;
+  }
+  // un brazo hacia una mano (en coordenadas de la figura); sin mano, caído al costado
+  function brazo(H, i, mano, lado){
+    var f = i ? H.b1 : H.b0; if (!f) return;
+    var s = H.hom[i];
+    if (!mano) mano = H.perfil ? [s[0] + (i ? 1.4 : -0.8), s[1] + 11.4] : [s[0] + (s[0] > 0 ? 1 : -1), s[1] + 11.3];
+    if (lado == null) lado = H.perfil ? 1 : (s[0] > 0 ? -1 : 1);
+    f(ik(s, mano, H.lb || 6, H.lb || 6, lado));
+  }
+  // caminar de perfil: fase en radianes, amp 0 (parada) a 1. Devuelve el pie de los brazos (cuánto se balancean)
+  function andar(H, fase, amp){
+    var bajo = -99, pts = [], th = [];
+    for (var i = 0; i < 2; i++) {
+      var ph = fase + i * Math.PI, a = amp * 0.42 * Math.sin(ph), b = amp * 0.8 * Math.max(0, Math.sin(ph + 1.9));
+      var hip = [0, -15.5], kn = [8 * Math.sin(a), -15.5 + 8 * Math.cos(a)], an = [kn[0] + 7.7 * Math.sin(a - b), kn[1] + 7.7 * Math.cos(a - b)];
+      pts.push([[hip[0] - (i ? 0 : 0.4), hip[1]], kn, an, [an[0] + 2.2, an[1] + 0.1]]); th.push(a);
+      if (an[1] > bajo) bajo = an[1];
+    }
+    H.p0(pts[0]); H.p1(pts[1]);
+    var off = -0.65 - bajo;
+    at(H.gi, 'transform', 'translate(0 ' + r2(off) + ')');
+    return th;
+  }
+  // caminar de frente o de espaldas: los pies se levantan de a uno
+  function pisar(H, fase, amp){
+    var l0 = amp * 1.5 * Math.max(0, Math.sin(fase)), l1 = amp * 1.5 * Math.max(0, Math.sin(fase + Math.PI));
+    H.p0([[-1.7, -15.5], [-1.9, -8 - l0 * 0.5], [-2, -0.6 - l0]]); H.p1([[1.7, -15.5], [1.9, -8 - l1 * 0.5], [2, -0.6 - l1]]);
+  }
+  // un caminante de perfil con los brazos acompañando
+  function paso(H, dist, amp){
+    var th = andar(H, dist / 5.2, amp);
+    brazo(H, 0, [H.hom[0][0] + 11 * Math.sin(-th[1] * 0.8), H.hom[0][1] + 11 * Math.cos(th[1] * 0.8)]);
+    brazo(H, 1, [H.hom[1][0] + 11 * Math.sin(-th[0] * 0.8), H.hom[1][1] + 11 * Math.cos(th[0] * 0.8)]);
+  }
+  // sillas: de escritorio vista de atrás (el respaldo queda entre la persona y nosotros), alta detrás de una mesa, de perfil
+  function sillaAtras(p){
+    var g = mk('g', { stroke: C, 'stroke-width': 0.4, fill: MUE, 'stroke-linejoin': 'round' }, p);
+    mk('path', { d: 'M -5.2 -9.4 H 5.2 M 0 -9.4 V -2.8 M -4.6 -0.9 L 0 -2.8 L 4.6 -0.9 M 0 -2.8 V -1', fill: 'none' }, g);
+    [-4.6, 0, 4.6].forEach(function(x){ mk('circle', { cx: x, cy: -0.6, r: 0.6 }, g); });
+    mk('path', { d: 'M 0 -11 V -9.4', fill: 'none' }, g);
+    mk('rect', { x: -4.5, y: -20.2, width: 9, height: 9.2, rx: 2.2 }, g);
+  }
+  function sillaAlta(p){ mk('rect', { x: -4.7, y: -24.5, width: 9.4, height: 13, rx: 2.4, fill: MUE, stroke: C, 'stroke-width': 0.4 }, p); }
+  function sillaPerfil(p){
+    var g = mk('g', { stroke: C, 'stroke-width': 0.45, fill: 'none', 'stroke-linecap': 'round' }, p);
+    mk('path', { d: 'M -4.6 -9.2 H 4.4 M -3.8 -9.2 Q -4.6 -15 -4.4 -21 M 0 -9.2 V -2.8 M -4 -0.9 L 0 -2.8 L 4 -0.9' }, g);
+    mk('circle', { cx: -4, cy: -0.6, r: 0.6, fill: MUE }, g); mk('circle', { cx: 4, cy: -0.6, r: 0.6, fill: MUE }, g);
+  }
+
+  /* ── pantallas ── */
+  // el monitor de escritorio, parado sobre la mesa (y = -15 del piso de la sala)
+  function monitor(s, p, lx, z, w, h, sem, modo){
+    var b = bbL(s, p, lx, 0, z), y0 = -18.6 - h;
+    mk('path', { d: 'M -2.4 -15 H 2.4 M 0 -15 V -18.6', stroke: C, 'stroke-width': 0.45, fill: 'none' }, b);
+    mk('rect', { x: -w / 2, y: y0, width: w, height: h, rx: 0.5, fill: PANT, stroke: C, 'stroke-width': 0.45 }, b);
+    return codigo(recorte(b, -w / 2 + 0.7, y0 + 0.7, w - 1.4, h - 1.4), -w / 2 + 1.3, y0 + 1, w - 2.6, h - 2, sem, modo);
+  }
+  // un grupo recortado a un rectángulo (en las coordenadas de su figura)
+  function recorte(p, x, y, w, h){
+    var id = 'ros-r' + (nId++), cp = mk('clipPath', { id: id }, defs);
+    mk('rect', { x: r2(x), y: r2(y), width: r2(w), height: r2(h) }, cp);
+    return mk('g', { 'clip-path': 'url(#' + id + ')' }, p);
+  }
+  // código que corre: 'tipeo' (la última línea se escribe y empuja a las demás) o 'log' (sube parejo)
+  function codigo(g, x, y, w, h, sem, modo){
+    var N = 8, sp = h / 6.6, alto = r2(sp * 0.52), rs = [], j;
+    for (j = 0; j <= N; j++) rs.push(mk('rect', { x: x, y: y, width: 1, height: alto, rx: 0.2, 'class': 'vivo' }, g));
+    var cur = modo === 'tipeo' ? mk('rect', { x: x, y: y, width: 0.6, height: r2(alto + 0.3), fill: L_CREMA, 'class': 'vivo' }, g) : null;
+    var Tl = modo === 'tipeo' ? 1.6 + hash(sem) * 0.8 : 0.5 + hash(sem) * 0.25, base = hash(sem + 2) * 40;
+    function linea(n){
+      var h1 = hash(n * 3.17 + sem * 11.3), h2 = hash(n * 7.31 + sem * 5.1), h3 = hash(n * 1.93 + sem * 2.7);
+      var ind = Math.floor(h1 * 3) * 1.4, col = h3 < 0.52 ? L_CREMA : h3 < 0.7 ? L_ESP : h3 < 0.86 ? L_ANA : L_AUT;
+      return { ind: ind, w: (0.2 + 0.72 * h2) * (w - ind), col: col, op: col === L_CREMA ? 0.42 : 0.85 };
+    }
+    return function(t){
+      var u = t / Tl + base, L = Math.floor(u), f = u - L;
+      var corr = modo === 'tipeo' ? (1 - tramo(f, 0, 0.16)) * sp : (1 - f) * sp;
+      for (var j = 0; j <= N; j++) {
+        var li = linea(L - j), r = rs[j], ww = li.w;
+        if (j === 0 && modo === 'tipeo') ww *= tramo(f, 0.08, 0.82);
+        at(r, 'x', r1(x + li.ind)); at(r, 'y', r2(y + h - alto - j * sp + corr - sp * 0.2)); at(r, 'width', r2(Math.max(0.01, ww)));
+        at(r, 'fill', li.col); op(r, li.op);
+        if (j === 0 && cur) { at(cur, 'x', r2(x + li.ind + ww + 0.3)); at(cur, 'y', r2(y + h - alto - 0.15 + corr - sp * 0.2)); op(cur, (f < 0.82 || (t * 2.2) % 1 < 0.55) ? 0.85 : 0); }
+      }
+    };
+  }
+
+  /* ── las salas: la cáscara (boca del corte, fondo, piso, laterales) y lo de adentro ── */
+  function cascara(s, p){
+    var x0 = s.x0, x1 = s.x1, yF = s.yF, yC = s.yC, cp = mk('clipPath', { id: 'ros-boca-' + s.id }, defs);
+    mk('rect', { x: x0, y: yC, width: s.xo - x0, height: yF - yC }, cp);
+    var g = mk('g', { 'clip-path': 'url(#ros-boca-' + s.id + ')' }, p);
+    mk('rect', { x: x0, y: yC, width: s.xo - x0, height: yF - yC, fill: 'var(--ros-int)' }, g);
+    mk('path', { d: poli([[x0, yF, 0], [x1, yF, 0], [x1, yF, D], [x0, yF, D]]), fill: 'var(--ros-piso)' }, g);
+    if (x0 < VX) mk('path', { d: poli([[x0, yC, 0], [x0, yC, D], [x0, yF, D], [x0, yF, 0]]), fill: 'var(--ros-lado)', stroke: C, 'stroke-width': 0.4, 'stroke-opacity': 0.5 }, g);
+    if (x1 > VX) mk('path', { d: poli([[x1, yC, 0], [x1, yC, D], [x1, yF, D], [x1, yF, 0]]), fill: 'var(--ros-lado)', stroke: C, 'stroke-width': 0.4, 'stroke-opacity': 0.5 }, g);
+    mk('path', { d: poli([[x0, yC, D], [x1, yC, D], [x1, yF, D], [x0, yF, D]]), fill: 'var(--ros-fondo)', stroke: C, 'stroke-width': 0.45, 'stroke-opacity': 0.6 }, g);
+    // juntas del piso (paralelas al corte y hacia el fondo) y el zócalo
+    var d = '', z, x;
+    for (z = 20; z < D; z += 20) d += ' M ' + Ps(x0, yF, z) + ' L ' + Ps(x1, yF, z);
+    for (x = x0 + 20; x < x1; x += 20) d += ' M ' + Ps(x, yF, 0) + ' L ' + Ps(x, yF, D);
+    mk('path', { d: d, stroke: C, 'stroke-width': 0.3, 'stroke-opacity': 0.17, fill: 'none' }, g);
+    mk('path', { d: 'M ' + Ps(x0, yF - 2.4, D) + ' L ' + Ps(x1, yF - 2.4, D), stroke: C, 'stroke-width': 0.3, 'stroke-opacity': 0.35, fill: 'none' }, g);
+    return g;
+  }
+  // un resplandor de luz (gradiente radial del color de la sala) parado en (lx, ly, z) de la sala
+  function luz(s, p, lx, ly, z, rx, ry, col){
+    var q = P(s.x0 + lx, s.yF + ly, z), sz = k(z);
+    return mk('ellipse', { cx: r1(q[0]), cy: r1(q[1]), rx: r1(rx * sz), ry: r1(ry * sz), fill: 'url(#ros-l-' + col + ')' }, p);
+  }
+  function lampara(s, p, lx, z, ancho, col){
+    var b = bbL(s, p, lx, 0, z), yC = s.yC - s.yF;
+    mk('path', { d: 'M ' + (-ancho / 2 + 3) + ' ' + yC + ' V -57 M ' + (ancho / 2 - 3) + ' ' + yC + ' V -57', stroke: C, 'stroke-width': 0.3, 'stroke-opacity': 0.6, fill: 'none' }, b);
+    mk('rect', { x: -ancho / 2, y: -57, width: ancho, height: 1.3, rx: 0.4, fill: MUE, stroke: C, 'stroke-width': 0.4 }, b);
+    return mk('rect', { x: -ancho / 2 + 0.8, y: -55.9, width: ancho - 1.6, height: 0.5, fill: col, 'class': 'vivo' }, b);
+  }
+
+  // los programadores: escritorios al fondo con dos pantallas cada uno, una ventana a la ciudad, una pizarra (en ancho)
+  function salaProg(s, g){
+    var cel = T.cel, up = [], mesas = cel ? [[4, 41], [46, 83]] : [[58, 101], [106, 148]];
+    var gl = luz(s, g, s.w * (cel ? 0.5 : 0.66), -24, 88, s.w * 0.55, 34, 'esp');
+    var luces = ventana(s, g, cel ? 8 : 74, s.w - 6, -57, -37);
+    if (!cel) up.push(pizarra(s, g));
+    mesas.forEach(function(m, i){
+      var cx = (m[0] + m[1]) / 2;
+      cajaL(s, g, m[0], m[0] + 1, -14, 0, 81, 94); cajaL(s, g, m[1] - 1, m[1], -14, 0, 81, 94);
+      cajaL(s, g, m[0], m[1], -15, -14, 80, 95);
+      up.push(monitor(s, g, cx - 7.3, 89, 13, 8.4, i * 2 + 1, 'tipeo'));
+      up.push(monitor(s, g, cx + 7.3, 89, 13, 8.4, i * 2 + 2, 'log'));
+      if (i === 0) { var bm = bbL(s, g, m[0] + 3.2, 0, 85);   // un mate en la punta del escritorio
+        mk('path', { d: 'M -1.2 -15 Q -1.8 -16.8 -1.1 -17.9 L 1.1 -17.9 Q 1.8 -16.8 1.2 -15 Z', fill: 'var(--ros-mueble-top)', stroke: C, 'stroke-width': 0.35 }, bm);
+        mk('path', { d: 'M 0.3 -17.9 L 1.5 -20.1', stroke: HI, 'stroke-width': 0.35, fill: 'none' }, bm); }
+      var b = bbL(s, g, cx, 0, 71), H = persona(b, { v: 'frente', sentada: true, atras: true, piernas: false });
+      H.lb = 4.3; sillaAtras(b);
+      up.push(function(t){
+        // tipea (los codos tiemblan apenas) y cada tanto mira la otra pantalla o se echa atrás
+        var ph = t * 11 + i * 2.1, c = (t + i * 5.3) % 13, mira = tramo(c, 7, 7.5) - tramo(c, 9.6, 10.1), atras = tramo(c, 2, 2.6) - tramo(c, 4.4, 5);
+        brazo(H, 0, [-3 + 0.25 * Math.sin(ph), -13.6 - 0.35 * Math.abs(Math.sin(ph * 1.3)) + atras], 1);
+        brazo(H, 1, [3 + 0.25 * Math.sin(ph + 1.7), -13.6 - 0.35 * Math.abs(Math.sin(ph * 1.1 + 2)) + atras], -1);
+        at(H.cab, 'cx', r2((i ? -1 : 1) * 0.9 * mira)); at(H.cab, 'cy', r2(-24.7 + 0.5 * atras));
+        at(H.gi, 'transform', 'translate(0 ' + r2(0.4 * atras) + ')');
+      });
+    });
+    up.push(function(t){
+      op(gl, 0.6 + 0.1 * Math.sin(t * 0.6) + 0.05 * Math.sin(t * 2.1));
+      // la ciudad: alguna ventana lejana se prende o se apaga
+      for (var i = 0; i < luces.length; i += 3) op(luces[i], (t / (5 + hash(i) * 9) + hash(i * 2)) % 1 < 0.7 ? 0.75 : 0.08);
+    });
+    return up;
+  }
+  // una ventana al fondo: la ciudad de noche (perfil de edificios lejanos, luces que titilan)
+  function ventana(s, p, a, b, yA, yB){
+    var z = D - 0.2, x0 = s.x0 + a, x1 = s.x0 + b, w = b - a, h = yB - yA;
+    mk('path', { d: poli([[x0, s.yF + yA, z], [x1, s.yF + yA, z], [x1, s.yF + yB, z], [x0, s.yF + yB, z]]), fill: 'var(--ros-vidrio)', stroke: C, 'stroke-width': 0.5 }, p);
+    var bv = bb(p, x0, s.yF + yB, z), d = 'M 0 0', x = 0, n = 0, luces = [];
+    while (x < w) { var hh = 4 + hash(n * 1.7) * (n % 5 === 2 ? 12 : 7), ww = 3 + hash(n * 2.3) * 5; d += ' V ' + r1(-hh) + ' H ' + r1(Math.min(w, x + ww));
+      for (var q = 0; q < 2; q++) if (hash(n * 9.1 + q) < 0.75) luces.push(mk('rect', { x: r1(x + 0.8 + hash(n * 5.3 + q) * (ww - 2)), y: r1(-hh + 1.2 + hash(n * 3.9 + q) * (hh - 2.5)), width: 0.6, height: 0.6, fill: hash(n + q * 3) < 0.6 ? L_AUT : L_CREMA, opacity: 0.7 }, bv));
+      x += ww; n++; }
+    mk('path', { d: d + ' V 0 Z', fill: 'var(--ros-perfil)', stroke: C, 'stroke-width': 0.25, 'stroke-opacity': 0.45 }, bv);
+    // las luces encima del perfil (de día casi no se ven)
+    var gl = mk('g', { 'class': 'ros-luces' }, bv);
+    luces.forEach(function(l){ gl.appendChild(l); });
+    for (var e = 0; e < 5; e++) mk('circle', { cx: r1(hash(e * 4.1) * w), cy: r1(-h + 1 + hash(e * 2.9) * 5), r: 0.3, fill: L_CREMA, opacity: 0.5 }, gl);
+    var m = Math.max(2, Math.round(w / 16)), dm = '';
+    for (var i = 1; i < m; i++) dm += ' M ' + r1(w * i / m) + ' 0 V ' + r1(-h);
+    dm += ' M 0 ' + r1(-h * 0.68) + ' H ' + r1(w);
+    mk('path', { d: dm, stroke: C, 'stroke-width': 0.45, fill: 'none' }, bv);
+    return luces;
+  }
+  // la pizarra: alguien dibuja el recorrido de la casa (cámara → motor → tablero) y lo anota; después lo borra
+  function pizarra(s, g){
+    var a = 8, b = 46, yA = -40, yB = -16, z = D - 0.3, bw = b - a;
+    mk('path', { d: poli([[s.x0 + a, s.yF + yA, z], [s.x0 + b, s.yF + yA, z], [s.x0 + b, s.yF + yB, z], [s.x0 + a, s.yF + yB, z]]), fill: 'var(--ros-pizarra)', stroke: C, 'stroke-width': 0.5 }, g);
+    mk('path', { d: 'M ' + Ps(s.x0 + a + 2, s.yF + yB + 0.7, z - 1.5) + ' L ' + Ps(s.x0 + b - 2, s.yF + yB + 0.7, z - 1.5), stroke: C, 'stroke-width': 0.7, fill: 'none' }, g);
+    var bp = bb(g, s.x0 + a, s.yF + yA, z), circ = [], i;
+    for (i = 0; i <= 20; i++) circ.push([20.6 + 3.6 * Math.cos(Math.PI + i / 20 * TAU), 7 + 3.6 * Math.sin(Math.PI + i / 20 * TAU)]);
+    var piezas = [
+      [[3, 4], [12, 4], [12, 10], [3, 10], [3, 4]],
+      [[5.5, 7], [7.5, 5.8], [9.5, 7], [7.5, 8.2], [5.5, 7]],
+      [[12.8, 7], [16.5, 7]], [[15.3, 5.9], [16.5, 7], [15.3, 8.1]],
+      circ,
+      [[24.7, 7], [28.4, 7]], [[27.2, 5.9], [28.4, 7], [27.2, 8.1]],
+      [[29, 3.5], [35, 3.5], [35, 10.5], [29, 10.5], [29, 3.5]],
+      [[30.5, 9.4], [30.5, 7.8]], [[32, 9.4], [32, 6.2]], [[33.5, 9.4], [33.5, 4.8]],
+      [[3, 15.2], [7, 14.8], [11, 15.3], [15, 14.9], [19, 15.2]], [[3, 19], [6.5, 19.3], [10, 18.8], [13, 19.1]]
+    ];
+    var V = 7, t0 = 0, plan = [], gp = mk('g', {}, g), zp = 87, H = persona(gp, { v: 'frente' }), posAnt = 15;
+    piezas.forEach(function(pz){
+      var len = 0, ac = [0]; for (var j = 1; j < pz.length; j++) { len += Math.hypot(pz[j][0] - pz[j - 1][0], pz[j][1] - pz[j - 1][1]); ac.push(len); }
+      var mx = 0; pz.forEach(function(q){ mx += q[0]; }); mx /= pz.length;
+      var pos = mx < 17 || pz === piezas[11] || pz === piezas[12] ? 15 : 29, mov = pos !== posAnt ? 1.1 : 0;
+      plan.push({ pz: pz, ac: ac, len: len, t0: t0 + mov, t1: t0 + mov + len / V, pos: pos, pos0: posAnt, tm: t0 });
+      t0 += mov + len / V + 0.35; posAnt = pos;
+      plan[plan.length - 1].el = mk('path', { d: '', fill: 'none', stroke: L_ANA, 'stroke-width': 0.6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: 0.9 }, bp);
+    });
+    var TD = t0, PER = TD + 6.5, kb = k(z), pb = P(s.x0 + a, s.yF + yA, z);
+    function punto(pl, u){ var d = u * pl.len, j = 1; while (j < pl.ac.length - 1 && pl.ac[j] < d) j++; var f = (d - pl.ac[j - 1]) / ((pl.ac[j] - pl.ac[j - 1]) || 1), q0 = pl.pz[j - 1], q1 = pl.pz[j]; return [[q0[0] + (q1[0] - q0[0]) * clamp(f, 0, 1), q0[1] + (q1[1] - q0[1]) * clamp(f, 0, 1)], j]; }
+    return function(t){
+      var c = (t + 3) % PER, borrar = 1 - tramo(c, TD + 4.2, TD + 5.4), pos = plan[0].pos0, mano = null, mov = 0;
+      plan.forEach(function(pl){
+        var u = clamp((c - pl.t0) / (pl.t1 - pl.t0), 0, 1);
+        if (c >= pl.tm) { pos = pl.pos === pl.pos0 ? pl.pos : pl.pos0 + (pl.pos - pl.pos0) * tramo(c, pl.tm, pl.t0); if (c < pl.t0 && pl.pos !== pl.pos0) mov = 1; }
+        if (u <= 0) { at(pl.el, 'd', ''); return; }
+        var pp = punto(pl, u), pts = pl.pz.slice(0, pp[1]); pts.push(pp[0]);
+        at(pl.el, 'd', dl(pts)); op(pl.el, 0.9 * borrar);
+        if (u < 1 && c >= pl.t0) mano = pp[0];
+        else if (u >= 1 && c < pl.t1 + 0.35 && c <= TD) mano = pl.pz[pl.pz.length - 1];
+      });
+      at(gp, 'transform', tr(s.x0 + pos, s.yF, zp));
+      pisar(H, c * 9, mov);
+      if (mano && c <= TD) { var X = pb[0] + mano[0] * kb, Y = pb[1] + mano[1] * kb, o = P(s.x0 + pos, s.yF, zp), kp = k(zp); brazo(H, 1, [(X - o[0]) / kp, (Y - o[1]) / kp], -1); }
+      else brazo(H, 1);
+      at(H.cab, 'cx', r2(mano ? 0.5 : -0.4));
+    };
+  }
+
+  // la sala de reuniones: alguien presenta un gráfico; los clientes a la mesa, la luz baja mientras presenta
+  function salaReu(s, g){
+    var cel = T.cel, up = [], tvA = cel ? 32 : 50, tvB = cel ? 64 : 100, tvY0 = cel ? -47 : -50, tvY1 = -25, z = D - 0.4;
+    var glTV = luz(s, g, (tvA + tvB) / 2, -36, 96, (tvB - tvA) * 1.1, 26, 'oro'), glM = luz(s, g, cel ? 58 : 86, -20, 54, cel ? 50 : 72, 26, 'oro');
+    var tw = tvB - tvA, th = tvY1 - tvY0, bt = bb(g, s.x0 + tvA, s.yF + tvY0, z);
+    mk('rect', { x: -0.9, y: -0.9, width: tw + 1.8, height: th + 1.8, rx: 0.6, fill: PANT, stroke: C, 'stroke-width': 0.5 }, bt);
+    var gc = recorte(bt, 0, 0, tw, th), nb = cel ? 5 : 6, DATOS = [0.34, 0.46, 0.41, 0.6, 0.71, 0.86], barras = [], i;
+    mk('rect', { x: 2.2, y: 1.8, width: 9, height: 1, rx: 0.3, fill: L_CREMA, opacity: 0.55 }, gc);
+    mk('rect', { x: 12.2, y: 1.8, width: 4, height: 1, rx: 0.3, fill: L_AUT, opacity: 0.8 }, gc);
+    mk('path', { d: 'M 3 4.5 V ' + (th - 3) + ' H ' + (tw - 2.5), stroke: L_CREMA, 'stroke-width': 0.35, 'stroke-opacity': 0.5, fill: 'none' }, gc);
+    var paso0 = (tw - 8) / nb, bw = paso0 * 0.52, base = th - 3.2, hmax = th - 9, linea = [];
+    for (i = 0; i < nb; i++) {
+      var bx = 5 + i * paso0;
+      barras.push(mk('rect', { x: r2(bx), y: base, width: r2(bw), height: 0, fill: i === nb - 1 ? L_ESP : L_AUT, opacity: 0.85, 'class': 'vivo' }, gc));
+      linea.push([bx + bw / 2, base - hmax * (DATOS[i + (6 - nb)] * 0.82 + 0.14) - 1.4]);
+    }
+    var pl = mk('path', { d: '', fill: 'none', stroke: L_ANA, 'stroke-width': 0.55, 'stroke-linejoin': 'round' }, gc), plp = mk('circle', { r: 0.7, fill: L_ANA }, gc);
+    // quien presenta, de frente, al costado de la pantalla
+    var px = tvA - 7.5, pz = 85, bp = bbL(s, g, px, 0, pz), Hp = persona(bp, { v: 'frente' });
+    // los clientes del fondo, del otro lado de la mesa (de frente; la mesa los tapa de la cintura para abajo)
+    var lejos = (cel ? [56] : [70, 98]).map(function(lx){ var b = bbL(s, g, lx, 0, 75); sillaAlta(b); var H = persona(b, { v: 'frente', sentada: true, piernas: false }); H.lb = 4.4; brazo(H, 0, [-3.6, -15.6], 1); brazo(H, 1, [3.6, -15.6], -1); return H; });
+    var m = cel ? [26, 78, 44, 62] : [46, 128, 42, 64];
+    cajaL(s, g, m[0] + 5, m[0] + 7, -14, 0, m[2] + 6, m[3] - 6); cajaL(s, g, m[1] - 7, m[1] - 5, -14, 0, m[2] + 6, m[3] - 6);
+    cajaL(s, g, m[0], m[1], -15.2, -14, m[2], m[3]);
+    // en la mesa: dos libretas y una compu abierta
+    var bl = bbL(s, g, m[0] + 14, 0, 50); mk('path', { d: 'M -3 -15.3 H 3', stroke: L_CREMA, 'stroke-width': 0.5, 'stroke-opacity': 0.6 }, bl);
+    var bc = bbL(s, g, m[1] - 18, 0, 52); mk('path', { d: 'M -3.4 -15.3 H 3.4 M 3 -15.3 L 1.6 -20 L -3.6 -20', stroke: C, 'stroke-width': 0.45, fill: 'none' }, bc);
+    var cerca = (cel ? [[44, 33]] : [[84, 33], [114, 34]]).map(function(q){ var b = bbL(s, g, q[0], 0, q[1]); var H = persona(b, { v: 'frente', sentada: true, atras: true, piernas: false }); H.lb = 4.3; sillaAtras(b); brazo(H, 0, [-3, -13.8], 1); brazo(H, 1, [3, -13.8], -1); return H; });
+    var cab = null;
+    if (!cel) { var bh = bbL(s, g, 138, 0, 54); sillaPerfil(bh); cab = persona(bh, { v: 'perfil', sentada: true, dir: -1 }); brazo(cab, 1, [7, -15.6]); brazo(cab, 0, [6, -15.4]);
+      // una planta en el rincón
+      var bpl = bbL(s, g, 152, 0, 90);
+      mk('path', { d: 'M -3 0 L -3.6 -7 H 3.6 L 3 0 Z', fill: MUE, stroke: C, 'stroke-width': 0.4 }, bpl);
+      mk('path', { d: 'M 0 -7 Q -1 -14 -5 -19 M 0 -7 Q 1 -15 4 -21 M 0 -7 Q -3 -11 -7 -12 M 0 -7 Q 3 -12 7 -13 M 0 -7 Q 0 -16 -1 -23', stroke: 'var(--ros-arbol)', 'stroke-width': 0.5, fill: 'none', 'stroke-linecap': 'round' }, bpl); }
+    var lam = lampara(s, g, (m[0] + m[1]) / 2, 53, cel ? 22 : 34, L_CREMA);
+    var kt = k(z), ptv = P(s.x0 + tvA, s.yF + tvY0, z), kpp = k(pz), pp0 = P(s.x0 + px, s.yF, pz);
+    var PER = 17;
+    up.push(function(t){
+      var c = (t + 6) % PER, fuera = 1 - tramo(c, PER - 1.6, PER - 0.6), mano = null, j;
+      // las barras crecen de a una, después la línea se dibuja encima; al final se apaga y vuelve a empezar
+      for (j = 0; j < nb; j++) {
+        var u = tramo(c, 0.8 + j * 0.75, 1.5 + j * 0.75), hb = hmax * DATOS[j + (6 - nb)] * u;
+        at(barras[j], 'y', r2(base - hb)); at(barras[j], 'height', r2(hb)); op(barras[j], 0.85 * fuera);
+        if (c > 0.8 + j * 0.75 && c < 1.6 + j * 0.75) mano = [linea[j][0], base - hb];
+      }
+      var t1 = 1.8 + nb * 0.75, ul = tramo(c, t1, t1 + 3.4) * (nb - 1), n0 = Math.floor(ul), f = ul - n0, pts = linea.slice(0, n0 + 1);
+      if (n0 < nb - 1) pts.push([linea[n0][0] + (linea[n0 + 1][0] - linea[n0][0]) * f, linea[n0][1] + (linea[n0 + 1][1] - linea[n0][1]) * f]);
+      at(pl, 'd', ul > 0 ? dl(pts) : ''); op(pl, fuera); var cab0 = pts[pts.length - 1]; at(plp, 'cx', r2(cab0[0])); at(plp, 'cy', r2(cab0[1])); op(plp, ul > 0 ? fuera : 0);
+      if (ul > 0 && ul < nb - 1) mano = cab0;
+      if (mano) { var X = ptv[0] + mano[0] * kt, Y = ptv[1] + mano[1] * kt; brazo(Hp, 1, [(X - pp0[0]) / kpp, (Y - pp0[1]) / kpp], -1); }
+      else { var gst = Math.sin(t * 1.3); brazo(Hp, 1, [5.2 + 0.6 * gst, -19.5 - 1.2 * Math.max(0, gst)], -1); }
+      brazo(Hp, 0, [-3.6 + 0.5 * Math.sin(t * 0.9), -16.4], 1);
+      at(Hp.cab, 'cx', r2(mano ? 0.7 : -0.3 * Math.sin(t * 0.5)));
+      // las cabezas siguen al gráfico (a la izquierda) o a quien habla
+      var mira = mano ? -0.8 : -0.35 + 0.3 * Math.sin(t * 0.37);
+      lejos.forEach(function(H, i){ at(H.cab, 'cx', r2(mira + 0.15 * Math.sin(t * 0.7 + i * 2))); });
+      cerca.forEach(function(H, i){ at(H.cab, 'cx', r2(mira * 0.8 + 0.1 * Math.sin(t * 0.5 + i))); });
+      if (cab) at(cab.cab, 'cx', r2(0.5 + 0.2 * Math.sin(t * 0.6)));
+      // la luz: mientras presenta baja la del techo y sube la de la pantalla
+      var baja = tramo(c, 0.3, 1.4) * fuera;
+      op(lam, 0.85 - 0.5 * baja); op(glM, 0.75 - 0.4 * baja); op(glTV, 0.45 + 0.4 * baja);
+    });
+    return up;
+  }
+
+  // el laboratorio: un brazo robótico sobre la mesada, alguien prueba una cámara en un trípode, un sensor que emite
+  function salaLab(s, g){
+    var cel = T.cel, up = [], m0 = cel ? 26 : 42, m1 = cel ? 82 : 142;
+    var gl = luz(s, g, (m0 + m1) / 2 + 6, -26, 86, (m1 - m0) * 0.75, 30, 'aut');
+    // estantes con cajas en la pared del fondo
+    [-41, -53].forEach(function(y, j){
+      cajaL(s, g, m0 + 2, m1 - 2, y - 0.8, y, D - 7, D - 0.5);
+      var x = m0 + 4, n = 0;
+      while (x < m1 - 9) { var w = 3 + hash(n * 3.3 + j * 7) * 5, h = 2 + hash(n * 5.1 + j) * (j ? 4 : 6); if (hash(n * 2.7 + j * 3) > 0.25) cajaL(s, g, x, x + w, y - 0.8 - h, y - 0.8, D - 6, D - 2, { sw: 0.35 }); x += w + 1.5 + hash(n * 4.4 + j) * 4; n++; }
+    });
+    // la mesada con su mueble
+    cajaL(s, g, m0 + 1, m1 - 1, -14, 0, 82, 96); cajaL(s, g, m0, m1, -15.2, -14, 80, 97);
+    var dmu = ''; for (var q = 1; q < 4; q++) dmu += ' M ' + Ps(s.x0 + m0 + 1 + q * (m1 - m0 - 2) / 4, s.yF - 13.5, 82) + ' L ' + Ps(s.x0 + m0 + 1 + q * (m1 - m0 - 2) / 4, s.yF - 0.6, 82);
+    mk('path', { d: dmu, stroke: C, 'stroke-width': 0.35, 'stroke-opacity': 0.6, fill: 'none' }, g);
+    // osciloscopio: una onda que corre
+    var lxo = cel ? 36 : 56, bo = bbL(s, g, lxo, 0, 90);
+    mk('rect', { x: -6.5, y: -24.8, width: 13, height: 9.6, rx: 0.5, fill: PANT, stroke: C, 'stroke-width': 0.45 }, bo);
+    mk('path', { d: 'M -6.5 -15.2 H 6.5', stroke: C, 'stroke-width': 0.45 }, bo);
+    var go = recorte(bo, -5.8, -24.1, 11.6, 8.2);
+    mk('path', { d: 'M -5.8 -20 H 5.8 M -2 -24.1 V -15.9 M 2 -24.1 V -15.9', stroke: L_ESP, 'stroke-width': 0.2, 'stroke-opacity': 0.3, fill: 'none' }, go);
+    var onda = mk('path', { d: '', stroke: L_ESP, 'stroke-width': 0.45, fill: 'none' }, go);
+    // el brazo robótico
+    var lxa = cel ? 67 : 112, ba = bbL(s, g, lxa, -15.2, 89);
+    mk('rect', { x: -4.2, y: -1.6, width: 8.4, height: 1.6, fill: MUE, stroke: C, 'stroke-width': 0.45 }, ba);
+    mk('rect', { x: -2.3, y: -4.8, width: 4.6, height: 3.2, rx: 0.7, fill: MUE, stroke: C, 'stroke-width': 0.45 }, ba);
+    var l1 = miembro(ba, 2.5, C, MUE), l2 = miembro(ba, 2.1, C, MUE);
+    var j1 = mk('circle', { cx: 0, cy: -4.8, r: 1.4, fill: PANT, stroke: C, 'stroke-width': 0.45 }, ba), j2 = mk('circle', { r: 1.2, fill: PANT, stroke: C, 'stroke-width': 0.45 }, ba);
+    var pinza = mk('path', { d: '', stroke: C, 'stroke-width': 0.6, fill: 'none', 'stroke-linecap': 'round' }, ba), led = mk('circle', { r: 0.5, fill: L_ESP }, ba);
+    var pieza = mk('rect', { x: -1, y: -2, width: 2, height: 2, fill: L_AUT, opacity: 0.75, 'class': 'vivo' }, ba);
+    // alguien sentado a la mesada (en ancho), de espaldas, mirando la onda
+    var tec = null;
+    if (!cel) { var bt = bbL(s, g, 80, 0, 72); tec = persona(bt, { v: 'frente', sentada: true, atras: true, piernas: false }); tec.lb = 4.3; sillaAtras(bt); brazo(tec, 0, [-3, -13.8], 1); brazo(tec, 1, [3, -13.8], -1); }
+    // la cámara en el trípode y quien la prueba, con una tablet en la otra mano
+    var lxt = cel ? 19 : 31, btp = bbL(s, g, lxt, 0, 56);
+    mk('path', { d: 'M 0 -26.5 L -5.6 0 M 0 -26.5 L 5.2 0 M 0 -26.5 L 0.8 0.3 M 0 -26.5 V -28.2', stroke: C, 'stroke-width': 0.5, fill: 'none', 'stroke-linecap': 'round' }, btp);
+    var cam = mk('g', {}, btp);
+    mk('path', { d: 'M 7.2 -29.6 L 40 -35.5 M 7.2 -29.6 L 40 -23.5', stroke: L_ESP, 'stroke-width': 0.35, 'stroke-dasharray': '1.2 1.6', 'stroke-opacity': 0.6, fill: 'none' }, cam);
+    mk('rect', { x: -3.2, y: -31.6, width: 7.6, height: 3.8, rx: 0.7, fill: MUE, stroke: C, 'stroke-width': 0.45 }, cam);
+    mk('rect', { x: 4.4, y: -30.7, width: 2.8, height: 2.2, rx: 0.4, fill: PANT, stroke: C, 'stroke-width': 0.4 }, cam);
+    var ledc = mk('circle', { cx: -1.9, cy: -30.4, r: 0.45, fill: L_AUT }, cam);
+    var bpe = mk('g', { transform: 'translate(-11.5 0)' }, btp), Hc = persona(bpe, { v: 'perfil' });
+    var tab = mk('rect', { x: 0, y: 0, width: 3.4, height: 4.6, rx: 0.4, fill: PANT, stroke: L_ESP, 'stroke-width': 0.35 }, bpe);
+    // el sensor en la pared, con sus ondas
+    var bs = bbL(s, g, cel ? 11 : 18, -44, D - 0.6), aros = [];
+    mk('rect', { x: -2.4, y: -1.7, width: 4.8, height: 3.4, rx: 0.5, fill: MUE, stroke: C, 'stroke-width': 0.4 }, bs);
+    var ledS = mk('circle', { cx: 1.2, cy: 0, r: 0.5, fill: L_ESP }, bs);
+    for (var a = 0; a < 3; a++) aros.push(mk('path', { d: '', stroke: L_ESP, 'stroke-width': 0.4, fill: 'none' }, bs));
+    var lam = lampara(s, g, (m0 + m1) / 2 + 8, 76, cel ? 26 : 40, L_AUT);
+    up.push(function(t){
+      op(gl, 0.6 + 0.08 * Math.sin(t * 0.5) + 0.04 * Math.sin(t * 3.1)); op(lam, 0.7 + 0.15 * Math.sin(t * 0.8));
+      // la onda: dos frecuencias que se cruzan
+      var d = '', x; for (var i = 0; i <= 28; i++) { x = -5.8 + i * 11.6 / 28; d += (i ? ' L ' : 'M ') + r2(x) + ' ' + r2(-20 - 2.6 * Math.sin(x * 1.3 + t * 4) * (0.55 + 0.45 * Math.sin(x * 0.35 - t * 0.9))); }
+      at(onda, 'd', d);
+      // el brazo levanta una pieza de un lado de la mesada y la deja del otro; la vuelta, al revés (18 s, dos mitades)
+      var c2 = (t % 18) / 18, mitad = c2 < 0.5 ? 0 : 1, c = (c2 * 2) % 1, va = tramo(c, 0.14, 0.42), sd = mitad ? 1 - va : va;
+      var baja = 1 - tramo(c, 0.03, 0.12) + tramo(c, 0.42, 0.5) - tramo(c, 0.52, 0.6) + tramo(c, 0.9, 0.99), th = -1 + 2 * sd;
+      var a1 = 0.5 * th + 0.07 * Math.sin(t * 1.3) * (1 - baja), a2 = th * (1.5 + 0.97 * baja);
+      var S = [0, -4.8], E = [S[0] + 10 * Math.sin(a1), S[1] - 10 * Math.cos(a1)], W = [E[0] + 9 * Math.sin(a1 + a2), E[1] - 9 * Math.cos(a1 + a2)];
+      l1([S, E]); l2([E, W]); at(j2, 'cx', r2(E[0])); at(j2, 'cy', r2(E[1]));
+      var lleva = c > 0.08 && c < 0.5, dir = a1 + a2, ab = lleva ? 0.4 : 0.95, ux = Math.sin(dir), uy = -Math.cos(dir), nx = -uy, ny = ux;
+      var tip = [W[0] + ux * 2.6, W[1] + uy * 2.6];
+      at(pinza, 'd', 'M ' + r2(W[0] + nx * ab) + ' ' + r2(W[1] + ny * ab) + ' L ' + r2(tip[0] + nx * ab) + ' ' + r2(tip[1] + ny * ab) + ' M ' + r2(W[0] - nx * ab) + ' ' + r2(W[1] - ny * ab) + ' L ' + r2(tip[0] - nx * ab) + ' ' + r2(tip[1] - ny * ab));
+      at(led, 'cx', r2(W[0])); at(led, 'cy', r2(W[1])); op(led, 0.5 + 0.5 * Math.sin(t * 5));
+      var lado0 = mitad ? 6.6 : -6.6, px2 = lleva ? tip[0] : (c <= 0.08 ? lado0 : -lado0);
+      at(pieza, 'x', r2(px2 - 1)); at(pieza, 'y', r2(lleva ? tip[1] - 0.8 : -2));
+      if (tec) { var ph = t * 7; brazo(tec, 1, [3 + 0.3 * Math.sin(ph), -13.8], -1); at(tec.cab, 'cx', r2(-0.7 + 0.3 * Math.sin(t * 0.4))); }
+      // la cámara panea despacio; la mano la acompaña y la otra sostiene la tablet
+      var pan = 7 * Math.sin(t * 0.45) - 2, rad = pan * Math.PI / 180;
+      at(cam, 'transform', 'rotate(' + r2(pan) + ' 0 -28.2)');
+      var hx = -2.8, hy = -29.6, mx = hx * Math.cos(rad) - (hy + 28.2) * Math.sin(rad), my = -28.2 + hx * Math.sin(rad) + (hy + 28.2) * Math.cos(rad);
+      brazo(Hc, 1, [mx + 11.5, my]);
+      var tb = [6.4 + 0.3 * Math.sin(t * 0.7), -18.6]; brazo(Hc, 0, tb); at(tab, 'x', r2(tb[0] - 0.8)); at(tab, 'y', r2(tb[1] - 4));
+      at(Hc.cab, 'cx', r2(0.5 + 0.5 * Math.sin(t * 0.33)));
+      op(ledc, (t % 1.6) < 0.8 ? 0.9 : 0.25); op(ledS, 0.5 + 0.5 * Math.sin(t * 3));
+      for (var a = 0; a < 3; a++) { var u = ((t / 2.4) + a / 3) % 1, r = 2.6 + 11 * u, a0 = -0.7, a3 = 0.7;
+        at(aros[a], 'd', 'M ' + r2(2.4 + r * Math.cos(a0)) + ' ' + r2(r * Math.sin(a0)) + ' A ' + r2(r) + ' ' + r2(r) + ' 0 0 1 ' + r2(2.4 + r * Math.cos(a3)) + ' ' + r2(r * Math.sin(a3)));
+        op(aros[a], 0.7 * (1 - u)); }
+    });
+    return up;
+  }
+
+  // el showroom: la pantalla grande muestra lo que ve la cámara de la ochava; pedestales con equipos; gente mirando
+  function salaShow(s, g){
+    var cel = T.cel, up = [], wA = cel ? 10 : 22, wB = cel ? 54 : 98, wY0 = -46, wY1 = -13, z = D - 0.4;
+    var gl = luz(s, g, (wA + wB) / 2, -32, 94, (wB - wA) * 1.1, 34, 'ana');
+    var ww = wB - wA, wh = wY1 - wY0, bw = bb(g, s.x0 + wA, s.yF + wY0, z);
+    mk('rect', { x: -1, y: -1, width: ww + 2, height: wh + 2, rx: 0.6, fill: PANT, stroke: C, 'stroke-width': 0.5 }, bw);
+    var gw = recorte(bw, 0, 0, ww, wh), hz = wh * 0.4, vx = ww * 0.56;
+    // la esquina vista por la cámara: la calle que se va, las veredas, una fachada
+    mk('path', { d: 'M ' + r1(vx) + ' ' + r1(hz) + ' L ' + r1(ww * 0.06) + ' ' + wh + ' M ' + r1(vx) + ' ' + r1(hz) + ' L ' + r1(ww * 1.02) + ' ' + wh + ' M 0 ' + r1(hz - 2) + ' L ' + r1(vx) + ' ' + r1(hz) + ' M 0 ' + r1(wh * 0.7) + ' L ' + r1(vx) + ' ' + r1(hz) + ' M 0 1 L ' + r1(vx) + ' ' + r1(hz - 3) + ' L ' + r1(ww) + ' 2', stroke: L_CREMA, 'stroke-width': 0.3, 'stroke-opacity': 0.28, fill: 'none' }, gw);
+    mk('path', { d: 'M ' + r1(vx) + ' ' + r1(hz) + ' L ' + r1(ww * 0.54) + ' ' + wh, stroke: L_CREMA, 'stroke-width': 0.3, 'stroke-opacity': 0.25, 'stroke-dasharray': '1.4 1.8', fill: 'none' }, gw);
+    var objs = [
+      { per: 6.2, fase: 0.1, a: [vx + 1, hz + 0.6], b: [ww * 0.78, wh + 6], w: 14, h: 6.5, col: L_AUT },
+      { per: 8.6, fase: 0.55, a: [vx - 0.6, hz + 0.6], b: [ww * 0.3, wh + 6], w: 14, h: 6.5, col: L_AUT },
+      { per: 11, fase: 0.3, a: [vx - 6, hz + 1.4], b: [-6, wh * 0.92], w: 3.2, h: 8, col: L_ESP },
+      { per: 13.5, fase: 0.8, a: [ww - 2, wh * 0.95], b: [vx + 5, hz + 1.6], w: 3.2, h: 8, col: L_ESP }
+    ];
+    objs.forEach(function(o){ o.cuerpo = mk('rect', { rx: 0.4, fill: L_CREMA, opacity: 0.35 }, gw); o.caja = mk('rect', { fill: 'none', stroke: o.col, 'stroke-width': 0.4 }, gw); o.tag = mk('rect', { height: 1.1, fill: o.col }, gw); });
+    mk('path', { d: 'M ' + r1(ww / 2) + ' 0 V ' + wh + ' M 0 ' + r1(wh / 2) + ' H ' + ww, stroke: '#000', 'stroke-width': 0.5, 'stroke-opacity': 0.7, fill: 'none' }, gw);
+    var rec = mk('circle', { cx: 2.4, cy: 2.4, r: 0.8, fill: L_AUT }, gw);
+    // rieles de luz y pedestales con equipos
+    var peds = cel ? [[60, 68, 50, 58, 0]] : [[104, 114, 46, 55, 0], [126, 136, 62, 71, 1]], leds = [];
+    if (!cel) { var bri = bbL(s, g, 120, 0, 58); mk('path', { d: 'M -22 -66 H 22', stroke: C, 'stroke-width': 0.6, fill: 'none' }, bri); [-10, 10].forEach(function(x){ mk('path', { d: 'M ' + (x - 1.4) + ' -66 L ' + (x + 1.4) + ' -66 L ' + (x + 1) + ' -63 L ' + (x - 1) + ' -63 Z', fill: MUE, stroke: C, 'stroke-width': 0.4 }, bri); }); }
+    peds.forEach(function(q){
+      var cx = (q[0] + q[1]) / 2, cz = (q[2] + q[3]) / 2;
+      if (!cel) { var p0 = P(s.x0 + 110 + q[4] * 20, s.yF - 63, 58), p1 = P(s.x0 + q[0] + 1, s.yF - 18, cz), p2 = P(s.x0 + q[1] - 1, s.yF - 18, cz);
+        mk('path', { d: 'M ' + r1(p0[0]) + ' ' + r1(p0[1]) + ' L ' + r1(p2[0]) + ' ' + r1(p2[1]) + ' L ' + r1(p1[0]) + ' ' + r1(p1[1]) + ' Z', fill: 'url(#ros-cono)', opacity: 0.8 }, g); }
+      cajaL(s, g, q[0], q[1], -18, 0, q[2], q[3]);
+      var bq = bbL(s, g, cx, -18, cz);
+      if (!q[4]) { mk('path', { d: 'M -3 0 H 3 M -2.4 -0.3 A 2.4 2.4 0 0 1 2.4 -0.3', stroke: C, 'stroke-width': 0.45, fill: PANT }, bq); leds.push(mk('circle', { cx: 0, cy: -1.3, r: 0.55, fill: L_ANA }, bq)); }
+      else { mk('rect', { x: -2, y: -3.4, width: 4, height: 3.4, rx: 0.5, fill: MUE, stroke: C, 'stroke-width': 0.45 }, bq); leds.push(mk('circle', { cx: 0.9, cy: -1.7, r: 0.5, fill: L_ESP }, bq)); }
+    });
+    // los que miran la pantalla (de espaldas) y quien explica (de perfil)
+    var vis = (cel ? [[22, 62], [38, 67]] : [[38, 62], [57, 67]]).map(function(q){ var b = bbL(s, g, q[0], 0, q[1]); return persona(b, { v: 'frente' }); });
+    var host = null;
+    if (!cel) { var bh = bbL(s, g, 82, 0, 72); host = persona(bh, { v: 'perfil', dir: -1 }); }
+    // quien entra desde la vereda (lo mueve el script de afuera: ver «la vereda»)
+    var gEn = mk('g', { opacity: 0 }, g), Hen = persona(gEn, { v: 'perfil', dir: -1 });
+    T.entra = { g: gEn, H: Hen, s: s };
+    var kw = k(z), pw = P(s.x0 + wA, s.yF + wY0, z);
+    up.push(function(t){
+      op(gl, 0.62 + 0.12 * Math.sin(t * 0.43) + 0.05 * Math.sin(t * 1.9));
+      objs.forEach(function(o){
+        var u = ((t / o.per) + o.fase) % 1, x = o.a[0] + (o.b[0] - o.a[0]) * u, y = o.a[1] + (o.b[1] - o.a[1]) * u, e = 0.12 + 0.88 * Math.pow(u, 1.4), w = o.w * e, h = o.h * e, f = tramo(u, 0, 0.08) * (1 - tramo(u, 0.9, 1));
+        at(o.cuerpo, 'x', r2(x - w / 2)); at(o.cuerpo, 'y', r2(y - h)); at(o.cuerpo, 'width', r2(w)); at(o.cuerpo, 'height', r2(h)); op(o.cuerpo, 0.35 * f);
+        at(o.caja, 'x', r2(x - w / 2 - 0.7)); at(o.caja, 'y', r2(y - h - 0.7)); at(o.caja, 'width', r2(w + 1.4)); at(o.caja, 'height', r2(h + 1.4)); op(o.caja, f);
+        at(o.tag, 'x', r2(x - w / 2 - 0.7)); at(o.tag, 'y', r2(y - h - 1.9)); at(o.tag, 'width', r2(Math.max(2.4, w * 0.5))); op(o.tag, 0.85 * f);
+      });
+      op(rec, (t % 1.4) < 0.7 ? 0.9 : 0.2);
+      leds.forEach(function(l, i){ op(l, 0.45 + 0.55 * Math.max(0, Math.sin(t * 2.2 + i * 2))); });
+      // el de la derecha señala la pantalla cada tanto
+      var c = (t + 2) % 11, sen = tramo(c, 4, 4.6) - tramo(c, 7.4, 8);
+      vis.forEach(function(H, i){ at(H.cab, 'cx', r2(-0.25 * Math.sin(t * 0.4 + i * 2))); });
+      if (sen > 0.01) { var X = pw[0] + ww * 0.42 * kw, Y = pw[1] + wh * 0.45 * kw, qv = cel ? [38, 67] : [57, 67], o0 = P(s.x0 + qv[0], s.yF, qv[1]), kv = k(qv[1]), tg = [(X - o0[0]) / kv, (Y - o0[1]) / kv], rest = [4.9, -14.7];
+        brazo(vis[1], 1, [rest[0] + (tg[0] - rest[0]) * sen, rest[1] + (tg[1] - rest[1]) * sen], -1); }
+      else brazo(vis[1], 1);
+      if (host) { var gs = Math.sin(t * 1.1); brazo(host, 1, [6 + 1.4 * gs, -20.5 - 1.5 * Math.max(0, gs)]); brazo(host, 0, [3.5, -17]); at(host.cab, 'cx', r2(0.5 + 0.3 * Math.sin(t * 0.5))); }
+    });
+    return up;
+  }
+
+  /* ── el edificio: el corte (muros y losas con rayado), el pretil con el cartel, la ochava, el tanque ── */
+  function edificio(p){
+    var W = T.W, c = T.c, xo = T.xo, g = mk('g', {}, p);
+    // el tanque de agua en la terraza, detrás del pretil
+    var bt = bb(g, W * 0.68, -156, 62);
+    mk('path', { d: 'M -7 0 L -6.4 -13 M 7 0 L 6.4 -13 M -6.6 -9 L 6.6 -4 M 6.6 -9 L -6.6 -4', stroke: C, 'stroke-width': 0.5, fill: 'none' }, bt);
+    mk('path', { d: 'M -9.5 -13 V -32 Q 0 -34.4 9.5 -32 V -13 Q 0 -10.8 -9.5 -13 Z', fill: 'var(--ros-muro)', stroke: C, 'stroke-width': 0.5 }, bt);
+    mk('path', { d: 'M -9.5 -32 Q 0 -29.6 9.5 -32 M -9.5 -25 Q 0 -22.8 9.5 -25 M -2.6 -33.6 V -35.4 H 2.6 V -33.6 M 10.8 -13 V -33 M 12.6 -13 V -33', stroke: C, 'stroke-width': 0.4, fill: 'none' }, bt);
+    var esc = ''; for (var q = 0; q < 6; q++) esc += ' M 10.8 ' + (-15 - q * 3.2) + ' H 12.6'; mk('path', { d: esc, stroke: C, 'stroke-width': 0.4 }, bt);
+    // el corte: muros y losas con rayado
+    var gc = mk('g', { fill: 'var(--ros-poche)', stroke: C, 'stroke-width': 0.6 }, g);
+    function cut(x, y, w, h){ mk('rect', { x: x, y: y, width: w, height: h }, gc); mk('rect', { x: x, y: y, width: w, height: h, fill: 'url(#ros-rayado)', stroke: 'none' }, gc); }
+    cut(0, -156, 5, 156); cut(T.xL1, -150, 4, 72); cut(T.xL1, -72, 4, 72); cut(xo, -156, 5, 156);
+    cut(0, -78, xo + 5, 6); cut(0, -156, xo + 5, 6);
+    // el pretil, con su moldura, y el cartel
+    mk('rect', { x: 0, y: -172, width: xo + 5, height: 16, fill: 'var(--ros-muro)', stroke: C, 'stroke-width': 0.6 }, g);
+    mk('path', { d: 'M -1.6 -157.6 H ' + (xo + 6.6) + ' M -1.2 -173.4 H ' + (xo + 6.2) + ' M -1.2 -172 H ' + (xo + 6.2), stroke: C, 'stroke-width': 0.6, fill: 'none' }, g);
+    var cx = (xo + 5) / 2;
+    T.cartel = mk('ellipse', { cx: cx, cy: -164, rx: 40, ry: 9, fill: 'url(#ros-l-oro)', opacity: 0.55 }, g);
+    mk('circle', { cx: cx - 22, cy: -164.2, r: 3.6, fill: 'none', stroke: 'url(#ros-anillo)', 'stroke-width': 1.1 }, g);
+    var tx = mk('text', { x: cx - 15.5, y: -161.3, 'font-size': 8, 'letter-spacing': 1.9, fill: 'var(--white)', style: 'font-family: Saira, sans-serif; font-weight: 500; stroke: none; text-transform: none' }, g);
+    tx.textContent = 'RIA LABS';
+    // la ochava: la cara de la esquina, con la puerta del showroom abajo y un balcón arriba
+    var A = [W - c, 0], B = [W, c];
+    function oc(u, y, sale){ sale = sale || 0; return [A[0] + (B[0] - A[0]) * u + sale * 0.707, y, A[1] + (B[1] - A[1]) * u - sale * 0.707]; }
+    var go = mk('g', { stroke: C, 'stroke-width': 0.5, 'stroke-linejoin': 'round' }, g);
+    mk('path', { d: poli([oc(0, -172), oc(1, -172), oc(1, 0), oc(0, 0)]), fill: 'var(--ros-muro)' }, go);
+    mk('path', { d: poli([oc(0, -173.4), oc(1, -173.4)], true) + ' ' + poli([oc(0, -157.6), oc(1, -157.6)], true) + ' ' + poli([oc(0, -78), oc(1, -78)], true) + ' ' + poli([oc(0, -72), oc(1, -72)], true), fill: 'none' }, go);
+    // la puerta, con la luz del showroom adentro
+    T.puerta = mk('path', { d: poli([oc(0.2, -48), oc(0.8, -48), oc(0.8, 0), oc(0.2, 0)]), fill: 'url(#ros-l-ana)', opacity: 0.6, stroke: 'none' }, go);
+    mk('path', { d: poli([oc(0.2, -48), oc(0.8, -48), oc(0.8, 0), oc(0.2, 0)]) + ' ' + poli([oc(0.5, -48), oc(0.5, 0)], true) + ' ' + poli([oc(0.2, -55), oc(0.8, -55), oc(0.8, -50), oc(0.2, -50)]), fill: 'none' }, go);
+    // arriba: la puerta-ventana y el balcón
+    mk('path', { d: poli([oc(0.24, -128), oc(0.76, -128), oc(0.76, -80), oc(0.24, -80)]), fill: 'url(#ros-l-oro)', 'fill-opacity': 0.5 }, go);
+    mk('path', { d: poli([oc(0.5, -128), oc(0.5, -80)], true), fill: 'none' }, go);
+    mk('path', { d: poli([oc(0.1, -78), oc(0.9, -78), oc(0.9, -78, 7), oc(0.1, -78, 7)]), fill: 'var(--ros-poche)' }, go);
+    var bar = poli([oc(0.1, -95, 7), oc(0.9, -95, 7)], true); for (var b = 0; b <= 8; b++) bar += ' ' + poli([oc(0.1 + b * 0.1, -95, 7), oc(0.1 + b * 0.1, -78, 7)], true);
+    mk('path', { d: bar, fill: 'none', 'stroke-width': 0.4 }, go);
+    // la cámara de la ochava, en su brazo, mirando la esquina
+    var c3 = oc(0.5, -64, 1.5), pc = P(c3[0], c3[1], c3[2]), kc = k(c3[2]);
+    var mid = [(T.fovL[0] + T.fovR[0]) / 2, 0, (T.fovL[2] + T.fovR[2]) / 2], pm = P(mid[0], mid[1], mid[2]);
+    var ang = Math.atan2(pm[1] - pc[1], pm[0] - pc[0]) * 180 / Math.PI;
+    var bc = mk('g', { transform: 'translate(' + r1(pc[0]) + ' ' + r1(pc[1]) + ') scale(' + r2(kc) + ')' }, g);
+    mk('path', { d: 'M -1.5 0.6 L 1.6 -0.4', stroke: C, 'stroke-width': 0.8, fill: 'none' }, bc);
+    var cr = mk('g', { transform: 'translate(1.6 -0.4) rotate(' + r1(ang) + ')' }, bc);
+    mk('rect', { x: -0.6, y: -1.5, width: 6.4, height: 3, rx: 0.8, fill: MUE, stroke: C, 'stroke-width': 0.45 }, cr);
+    mk('path', { d: 'M -0.8 -1.9 H 6.8', stroke: C, 'stroke-width': 0.5 }, cr);
+    mk('circle', { cx: 5.6, cy: 0, r: 0.9, fill: PANT, stroke: HI, 'stroke-width': 0.4 }, cr);
+    T.camLed = mk('circle', { cx: 0.8, cy: 0, r: 0.45, fill: L_AUT }, cr);
+    T.cam = { x: pc[0] + (1.6 + 5.6 * Math.cos(ang * Math.PI / 180)) * kc, y: pc[1] + (-0.4 + 5.6 * Math.sin(ang * Math.PI / 180)) * kc };
+  }
+
+  /* ── el barrio: la vereda, la calle, el vecino de casa baja, los árboles, la farola ── */
+  function suelo(p){
+    var W = T.W, g = mk('g', { stroke: C, fill: 'none', 'stroke-linecap': 'round' }, p), d = '', x, z, r = 10;
+    var x0 = T.vb[0] - 40, xc = W + 30;
+    // línea de edificación, cordón (con su espesor) y la esquina redondeada
+    var cord = [[x0, 0, -30]], cord2 = [[x0, 1.6, -31.2]];
+    for (var i = 0; i <= 8; i++) { var a = i / 8 * Math.PI / 2; cord.push([xc - r + r * Math.sin(a), 0, -30 + r - r * Math.cos(a)]); cord2.push([xc + 1.2 - r + r * Math.sin(a), 1.6, -31.2 + r - r * Math.cos(a)]); }
+    cord.push([xc, 0, 320]); cord2.push([xc + 1.2, 1.6, 320]);
+    mk('path', { d: poli(cord, true), 'stroke-width': 0.6, 'stroke-opacity': 0.75 }, g);
+    mk('path', { d: poli(cord2, true), 'stroke-width': 0.4, 'stroke-opacity': 0.4 }, g);
+    mk('path', { d: poli([[x0, 0, 0], [W - T.c, 0, 0]], true) + ' ' + poli([[W, 0, T.c], [W, 0, 320]], true), 'stroke-width': 0.6, 'stroke-opacity': 0.8 }, g);
+    // baldosas de la vereda
+    for (z = -10; z > -30; z -= 10) d += ' M ' + Ps(x0, 0, z) + ' L ' + Ps(xc - (z < -20 ? 2 : 0), 0, z);
+    for (x = Math.ceil(x0 / 14) * 14; x < xc - 4; x += 14) d += ' M ' + Ps(x, 0, 0) + ' L ' + Ps(x, 0, -30);
+    for (z = 10; z < 320; z += 14) d += ' M ' + Ps(W, 0, z) + ' L ' + Ps(xc, 0, z);
+    mk('path', { d: d, 'stroke-width': 0.3, 'stroke-opacity': 0.14 }, g);
+    // la luz del showroom y del laboratorio sobre la vereda
+    mk('path', { d: poli([[T.xR0, 0, 0], [T.xo, 0, 0], [T.xo + 8, 0, -30], [T.xR0 - 6, 0, -30]]), fill: 'url(#ros-v-ana)', stroke: 'none' }, p);
+    mk('path', { d: poli([[T.xL0, 0, 0], [T.xL1, 0, 0], [T.xL1 + 6, 0, -30], [T.xL0 - 8, 0, -30]]), fill: 'url(#ros-v-aut)', stroke: 'none' }, p);
+  }
+  function casaVecina(p){
+    var g = mk('g', { stroke: C, 'stroke-width': 0.5, 'stroke-opacity': 0.5 }, p), a = -172, h = 88;
+    mk('rect', { x: a, y: -h, width: -a, height: h, fill: 'var(--ros-casa)' }, g);
+    var d = 'M ' + (a - 2) + ' -73.6 H 0 M ' + (a - 2) + ' -76 H 0 M ' + (a - 1.4) + ' ' + (-h - 1.4) + ' H 0 M ' + a + ' -6 H 0';
+    for (var x = a + 3; x < -2; x += 3) d += ' M ' + x + ' -73.6 V -72.4';
+    for (x = a + 6; x < -3; x += 4.2) d += ' M ' + x + ' -77 V ' + (-h + 1.5);
+    mk('path', { d: d, fill: 'none' }, g);
+    // la puerta con su arco y dos ventanas con reja y persiana
+    mk('path', { d: 'M -56 0 V -48 A 8 8 0 0 1 -40 -48 V 0 M -48 0 V -46 M -56 -48 H -40', fill: 'var(--ros-muro)' }, g);
+    [-150, -110].forEach(function(x, i){
+      mk('rect', { x: x, y: -60, width: 22, height: 44, fill: i ? 'url(#ros-l-aut)' : 'var(--ros-vidrio)', 'fill-opacity': i ? 0.9 : 1 }, g);
+      var r = ''; for (var q = 1; q < 8; q++) r += ' M ' + r1(x + q * 22 / 8) + ' -60 V -16';
+      for (q = 0; q < 5; q++) r += ' M ' + x + ' ' + (-58 + q * 2.4) + ' H ' + (x + 22);
+      mk('path', { d: r + ' M ' + (x - 1.5) + ' -61.5 H ' + (x + 23.5) + ' M ' + (x - 1) + ' -15 H ' + (x + 23), fill: 'none', 'stroke-width': 0.4 }, g);
+    });
+  }
+  function arbol(p, x, z, alto, sem){
+    var b = bb(p, x, 0, z), fork = -alto * 0.42, gc = mk('g', {}, b);
+    mk('path', { d: 'M -1.8 0 Q -1.1 ' + r1(fork * 0.5) + ' -1 ' + r1(fork) + ' M 1.8 0 Q 1.1 ' + r1(fork * 0.5) + ' 1 ' + r1(fork), stroke: 'var(--ros-arbol)', 'stroke-width': 0.6, fill: 'none' }, b);
+    mk('path', { d: 'M -5 0.1 H 5', stroke: 'var(--ros-arbol)', 'stroke-width': 0.5 }, b);
+    var cy = -alto * 0.72, rx = alto * 0.3, ry = alto * 0.26, cs = [], i;
+    for (i = 0; i < 13; i++) { var a = i / 13 * TAU + hash(sem + i) * 0.5, rr = i < 9 ? 0.72 : 0.25; cs.push([Math.cos(a) * rx * rr, cy + Math.sin(a) * ry * rr, alto * (0.12 + 0.07 * hash(sem * 3 + i))]); }
+    cs.forEach(function(q){ mk('circle', { cx: r1(q[0]), cy: r1(q[1]), r: r1(q[2]), fill: 'none', stroke: 'var(--ros-arbol)', 'stroke-width': 1 }, gc); });
+    cs.forEach(function(q){ mk('circle', { cx: r1(q[0]), cy: r1(q[1]), r: r1(q[2]), fill: 'var(--ros-casa)', 'fill-opacity': 0.94 }, gc); });
+    var rm = ''; for (i = 0; i < 5; i++) { var aa = -Math.PI / 2 + (i - 2) * 0.42; rm += ' M 0 ' + r1(fork) + ' Q ' + r1(Math.cos(aa) * rx * 0.3) + ' ' + r1(fork + Math.sin(aa) * ry * 0.8) + ' ' + r1(Math.cos(aa) * rx * 0.7) + ' ' + r1(cy + Math.sin(aa) * ry * 0.55); }
+    mk('path', { d: rm, stroke: 'var(--ros-arbol)', 'stroke-width': 0.45, 'stroke-opacity': 0.55, fill: 'none' }, gc);
+    var hoj = ''; for (i = 0; i < 16; i++) { var hx = (hash(sem * 7 + i) - 0.5) * rx * 1.5, hy = cy + (hash(sem * 11 + i) - 0.5) * ry * 1.3; hoj += ' M ' + r1(hx) + ' ' + r1(hy) + ' q 1.2 -1 2.4 0'; }
+    mk('path', { d: hoj, stroke: 'var(--ros-arbol)', 'stroke-width': 0.35, 'stroke-opacity': 0.6, fill: 'none' }, gc);
+    return function(t){ at(gc, 'transform', 'rotate(' + r2(0.8 * Math.sin(t * 0.55 + sem) + 0.3 * Math.sin(t * 1.4 + sem * 2)) + ' 0 ' + r1(fork) + ')'); };
+  }
+  function farola(p, x, z){
+    var b = bb(p, x, 0, z);
+    mk('path', { d: 'M -17 -93 L -11 -93 L 4 0 L -32 0 Z', fill: 'url(#ros-cono)', opacity: 0.6 }, b);
+    mk('path', { d: 'M 0 0 V -92 Q 0 -96 -4 -96 H -14 M -1.2 0 H 1.2 M -1 -30 H 1', stroke: C, 'stroke-width': 0.6, fill: 'none' }, b);
+    mk('path', { d: 'M -17.5 -96 L -10.5 -96 L -12 -93.5 L -16 -93.5 Z', fill: MUE, stroke: C, 'stroke-width': 0.45 }, b);
+    mk('ellipse', { cx: -14, cy: -93, rx: 8, ry: 5, fill: 'url(#ros-l-oro)', opacity: 0.9 }, b);
+  }
+  // un auto de perfil (mira a +x) con sus ruedas
+  function auto(p){
+    var g = mk('g', {}, p), ruedas = [];
+    mk('ellipse', { cx: 52, cy: -12, rx: 16, ry: 6, fill: 'url(#ros-l-oro)', opacity: 0.8 }, g);
+    mk('path', { d: 'M -42 -6.5 L -42 -15 Q -41.4 -18.2 -37 -18.6 L -26 -19.2 L -18.4 -27 Q -16.4 -28.6 -12 -28.6 L 8 -28.6 Q 12.2 -28.6 15 -26.2 L 22.4 -19.6 L 36 -18.2 Q 41.2 -17.2 42 -13 L 42 -6.5 Z', fill: MUE, stroke: C, 'stroke-width': 0.55, 'stroke-linejoin': 'round' }, g);
+    mk('path', { d: 'M -16.6 -26.4 L -22.6 -19.8 L -2 -19.8 L -2 -26.9 Z M 0 -26.9 L 0 -19.8 L 19.6 -19.8 L 13.6 -25.6 Q 11 -26.9 8 -26.9 Z', fill: '#0a0916', stroke: C, 'stroke-width': 0.4 }, g);
+    mk('path', { d: 'M -1 -19.8 V -8 M -40 -12 H 40', stroke: C, 'stroke-width': 0.35, 'stroke-opacity': 0.6, fill: 'none' }, g);
+    mk('rect', { x: 39.4, y: -15.6, width: 2.4, height: 1.6, fill: L_CREMA, opacity: 0.9 }, g);
+    mk('rect', { x: -42, y: -15.4, width: 1.6, height: 1.8, fill: L_AUT, opacity: 0.9 }, g);
+    [-26, 26].forEach(function(x){ var w = mk('g', {}, g); mk('circle', { cx: 0, cy: 0, r: 6.2, fill: PANT, stroke: C, 'stroke-width': 0.55 }, w); mk('path', { d: 'M -3.4 0 H 3.4 M 0 -3.4 V 3.4 M 0 0', stroke: C, 'stroke-width': 0.4 }, w); mk('circle', { r: 3.6, fill: 'none', stroke: C, 'stroke-width': 0.35 }, w); ruedas.push([w, x]); });
+    return { g: g, set: function(dist){ ruedas.forEach(function(r){ at(r[0], 'transform', 'translate(' + r[1] + ' -6.2) rotate(' + r1((dist / 6.2 * 180 / Math.PI) % 360) + ')'); }); } };
+  }
+  // una bici con su ciclista, de perfil (mira a +x)
+  function bici(p){
+    var g = mk('g', {}, p), ruedas = [], pierA = miembro(g, 2.4);   // la pierna de atrás, detrás del cuadro
+    [-10, 10].forEach(function(x){ var w = mk('g', {}, g); mk('circle', { r: 6.6, fill: 'none', stroke: C, 'stroke-width': 0.5 }, w); mk('path', { d: 'M -6.4 0 H 6.4 M 0 -6.4 V 6.4 M -4.5 -4.5 L 4.5 4.5 M -4.5 4.5 L 4.5 -4.5', stroke: C, 'stroke-width': 0.2, 'stroke-opacity': 0.6 }, w); ruedas.push([w, x]); });
+    mk('path', { d: 'M -10 -6.6 L 0 -6.6 L -3 -17.4 Z M -3 -17.4 L 7.4 -16.8 L 0 -6.6 M 7.4 -16.8 L 10 -6.6 M 7.4 -16.8 L 8.4 -19.6 L 6.4 -20.2 M -4.8 -18.2 H -1.4', stroke: C, 'stroke-width': 0.55, fill: 'none', 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, g);
+    var biela = mk('path', { stroke: C, 'stroke-width': 0.6, fill: 'none' }, g);
+    var torso = miembro(g, 4.6), bra = miembro(g, 1.9), pierB = miembro(g, 2.4);
+    mk('circle', { cx: 5.6, cy: -32.6, r: 3, fill: CUE, stroke: GEN, 'stroke-width': 0.5 }, g);
+    torso([[-2.6, -19.2], [3.6, -28.6]]); bra([[3.6, -27.6], [6.4, -23.6], [7.6, -20]]);
+    return { g: g, set: function(dist){
+      ruedas.forEach(function(r){ at(r[0], 'transform', 'translate(' + r[1] + ' -6.6) rotate(' + r1((dist / 6.6 * 180 / Math.PI) % 360) + ')'); });
+      var a = dist / 14, hip = [-2.6, -19.2], pa = [3.4 * Math.cos(a), -6.6 + 3.4 * Math.sin(a)], pb = [-pa[0], -13.2 - pa[1]];
+      at(biela, 'd', 'M ' + r2(pa[0]) + ' ' + r2(pa[1]) + ' L ' + r2(pb[0]) + ' ' + r2(pb[1]));
+      pierA(ik(hip, pb, 8.2, 8, -1)); pierB(ik(hip, pa, 8.2, 8, -1));
+    } };
+  }
+
+  /* ── la vereda y la calle: quien pasa, quien entra al showroom, el auto, la bici, y lo que marca la cámara ── */
+  function calle(p){
+    var W = T.W, c = T.c, cel = T.cel, up = [];
+    // nadie camina por delante de las salas de abajo: la vereda de enfrente del corte queda libre para mirar adentro.
+    // A viene desde la esquina de enfrente (de derecha a izquierda) y entra por la puerta de la ochava
+    var xDer = T.vb[0] + T.vb[2] + 14, xPue = W - c / 2, V = cel ? 12 : 16, Tw = (xDer - xPue) / V, PER1 = Tw + 26, zv = -12;
+    var gA = mk('g', {}, p), HA = persona(gA, { v: 'perfil', dir: -1 }), gB = mk('g', { opacity: 0 }, p), HB = persona(gB, { v: 'frente' });
+    // B (en ancho) baja por la vereda de la otra calle hacia nosotros, asomando desde atrás del edificio, dobla en la
+    // esquina y sigue por esta vereda hasta salir de cuadro
+    var gPf = null, gPp = null, HPf = null, HPp = null, xP = W + 10, zP0 = 150, zP1 = -15, VP = 13, T2a = (zP0 - zP1) / VP, T2b = (xDer - xP) / VP, PER2 = T2a + T2b + 9;
+    if (!cel) {
+      var oe = P(W, 0, c), cpE = mk('clipPath', { id: 'ros-esquina' }, defs); mk('rect', { x: r1(oe[0] + 0.4), y: -400, width: 800, height: 800 }, cpE);
+      var gPc = mk('g', { 'clip-path': 'url(#ros-esquina)' }, p);
+      gPf = mk('g', {}, gPc); HPf = persona(gPf, { v: 'frente' }); gPp = mk('g', { opacity: 0 }, gPc); HPp = persona(gPp, { v: 'perfil' });
+    }
+    var arb = cel ? null : arbol(p, -60, -22, 100, 3);
+    if (arb) up.push(arb);
+    if (!cel) farola(p, W + 26, -27);
+    var gBi = mk('g', {}, p), Bi = bici(gBi), PER3 = 27, zb = -46;
+    var gAu = mk('g', {}, p), Au = auto(gAu), PER4 = 19, za = -60;
+    // la cámara: su campo (un abanico muy tenue) y las cajas de lo que detecta
+    var pl = P(T.fovL[0], 0, T.fovL[2]), pr = P(T.fovR[0], 0, T.fovR[2]);
+    mk('path', { d: 'M ' + r1(T.cam.x) + ' ' + r1(T.cam.y) + ' L ' + r1(pl[0]) + ' ' + r1(pl[1]) + ' L ' + r1(pr[0]) + ' ' + r1(pr[1]) + ' Z', fill: 'url(#ros-fov)', stroke: 'none' }, p);
+    mk('path', { d: 'M ' + r1(T.cam.x) + ' ' + r1(T.cam.y) + ' L ' + r1(pl[0]) + ' ' + r1(pl[1]) + ' M ' + r1(T.cam.x) + ' ' + r1(T.cam.y) + ' L ' + r1(pr[0]) + ' ' + r1(pr[1]), stroke: 'var(--c-esp)', 'stroke-width': 0.4, 'stroke-opacity': 0.5, 'stroke-dasharray': '1.5 2.2', fill: 'none' }, p);
+    var Xl = Math.min(pl[0], pr[0]) + 6, Xr = Math.max(pl[0], pr[0]) - 6;
+    var cajas = ['persona', 'persona', 'bici', 'auto'].map(function(n){
+      var g = mk('g', { opacity: 0 }, p);
+      var r = mk('path', { d: '', stroke: 'var(--c-esp)', 'stroke-width': 0.55, fill: 'none' }, g);
+      var tx = mk('text', { 'font-size': r2(T.fs * (T.cel ? 1 : 0.9)), 'letter-spacing': r2(T.fs * 0.12), fill: 'var(--c-esp)', 'stroke-width': r2(T.halo) }, g); tx.textContent = n;
+      return { g: g, r: r, tx: tx };
+    });
+    function marca(cj, X, Y, w, h){
+      var f = clamp((X - Xl) / 14, 0, 1) * clamp((Xr - X) / 14, 0, 1);
+      op(cj.g, f); if (f <= 0) return;
+      var x0 = X - w / 2, y0 = Y - h, e = Math.min(4, w * 0.3);
+      at(cj.r, 'd', 'M ' + r1(x0) + ' ' + r1(y0 + e) + ' V ' + r1(y0) + ' H ' + r1(x0 + e) + ' M ' + r1(x0 + w - e) + ' ' + r1(y0) + ' H ' + r1(x0 + w) + ' V ' + r1(y0 + e) + ' M ' + r1(x0 + w) + ' ' + r1(Y - e) + ' V ' + r1(Y) + ' H ' + r1(x0 + w - e) + ' M ' + r1(x0 + e) + ' ' + r1(Y) + ' H ' + r1(x0) + ' V ' + r1(Y - e));
+      at(cj.tx, 'x', r1(x0)); at(cj.tx, 'y', r1(y0 - 1.6));
+    }
+    var E = T.entra, kz = k(zv);
+    up.push(function(t){
+      // A: camina por la vereda hasta la ochava, dobla y entra; adentro aparece en el showroom, camina y se queda mirando
+      var c1 = (t + 4) % PER1;
+      if (c1 < Tw) {
+        var x = xDer - V * c1; at(gA, 'transform', tr(x, 0, zv)); op(gA, 1); op(gB, 0); paso(HA, -x, 1);
+        var q = P(x, 0, zv); marca(cajas[0], q[0], q[1], 9 * kz, 36 * kz);
+      } else if (c1 < Tw + 2.4) {
+        var u = (c1 - Tw) / 2.4, zz = zv + (c / 2 - 2 - zv) * u; op(gA, 0); op(gB, 1 - tramo(u, 0.55, 0.95));
+        at(gB, 'transform', tr(xPue, 0, zz)); pisar(HB, c1 * 7, 1); brazo(HB, 0); brazo(HB, 1);
+        var q2 = P(xPue, 0, zz); marca(cajas[0], q2[0], q2[1], 9 * k(zz), 36 * k(zz));
+      } else { op(gA, 0); op(gB, 0); op(cajas[0].g, 0); }
+      at(T.puerta, 'opacity', r2(0.55 + 0.35 * (tramo(c1, Tw + 0.6, Tw + 1.6) - tramo(c1, Tw + 2.6, Tw + 3.6))));
+      if (E) {
+        var ce = c1 - (Tw + 2.2), lxIn = E.s.wo - 3, lxPara = E.s.wo - (cel ? 17 : 30), dur = (lxIn - lxPara) / 9;
+        if (ce > 0 && ce < 17) {
+          var lx = lxIn - 9 * clamp(ce, 0, dur), anda = ce < dur ? 1 : 0;
+          at(E.g, 'transform', tr(E.s.x0 + lx, E.s.yF, 46)); op(E.g, tramo(ce, 0, 0.7) * (1 - tramo(ce, 16, 17)));
+          if (anda) paso(E.H, -lx, 1); else { andar(E.H, 0, 0); brazo(E.H, 0); brazo(E.H, 1); at(E.H.cab, 'cx', r2(0.5 + 0.3 * Math.sin(t * 0.6))); }
+        } else op(E.g, 0);
+      }
+      // B: baja por la otra vereda, dobla y sigue
+      if (gPf) {
+        var c2 = (t + 20) % PER2;
+        if (c2 < T2a) { var zp = zP0 - VP * c2; at(gPf, 'transform', tr(xP, 0, zp)); op(gPf, 1); op(gPp, 0); pisar(HPf, c2 * 7.5, 1);
+          brazo(HPf, 0, [-4.9, -14.9 + 0.8 * Math.sin(c2 * 7.5)]); brazo(HPf, 1, [4.9, -14.9 - 0.8 * Math.sin(c2 * 7.5)]);
+          var q3 = P(xP, 0, zp); marca(cajas[1], q3[0], q3[1], 9 * k(zp), 36 * k(zp)); }
+        else if (c2 < T2a + T2b) { var xq = xP + VP * (c2 - T2a); at(gPp, 'transform', tr(xq, 0, zP1)); op(gPf, 0); op(gPp, 1); paso(HPp, xq, 1);
+          var q6 = P(xq, 0, zP1); marca(cajas[1], q6[0], q6[1], 9 * k(zP1), 36 * k(zP1)); }
+        else { op(gPf, 0); op(gPp, 0); op(cajas[1].g, 0); }
+      }
+      // la bici, de derecha a izquierda; el auto, de izquierda a derecha
+      var c3 = (t + 8) % PER3, xb = T.vb[0] + T.vb[2] + 30 - 62 * c3;
+      if (xb > T.vb[0] - 30) { at(gBi, 'transform', tr(xb, 0, zb) + ' scale(-1 1)'); op(gBi, 1); Bi.set(-xb); var q4 = P(xb, 0, zb), kb2 = k(zb); marca(cajas[2], q4[0], q4[1], 24 * kb2, 37 * kb2); }
+      else { op(gBi, 0); op(cajas[2].g, 0); }
+      var c4 = (t + 1) % PER4, xa = T.vb[0] - 70 + 85 * c4;
+      if (xa < T.vb[0] + T.vb[2] + 70) { at(gAu, 'transform', tr(xa, 0, za)); op(gAu, 1); Au.set(xa); var q5 = P(xa, 0, za), ka = k(za); marca(cajas[3], q5[0], q5[1], 88 * ka, 31 * ka); }
+      else { op(gAu, 0); op(cajas[3].g, 0); }
+      op(T.camLed, (t % 2) < 0.12 ? 1 : 0.35);
+      op(T.cartel, 0.5 + 0.06 * Math.sin(t * 0.8));
+    });
+    return up;
+  }
+
+  /* ── los rótulos: el nombre de cada espacio, con el punto de su luz ── */
+  function rotulo(p, x, y, txt, col, ancla){
+    var g = mk('g', {}, p), fs = T.fs;
+    if (col) mk('circle', { cx: r2(x + fs * 0.32), cy: r2(y - fs * 0.33), r: r2(fs * 0.27), fill: col }, g);
+    var t = mk('text', { x: r2(x + (col ? fs * 1.05 : 0)), y: r2(y), 'font-size': r2(fs), 'letter-spacing': r2(fs * 0.16), fill: 'var(--gold-hi)', 'stroke-width': r2(T.halo) }, g);
+    if (ancla) t.setAttribute('text-anchor', ancla);
+    t.textContent = txt;
+    return g;
+  }
+
+  /* ── el trazado y el armado ── */
+  function trazado(){
+    var cel = mq.matches, w = cel ? 86 : 150, c = cel ? 24 : 36, L = { cel: cel, w: w, c: c };
+    L.xL0 = 5; L.xL1 = 5 + w; L.xR0 = L.xL1 + 4; L.xR1 = L.xR0 + w + c; L.W = L.xR1 + 5; L.xo = L.W - c - 5;
+    L.vb = cel ? [-5, -199, 225, 214] : [-140, -200, 664, 222];
+    // el campo de la cámara de la ochava, sobre el piso: en ancho mira la esquina; en celular, la vereda de enfrente
+    L.fovL = cel ? [L.W - 22, 0, -36] : [L.W - 46, 0, -40];
+    L.fovR = cel ? [L.W + 70, 0, -30] : [L.W + 112, 0, -34];
+    return L;
+  }
+  var vivos = [], reloj = T_PRE + T_URL, firma = '';
+  function armar(){
+    T = trazado(); VX = T.W / 2; VY = -170; nId = 0; vivos = [];
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    svg.setAttribute('viewBox', T.vb.join(' '));
+    T.g = (svg.getBoundingClientRect().width || (T.cel ? 380 : 1200)) / T.vb[2];
+    T.fs = (T.cel ? 9 : 10) / T.g; T.halo = 2.8 / T.g;
+    firma = (T.cel ? 'c' : 'a') + Math.round(T.g * 20);
+    defs = mk('defs', {}, svg);
+    function rad(id, col, a){ var r = mk('radialGradient', { id: id }, defs); mk('stop', { offset: 0, 'stop-color': col, 'stop-opacity': a }, r); mk('stop', { offset: 0.5, 'stop-color': col, 'stop-opacity': a * 0.32 }, r); mk('stop', { offset: 1, 'stop-color': col, 'stop-opacity': 0 }, r); }
+    function lin(id, col, a, x2, y2){ var r = mk('linearGradient', { id: id, x1: 0, y1: 0, x2: x2, y2: y2 }, defs); mk('stop', { offset: 0, 'stop-color': col, 'stop-opacity': a }, r); mk('stop', { offset: 1, 'stop-color': col, 'stop-opacity': 0 }, r); }
+    rad('ros-l-esp', 'var(--c-esp)', 0.3); rad('ros-l-ana', 'var(--c-ana)', 0.34); rad('ros-l-aut', 'var(--c-aut)', 0.3); rad('ros-l-oro', 'var(--gold-hi)', 0.34);
+    lin('ros-cono', 'var(--gold-hi)', 0.22, 0, 1); lin('ros-v-ana', 'var(--c-ana)', 0.13, 0, 1); lin('ros-v-aut', 'var(--c-aut)', 0.1, 0, 1); lin('ros-fov', 'var(--c-esp)', 0.09, 0.4, 1);
+    var an = mk('linearGradient', { id: 'ros-anillo', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+    [['0', '#f8df6a'], ['0.3', '#e4753d'], ['0.62', '#d35745'], ['1', '#c54a45']].forEach(function(s){ mk('stop', { offset: s[0], 'stop-color': s[1] }, an); });
+    var pat = mk('pattern', { id: 'ros-rayado', width: 2.6, height: 2.6, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
+    mk('line', { x1: 0, y1: 0, x2: 0, y2: 2.6, stroke: 'var(--gold)', 'stroke-width': 0.35, 'stroke-opacity': 0.42 }, pat);
+
+    var salas = {
+      prog: { id: 'prog', x0: T.xL0, x1: T.xL1, xo: T.xL1, yF: -78, yC: -150 },
+      reu: { id: 'reu', x0: T.xR0, x1: T.xR1, xo: T.xo, yF: -78, yC: -150 },
+      lab: { id: 'lab', x0: T.xL0, x1: T.xL1, xo: T.xL1, yF: 0, yC: -72 },
+      show: { id: 'show', x0: T.xR0, x1: T.xR1, xo: T.xo, yF: 0, yC: -72 }
+    };
+    for (var n in salas) { salas[n].w = salas[n].x1 - salas[n].x0; salas[n].wo = salas[n].xo - salas[n].x0; }
+    var raiz = mk('g', {}, svg);
+    suelo(raiz);
+    casaVecina(raiz);
+    T.entra = null;
+    [['prog', salaProg], ['reu', salaReu], ['lab', salaLab], ['show', salaShow]].forEach(function(q){
+      var s = salas[q[0]], g = cascara(s, raiz); vivos = vivos.concat(q[1](s, g));
+    });
+    edificio(raiz);
+    vivos = vivos.concat(calle(raiz));
+    var gr = mk('g', {}, raiz), cel = T.cel;
+    rotulo(gr, salas.prog.x0 + 4, -150 + 4 + T.fs, cel ? 'Programadores' : 'Sala de programadores', 'var(--c-esp)');
+    rotulo(gr, salas.reu.x0 + 4, -150 + 4 + T.fs, cel ? 'Reuniones' : 'Sala de reuniones', 'var(--white)');
+    rotulo(gr, salas.lab.x0 + 4, -72 + 4 + T.fs, 'Laboratorio', 'var(--c-aut)');
+    rotulo(gr, salas.show.x0 + 4, -72 + 4 + T.fs, 'Showroom', 'var(--c-ana)');
+    if (!cel) {
+      // el rótulo de la cámara, en dos líneas, sin pasar la franja visible de la derecha (la máscara funde el último 9 %)
+      var lx = P(T.W, 0, T.c)[0] + 10, ly = T.cam.y - 46;
+      mk('path', { d: 'M ' + r1(T.cam.x + 1) + ' ' + r1(T.cam.y - 2) + ' L ' + r1(lx - 6) + ' ' + r1(ly + 3) + ' H ' + r1(lx - 1.5), stroke: 'var(--gold)', 'stroke-width': 0.35, 'stroke-opacity': 0.7, fill: 'none' }, gr);
+      rotulo(gr, lx, ly + 3 + T.fs * 0.35, 'Cámara de la ochava', null);
+      rotulo(gr, lx, ly + 3 + T.fs * 1.75, 'mira la calle 24 h', null);
+    }
+    pintar(reloj);
+  }
+  function pintar(t){ for (var i = 0; i < vivos.length; i++) vivos[i](t); }
+
+  /* ── el reloj: corre sólo con el dibujo a la vista y la pestaña visible ── */
+  var corriendo = false, visible = false, ult = 0, acum = 0;
+  function cuadro(ahora){
+    if (!corriendo) return;
+    var dt = ult ? Math.min(0.1, (ahora - ult) / 1000) : 0; ult = ahora; acum += dt;
+    if (acum >= 1 / 31) { reloj += acum; acum = 0; pintar(reloj); }
+    requestAnimationFrame(cuadro);
+  }
+  function sincronizar(){
+    var debe = visible && !document.hidden && !RM;
+    if (debe && !corriendo) { corriendo = true; ult = 0; requestAnimationFrame(cuadro); }
+    else if (!debe) corriendo = false;
+  }
+  if (RM) reloj = T_QUIETO + T_URL;
+  armar();
+  if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; sincronizar(); }, { rootMargin: '80px 0px' }).observe(fig);
+  else { visible = true; sincronizar(); }
+  document.addEventListener('visibilitychange', sincronizar);
+  var tRes = 0;
+  window.addEventListener('resize', function(){ clearTimeout(tRes); tRes = setTimeout(function(){
+    var cel = mq.matches, g = (svg.getBoundingClientRect().width || 1) / (cel ? 225 : 664);
+    if ((cel ? 'c' : 'a') + Math.round(g * 20) !== firma) armar();
+  }, 160); }, { passive: true });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ pintar(reloj); });
+})();
 </script>
 </body>
 </html>

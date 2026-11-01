@@ -826,8 +826,8 @@ pasa a una banda propia, `#banda-maquina`, entre el hero y `#productos`) →
 | Ruta | Qué es |
 |---|---|
 | `v5/index.html` | la home vigente, autocontenida |
-| `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos vigentes 720×900 (4:5): la familia **con melena** (~120 KB y ~103 KB desde el 11/10, con el eclipse unificado). Son el **póster** de los retratos vivos y la foto que queda con `prefers-reduced-motion` |
-| `assets/retrato-sebastian.mp4` / `.webm` · `assets/retrato-matias.mp4` / `.webm` | **retratos vivos** (2026-10-11): clips 720×900, 24 fps, en loop (9,67 s y 10,25 s), H.264 `yuv420p` sin audio + VP9. Sebastián 1,09 MB / 0,90 MB · Matías 0,83 MB / 0,65 MB |
+| `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | **sin uso desde el 2026-11-01** (la sección Equipo pasó a ser `#rosario`, §0.6; quedan en el repo). Eran los retratos 720×900 (4:5) de la familia **con melena** (~120 KB y ~103 KB desde el 11/10, con el eclipse unificado): el **póster** de los retratos vivos y la foto que quedaba con `prefers-reduced-motion`. Los del stand de la portada son otros (`retrato-stand-*`) |
+| `assets/retrato-sebastian.mp4` / `.webm` · `assets/retrato-matias.mp4` / `.webm` | **sin uso desde el 2026-11-01** (quedan en el repo, §0.6). Eran los **retratos vivos** de Equipo (2026-10-11): clips 720×900, 24 fps, en loop (9,67 s y 10,25 s), H.264 `yuv420p` sin audio + VP9. Sebastián 1,09 MB / 0,90 MB · Matías 0,83 MB / 0,65 MB |
 | `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~82 KB y ~79 KB, con el mismo eclipse unificado). Para cambiar de familia alcanza con renombrar; la sobria no tiene clip |
 | `assets/retrato-stand-matias.jpg` · `assets/retrato-stand-sebastian.jpg` | **retratos stand** (2026-10-31, segunda vuelta 01/11), el póster: 480×600 (4:5) JPG progresivo q84, 15 KB y 19 KB. Es **exactamente el cuadro 0** del loop de al lado, un momento neutro (ojos abiertos, boca en reposo). La familia sobria sin su eclipse chico, con el contexto de cada uno conservado y fundido **en redondo** hacia el cielo `#0b0a14` (viñeta elíptica centrada en la cara: cielo puro antes del borde, sin rectángulo), y una luz de borde dorada del lado que mira al centro de la portada: Matías va a la IZQUIERDA (borde a la derecha), Sebastián a la DERECHA (borde a la izquierda). Los usa el encuadre 4 de la portada (`?hero=4`, §0.1), que apunta a estos nombres. |
 | `assets/retrato-stand-matias.mp4` / `.webm` · `assets/retrato-stand-sebastian.mp4` / `.webm` | los **retratos stand vivos**: posando, miran a cámara, **sonríen** (una sola sonrisa lenta por loop: se arma en ~2 s, se sostiene y se suelta en ~2,5 s) y pestañean; pelo inmóvil, contexto casi quieto. 480×600, 24 fps, loop de 18,04 s (Matías, 433 cuadros, sonrisa 0,8–8,8 s) y 17,92 s (Sebastián, 430, sonrisa 7,5–15,1 s), H.264 `yuv420p` sin audio + VP9, un solo keyframe. Matías 269 KB / 161 KB · Sebastián 331 KB / 205 KB (tercera vuelta, 01/11). |
@@ -1214,6 +1214,119 @@ hero** (reemplazada por la máquina, §0.1): 1.100 vehículos activos (`drivecor
 siguen en el linaje del laboratorio) y 30 mil lecturas por día en una puerta (`dataflow-rosental/docs/ESTADO.md` en el
 commit `13377c9`, línea 35; ya no se publican).
 
+### 0.6 Rosario: la oficina dibujada (`#rosario`, rama `oficina-rosario`, 2026-11-01)
+
+> Prompt de giro, verbatim, en `docs/prompts-usuario/2026-11-01-home-en-paginas-y-oficina-rosario.md`: «Por ultimo, y
+> esto si queda en la pagina principal, lo que hoy dice "El Equipo", ya no tiene que mostrar los personajes con su
+> historia, sino que tiene que transformarse en una idea dibujada. Una animación visual creada para representar nuestras
+> oficinas en Rosario. Hay que hablar de que salimos de la ciudad de Rosario, de la provincia de Santa Fe, de Argentina.
+> De nuestra idiosincracia y cultura. Nuestra oficina esta compuesta por espacios para programadores, laboratorio,
+> showrroom para el público y una sala de reuniones. Seria bueno representarlo con un edificio sin pared que muestra el
+> interior donde estan los espacios con gente trabajando, presentando, probando, mirando, etc.» La guía
+> (`2026-11-01-guia-oficina-rosario.jpg`: el edificio sin pared en realidad aumentada sobre una esquina de casas bajas)
+> se tomó como idea, no como modelo: el dibujo es propio, en el lenguaje de la máquina.
+
+**Qué es.** La sección que era «El equipo» (`#equipo`, los dos fundadores con su retrato vivo y su historia) es ahora
+`<section id="rosario">`, en el mismo lugar: al final de la home, antes del separador del anillo y de «Hablemos.».
+Queda un `<span id="equipo">` arriba de la sección para los enlaces viejos. La nav y el pie ya apuntaban a `#rosario`.
+
+**El texto** (el tono de la casa; nada inventado: ni dirección, ni cuánta gente, ni metros, ni clientes):
+
+- Etiqueta: **Rosario** · Título: **De dónde salimos**
+- «**De Rosario, provincia de Santa Fe, Argentina.** Una ciudad puerto sobre el Paraná, de ingenieros y de
+  programadores. De acá traemos la costumbre de trabajar con lo que ya está —la cámara que ya cuelga en la esquina, el
+  sensor que ya mide, el cuaderno que alguien ya llena a birome— y la de decir lo que todavía no sabemos.»
+- «Esta es la oficina, sin la pared del frente. Arriba, **los programadores**, donde el motor se escribe, y **la sala de
+  reuniones**, donde un cliente ve sus propios números. Abajo, **el laboratorio**, donde se prueba lo que todavía es
+  pregunta, y **el showroom**, abierto a la vereda. En la ochava, una cámara mira la calle las veinticuatro horas. La
+  regla es la misma en las cuatro salas: si no está medido, no se dice.»
+- Pie del dibujo (mono): *corte de la oficina · una esquina de Rosario*.
+
+  De dónde sale cada cosa: «trabajar con lo que ya está» es la idea de la casa («Tu infraestructura ya existe»); el
+  cuaderno a birome, la ochava con su cámara de 24 horas, «donde el motor se escribe» (el taller) y «si no está medido,
+  no se dice» vienen del texto del Laboratorio de la home; «decir lo que todavía no sabemos» es el «Todavía no sabemos»
+  de las expediciones. Lo de Rosario es dato general: ciudad puerto sobre el Paraná, tradición de ingenieros y
+  programadores de la región. Se dejó afuera, a propósito, lo de postal (la bandera, el asado) y las coordenadas.
+
+**Qué muestra el dibujo.** Un **corte fugado** del edificio de dos pisos en su **ochava**, sin la pared del frente,
+visto desde la vereda de enfrente con el ojo a la altura de la terraza (se ven los pisos, no los techos). Línea fina de
+plano en el dorado de la casa; muros y losas cortados con rayado; las luces de cada sala en los colores por producto.
+
+- **Sala de programadores** (arriba, izquierda; luz teal): dos escritorios con dos pantallas cada uno —en una el código
+  se escribe línea a línea con su cursor, en la otra corre un log—, la gente de espaldas tipeando (cada tanto mira la
+  otra pantalla o se echa atrás), un mate en la punta de un escritorio, una ventana al fondo con la ciudad de noche
+  (alguna ventana lejana se prende o se apaga) y, en ancho, alguien que dibuja en la pizarra el recorrido de la casa
+  (cámara → motor → tablero), lo anota, se corre para seguir, y después lo borra.
+- **Sala de reuniones** (arriba, derecha; luz dorada): alguien presenta parado junto a la pantalla y señala el gráfico
+  mientras crece (barras de a una, después la línea); los clientes a la mesa siguen el gráfico con la cabeza; mientras
+  presenta baja la luz del techo y sube la de la pantalla. Una planta en el rincón (en ancho).
+- **Laboratorio** (abajo, izquierda; luz ámbar): un brazo robótico que lleva una pieza de un lado al otro de la mesada y
+  la vuelve a traer; alguien prueba una cámara en un trípode (la cámara panea con su campo de visión) con una tablet en la
+  otra mano; un osciloscopio con una onda que corre; un sensor en la pared que emite; estantes con cajas; en ancho,
+  alguien sentado a la mesada.
+- **Showroom** (abajo, derecha; luz azul): la pantalla grande muestra **lo que ve la cámara de la ochava** (la calle en
+  perspectiva, autos y personas con sus cajas de detección); dos personas la miran y una la señala; quien explica, de
+  perfil (en ancho); pedestales con una cámara domo y un sensor, bajo un riel de luces. **Quien llega por la vereda entra
+  por la puerta de la ochava** y aparece adentro, camina hasta los pedestales y se queda mirando.
+- **Afuera:** el pretil con el cartel (el anillo y RIA LABS, con su resplandor), el tanque de agua en la terraza, un
+  balcón en la ochava, la casa baja de al lado (cornisa, balaustrada, reja, una ventana encendida), un árbol de vereda que
+  se mece, la farola de la esquina. **La cámara de la ochava** (rotulada «cámara de la ochava · mira la calle 24 h» en
+  ancho) marca lo que pasa por su campo con cajas teal y su etiqueta: **persona** (quien entra; en ancho, alguien que
+  baja por la vereda de la otra calle, asoma desde atrás de la esquina, dobla y sigue), **auto** y **bici**, que cruzan
+  por la calle de enfrente.
+- **Decisión:** nadie camina por la vereda por delante de las salas de abajo (con el ojo en la vereda de enfrente, un
+  peatón tapaba medio laboratorio y se leía como si estuviera adentro): el que entra viene desde la esquina de enfrente y
+  el que pasa baja por la otra calle. El auto y la bici sí cruzan por delante, rápido.
+- **Celular (≤860 px):** el mismo edificio con salas más angostas (86 unidades en vez de 150) y menos gente (sin pizarra,
+  sin quien explica en el showroom, sin el técnico sentado, sin la cabecera de la mesa ni la planta), el campo de la
+  cámara hacia la esquina y sin el rótulo de la cámara; los rótulos cortos (Programadores, Reuniones). La gente mide
+  ~59 px a 390 de ancho.
+
+**Cómo está hecho.** HTML: la sección con `.ros-txt` (dos columnas; una en celular) y `<figure id="oficina">` con un
+`<svg id="ros-svg" role="img">` vacío y su `aria-label` (describe el dibujo entero). CSS: bloque «ROSARIO · la oficina
+dibujada» (donde estaba «EQUIPO»): los tonos del dibujo son variables de la sección (`--ros-int`, `--ros-fondo`,
+`--ros-poche`, `--ros-gente`, `--ros-cuerpo`, `--ros-vidrio`, …) con su versión de día; lo que pasa adentro de las
+pantallas va en sus colores de noche siempre. El dibujo va más ancho que el texto (hasta 1480 px), con los costados
+fundidos al cielo por máscara (sin máscara en celular). JS: un `<script>` propio al final de la página, «ROSARIO · la
+oficina dibujada», sin librerías. Todo en **unidades** (20 = 1 m; una persona mide 34) con una **proyección de un punto
+de fuga** `P(x, y, z)` (z = profundidad desde el plano del corte; F = 800, el ojo en y = −170, la terraza): las cajas
+(escritorios, mesas, mesada, pedestales) se proyectan cara por cara y la gente y los aparatos son figuras planas paradas a
+su profundidad. La gente es figura de arquitecto en trazo (relleno opaco y contorno crema; brazos y piernas con doble
+trazo, con codos por cinemática inversa para que una mano llegue a un punto: la pizarra, el gráfico, la cámara). Se arma
+una vez por trazado (y se rearma si cambia el trazado o el tamaño de los rótulos); cada cuadro sólo mueve geometría y
+opacidades, nunca colores, así la transición del tema no se entera. **Movimiento:** un `requestAnimationFrame` a ~30
+cuadros por segundo, sólo con el dibujo a la vista (IntersectionObserver) y la pestaña visible; el reloj arranca en
+`T_PRE = 18 s` (nada empieza vacío) y `?t=<ms>` lo adelanta (la misma foto siempre). **prefers-reduced-motion:** un
+cuadro quieto elegido, `T_QUIETO = 24,8 s` (el gráfico armado, la pizarra escrita, el auto en la esquina y quien entra,
+los dos con su caja). **Día** (`?tema=dia`): papel, tinta y las mismas luces; la ventana del fondo pasa a cielo claro y
+las luces de la ciudad casi se apagan. Rótulos en DM Mono, nunca menos de 8,5 px (10 px en ancho, 9 en celular), con
+halo del color del fondo. **Peso:** 848 nodos SVG en ancho, 623 en celular; pintar un cuadro cuesta ~0,07 ms de JS.
+
+**Verificado (2026-11-01):** los cinco `<script>` pasan `node --check`; una copia con prueba pintó ~1.000 instantes de
+0 a 300 s en 1440 y en 390 sin errores y sin ningún `NaN`/`Infinity` en el SVG; sin `Uncaught` en las capturas. Capturas
+(Chrome headless, `scripts/capturar-home.sh` con `PANTALLA=1`): la sección (`ANCLA=rosario`) y el dibujo
+(`ANCLA=oficina`) a 1440×900 y 390×844, 1024×768, día a 1440 y a 390, reduced-motion y el auto en la esquina
+(`QUERY=t=6800`), en `_capturas/oficina-rosario/` (ignorado). Ojo: en la captura el reloj casi no avanza (tiempo
+virtual), así que la foto es el cuadro de `T_PRE`; para otro instante, `QUERY=t=<ms>`.
+
+**Lo que salió:** las dos fichas de fundadores (retrato vivo, bio, oficio) y su CSS (`.team-grid`, `.founder`,
+`.f-photo`, …). Los retratos del stand siguen en la portada. `assets/retrato-sebastian.*` y `assets/retrato-matias.*`
+quedan en el repo **sin uso** (§0.3); la historia de los dos sigue en §7.
+
+**Pendiente / para decidir:**
+
+- Que Matías confirme los detalles «de casa»: el mate en el escritorio, el balcón de la ochava, el tanque de agua, que
+  el showroom esté «abierto a la vereda» con la puerta en la ochava, y que la oficina sea de verdad esa esquina con la
+  cámara (la home ya hablaba de «nuestra ochava»). Todo se cambia en el script sin tocar el resto.
+- Si la historia de los fundadores tiene que vivir en algún lado (¿una página propia, o alcanza con los retratos del
+  stand en la portada?).
+- En la integración: §0.2 todavía dice `#equipo` en la secuencia de anclas (va `#rosario`); quedaron dos referencias
+  muertas fuera de la región de esta rama, para no chocar con las otras: `.team-grid` en la regla
+  `.princ-grid,.team-grid{…}` del `@media (max-width:860px)` y `#equipo video` en el selector del script «LABORATORIO Y
+  EQUIPO · videos» (ya no encuentran nada; no rompen).
+- Ideas que no entraron: la vereda de enfrente de la otra calle con sus casas bajas fugando a la derecha (en ancho), un
+  colectivo que pase cada tanto, y en celular un recorrido lento sala por sala en vez del edificio entero.
+
 ---
 
 ## 1. Identidad de marca
@@ -1555,6 +1668,9 @@ v2 incluía **Countries** (propiedades y accesos) en lugar de **Seguridad** como
 
 ## 7. Equipo / Origen
 
+> **Desde el 2026-11-01 la home ya no tiene sección de equipo:** «El equipo» pasó a ser `#rosario`, la oficina dibujada
+> (§0.6). Lo que sigue queda como archivo de las fichas (bios, oficios, retratos); los retratos del stand siguen en la portada.
+
 ### 7.1 Co-fundadores
 
 > **Retratos (2026-08-14):** las fichas de los dos co-fundadores llevan **foto redonda de 112 px a la izquierda del nombre y el rol**, alineada a su altura (`.f-head`, flex con `align-items:center`), en el lugar que antes ocupaba el círculo con las iniciales. Las iniciales siguen en el DOM **debajo** de la imagen (`.f-init` dentro de `.f-photo`): si la foto no carga, el círculo sigue diciendo quién es. Archivos en `assets/equipo-<nombre>.jpg` (360×360, recorte cuadrado amplio —la cara no toca los bordes, que en máscara redonda se nota—, ~52 KB cada uno), servidos con ruta absoluta y `loading="lazy"`. Cada foto tiene al de la casa en su propio terreno: Sebastián en un centro de monitoreo, Matías entre pantallas de código.
@@ -1594,7 +1710,8 @@ Frase central (v2, resumen de la ventaja competitiva):
 
 - **Email vigente:** hola@rialabs.ar
 - **Email previo (v1):** hola@rialabs.ai
-- **Ubicación:** Rosario, Santa Fe · Argentina
+- **Ubicación:** Rosario, Santa Fe · Argentina. Desde el 2026-11-01 tiene sección propia en la home, `#rosario` («De dónde
+  salimos», con la oficina dibujada en corte; §0.6).
 - **Copy de cierre:** "¿Listo para empezar? Hablemos. Contanos el problema en una primera conversación y te mostramos qué puede ver tu negocio que hoy no está viendo."
 
 ---
