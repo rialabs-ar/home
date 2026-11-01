@@ -501,35 +501,6 @@
   .prod-pres a:hover b, .prod-pres a:focus-visible b { color: var(--c); }
   .prod-pres a:hover { border-top-color: color-mix(in srgb, var(--c) 50%, transparent); }
 
-  /* ── DATAFLOW · la onda ───────────────────────────────
-     Una ventana al universo Dataflow (dataflow.rialabs.ar): la onda de la identidad —las tres cintas,
-     frambuesa · naranja · lima, traídas de sitios/lambda/index.html de dataflow-expresiones— cruza la
-     banda a sangre en un canvas, y encima el tablero: contadores que suben en vivo proyectando lo
-     medido en el tablero del motor (las constantes están al principio del script «DATAFLOW · la onda»).
-     Una sola escena, del orden de una pantalla. Colores por variables para que el día no lo rompa. */
-  .df { position: relative; overflow: hidden; background: var(--banda2); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); padding: 96px 0 84px; transition: background-color var(--t-tema) ease;
-    /* la onda en sus colores de identidad (muestreados del GIF original de Dataflow); el pulso es una detección;
-       el campo son los remolinos violeta del fondo del GIF, apenas, para que el cielo siga viéndose a través */
-    --df-c1: #fa4560; --df-c2: #fb8c21; --df-c3: #dbd71f; --df-pulso: #ffffff; --df-campo: rgba(74,51,163,0.34); --df-sombra: rgba(16,6,40,0.6); }
-  html[data-tema="dia"] .df { --df-c3: #b9b400; --df-pulso: #2a1a55; --df-campo: rgba(106,58,202,0.1); --df-sombra: rgba(60,30,110,0.2); }
-  .df-cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; pointer-events: none; }
-  .df .wrap { position: relative; z-index: 1; }
-  .df-cab { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px 40px; flex-wrap: wrap; }
-  .df-cab .ttl { margin-bottom: 14px; }
-  .df-cab .btn-ghost { margin-top: 2px; white-space: nowrap; }
-  .df-linea { font-size: 17px; font-weight: 300; line-height: 1.6; color: var(--muted); max-width: 520px; }
-  .df-linea strong { color: var(--white); font-weight: 400; }
-  /* la franja por donde pasa la onda: un espaciador que el script mide para ubicar las cintas */
-  .df-onda { height: clamp(240px, 34vh, 330px); }
-  /* el tablero: seis contadores en una fila, el primero (todos los eventos) más grande. Cifras tabulares
-     para que el número no baile al subir; al subir, el número destella a blanco y vuelve al dorado. */
-  .df-tab { list-style: none; display: grid; grid-template-columns: 1.45fr repeat(5, 1fr); gap: 18px 28px; align-items: end; }
-  .df-n { display: block; font-weight: 600; font-size: 30px; letter-spacing: 0.5px; line-height: 1; color: var(--gold-hi); font-variant-numeric: tabular-nums; transition: color 0.5s ease; }
-  .df-tab li:first-child .df-n { font-size: 56px; letter-spacing: 1px; }
-  .df-n.tic { color: var(--white); transition: color 0.06s; }
-  .df-l { display: block; font-size: 12px; font-weight: 300; letter-spacing: 0.3px; line-height: 1.4; color: var(--muted); margin-top: 8px; }
-  .df-nota { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 0.4px; line-height: 1.7; color: var(--muted); opacity: 0.65; margin-top: 28px; }
-
 
   /* ── EQUIPO ───────────────────────────────────────── */
   .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 56px; background: var(--border2); }
@@ -575,7 +546,6 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .rev { opacity: 1; transform: none; transition: none; }
-    .df-n { transition: none; }
     .prod-vis .sat, .prod-vis .sat-halo, .prod-vis .sat-lab { transition: none; }
     .pd-ave, .pd-ave path { animation: none; }
     .pd-caja { animation: none; opacity: 0.8; }
@@ -584,9 +554,6 @@
   @media(max-width:1020px){
     .prod-grid, .prod.inv .prod-grid { grid-template-columns: minmax(0, 380px) 1fr; gap: 40px; }
     .prod-vis, .prod.inv .prod-vis { margin: 0; }
-    .df-tab { gap: 16px 20px; }
-    .df-n { font-size: 24px; }
-    .df-tab li:first-child .df-n { font-size: 48px; }
     .founder { grid-template-columns: 170px 1fr; gap: 24px; padding: 32px 28px; }
   }
   @media(max-width:860px){
@@ -641,15 +608,6 @@
     .pd-t{font-size:17px;}
     .prod-pres a{grid-template-columns:minmax(0,1fr);}
     .prod-pres .pp-u{grid-column:1;grid-row:auto;margin-top:5px;white-space:normal;}
-    .df{padding:72px 0 64px;}
-    .df-cab{gap:18px;}
-    .df-cab .btn-ghost{padding:12px 26px;}
-    .df-onda{height:clamp(190px,26vh,240px);}
-    .df-tab{grid-template-columns:1fr 1fr;gap:22px 18px;}
-    .df-tab li:first-child{grid-column:1 / -1;}
-    .df-tab li:first-child .df-n{font-size:46px;}
-    .df-n{font-size:26px;}
-    .df-nota{margin-top:24px;}
     .team-grid{grid-template-columns:1fr;}
     .maq-t1,.maq-t2{font-size:14px;}
     .founder{grid-template-columns:1fr;}
@@ -1300,36 +1258,6 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ══════════════ DATAFLOW · LA ONDA ══════════════
-     Una ventana al universo Dataflow: la onda de la identidad (la misma que sirve dataflow.rialabs.ar)
-     cruza la banda a sangre y el tablero cuenta en vivo. Cada contador proyecta lo medido en el tablero
-     del motor el 10/10/2026 a su propia tasa; las constantes y la curva horaria están al principio del
-     script «DATAFLOW · la onda», y la tabla contador → base → tasa → fuente en CONTENIDO.md §0.
-     Los números escritos acá son la base medida: si el script no corre, se ven tal cual. -->
-<section class="df" id="dataflow" aria-label="Dataflow, el motor: la onda y lo que lleva contado">
-  <canvas class="df-cv" id="df-cv" aria-hidden="true"></canvas>
-  <div class="wrap">
-    <div class="df-cab">
-      <div>
-        <p class="lbl rev">Dataflow · el motor</p>
-        <h2 class="ttl rev d1">Todo sigue pasando</h2>
-        <p class="df-linea rev d2">Lo que el motor lleva contado, <strong>ahora mismo</strong>.</p>
-      </div>
-      <a href="https://dataflow.rialabs.ar" target="_blank" rel="noopener" class="btn-ghost rev d2">Universo Dataflow ↗</a>
-    </div>
-    <div class="df-onda" aria-hidden="true"></div>
-    <ul class="df-tab" aria-label="Contadores proyectados sobre lo medido el 10 de octubre de 2026">
-      <li><span class="df-n" data-df="eventos">784.790</span><span class="df-l">eventos</span></li>
-      <li><span class="df-n" data-df="autos">330.163</span><span class="df-l">autos</span></li>
-      <li><span class="df-n" data-df="personas">172.162</span><span class="df-l">personas</span></li>
-      <li><span class="df-n" data-df="camiones">74.018</span><span class="df-l">camiones</span></li>
-      <li><span class="df-n" data-df="motos">57.498</span><span class="df-l">motos</span></li>
-      <li><span class="df-n" data-df="patentes">20.750</span><span class="df-l">patentes leídas</span></li>
-    </ul>
-    <p class="df-nota">proyección sobre lo medido el 10 oct 2026 · 8 cámaras · un equipo en Rosario</p>
   </div>
 </section>
 
@@ -3468,196 +3396,6 @@
         if (fase === 'regreso') frame(fin);
       }); });
     } else if (DESENCLIPSAR_ACTIVO) pista();
-  })();
-
-  /* ══════════════════════════════════════════
-     DATAFLOW · la onda
-     Una ventana al universo Dataflow. Las tres cintas de la identidad —ONDAS y perfil() son los de
-     sitios/lambda/index.html de dataflow-expresiones, el puerto a canvas del generador del GIF original,
-     la misma onda que hoy sirve dataflow.rialabs.ar/universo/— cruzan la banda a sangre, y encima el
-     tablero cuenta en vivo. Cada contador proyecta su total medido a su propia tasa (total ÷ horas de la
-     ventana medida), modulada por una curva horaria de Rosario que promedia exactamente 1, y sube de a
-     uno con intervalos irregulares; cada subida es un pulso blanco —una detección, como en lambda— que
-     viaja por una cinta y llega justo cuando el número cambia. No se inventa: se proyecta, y la banda
-     dice que proyecta. Un solo rAF, sólo con la banda a la vista; con prefers-reduced-motion la onda es
-     un cuadro quieto y los números muestran la proyección sin animar. ?t=<ms> adelanta el reloj (onda y
-     proyección) para fotografiar otro instante.
-     ══════════════════════════════════════════ */
-  (function(){
-    var sec = document.getElementById('dataflow');
-    var cv = document.getElementById('df-cv');
-    var zona = sec && sec.querySelector('.df-onda');
-    if (!sec || !cv || !cv.getContext || !zona) return;
-    var ctx = cv.getContext('2d');
-
-    /* ── LO MEDIDO · la última lectura del tablero del motor (datamotor.rialabs.ar, leído el 2026-10-10;
-       ventana: primer evento 2026-09-11 19:59, último 2026-10-10 05:59, hora de Rosario). Para cargar
-       una lectura nueva alcanza con reemplazar estas constantes y la fecha de .df-nota en el HTML. ── */
-    var DESDE = Date.UTC(2026, 8, 11, 22, 59);   // 2026-09-11 19:59 -03: el primer evento de la ventana
-    var HASTA = Date.UTC(2026, 9, 10,  8, 59);   // 2026-10-10 05:59 -03: el último; la fecha base de la proyección
-    var TOTALES = { eventos: 784790, autos: 330163, personas: 172162, camiones: 74018, motos: 57498, patentes: 20750 };
-    var HUSO = -3;                                // Rosario, sin horario de verano
-    /* La curva horaria: las cámaras ven más de día que de madrugada. Armónicos de 24 h —[amplitud, hora
-       del pico, armónico]— así el promedio diario es exactamente 1 y la tasa medida se conserva:
-       mínimo ≈ 0,32 a las 2:30, máximo ≈ 1,56 a las 14:30, todavía 1,1 a las 20. */
-    var CURVA = [[0.62, 14.5, 1], [0.08, 10, 2]];
-    var VIAJE = 4200;     // ms que tarda un pulso en cruzar la cinta: el número sube cuando llega
-    var PERIODO = 11000;  // ms del ciclo de la onda (lambda): las fases son múltiplos de 2π, el loop cierra
-
-    var TAU = Math.PI * 2;
-    var HORAS = (HASTA - DESDE) / 3.6e6;          // 682 h medidas
-    var T_INI = +((location.search.match(/[?&]t=(\d+)/) || [])[1] || 0);
-    function reloj(){ return Date.now() + T_INI; }
-    function horaLocal(ms){ return ms / 3.6e6 + HUSO; }   // horas continuas; módulo 24 es la hora del día
-    function curva(h){ var f = 1, i, c; for (i = 0; i < CURVA.length; i++) { c = CURVA[i]; f += c[0] * Math.cos(TAU * c[2] * (h - c[1]) / 24); } return f; }
-    function curvaAcum(h){ var F = h, i, c; for (i = 0; i < CURVA.length; i++) { c = CURVA[i]; F += c[0] * 24 / (TAU * c[2]) * Math.sin(TAU * c[2] * (h - c[1]) / 24); } return F; }
-    var ACUM0 = curvaAcum(horaLocal(HASTA));
-    // el valor proyectado ahora: lo medido + la tasa medida × las horas efectivas (según la curva) desde la base
-    function proyeccion(k, ms){ return Math.max(TOTALES[k], TOTALES[k] + TOTALES[k] / HORAS * (curvaAcum(horaLocal(ms)) - ACUM0)); }
-    function tasa(k, ms){ return TOTALES[k] / HORAS / 3600 * curva(horaLocal(ms)); }   // por segundo, a esta hora
-    function fmt(n){ return String(Math.floor(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }   // es-AR: puntos de miles
-
-    /* ── el tablero ── */
-    var conts = Array.prototype.slice.call(sec.querySelectorAll('.df-n[data-df]')).map(function(n, i){
-      return { k: n.getAttribute('data-df'), el: n, v: 0, next: 0, tic: 0, cinta: i === 0 ? -1 : (i - 1) % 3 };
-    }).filter(function(c){ return TOTALES[c.k] != null; });
-    var pulsos = [];
-    function sincronizar(){
-      var ms = reloj();
-      conts.forEach(function(c){ c.v = Math.floor(proyeccion(c.k, ms)); c.el.textContent = fmt(c.v); c.next = 0; c.tic = 0; c.el.classList.remove('tic'); });
-      pulsos = [];
-    }
-    function programar(c, ms){
-      var media = 1000 / tasa(c.k, ms);
-      var atraso = proyeccion(c.k, ms) - c.v;   // si el conteo al azar se atrasa respecto de la proyección, apura; si se adelanta, afloja
-      var ajuste = atraso > 1.5 ? 0.6 : atraso < -1.5 ? 1.6 : 1;
-      c.next = ms + media * ajuste * (0.45 + 1.1 * Math.random());
-      if (pulsos.length < 40) pulsos.push({ i: c.cinta < 0 ? Math.floor(Math.random() * 3) : c.cinta, t0: c.next - VIAJE, g: c.cinta < 0 ? 1 : 0.72 });
-    }
-    function contar(ms){
-      conts.forEach(function(c){
-        if (!c.next) programar(c, ms);
-        else if (ms >= c.next) { c.v += 1; c.el.textContent = fmt(c.v); c.el.classList.add('tic'); c.tic = ms; programar(c, ms); }
-        else if (c.tic && ms - c.tic > 140) { c.el.classList.remove('tic'); c.tic = 0; }
-      });
-    }
-
-    /* ── la onda ── */
-    var ONDAS = [   // las tres cintas (lambda): altura y amplitud en fracciones de la franja, grosor ídem; freq y p como en el GIF
-      { v: '--df-c1', y0: 0.20, amp: 0.24, freq: 1.8, p: 0.42, gro: 0.115 },
-      { v: '--df-c2', y0: 0.50, amp: 0.22, freq: 2.3, p: 0.34, gro: 0.105 },
-      { v: '--df-c3', y0: 0.80, amp: 0.21, freq: 2.7, p: 0.30, gro: 0.095 }
-    ];
-    var TILT = 0.05;   // la onda sube hacia la derecha: fracción del ancho de la banda
-    var sem = 1337;    // remolinos fijos (mismo layout siempre), como en el fondo del GIF
-    var azar = function(){ return (sem = (sem * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff; };
-    var REMOLINOS = []; for (var ri = 0; ri < 5; ri++) REMOLINOS.push({ x: azar(), y: azar(), r: 0.22 + azar() * 0.3, f: azar() });
-    function perfil(u, p){ var s = Math.sin(u); return (s < 0 ? -1 : 1) * Math.pow(Math.abs(s), p); }
-    var W = 0, H = 0, DPR = 1, ZT = 0, ZB = 0, ZH = 1, AMP = 1, col = null;   // AMP: en pantallas angostas la onda ondula menos
-    function parse(c){   // '#rrggbb' o 'rgba(r,g,b,a)' → [r,g,b,a]
-      var m = /^#([0-9a-f]{6})$/i.exec(c);
-      if (m) { var n = parseInt(m[1], 16); return [n >> 16 & 255, n >> 8 & 255, n & 255, 1]; }
-      m = /rgba?\(([^)]+)\)/.exec(c);
-      if (m) { var p = m[1].split(',').map(parseFloat); return [p[0] || 0, p[1] || 0, p[2] || 0, p.length > 3 ? p[3] : 1]; }
-      return [250, 69, 96, 1];
-    }
-    function rgba(c, a){ return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + (c[3] * a).toFixed(3) + ')'; }
-    function leerColores(){
-      var cs = getComputedStyle(sec), v = function(n){ return cs.getPropertyValue(n).trim(); };
-      col = { c: ONDAS.map(function(o){ return parse(v(o.v)); }), pulso: parse(v('--df-pulso') || '#fff'), campo: parse(v('--df-campo') || 'rgba(74,51,163,0.3)'), sombra: parse(v('--df-sombra') || 'rgba(16,6,40,0.6)') };
-    }
-    // la cinta se apaga donde entra en zona de texto: arriba (la cabecera) y abajo (el tablero)
-    function gradiente(c, a){
-      var ya = ZT - ZH * 0.6, yb = ZB + ZH * 0.6, g = ctx.createLinearGradient(0, ya, 0, yb);
-      var paso = function(y, k){ g.addColorStop(Math.min(1, Math.max(0, (y - ya) / (yb - ya))), rgba(c, a * k)); };
-      paso(ya, 0); paso(ZT - ZH * 0.2, 0.1); paso(ZT + ZH * 0.06, 1); paso(ZB - ZH * 0.1, 1); paso(ZB + ZH * 0.14, 0.14); paso(yb, 0);
-      return g;
-    }
-    function puntoEn(o, t, xn){
-      var u = TAU * o.freq * (xn - t / o.freq);
-      return [xn * W, ZT + ZH * (o.y0 + o.amp * AMP * perfil(u, o.p)) + TILT * W * (0.5 - xn)];
-    }
-    function trazar(pts, dy){
-      ctx.beginPath();
-      for (var k = 0; k < pts.length; k++) k ? ctx.lineTo(pts[k][0], pts[k][1] + dy) : ctx.moveTo(pts[k][0], pts[k][1] + dy);
-      ctx.stroke();
-    }
-    function dibujar(t, ms){
-      if (!col) leerColores();
-      ctx.clearRect(0, 0, W, H);
-      var i, k;
-      // el campo: los remolinos violeta del fondo del GIF, apenas; a través se sigue viendo el cielo
-      for (i = 0; i < REMOLINOS.length; i++) {
-        var s = REMOLINOS[i], a = TAU * (t + s.f), px = (s.x + 0.045 * Math.cos(a)) * W, py = (s.y + 0.045 * Math.sin(a)) * H, r = s.r * Math.max(W, H) * 0.55;
-        var rg = ctx.createRadialGradient(px, py, 0, px, py, r);
-        rg.addColorStop(0, rgba(col.campo, 1)); rg.addColorStop(1, rgba(col.campo, 0));
-        ctx.fillStyle = rg; ctx.fillRect(px - r, py - r, 2 * r, 2 * r);
-      }
-      // las tres cintas: round cap/join da el borde de disco del original; la sombra es la misma cinta corrida hacia abajo
-      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-      var MU = 220, geo = [];
-      for (i = 0; i < ONDAS.length; i++) {
-        var o = ONDAS[i], gro = Math.max(6, o.gro * ZH), pts = [];
-        for (k = 0; k <= MU; k++) pts.push(puntoEn(o, t, -0.04 + 1.08 * k / MU));
-        geo.push(pts);
-        ctx.lineWidth = gro * 1.04; ctx.strokeStyle = gradiente(col.sombra, 1); trazar(pts, gro * 0.26);
-        ctx.lineWidth = gro; ctx.strokeStyle = gradiente(col.c[i], 0.94); trazar(pts, 0);
-      }
-      // los pulsos: detecciones viajando por la cinta; nacen a la izquierda y llegan cuando el número sube
-      for (k = pulsos.length - 1; k >= 0; k--) {
-        var pu = pulsos[k], u = (ms - pu.t0) / VIAJE;
-        if (u > 1.08) { pulsos.splice(k, 1); continue; }
-        if (u < 0) continue;
-        var o2 = ONDAS[pu.i], q = puntoEn(o2, t, -0.06 + 1.14 * u);
-        var vida = u < 0.1 ? u / 0.1 : u > 0.9 ? Math.max(0, (1.08 - u) / 0.18) : 1;
-        var r2 = Math.max(3.5, o2.gro * ZH * 0.3 * pu.g), R2 = r2 * 3.4;
-        var gl = ctx.createRadialGradient(q[0], q[1], 0, q[0], q[1], R2);
-        gl.addColorStop(0, rgba(col.pulso, 0.6 * vida)); gl.addColorStop(1, rgba(col.pulso, 0));
-        ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(q[0], q[1], R2, 0, TAU); ctx.fill();
-        ctx.fillStyle = rgba(col.pulso, vida); ctx.beginPath(); ctx.arc(q[0], q[1], r2, 0, TAU); ctx.fill();
-      }
-    }
-
-    /* ── el reloj: un solo rAF, sólo con la banda a la vista ── */
-    var corriendo = false, visible = false, raf = 0, relee = 0, paradoEn = 0, nf = 0;
-    function medir(){
-      DPR = Math.min(window.devicePixelRatio || 1, 2);
-      var r = sec.getBoundingClientRect(), z = zona.getBoundingClientRect();
-      W = Math.round(r.width); H = Math.round(r.height);
-      cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
-      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-      ZT = z.top - r.top; ZB = z.bottom - r.top; ZH = Math.max(1, ZB - ZT); AMP = W < 600 ? 0.82 : 1;
-      if (RM) estatico();
-    }
-    function cuadro(){
-      if (!corriendo) return;
-      var ms = reloj();
-      if (relee) { if (ms < relee) leerColores(); else { relee = 0; leerColores(); } }
-      if (++nf % 30 === 0 && sec.offsetHeight !== H) medir();   // la banda cambió de alto (fuentes, viewport)
-      contar(ms);
-      dibujar(((performance.now() + T_INI) % PERIODO) / PERIODO, ms);
-      raf = requestAnimationFrame(cuadro);
-    }
-    function arrancar(){
-      if (corriendo || RM) return;
-      corriendo = true; leerColores();
-      var pausa = paradoEn ? reloj() - paradoEn : 0;
-      if (!paradoEn || pausa > 15000) sincronizar();   // si estuvo mucho fuera de vista, vuelve a la proyección
-      else { conts.forEach(function(c){ if (c.next) c.next += pausa; }); pulsos.forEach(function(p){ p.t0 += pausa; }); }   // una pausa corta congela el reloj: nada sube de golpe al volver
-      raf = requestAnimationFrame(cuadro);
-    }
-    function parar(){ if (corriendo) paradoEn = reloj(); corriendo = false; cancelAnimationFrame(raf); }
-    function estatico(){   // prefers-reduced-motion: un cuadro quieto, con tres pulsos a mitad de camino
-      var ms = reloj(); leerColores(); sincronizar();
-      pulsos = [{ i: 0, t0: ms - 0.3 * VIAJE, g: 1 }, { i: 1, t0: ms - 0.62 * VIAJE, g: 1 }, { i: 2, t0: ms - 0.82 * VIAJE, g: 0.72 }];
-      dibujar(0.18, ms);
-    }
-    new IntersectionObserver(function(es){ visible = es[0].isIntersecting; if (visible && !document.hidden) arrancar(); else parar(); }, { rootMargin: '120px 0px' }).observe(sec);
-    document.addEventListener('visibilitychange', function(){ if (document.hidden) parar(); else if (visible) arrancar(); });
-    new MutationObserver(function(){ relee = reloj() + 3200; if (RM) setTimeout(estatico, 3000); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-tema'] });
-    window.addEventListener('resize', medir, { passive: true });
-    medir();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(medir);
   })();
 
   /* ══════════════════════════════════════════

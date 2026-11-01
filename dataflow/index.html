@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dataflow — RIA Labs</title>
+<meta name="description" content="Dataflow es el motor detrás de RIA Smartcity, RIA Analítico y RIA Automotrices: lee la realidad con las cámaras y los sensores que ya están, la comprende y actúa. Lo que lleva contado, ahora mismo. RIA Labs, Rosario, Argentina.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <meta name="theme-color" content="#07060f">
+
+  <!-- Open Graph / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rialabs.ar/dataflow/">
+  <meta property="og:title" content="Dataflow — el motor de RIA Labs. Todo sigue pasando.">
+  <meta property="og:description" content="El motor detrás de RIA Smartcity, RIA Analítico y RIA Automotrices: lee la realidad con las cámaras y los sensores que ya están, la comprende y actúa. Rosario, Argentina.">
+  <meta property="og:image" content="https://rialabs.ar/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dataflow — el motor de RIA Labs. Todo sigue pasando.">
+  <meta name="twitter:description" content="El motor detrás de RIA Smartcity, RIA Analítico y RIA Automotrices: lee la realidad con las cámaras y los sensores que ya están, la comprende y actúa. Rosario, Argentina.">
+  <meta name="twitter:image" content="https://rialabs.ar/og-image.png">
+
+<!-- copiado de v5/index.html (FUENTES) el 01/11 — mantener igual -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@200;300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  /* La página de Dataflow (2026-11-01). La base visual es la de la home, copiada tal cual de v5/index.html:
+     los tokens, el cielo, la nav, los botones, el layout, el reveal, el contacto y el pie. Sólo noche: la
+     home tiene además el tema día y su transición, que acá no hacen falta. Lo propio de la página está al
+     final, en «DATAFLOW · la página» y «EL MOTOR». */
+
+  /* copiado de v5/index.html (:root) el 01/11 — mantener igual */
+  :root {
+    --bg:      #0b0a14;
+    --bg2:     #100f1e;
+    --bg3:     #0d0c1a;
+    --gold:    #c8860a;
+    --gold-hi: #EF9F27;
+    --gold-lo: #7a5008;
+    --blue:    #4a8fd4;
+    --blue-lo: #1e4a78;
+    --teal:    #2fd0c8;
+    --white:   #f0ece0;
+    --muted:   #8a8478;
+    --border:  rgba(200,134,10,0.14);
+    --border2: rgba(255,255,255,0.055);
+    --border3: rgba(255,255,255,0.18);
+    /* un color por producto: el mismo en la órbita del hero, en la banda y en la nav */
+    --c-ana: #4a8fd4;
+    --c-esp: #2fd0c8;
+    --c-aut: #EF9F27;
+    /* superficies translúcidas (el cielo se ve a través) */
+    --banda:    rgba(16,15,30,0.78);
+    --banda2:   rgba(13,12,26,0.78);
+    --tarjeta:  rgba(11,10,20,0.86);
+    --tarjeta2: rgba(13,12,26,0.86);
+    --nav-bg:   rgba(11,10,20,0.92);
+    --nav-bg2:  rgba(11,10,20,0.97);
+    --ghost:    rgba(200,134,10,0.06);
+    --nodo:     #3a3850;
+    --ruido:    0.025;
+    --glow:     0.42;
+    /* el eclipse en colores de tema: la luna, el sol que asoma detrás y los halos de la corona
+       (de afuera hacia adentro). De noche los halos son el resplandor contra el negro; de día,
+       el mismo resplandor contra el papel. */
+    --luna:       #0b0a14;
+    --luna-cuerpo: #0b0a14;   /* la cara oscura de la luna viajera: se funde con el fondo del tema */
+    --sol-tapado: #1c1810;
+    --h1: #1a0900; --h2: #2a1200; --h3: #3d1c00; --h4: #633806; --h5: #854F0B; --h6: #BA7517;
+    /* cuánto tarda el cambio de tema; el ciclo del eclipse lo ajusta a cada fase */
+    --t-tema: 2.5s;
+  }
+  /* copiado de v5/index.html (BASE) el 01/11 — mantener igual */
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Saira', sans-serif; background: var(--bg); color: var(--white); overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: var(--ruido); pointer-events: none; z-index: 9999; transition: opacity var(--t-tema) ease;
+  }
+
+  /* copiado de v5/index.html (EL CIELO) el 01/11 — mantener igual */
+  /* ── EL CIELO ─────────────────────────────────────────
+     Un canvas fijo detrás de todo: estrellas con profundidad, titilan despacio, se corren
+     con el scroll (las cercanas más que las lejanas) y cada tanto cruza un meteoro.
+     Las bandas de las secciones son translúcidas para que el cielo se vea a través. */
+  #cielo { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; transition: opacity var(--t-tema) ease; }
+  body > *:not(#cielo):not(nav):not(.nav-menu):not(#luna-viajera) { position: relative; z-index: 1; }
+
+  /* copiado de v5/index.html (NAV) el 01/11 — mantener igual */
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 22px 52px; display: flex; align-items: center; justify-content: space-between; transition: padding 0.35s, background 0.35s; }
+  nav.scrolled { background: var(--nav-bg); border-bottom: 1px solid var(--border2); backdrop-filter: blur(14px); padding-top: 14px; padding-bottom: 14px; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo svg { transition: filter 0.3s; }
+  .nav-logo:hover svg { filter: drop-shadow(0 0 6px rgba(239,159,39,0.6)); }
+  .nav-wm { font-weight: 500; font-size: 18px; letter-spacing: 3px; color: var(--white); }
+  .nav-wm em { font-style: normal; font-size: 12px; font-weight: 300; letter-spacing: 2px; color: var(--gold-hi); margin-left: 4px; vertical-align: 2px; }
+  .nav-links { display: flex; gap: clamp(16px, 3.2vw - 14px, 32px); list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 0.8px; white-space: nowrap; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a .pt { display: inline-block; width: 5px; height: 5px; border-radius: 50%; margin-right: 7px; vertical-align: 2px; background: var(--c); opacity: 0.8; }
+  .nav-right { display: flex; align-items: center; gap: 14px; }
+  .nav-cta { background: transparent; border: 1px solid var(--gold); color: var(--gold-hi); padding: 8px 22px; font-family: 'Saira', sans-serif; font-size: 13px; letter-spacing: 1px; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+  .nav-cta:hover { background: var(--gold); color: var(--bg); }
+  .nav-burger { display: none; background: none; border: 1px solid var(--border2); color: var(--white); width: 42px; height: 36px; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; }
+  .nav-menu { display: none; position: fixed; top: 62px; left: 0; right: 0; z-index: 199; background: var(--nav-bg2); border-bottom: 1px solid var(--border2); padding: 12px 24px 22px; flex-direction: column; }
+  .nav-menu.open { display: flex; }
+  .nav-menu a { color: var(--white); text-decoration: none; font-size: 16px; font-weight: 300; letter-spacing: 0.5px; padding: 12px 0; border-bottom: 1px solid var(--border2); }
+  .nav-menu a:last-child { border-bottom: none; color: var(--gold-hi); }
+  /* Siete enlaces: el gap baja de 32 (desde 1440) a 18 (en 1024) y entre 861 y 1023 px no entran, así que va el menú
+     (MENÚ) con el botón Conversemos a la vista; por debajo de 861, el de celular de siempre (sin el botón) */
+  @media (min-width: 861px) and (max-width: 1023px) {
+    .nav-links { display: none; } .nav-burger { display: block; }
+    .nav-menu { padding-left: 52px; padding-right: 52px; }
+  }
+
+  /* copiado de v5/index.html (BUTTONS) el 01/11 — mantener igual */
+  /* BUTTONS */
+  .btn-gold { background: var(--gold); color: var(--bg); border: none; padding: 14px 38px; font-family: 'Saira', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 1.5px; cursor: pointer; text-decoration: none; display: inline-block; transition: background-color 0.2s, color var(--t-tema) ease; }
+  .btn-gold:hover { background: var(--gold-hi); }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border2); padding: 14px 38px; font-family: 'Saira', sans-serif; font-size: 14px; font-weight: 300; letter-spacing: 1.5px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
+  .btn-ghost:hover { color: var(--white); border-color: var(--border3); }
+
+  /* copiado de v5/index.html (LAYOUT) el 01/11 — mantener igual */
+  /* LAYOUT */
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 48px; }
+  .section { padding: 112px 0; }
+  .divider { height: 1px; background: var(--border2); }
+  .lbl { font-size: 10px; font-weight: 400; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .lbl::before { content: ''; width: 20px; height: 1px; background: var(--gold); display: inline-block; }
+  .ttl { font-size: clamp(36px, 5vw, 62px); font-weight: 500; letter-spacing: 0.5px; line-height: 1.05; color: var(--white); margin-bottom: 22px; }
+  .bdy { font-size: 17px; font-weight: 300; line-height: 1.78; color: var(--muted); max-width: 640px; }
+  .bdy strong { color: var(--white); font-weight: 400; }
+  .bdy + .bdy { margin-top: 16px; }
+
+  /* copiado de v5/index.html (CONTACT) el 01/11 — mantener igual */
+  /* CONTACT */
+  .contact { text-align: center; padding: 0 48px 140px; position: relative; overflow: hidden; }
+  .contact::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 900px; height: 450px; background: radial-gradient(ellipse, rgba(200,134,10,0.038) 0%, transparent 68%); pointer-events: none; }
+  .c-pre { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; }
+  .c-ttl { font-weight: 500; font-size: clamp(52px,9vw,108px); letter-spacing: 2px; line-height: 1; color: var(--white); margin-bottom: 20px; }
+  .c-sub { font-size: 17px; font-weight: 300; color: var(--muted); max-width: 520px; margin: 0 auto 40px; line-height: 1.72; }
+  .c-email { display: inline-block; font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 300; color: var(--blue); letter-spacing: 2px; text-decoration: none; border-bottom: 1px solid var(--blue-lo); padding-bottom: 2px; margin-bottom: 44px; transition: color 0.2s, border-color 0.2s; }
+  .c-email:hover { color: var(--white); border-color: var(--muted); }
+  .c-loc { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; color: var(--muted); opacity: 0.35; margin-top: 36px; }
+
+  /* copiado de v5/index.html (FOOTER) el 01/11 — mantener igual */
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border2); padding: 32px 52px; display: flex; align-items: center; justify-content: space-between; background: var(--banda); }
+  .f-logo { font-weight: 500; font-size: 16px; letter-spacing: 3px; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+  .f-logo svg { opacity: 0.8; flex: none; }
+  .f-logo em { font-style: normal; font-size: 11px; font-weight: 300; letter-spacing: 2px; color: var(--gold-lo); margin-left: 5px; vertical-align: 1px; }
+  .f-copy { font-size: 11px; font-weight: 300; color: var(--muted); opacity: 0.35; }
+  .f-links { display: flex; gap: 22px; list-style: none; }
+  .f-links a { font-size: 12px; font-weight: 300; color: var(--muted); text-decoration: none; opacity: 0.35; transition: opacity 0.2s, color var(--t-tema) ease; }
+  .f-links a:hover { opacity: 1; }
+
+  /* copiado de v5/index.html (REVEAL) el 01/11 — mantener igual */
+  /* REVEAL */
+  .rev { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease, color var(--t-tema) ease, background-color var(--t-tema) ease, border-color var(--t-tema) ease; }
+  .rev.vis { opacity: 1; transform: translateY(0); }
+  .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s} .d4{transition-delay:.32s} .d5{transition-delay:.4s}
+
+  /* ── DATAFLOW · la página ─────────────────────────────
+     Arriba, el título y el motor en pleno funcionamiento (la pieza central, «EL MOTOR» más abajo); después
+     qué hace, en tres pasos, y la salida a los tres productos. Sin banda: el motor se dibuja sobre el cielo,
+     como la máquina de la home. */
+  .df-hero { padding: 148px 0 72px; }
+  .df-cab { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px 48px; flex-wrap: wrap; }
+  .df-cab .ttl { margin-bottom: 16px; }
+  .df-cab .btn-ghost { white-space: nowrap; margin-bottom: 8px; }
+  .df-linea { font-size: 17px; font-weight: 300; line-height: 1.7; color: var(--muted); max-width: 660px; }
+  .df-linea strong { color: var(--white); font-weight: 400; }
+  /* la página propia, marcada en la nav (la home no lo necesita: no tiene página propia en su nav) */
+  .nav-links a[aria-current="page"] { color: var(--white); }
+  .nav-menu a[aria-current="page"] { color: var(--gold-hi); }
+
+  /* ── EL MOTOR ─────────────────────────────────────────
+     La idea del tablero del Datamotor (datamotor.rialabs.ar, tablero/ui/flujo.js) en el lenguaje de la casa:
+     a la izquierda las cámaras y los sensores que ya están; cada cuadro es un punto que viaja por su cable
+     hasta el núcleo; el núcleo es el eclipse de la casa con su anillo girando por dentro; de ahí salen
+     chispas hacia las analíticas, en el color del producto que las usa, y de cada analítica hacia lo que el
+     motor lleva contado. El marcado (rótulos, nodos, contadores) es HTML y lo ordena la grilla; el script
+     «EL MOTOR» mide dónde quedó cada cosa y dibuja los cables y el movimiento en dos canvas: el plano
+     (quieto) y lo vivo. Hasta 980 px el flujo va de izquierda a derecha; debajo, de arriba hacia abajo. */
+  .mot-wrap { max-width: 1360px; margin: 0 auto; padding: 0 48px; }
+  .mot { position: relative; margin-top: 68px; display: grid;
+    grid-template-columns: 226px minmax(40px, 1fr) 190px minmax(40px, 1fr) 150px minmax(36px, 0.7fr) 262px;
+    grid-template-areas: "hin . hnuc . han . hdat" "in . nuc . an . dat";
+    row-gap: 30px; align-items: center; }
+  .mot-cv { position: absolute; left: 0; top: -48px; width: 100%; height: calc(100% + 96px); display: block; pointer-events: none; }
+  #mot-plano { z-index: 0; } #mot-vivo { z-index: 2; }
+  .mot > :not(canvas) { position: relative; z-index: 1; }
+  .mot-h { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); opacity: 0.85; align-self: end; }
+  .mot-h-in { grid-area: hin; text-align: right; } .mot-h-nuc { grid-area: hnuc; text-align: center; }
+  .mot-h-an { grid-area: han; } .mot-h-dat { grid-area: hdat; }
+  /* las entradas: el rótulo a la izquierda, el dibujo de la cámara a la derecha (de ahí sale su cable) */
+  .mot-in { grid-area: in; list-style: none; display: flex; flex-direction: column; gap: 22px; }
+  .mot-in li { display: flex; align-items: center; justify-content: flex-end; gap: 14px; text-align: right; }
+  .mot-t b { display: block; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: var(--white); opacity: 0.88; }
+  .mot-t span { display: block; font-size: 12.5px; font-weight: 300; line-height: 1.35; color: var(--muted); margin-top: 3px; }
+  .mot-gl { flex: none; display: block; width: 40px; height: 26px; }
+  .mot-gl svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .mot-gl .g-cu { fill: var(--tarjeta2); stroke: var(--gold); stroke-width: 1; stroke-linejoin: round; }
+  .mot-gl .g-lo { fill: none; stroke: var(--gold); stroke-width: 0.9; opacity: 0.6; stroke-linecap: round; }
+  .mot-gl .g-le { fill: var(--bg); stroke: var(--gold-hi); stroke-width: 1; }
+  .mot-gl .g-led { fill: var(--gold-hi); opacity: 0.85; }
+  /* el núcleo y el instrumento: dos lugares vacíos que el script mide y dibuja */
+  .mot-nuc { grid-area: nuc; display: flex; flex-direction: column; align-items: center; gap: 34px; }
+  .mot-nucleo { display: block; width: 100%; max-width: 190px; aspect-ratio: 1 / 1; }
+  .mot-osc { display: block; width: 150px; height: 34px; }
+  /* las analíticas: el nodo, el nombre y los productos que la usan (el punto de color de cada uno, como en la nav) */
+  .mot-an { grid-area: an; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .mot-an li { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 300; letter-spacing: 0.3px; color: var(--white); opacity: 0.8; transition: opacity 0.6s ease; }
+  .mot-an li.act { opacity: 1; transition: opacity 0.08s; }
+  .mot-nodo { flex: none; display: block; width: 14px; height: 14px; }
+  .mot-pr { display: inline-flex; gap: 4px; }
+  .mot-pr i { display: block; width: 5px; height: 5px; border-radius: 50%; background: var(--c); opacity: 0.85; }
+  /* lo que lleva contado: el total grande arriba y un renglón por conteo, la cifra a la derecha. Cifras
+     tabulares para que no baile al subir; al subir, destella a blanco y vuelve al dorado */
+  .mot-dat { grid-area: dat; }
+  .df-tab { list-style: none; display: flex; flex-direction: column; }
+  .df-tab li { display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0 9px; border-top: 1px solid var(--border2); }
+  .df-tab li:first-child { flex-direction: column; align-items: flex-start; gap: 9px; padding: 0 0 18px; border-top: none; }
+  .df-n { display: block; font-weight: 600; font-size: 26px; letter-spacing: 0.5px; line-height: 1; color: var(--gold-hi); font-variant-numeric: tabular-nums; transition: color 0.5s ease; }
+  .df-tab li:first-child .df-n { font-size: 50px; letter-spacing: 1px; }
+  .df-n.tic { color: var(--white); transition: color 0.06s; }
+  .df-l { display: block; font-size: 12px; font-weight: 300; letter-spacing: 0.3px; line-height: 1.4; color: var(--muted); }
+  /* el pie del motor: qué color es cada producto y de dónde salen los números */
+  .mot-pie { display: flex; justify-content: space-between; align-items: baseline; gap: 12px 32px; flex-wrap: wrap; margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--border2); }
+  .mot-ley { list-style: none; display: flex; align-items: baseline; gap: 8px 22px; flex-wrap: wrap; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 0.6px; color: var(--muted); }
+  .mot-ley a { color: var(--white); opacity: 0.8; text-decoration: none; letter-spacing: 1px; transition: opacity 0.2s; }
+  .mot-ley a:hover { opacity: 1; }
+  .mot-ley .pt { display: inline-block; width: 5px; height: 5px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; background: var(--c); }
+  .df-nota { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 0.4px; line-height: 1.7; color: var(--muted); opacity: 0.65; }
+
+  /* ── QUÉ HACE · tres pasos ── */
+  .df-que { background: var(--banda); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); }
+  .df-pasos { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 56px; background: var(--border2); }
+  .df-paso { background: var(--tarjeta); padding: 36px 30px 38px; }
+  .df-paso-n { display: block; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .df-paso h3 { font-size: 21px; font-weight: 500; letter-spacing: 0.3px; color: var(--white); margin-bottom: 12px; }
+  .df-paso p { font-size: 14.5px; font-weight: 300; line-height: 1.72; color: var(--muted); }
+
+  /* ── LOS PRODUCTOS · la salida ── */
+  .df-prods { padding-bottom: 24px; }
+  .df-prod { list-style: none; margin-top: 52px; border-top: 1px solid var(--border2); }
+  .df-prod a { display: grid; grid-template-columns: 250px 1fr auto; gap: 12px 32px; align-items: baseline; padding: 28px 0; border-bottom: 1px solid var(--border2); text-decoration: none; color: inherit; }
+  .df-prod b { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 500; letter-spacing: 0.5px; color: var(--white); transition: color 0.2s; }
+  .df-prod b::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
+  .df-prod span { font-size: 15px; font-weight: 300; line-height: 1.65; color: var(--muted); max-width: 560px; }
+  .df-prod i { font-style: normal; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 300; letter-spacing: 1px; color: var(--muted); white-space: nowrap; transition: color 0.2s; }
+  .df-prod a:hover b, .df-prod a:hover i, .df-prod a:focus-visible i { color: var(--c); }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* copiado de v5/index.html (REVEAL, reduced-motion) el 01/11 — mantener igual */
+    html { scroll-behavior: auto; }
+    .rev { opacity: 1; transform: none; transition: none; }
+    /* lo propio */
+    .df-n, .mot-an li { transition: none; }
+  }
+
+  @media (max-width: 1180px) {
+    .mot { grid-template-columns: 200px minmax(32px, 1fr) 160px minmax(32px, 1fr) 140px minmax(28px, 0.7fr) 246px; }
+    .mot-nucleo { max-width: 160px; }
+    .df-tab li:first-child .df-n { font-size: 44px; }
+  }
+  /* el flujo vertical: las entradas arriba (dos filas trabadas, así los cables de la primera pasan entre las
+     de la segunda), el núcleo, las analíticas (también trabadas) y lo contado abajo */
+  @media (max-width: 980px) {
+    .mot { grid-template-columns: minmax(0, 1fr); grid-template-areas: "hin" "in" "nuc" "an" "hdat" "dat"; row-gap: 0; margin-top: 52px; }
+    .mot-h-nuc, .mot-h-an { display: none; }
+    .mot-h-in { text-align: left; margin-bottom: 22px; }
+    .mot-in { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: 16px; }
+    .mot-in li { flex-direction: column; justify-content: flex-end; gap: 8px; text-align: center; grid-row: 1; }
+    .mot-in li:nth-child(1) { grid-column: 1 / span 2; } .mot-in li:nth-child(2) { grid-column: 2 / span 2; }
+    .mot-in li:nth-child(3) { grid-column: 3 / span 2; } .mot-in li:nth-child(4) { grid-column: 4 / span 2; }
+    .mot-in li:nth-child(5) { grid-column: 5 / span 2; } .mot-in li:nth-child(6) { grid-column: 6 / span 2; }
+    .mot-in li:nth-child(even) { grid-row: 2; }
+    .mot-t b { font-size: 9px; letter-spacing: 1.2px; }
+    .mot-t span { display: none; }
+    .mot-nuc { position: relative; margin: 84px 0 76px; }
+    .mot-nucleo { max-width: 150px; }
+    /* el instrumento, al costado del núcleo: abajo pasan los cables a las analíticas */
+    .mot-osc { position: absolute; left: calc(50% + 92px); top: 50%; width: min(84px, calc(50% - 96px)); margin-top: -17px; }
+    .mot-an { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); row-gap: 14px; }
+    .mot-an li { flex-direction: column; gap: 6px; font-size: 12.5px; letter-spacing: 0; text-align: center; grid-row: 1; }
+    .mot-an li:nth-child(1) { grid-column: 1 / span 2; } .mot-an li:nth-child(2) { grid-column: 2 / span 2; }
+    .mot-an li:nth-child(3) { grid-column: 3 / span 2; } .mot-an li:nth-child(4) { grid-column: 4 / span 2; }
+    .mot-an li:nth-child(5) { grid-column: 5 / span 2; } .mot-an li:nth-child(6) { grid-column: 6 / span 2; }
+    .mot-an li:nth-child(7) { grid-column: 7 / span 2; } .mot-an li:nth-child(8) { grid-column: 8 / span 2; }
+    .mot-an li:nth-child(even) { grid-row: 2; }
+    .mot-h-dat { margin: 76px 0 20px; }
+    .df-tab li:first-child .df-n { font-size: 46px; }
+    .mot-pie { margin-top: 44px; }
+    .df-pasos { grid-template-columns: 1fr; }
+    .df-prod a { grid-template-columns: 1fr; padding: 24px 0; }
+  }
+
+  /* copiado de v5/index.html (≤860: NAV, LAYOUT, CONTACT, FOOTER) el 01/11 — mantener igual */
+  @media(max-width:860px){
+    nav{padding:14px 24px;} .nav-links{display:none;} .nav-burger{display:block;} .nav-cta{display:none;}
+    .wrap{padding:0 24px;} .section{padding:80px 0;}
+    footer{flex-direction:column;gap:14px;text-align:center;padding:28px 24px;}
+    .f-links{display:none;} .contact{padding:80px 24px 100px;}
+  }
+  @media(max-width:860px){
+    /* lo propio */
+    .mot-wrap { padding: 0 24px; }
+    .df-hero { padding: 112px 0 56px; }
+    .df-linea { font-size: 16px; }
+    .df-cab .btn-ghost { padding: 12px 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- copiado de v5/index.html (EL CIELO) el 01/11 — mantener igual -->
+<canvas id="cielo" aria-hidden="true"></canvas>
+
+<!-- copiado de v5/index.html (NAV) el 01/11 — mantener igual, con los enlaces absolutos (la página vive en /dataflow/) -->
+<nav id="nav">
+  <a href="/" class="nav-logo" id="nav-logo" title="Inicio">
+    <!-- el isotipo: el anillo (logos/ria-anillo-color.svg) a 24 px; el grosor sube de 6 a 7,5 de 100 para que
+         a este tamaño siga siendo un aro y no un hilo -->
+    <svg width="24" height="24" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="nav-anillo" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f8df6a"/><stop offset="0.3" stop-color="#e4753d"/><stop offset="0.62" stop-color="#d35745"/><stop offset="1" stop-color="#c54a45"/>
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="42.5" stroke="url(#nav-anillo)" stroke-width="7.5"/>
+    </svg>
+    <span class="nav-wm">RIA <em>Labs</em></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/#smartcity" style="--c:var(--c-esp)"><span class="pt"></span>Smartcity</a></li>
+    <li><a href="/#analitico" style="--c:var(--c-ana)"><span class="pt"></span>Analítico</a></li>
+    <li><a href="/#automotrices" style="--c:var(--c-aut)"><span class="pt"></span>Automotrices</a></li>
+    <li><a href="/dataflow/" aria-current="page">Dataflow</a></li>
+    <li><a href="/laboratorio/">Laboratorio</a></li>
+    <li><a href="/metodo/">Método</a></li>
+    <li><a href="/#rosario">Rosario</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#contacto" class="nav-cta">Conversemos</a>
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">MENÚ</button>
+  </div>
+</nav>
+<div class="nav-menu" id="menu">
+  <a href="/#smartcity">RIA Smartcity</a>
+  <a href="/#analitico">RIA Analítico</a>
+  <a href="/#automotrices">RIA Automotrices</a>
+  <a href="/dataflow/" aria-current="page">Dataflow · el motor</a>
+  <a href="/laboratorio/">Laboratorio</a>
+  <a href="/metodo/">Método</a>
+  <a href="/#rosario">Rosario</a>
+  <a href="#contacto">Conversemos</a>
+</div>
+
+<!-- ══════════════ DATAFLOW · TODO SIGUE PASANDO ══════════════
+     El título, qué es Dataflow en una línea y el motor en pleno funcionamiento: las entradas, el núcleo, las
+     analíticas y lo que lleva contado. Los contadores son los de la banda que tenía la home hasta el 01/11:
+     cada uno proyecta lo medido en el tablero del motor el 10/10/2026 a su propia tasa; las constantes y la
+     curva horaria están al principio del script «EL MOTOR», y la tabla contador → base → tasa → fuente en
+     CONTENIDO.md §0. Los números escritos acá son la base medida: si el script no corre, se ven tal cual. -->
+<section class="df-hero" id="dataflow">
+  <div class="wrap">
+    <div class="df-cab">
+      <div>
+        <p class="lbl rev">Dataflow · el motor</p>
+        <h1 class="ttl rev d1">Todo sigue pasando</h1>
+        <p class="df-linea rev d2">El motor detrás de RIA Smartcity, RIA Analítico y RIA Automotrices. Lee la realidad con las cámaras y los sensores que ya están, la comprende y actúa. Esto es lo que lleva contado, <strong>ahora mismo</strong>.</p>
+      </div>
+      <a href="https://dataflow.rialabs.ar" target="_blank" rel="noopener" class="btn-ghost rev d2">Universo Dataflow ↗</a>
+    </div>
+  </div>
+
+  <div class="mot-wrap">
+    <figure class="mot" id="motor" aria-label="Dataflow en pleno funcionamiento: a la izquierda, las cámaras y los sensores que ya están; cada cuadro viaja por su cable hasta el motor, un eclipse dorado con un anillo que gira por dentro; de ahí salen chispas de colores hacia las analíticas y, de cada analítica, hacia lo que el motor lleva contado.">
+      <canvas class="mot-cv" id="mot-plano" aria-hidden="true"></canvas>
+      <canvas class="mot-cv" id="mot-vivo" aria-hidden="true"></canvas>
+
+      <p class="mot-h mot-h-in">Entradas</p>
+      <p class="mot-h mot-h-nuc">El motor</p>
+      <p class="mot-h mot-h-an">Analíticas</p>
+      <p class="mot-h mot-h-dat">Lo que lleva contado</p>
+
+      <!-- las entradas: lo que el motor lee hoy (ver CONTENIDO.md §0, «La página de Dataflow»). El dibujo de cada
+           una es un SVG de 40×26 en línea fina; de su borde derecho (de abajo, en el flujo vertical) sale el cable -->
+      <ul class="mot-in" aria-label="Entradas: las cámaras y los sensores que ya están">
+        <li><span class="mot-t"><b>Tránsito</b><span>una esquina de Rosario</span></span>
+          <span class="mot-gl"><svg viewBox="0 0 40 26" aria-hidden="true"><path class="g-lo" d="M3 6.5 H29"/><path class="g-cu" d="M5 8.5 H28 L33 10.5 V16.5 L28 18.5 H5 Z"/><circle class="g-le" cx="33.6" cy="13.5" r="2.4"/><path class="g-lo" d="M11 18.5 V22.5 M7 22.5 H15"/><circle class="g-led" cx="9" cy="13.5" r="1"/></svg></span></li>
+        <li><span class="mot-t"><b>Acceso</b><span>la barrera de un ingreso</span></span>
+          <span class="mot-gl"><svg viewBox="0 0 40 26" aria-hidden="true"><path class="g-lo" d="M3 4.5 H29"/><path class="g-cu" d="M5 6.5 H28 L33 8.5 V14.5 L28 16.5 H5 Z"/><circle class="g-le" cx="33.6" cy="11.5" r="2.4"/><circle class="g-led" cx="9" cy="11.5" r="1"/><path class="g-lo" d="M4 23.5 H31 M9 21 V23.5 M16 21 V23.5 M23 21 V23.5"/></svg></span></li>
+        <li><span class="mot-t"><b>Predio</b><span>un mercado concentrador</span></span>
+          <span class="mot-gl"><svg viewBox="0 0 40 26" aria-hidden="true"><path class="g-lo" d="M5 5.5 H35"/><path class="g-cu" d="M9 5.5 V8.5 H31 V5.5"/><path class="g-cu" d="M11 8.5 A9 9 0 0 0 29 8.5 Z"/><circle class="g-le" cx="24.5" cy="12.5" r="2.4"/><circle class="g-led" cx="15" cy="11" r="1"/></svg></span></li>
+        <li><span class="mot-t"><b>Concesionaria</b><span>el ingreso al taller</span></span>
+          <span class="mot-gl"><svg viewBox="0 0 40 26" aria-hidden="true"><path class="g-lo" d="M3 6.5 H29"/><path class="g-cu" d="M5 8.5 H28 L33 10.5 V16.5 L28 18.5 H5 Z"/><circle class="g-le" cx="33.6" cy="13.5" r="2.4"/><path class="g-lo" d="M11 18.5 V22.5 M7 22.5 H15"/><circle class="g-led" cx="9" cy="13.5" r="1"/></svg></span></li>
+        <li><span class="mot-t"><b>Monitoreo</b><span>las cámaras de una central</span></span>
+          <span class="mot-gl"><svg viewBox="0 0 40 26" aria-hidden="true"><rect class="g-cu" x="5" y="3.5" width="13" height="8.5" rx="1"/><rect class="g-cu" x="21" y="3.5" width="13" height="8.5" rx="1"/><rect class="g-cu" x="5" y="14.5" width="13" height="8.5" rx="1"/><rect class="g-cu" x="21" y="14.5" width="13" height="8.5" rx="1"/><circle class="g-led" cx="11.5" cy="7.75" r="1"/><circle class="g-led" cx="27.5" cy="18.75" r="1"/></svg></span></li>
+        <li><span class="mot-t"><b>Grabador</b><span>el video que ya se graba</span></span>
+          <span class="mot-gl"><svg viewBox="0 0 40 26" aria-hidden="true"><rect class="g-cu" x="4" y="5.5" width="31" height="16" rx="1.5"/><circle class="g-le" cx="13" cy="13.5" r="4.3"/><circle class="g-le" cx="26" cy="13.5" r="4.3"/><path class="g-lo" d="M13 9.6 V17.4 M9.1 13.5 H16.9 M26 9.6 V17.4 M22.1 13.5 H29.9 M13 17.8 H26"/></svg></span></li>
+      </ul>
+
+      <div class="mot-nuc" aria-hidden="true"><span class="mot-nucleo"></span><span class="mot-osc"></span></div>
+
+      <!-- las analíticas: data-pr son los productos que la usan (esp Smartcity · ana Analítico · aut Automotrices);
+           cada chispa sale con el color de uno de ellos -->
+      <ul class="mot-an" aria-label="Analíticas">
+        <li data-an="vehiculos" data-pr="esp ana"><span class="mot-nodo"></span><span>vehículos</span><span class="mot-pr" aria-hidden="true"><i style="--c:var(--c-esp)"></i><i style="--c:var(--c-ana)"></i></span></li>
+        <li data-an="personas" data-pr="esp ana"><span class="mot-nodo"></span><span>personas</span><span class="mot-pr" aria-hidden="true"><i style="--c:var(--c-esp)"></i><i style="--c:var(--c-ana)"></i></span></li>
+        <li data-an="patentes" data-pr="esp ana aut"><span class="mot-nodo"></span><span>patentes</span><span class="mot-pr" aria-hidden="true"><i style="--c:var(--c-esp)"></i><i style="--c:var(--c-ana)"></i><i style="--c:var(--c-aut)"></i></span></li>
+        <li data-an="zonas" data-pr="ana"><span class="mot-nodo"></span><span>zonas</span><span class="mot-pr" aria-hidden="true"><i style="--c:var(--c-ana)"></i></span></li>
+        <li data-an="merodeo" data-pr="ana"><span class="mot-nodo"></span><span>merodeo</span><span class="mot-pr" aria-hidden="true"><i style="--c:var(--c-ana)"></i></span></li>
+        <li data-an="sabotaje" data-pr="ana"><span class="mot-nodo"></span><span>sabotaje</span><span class="mot-pr" aria-hidden="true"><i style="--c:var(--c-ana)"></i></span></li>
+        <li data-an="aforo" data-pr="esp"><span class="mot-nodo"></span><span>aforo</span><span class="mot-pr" aria-hidden="true"><i style="--c:var(--c-esp)"></i></span></li>
+        <li data-an="fauna" data-pr="esp"><span class="mot-nodo"></span><span>fauna</span><span class="mot-pr" aria-hidden="true"><i style="--c:var(--c-esp)"></i></span></li>
+      </ul>
+
+      <div class="mot-dat">
+        <ul class="df-tab" aria-label="Contadores proyectados sobre lo medido el 10 de octubre de 2026">
+          <li><span class="df-n" data-df="eventos">784.790</span><span class="df-l">eventos</span></li>
+          <li><span class="df-n" data-df="autos">330.163</span><span class="df-l">autos</span></li>
+          <li><span class="df-n" data-df="personas">172.162</span><span class="df-l">personas</span></li>
+          <li><span class="df-n" data-df="camiones">74.018</span><span class="df-l">camiones</span></li>
+          <li><span class="df-n" data-df="motos">57.498</span><span class="df-l">motos</span></li>
+          <li><span class="df-n" data-df="patentes">20.750</span><span class="df-l">patentes leídas</span></li>
+        </ul>
+      </div>
+    </figure>
+
+    <div class="mot-pie">
+      <ul class="mot-ley" aria-label="El color de cada chispa es el del producto que usa esa analítica">
+        <li><a href="/#smartcity" style="--c:var(--c-esp)"><span class="pt"></span>Smartcity</a></li>
+        <li><a href="/#analitico" style="--c:var(--c-ana)"><span class="pt"></span>Analítico</a></li>
+        <li><a href="/#automotrices" style="--c:var(--c-aut)"><span class="pt"></span>Automotrices</a></li>
+        <li>el color de cada chispa es el producto que la usa</li>
+      </ul>
+      <p class="df-nota">proyección sobre lo medido el 10 oct 2026 · 8 cámaras · un equipo en Rosario</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ QUÉ HACE ══════════════ -->
+<section class="section df-que" id="como">
+  <div class="wrap">
+    <p class="lbl rev">Cómo trabaja</p>
+    <h2 class="ttl rev d1">Lee, comprende, actúa.</h2>
+    <ol class="df-pasos">
+      <li class="df-paso rev d1">
+        <span class="df-paso-n">01 · Lee</span>
+        <h3>Lo que ya está</h3>
+        <p>Las cámaras de tránsito, de acceso, de una central, y el video que ya se graba. Cada cámara pasa a ser un sensor. El motor corre en un equipo instalado en el lugar.</p>
+      </li>
+      <li class="df-paso rev d2">
+        <span class="df-paso-n">02 · Comprende</span>
+        <h3>Un catálogo de analíticas</h3>
+        <p>Personas, vehículos, patentes, zonas, merodeo, aforo, fauna. Se encienden por configuración, cámara por cámara: una capacidad nueva no pide obra.</p>
+      </li>
+      <li class="df-paso rev d3">
+        <span class="df-paso-n">03 · Actúa</span>
+        <h3>Cada evento, a quien lo necesita</h3>
+        <p>Sale con su foto, su video y su descripción hacia el producto que lo usa, y queda guardado para buscarlo después por lo que la cámara vio.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════════ LOS PRODUCTOS · la salida ══════════════ -->
+<section class="section df-prods" id="productos">
+  <div class="wrap">
+    <p class="lbl rev">Los productos</p>
+    <h2 class="ttl rev d1">Tres formas del mismo motor.</h2>
+    <ul class="df-prod">
+      <li class="rev d1"><a href="/#smartcity" style="--c:var(--c-esp)"><b>RIA Smartcity</b><span>La ciudad, el barrio o el centro comercial, medidos con las cámaras que ya tienen.</span><i>Ver el producto →</i></a></li>
+      <li class="rev d2"><a href="/#analitico" style="--c:var(--c-ana)"><b>RIA Analítico</b><span>Las cámaras que una central de monitoreo ya tiene, ahora leídas por el motor.</span><i>Ver el producto →</i></a></li>
+      <li class="rev d3"><a href="/#automotrices" style="--c:var(--c-aut)"><b>RIA Automotrices</b><span>La concesionaria sobre la misma información: la patente que nace en Gestoría es la que la cámara lee cuando el auto vuelve.</span><i>Ver el producto →</i></a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- copiado de v5/index.html (CONTACT) el 01/11 — mantener igual -->
+<!-- Separador de Equipo → Contacto: el anillo solo, el isotipo de la casa (logos/ria-anillo-color.svg).
+     Hasta el 13/10 era un eclipse vectorial con Byte y VRIO en órbita; las menciones a las dos casas
+     salieron de la página ese día. -->
+<div id="contacto" style="display:flex;justify-content:center;padding:0;">
+  <svg id="equipo-anillo" width="540" height="200" viewBox="0 0 480 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="eq-anillo" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f8df6a"/><stop offset="0.3" stop-color="#e4753d"/><stop offset="0.62" stop-color="#d35745"/><stop offset="1" stop-color="#c54a45"/>
+      </linearGradient>
+    </defs>
+    <circle cx="240" cy="90" r="29" stroke="url(#eq-anillo)" stroke-width="4"/>
+  </svg>
+</div>
+
+<!-- ══════════════ CONTACTO ══════════════ -->
+<div class="contact">
+  <p class="c-pre rev">¿Tenés un problema que nadie resolvió?</p>
+  <h2 class="c-ttl rev d1">Hablemos.</h2>
+  <p class="c-sub rev d2">Contanos el problema en una primera conversación y te mostramos qué puede ver tu infraestructura que hoy no está viendo.</p>
+  <a href="mailto:hola@rialabs.ar" class="c-email rev d3">hola@rialabs.ar</a><br>
+  <a href="mailto:hola@rialabs.ar" class="btn-gold rev d4">Escribinos</a>
+  <p class="c-loc rev d5">Rosario, Santa Fe · Argentina</p>
+</div>
+
+<!-- copiado de v5/index.html (FOOTER) el 01/11 — mantener igual, con los enlaces absolutos -->
+<footer>
+  <div class="f-logo">
+    <!-- el anillo, 18 px, con el wordmark apagado del pie -->
+    <svg width="18" height="18" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="f-anillo" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f8df6a"/><stop offset="0.3" stop-color="#e4753d"/><stop offset="0.62" stop-color="#d35745"/><stop offset="1" stop-color="#c54a45"/>
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="42" stroke="url(#f-anillo)" stroke-width="8.5"/>
+    </svg>
+    RIA <em>Labs</em>
+  </div>
+  <p class="f-copy">© 2026 RIA Labs · Rosario, Argentina</p>
+  <ul class="f-links">
+    <li><a href="/#productos">Productos</a></li>
+    <li><a href="/dataflow/">Dataflow</a></li>
+    <li><a href="/laboratorio/">Laboratorio</a></li>
+    <li><a href="/metodo/">Método</a></li>
+    <li><a href="/#rosario">Rosario</a></li>
+    <li><a href="/#contacto">Contacto</a></li>
+  </ul>
+</footer>
+
+<script>
+  /* copiado de v5/index.html (RM) el 01/11 — mantener igual */
+  var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* copiado de v5/index.html (EL CIELO) el 01/11 — mantener igual */
+  /* ══════════════════════════════════════════
+     EL CIELO · estrellas con profundidad, titilar, paralaje de scroll y meteoros
+     ══════════════════════════════════════════ */
+  (function(){
+    var cv = document.getElementById('cielo');
+    if (!cv || !cv.getContext) return;
+    var ctx = cv.getContext('2d');
+    var W = 0, H = 0, DPR = 1, stars = [], meteors = [], nextMeteor = 0;
+    var mouseX = 0.5, mouseY = 0.5;
+    var COLORS = ['#f0ece0','#f0ece0','#f0ece0','#f0ece0','#f0ece0','#f0ece0','#ffe2b0','#EF9F27','#4a8fd4','#4a8fd4','#2fd0c8'];
+
+    function resize(){
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth; H = window.innerHeight;
+      cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+      cv.style.width = W + 'px'; cv.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      seed();
+    }
+    function seed(){
+      // Densidad fija por área: ~360 estrellas a 1440×900, ~130 en un celular.
+      var n = Math.round(W * H / 3600);
+      stars = [];
+      for (var i = 0; i < n; i++) {
+        var z = Math.pow(Math.random(), 1.6);       // la mayoría lejos, pocas cerca
+        stars.push({
+          x: Math.random() * W, y: Math.random() * H,
+          z: z,
+          r: 0.35 + z * 1.25,
+          a: 0.12 + z * 0.55,
+          ph: Math.random() * Math.PI * 2,
+          sp: 0.25 + Math.random() * 0.9,
+          c: COLORS[Math.floor(Math.random() * COLORS.length)]
+        });
+      }
+    }
+    function spawnMeteor(now){
+      var fromLeft = Math.random() > 0.5;
+      meteors.push({
+        x: fromLeft ? Math.random() * W * 0.5 : W * 0.5 + Math.random() * W * 0.5,
+        y: Math.random() * H * 0.45,
+        vx: (fromLeft ? 1 : -1) * (0.55 + Math.random() * 0.35),
+        vy: 0.35 + Math.random() * 0.25,
+        t0: now, life: 650 + Math.random() * 500, len: 90 + Math.random() * 80
+      });
+      nextMeteor = now + 9000 + Math.random() * 11000;
+    }
+    var scrollY = 0;
+    function draw(now){
+      ctx.clearRect(0, 0, W, H);
+      var t = now / 1000;
+      var sy = scrollY;
+      var mx = (mouseX - 0.5) * 10, my = (mouseY - 0.5) * 6;
+      for (var i = 0; i < stars.length; i++) {
+        var s = stars[i];
+        // paralaje: las cercanas (z alto) se corren más con el scroll y con el mouse; deriva lentísima a la derecha
+        var drift = t * 0.6 * s.z;
+        var x = ((s.x + drift + mx * s.z) % W + W) % W;
+        var y = ((s.y - sy * s.z * 0.09 + my * s.z) % H + H) % H;
+        var tw = RM ? 1 : (0.6 + 0.4 * Math.sin(t * s.sp + s.ph));
+        ctx.globalAlpha = s.a * tw;
+        ctx.fillStyle = s.c;
+        ctx.beginPath();
+        ctx.arc(x, y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      if (!RM) {
+        if (now > nextMeteor) spawnMeteor(now);
+        for (var m = meteors.length - 1; m >= 0; m--) {
+          var me = meteors[m];
+          var p = (now - me.t0) / me.life;
+          if (p >= 1) { meteors.splice(m, 1); continue; }
+          var hx = me.x + me.vx * (now - me.t0), hy = me.y + me.vy * (now - me.t0);
+          var tx = hx - me.vx * me.len, ty = hy - me.vy * me.len;
+          var g = ctx.createLinearGradient(tx, ty, hx, hy);
+          g.addColorStop(0, 'rgba(240,236,224,0)');
+          g.addColorStop(1, 'rgba(255,226,176,' + (0.55 * Math.sin(p * Math.PI)) + ')');
+          ctx.globalAlpha = 1; ctx.strokeStyle = g; ctx.lineWidth = 1.1;
+          ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(hx, hy); ctx.stroke();
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+    var running = false;
+    function loop(now){ if (!running) return; draw(now); requestAnimationFrame(loop); }
+    function start(){ if (running || RM) return; running = true; requestAnimationFrame(loop); }
+    function stop(){ running = false; }
+
+    window.addEventListener('resize', function(){ resize(); if (RM) draw(performance.now()); }, { passive: true });
+    window.addEventListener('scroll', function(){ scrollY = window.scrollY; if (RM) draw(performance.now()); }, { passive: true });
+    window.addEventListener('mousemove', function(e){ mouseX = e.clientX / W; mouseY = e.clientY / H; }, { passive: true });
+    document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+    resize();
+    nextMeteor = performance.now() + 4000;
+    if (RM) draw(performance.now()); else start();
+  })();
+
+  /* copiado de v5/index.html (NAV) el 01/11 — mantener igual */
+  /* ══════════════════════════════════════════
+     NAV · fondo al scrollear, menú en móvil
+     ══════════════════════════════════════════ */
+  (function(){
+    var nav = document.getElementById('nav');
+    var burger = document.getElementById('burger');
+    var menu = document.getElementById('menu');
+    window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 50); }, { passive: true });
+    function close(){ menu.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); burger.textContent = 'MENÚ'; }
+    burger.addEventListener('click', function(){
+      var open = !menu.classList.contains('open');
+      menu.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.textContent = open ? 'CERRAR' : 'MENÚ';
+      if (open) nav.classList.add('scrolled');
+    });
+    menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
+  })();
+
+  /* copiado de v5/index.html (REVEAL) el 01/11 — mantener igual */
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+  document.querySelectorAll('.rev').forEach(function(n){ obs.observe(n); });
+
+  /* ══════════════════════════════════════════
+     EL MOTOR · Dataflow en pleno funcionamiento (2026-11-01). La idea del tablero del Datamotor
+     (datamotor.rialabs.ar; su dibujo es tablero/ui/flujo.js de ria-datamotor) dicha con la gramática de la
+     home —la máquina y su red abierta—: línea fina de plano técnico sobre el cielo, el dorado del eclipse en
+     el núcleo y el color de cada producto en las salidas.
+     Cada cámara manda cuadros (puntos claros) por un cable tipo plano hasta el núcleo, y por cada cable corre
+     además una onda de luz, u = A·sen(ks − ωt), con fase propia: la onda de Dataflow dicha como pulsos que
+     viajan por el cableado, no como cintas de colores. Adentro del núcleo los cuadros giran y se doran; el
+     anillo gira; la corona respira con lo que entra; debajo, el instrumento traza las tres cintas de la onda
+     de la identidad (frecuencias 1,8 · 2,3 · 2,7 y el perfil de crestas achatadas de sitios/lambda) en hilo
+     dorado, con la amplitud de la hora del día en Rosario. Del núcleo salen chispas hacia las analíticas y de
+     cada analítica, por la línea punteada y la barra de datos, hacia lo que el motor lleva contado: cada
+     chispa es una subida de un contador, programada para llegar justo cuando el número cambia.
+     Los contadores son los de la banda «DATAFLOW · la onda» que tuvo la home del 12/10 al 01/11, con las
+     mismas constantes y la misma proyección (CONTENIDO.md §0.5): cada uno muestra lo medido + su tasa × el
+     tiempo desde la fecha base, modulado por una curva horaria de Rosario que promedia exactamente 1, y sube
+     de a uno con intervalos irregulares. No se inventa: se proyecta, y el pie del motor dice que proyecta.
+     Dos canvas: el plano (grilla, cables, núcleo, nodos; se redibuja al cambiar de tamaño y mientras se traza
+     al entrar, como un plotter) y lo vivo (un solo rAF, sólo con el motor a la vista y la pestaña visible).
+     prefers-reduced-motion: un cuadro quieto compuesto y los contadores con la proyección, sin animar.
+     ?t=<ms> adelanta el reloj (la proyección y la onda) para fotografiar otro instante.
+     ══════════════════════════════════════════ */
+  (function(){
+    var mot = document.getElementById('motor'), cvP = document.getElementById('mot-plano'), cvV = document.getElementById('mot-vivo');
+    if (!mot || !cvP || !cvV || !cvP.getContext) return;
+    var cP = cvP.getContext('2d'), cV = cvV.getContext('2d');
+
+    /* ── LO MEDIDO · la última lectura del tablero del motor (datamotor.rialabs.ar, leído el 2026-10-10;
+       ventana: primer evento 2026-09-11 19:59, último 2026-10-10 05:59, hora de Rosario). Las mismas
+       constantes que la banda de la home: para cargar una lectura nueva alcanza con reemplazarlas y la fecha
+       de .df-nota en el HTML. ── */
+    var DESDE = Date.UTC(2026, 8, 11, 22, 59);   // 2026-09-11 19:59 -03: el primer evento de la ventana
+    var HASTA = Date.UTC(2026, 9, 10,  8, 59);   // 2026-10-10 05:59 -03: el último; la fecha base de la proyección
+    var TOTALES = { eventos: 784790, autos: 330163, personas: 172162, camiones: 74018, motos: 57498, patentes: 20750 };
+    var HUSO = -3;                                // Rosario, sin horario de verano
+    /* La curva horaria: las cámaras ven más de día que de madrugada. Armónicos de 24 h —[amplitud, hora
+       del pico, armónico]— así el promedio diario es exactamente 1 y la tasa medida se conserva:
+       mínimo ≈ 0,32 a las 2:30, máximo ≈ 1,56 a las 14:30, todavía 1,1 a las 20. */
+    var CURVA = [[0.62, 14.5, 1], [0.08, 10, 2]];
+
+    /* ── de qué analítica sale cada subida. Las de «eventos» salen de cualquiera, en las proporciones de lo
+       medido: vehículos (autos + camiones + motos) 0,588 del total, personas 0,219, patentes 0,026. El resto
+       (0,166: bicicletas y las demás analíticas, que el tablero no desglosa) se reparte en partes iguales
+       entre las otras cinco: ese reparto no está medido. ── */
+    var FUENTE = { autos: 'vehiculos', camiones: 'vehiculos', motos: 'vehiculos', personas: 'personas', patentes: 'patentes' };
+    var PESOS = [['vehiculos', 0.588], ['personas', 0.219], ['patentes', 0.026], ['zonas', 0.034], ['merodeo', 0.033], ['sabotaje', 0.033], ['aforo', 0.033], ['fauna', 0.034]];
+    var VIAJE = 2600;   // ms de una chispa, del núcleo a la cifra: la cifra sube cuando llega
+    var T1 = 1000;      // ms del núcleo a la analítica
+    var T2 = 340;       // ms adentro de la analítica (en horizontal, por su línea punteada)
+    var T3 = VIAJE - T1 - T2;   // ms de la analítica a la cifra
+    var ENTRA = 2700;   // ms de un cuadro, de la cámara al núcleo
+    var GIRO = 1500;    // ms de un cuadro adentro del núcleo
+    var OSC = 11000;    // ms del ciclo del instrumento (el de lambda): las fases son múltiplos de 2π, el loop cierra
+
+    var TAU = Math.PI * 2;
+    var HORAS = (HASTA - DESDE) / 3.6e6;          // 682 h medidas
+    var T_INI = +((location.search.match(/[?&]t=(\d+)/) || [])[1] || 0);
+    function reloj(){ return Date.now() + T_INI; }
+    function horaLocal(ms){ return ms / 3.6e6 + HUSO; }   // horas continuas; módulo 24 es la hora del día
+    function curva(h){ var f = 1, i, c; for (i = 0; i < CURVA.length; i++) { c = CURVA[i]; f += c[0] * Math.cos(TAU * c[2] * (h - c[1]) / 24); } return f; }
+    function curvaAcum(h){ var F = h, i, c; for (i = 0; i < CURVA.length; i++) { c = CURVA[i]; F += c[0] * 24 / (TAU * c[2]) * Math.sin(TAU * c[2] * (h - c[1]) / 24); } return F; }
+    var ACUM0 = curvaAcum(horaLocal(HASTA));
+    // el valor proyectado ahora: lo medido + la tasa medida × las horas efectivas (según la curva) desde la base
+    function proyeccion(k, ms){ return Math.max(TOTALES[k], TOTALES[k] + TOTALES[k] / HORAS * (curvaAcum(horaLocal(ms)) - ACUM0)); }
+    function tasa(k, ms){ return TOTALES[k] / HORAS / 3600 * curva(horaLocal(ms)); }   // por segundo, a esta hora
+    function fmt(n){ return String(Math.floor(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }   // es-AR: puntos de miles
+    function sm(x){ x = x < 0 ? 0 : x > 1 ? 1 : x; return x * x * (3 - 2 * x); }
+    function perfil(u, p){ var s = Math.sin(u); return (s < 0 ? -1 : 1) * Math.pow(Math.abs(s), p); }   // las crestas achatadas de lambda
+
+    /* ── los colores, de los tokens de la casa ── */
+    var CS = getComputedStyle(document.documentElement);
+    function tk(n, d){ return (CS.getPropertyValue(n) || '').trim() || d; }
+    function rgb(c){
+      var m = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(c);
+      if (!m) return [239, 159, 39];
+      var h = m[1].length === 3 ? m[1].replace(/./g, '$&$&') : m[1], n = parseInt(h, 16);
+      return [n >> 16 & 255, n >> 8 & 255, n & 255];
+    }
+    var ORO = rgb(tk('--gold', '#c8860a')), ORO_HI = rgb(tk('--gold-hi', '#EF9F27')), NODO = rgb(tk('--nodo', '#3a3850')), BLANCO = rgb(tk('--white', '#f0ece0'));
+    var FONDO = rgb(tk('--bg', '#0b0a14')), SOL = rgb(tk('--sol-tapado', '#1c1810')), LUNA = rgb(tk('--luna', '#0b0a14'));
+    var HALOS = ['--h3', '--h4', '--h5', '--h6'].map(function(n){ return rgb(tk(n, '#633806')); });
+    var PROD = { esp: rgb(tk('--c-esp', '#2fd0c8')), ana: rgb(tk('--c-ana', '#4a8fd4')), aut: rgb(tk('--c-aut', '#EF9F27')) };
+    function rgba(c, a){ return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + (a < 0 ? 0 : a > 1 ? 1 : a).toFixed(3) + ')'; }
+    function mezcla(a, b, f){ return [Math.round(a[0] + (b[0] - a[0]) * f), Math.round(a[1] + (b[1] - a[1]) * f), Math.round(a[2] + (b[2] - a[2]) * f)]; }
+
+    /* ── el marcado: las entradas, el núcleo, las analíticas y los contadores ── */
+    var gls = Array.prototype.slice.call(mot.querySelectorAll('.mot-in .mot-gl'));
+    var nucEl = mot.querySelector('.mot-nucleo'), oscEl = mot.querySelector('.mot-osc'), anCol = mot.querySelector('.mot-an'), datCol = mot.querySelector('.mot-dat');
+    var anas = Array.prototype.slice.call(mot.querySelectorAll('.mot-an li[data-an]')).map(function(li){
+      return { k: li.getAttribute('data-an'), li: li, nodo: li.querySelector('.mot-nodo'), pr: li.querySelector('.mot-pr'),
+               cols: (li.getAttribute('data-pr') || 'esp').split(' ').map(function(p){ return PROD[p] || ORO_HI; }), pulso: -1e12, pcol: ORO_HI, act: 0 };
+    });
+    var porK = {}; anas.forEach(function(a, i){ porK[a.k] = i; });
+    var conts = Array.prototype.slice.call(mot.querySelectorAll('.df-n[data-df]')).map(function(n){
+      return { k: n.getAttribute('data-df'), el: n, li: n.parentNode, v: 0, next: 0, tic: 0 };
+    }).filter(function(c){ return TOTALES[c.k] != null; });
+    var contK = {}; conts.forEach(function(c){ contK[c.k] = c; });
+    if (!gls.length || !anas.length || !conts.length || !nucEl || !anCol || !datCol) return;
+    // los caminos de lo contado: cada analítica va a «eventos» y, si tiene conteo propio, al suyo
+    var PARES = [];
+    anas.forEach(function(a, i){ if (contK.eventos) PARES.push([i, 'eventos']); });
+    Object.keys(FUENTE).forEach(function(k){ if (contK[k] && porK[FUENTE[k]] != null) PARES.push([porK[FUENTE[k]], k]); });
+
+    /* ── la geometría: dónde quedó cada cosa (relativo al canvas) y los cables que las unen ── */
+    var mqV = window.matchMedia('(max-width: 980px)');
+    var W = 0, H = 0, DPR = 1, G = null;
+    function caja(el, o){ var r = el.getBoundingClientRect(); return { x: r.left - o.left, y: r.top - o.top, w: r.width, h: r.height }; }
+    function muestreo(pts){   // [x0,y0,x1,y1,…] → el camino con su largo acumulado, para recorrerlo por distancia
+      var L = [0], i; for (i = 2; i < pts.length; i += 2) L.push(L[L.length - 1] + Math.hypot(pts[i] - pts[i - 2], pts[i + 1] - pts[i - 1]));
+      return { p: pts, L: L, len: L[L.length - 1], A: { x: pts[0], y: pts[1] }, B: { x: pts[pts.length - 2], y: pts[pts.length - 1] } };
+    }
+    // un cable de plano: bezier cúbica que sale de A en la dirección dA y llega a B en la dirección dB (sale y entra derecho)
+    function cable(A, dA, B, dB){
+      var a1 = Math.max(10, Math.abs((B.x - A.x) * dA.x + (B.y - A.y) * dA.y) * 0.5), a2 = Math.max(10, Math.abs((B.x - A.x) * dB.x + (B.y - A.y) * dB.y) * 0.5);
+      var P1 = { x: A.x + dA.x * a1, y: A.y + dA.y * a1 }, P2 = { x: B.x - dB.x * a2, y: B.y - dB.y * a2 }, pts = [], N = 40, i, t, u;
+      for (i = 0; i <= N; i++) { t = i / N; u = 1 - t; pts.push(u * u * u * A.x + 3 * u * u * t * P1.x + 3 * u * t * t * P2.x + t * t * t * B.x, u * u * u * A.y + 3 * u * u * t * P1.y + 3 * u * t * t * P2.y + t * t * t * B.y); }
+      return muestreo(pts);
+    }
+    // una ruta ortogonal por los puntos dados, con las esquinas redondeadas (radio r): la barra de los datos
+    function ruta(P, r){
+      var pts = [P[0].x, P[0].y], i, k;
+      for (i = 1; i < P.length - 1; i++) {
+        var a = P[i - 1], b = P[i], c = P[i + 1], la = Math.hypot(b.x - a.x, b.y - a.y), lc = Math.hypot(c.x - b.x, c.y - b.y);
+        if (la < 0.5 || lc < 0.5) continue;
+        var rr = Math.min(r, la / 2, lc / 2), p0 = { x: b.x - (b.x - a.x) / la * rr, y: b.y - (b.y - a.y) / la * rr }, p1 = { x: b.x + (c.x - b.x) / lc * rr, y: b.y + (c.y - b.y) / lc * rr };
+        for (k = 0; k <= 6; k++) { var t = k / 6, u = 1 - t; pts.push(u * u * p0.x + 2 * u * t * b.x + t * t * p1.x, u * u * p0.y + 2 * u * t * b.y + t * t * p1.y); }
+      }
+      pts.push(P[P.length - 1].x, P[P.length - 1].y);
+      return muestreo(pts);
+    }
+    function punto(c, s){   // el punto a distancia s del inicio del camino
+      var p = c.p, L = c.L;
+      if (s <= 0) return [p[0], p[1]];
+      if (s >= c.len) return [p[p.length - 2], p[p.length - 1]];
+      var lo = 0, hi = L.length - 1; while (hi - lo > 1) { var m = (lo + hi) >> 1; if (L[m] < s) lo = m; else hi = m; }
+      var f = (s - L[lo]) / ((L[hi] - L[lo]) || 1);
+      return [p[2 * lo] + (p[2 * hi] - p[2 * lo]) * f, p[2 * lo + 1] + (p[2 * hi + 1] - p[2 * lo + 1]) * f];
+    }
+    function trazar(ctx, c, hasta){   // el camino hasta la fracción «hasta» (el plotter al entrar)
+      if (hasta != null && hasta <= 0) return;
+      var lim = (hasta == null ? 1 : hasta) * c.len, i, n = c.L.length;
+      ctx.beginPath(); ctx.moveTo(c.p[0], c.p[1]);
+      for (i = 1; i < n; i++) { if (c.L[i] > lim) { var q = punto(c, lim); ctx.lineTo(q[0], q[1]); break; } ctx.lineTo(c.p[2 * i], c.p[2 * i + 1]); }
+      ctx.stroke();
+    }
+    function medir(){
+      var o = cvP.getBoundingClientRect();
+      if (!(o.width > 40 && o.height > 40)) return false;
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      W = Math.round(o.width); H = Math.round(o.height);
+      [cvP, cvV].forEach(function(cv){ cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); });
+      cP.setTransform(DPR, 0, 0, DPR, 0, 0); cV.setTransform(DPR, 0, 0, DPR, 0, 0);
+      var vert = mqV.matches, g = { vert: vert }, F = vert ? { x: 0, y: 1 } : { x: 1, y: 0 };   // F: el sentido del flujo
+      var nb = caja(nucEl, o), R = Math.min(nb.w, nb.h) / 2 * 0.74;
+      g.N = { x: nb.x + nb.w / 2, y: nb.y + nb.h / 2, R: R };
+      g.th0 = vert ? -Math.PI / 2 : Math.PI;   // por dónde entra el flujo al núcleo
+      // entradas → núcleo: cada cable llega al aro en su propio punto, abiertos como rayos, y entra derecho hacia el centro
+      g.ins = gls.map(function(e, i){
+        var b = caja(e, o), A = vert ? { x: b.x + b.w / 2, y: b.y + b.h + 2 } : { x: b.x + b.w + 3, y: b.y + b.h / 2 };
+        var s = gls.length > 1 ? i / (gls.length - 1) - 0.5 : 0, th = vert ? g.th0 + s * 0.9 : g.th0 - s * 0.9;
+        var B = { x: g.N.x + Math.cos(th) * R, y: g.N.y + Math.sin(th) * R };
+        return { c: cable(A, F, B, { x: -Math.cos(th), y: -Math.sin(th) }), th: th };
+      });
+      // núcleo → analíticas; en horizontal, además, la línea punteada de cada una hasta la barra de los datos
+      var ac = caja(anCol, o), dc = caja(datCol, o), xBus = ac.x + ac.w + 14;
+      g.an = anas.map(function(a, i){
+        var b = caja(a.nodo, o), P = { x: b.x + b.w / 2, y: b.y + b.h / 2 }, r = 7;
+        var s = anas.length > 1 ? i / (anas.length - 1) - 0.5 : 0, th = vert ? Math.PI / 2 - s * 0.9 : s * 0.9;
+        var A = { x: g.N.x + Math.cos(th) * R, y: g.N.y + Math.sin(th) * R }, B = vert ? { x: P.x, y: P.y - r } : { x: P.x - r, y: P.y };
+        var x = { c1: cable(A, { x: Math.cos(th), y: Math.sin(th) }, B, F), P: P, r: r };
+        if (!vert) { var pb = caja(a.pr, o), L0 = { x: pb.x + pb.w + 8, y: P.y }; x.c2 = muestreo([L0.x, P.y, Math.max(L0.x + 4, xBus), P.y]); }
+        else { var lb = caja(a.li, o); x.sal = { x: P.x, y: lb.y + lb.h + 2 }; }
+        return x;
+      });
+      // las cifras: adónde llega cada chispa
+      g.cn = {};
+      conts.forEach(function(c, i){
+        var n2 = caja(c.el, o), l2 = caja(c.li, o);
+        g.cn[c.k] = vert ? { x: n2.x + Math.min(n2.w / 2, 40), y: n2.y - 7 } : { x: dc.x - 12, y: i === 0 ? n2.y + n2.h / 2 : l2.y + l2.h / 2 };
+      });
+      // de cada analítica a cada cifra: en horizontal, por la barra (ruta ortogonal); en vertical, en vuelo libre
+      g.r3 = {};
+      PARES.forEach(function(pr){
+        var a = g.an[pr[0]], B = g.cn[pr[1]];
+        g.r3[pr[0] + '|' + pr[1]] = vert ? cable(a.sal, F, B, F) : ruta([a.c2.B, { x: a.c2.B.x, y: B.y }, B], 10);
+      });
+      g.xBus = xBus; g.mb = caja(mot, o); g.osc = oscEl ? caja(oscEl, o) : null;
+      G = g;
+      return true;
+    }
+
+    /* ── el plano: lo quieto. Se traza al entrar (trazo 0 → 1) y se redibuja al cambiar de tamaño ── */
+    var trazo = RM ? 1 : 0, trazoT0 = 0;
+    function plano(){
+      if (!G) return;
+      var c = cP, g = G, f = trazo, N = g.N, R = N.R, i, k, x, y;
+      c.clearRect(0, 0, W, H);
+      // la grilla del plano: cruces cada 48 px, tenues, que se apagan lejos del centro del motor
+      var mb = g.mb, cx = mb.x + mb.w / 2, cy = mb.y + mb.h / 2, rx = mb.w * 0.6, ry = mb.h * 0.72, fg = sm(f * 2);
+      c.lineWidth = 1;
+      for (x = 24; x < W; x += 48) for (y = 24; y < H; y += 48) {
+        var d = Math.hypot((x - cx) / rx, (y - cy) / ry); if (d >= 1) continue;
+        c.strokeStyle = rgba(BLANCO, 0.07 * (1 - d * d) * fg);
+        c.beginPath(); c.moveTo(x - 3, y); c.lineTo(x + 3, y); c.moveTo(x, y - 3); c.lineTo(x, y + 3); c.stroke();
+      }
+      // las marcas de esquina del bastidor, como en la estación de la máquina
+      c.strokeStyle = rgba(ORO, 0.38 * fg); c.lineWidth = 0.9;
+      [[1, mb.y - 26, 1, 1], [W - 1, mb.y - 26, -1, 1], [1, mb.y + mb.h + 26, 1, -1], [W - 1, mb.y + mb.h + 26, -1, -1]].forEach(function(q){
+        c.beginPath(); c.moveTo(q[0] + q[2] * 16, q[1]); c.lineTo(q[0], q[1]); c.lineTo(q[0], q[1] + q[3] * 16); c.stroke();
+      });
+      // entradas → núcleo: hilo dorado fino
+      c.lineCap = 'round'; c.lineWidth = 1; c.strokeStyle = rgba(ORO, 0.36);
+      g.ins.forEach(function(e){ trazar(c, e.c, sm(f * 1.4)); });
+      // núcleo → analíticas: los conductos, un poco más encendidos
+      c.strokeStyle = rgba(ORO, 0.42);
+      g.an.forEach(function(a){ trazar(c, a.c1, sm((f - 0.4) * 2)); });
+      // la línea punteada de cada analítica, la barra y los ramales a cada cifra: el gris violeta de la red de la home
+      if (!g.vert) {
+        var fd = sm((f - 0.62) * 2.6);
+        c.setLineDash([1.5, 4]); c.strokeStyle = rgba(BLANCO, 0.22); c.lineWidth = 1;
+        g.an.forEach(function(a){ trazar(c, a.c2, fd); });
+        c.setLineDash([]); c.strokeStyle = rgba(NODO, 1); c.lineWidth = 0.9;
+        PARES.forEach(function(pr){ trazar(c, g.r3[pr[0] + '|' + pr[1]], fd); });
+      }
+      // el núcleo: la corona difusa (los halos del eclipse de la casa), el sol detrás y la luna; el aro se traza girando
+      var fa = sm((f - 0.15) * 1.8), fr = sm((f - 0.1) * 1.5), s100 = R / 100;
+      [[1.18, 10, 0, 0.28], [1.14, 6, 1, 0.24], [1.10, 3.5, 2, 0.2], [1.06, 2, 3, 0.16]].forEach(function(h){
+        c.lineWidth = h[1] * s100; c.strokeStyle = rgba(HALOS[h[2]], h[3] * fa); c.beginPath(); c.arc(N.x, N.y, R * h[0], 0, TAU); c.stroke();
+      });
+      c.fillStyle = rgba(SOL, fa); c.beginPath(); c.arc(N.x, N.y, R - 1, 0, TAU); c.fill();
+      c.fillStyle = rgba(LUNA, fa); c.beginPath(); c.arc(N.x, N.y, R * 0.93, 0, TAU); c.fill();
+      if (fr > 0) {
+        c.lineWidth = 3; c.strokeStyle = rgba(ORO, 0.35); c.beginPath(); c.arc(N.x, N.y, R, g.th0, g.th0 + TAU * fr); c.stroke();
+        c.lineWidth = 1.3; c.strokeStyle = rgba(ORO_HI, 0.95); c.beginPath(); c.arc(N.x, N.y, R, g.th0, g.th0 + TAU * fr); c.stroke();
+      }
+      // el dial alrededor, como el manómetro de la máquina: una marca cada 5°, más larga cada 30°
+      c.lineWidth = 1;
+      for (k = 0; k < 72; k++) {
+        var a = k / 72 * TAU, lg = k % 6 === 0, r1 = R * 1.28, r2 = R * (lg ? 1.38 : 1.32);
+        if (k / 72 > fa) break;
+        c.strokeStyle = rgba(ORO, lg ? 0.5 : 0.26); c.beginPath(); c.moveTo(N.x + Math.cos(a) * r1, N.y + Math.sin(a) * r1); c.lineTo(N.x + Math.cos(a) * r2, N.y + Math.sin(a) * r2); c.stroke();
+      }
+      // las bridas de entrada y salida: dos aletas perpendiculares al flujo, con sus bulones
+      [g.th0, g.th0 + Math.PI].forEach(function(th){
+        var px = N.x + Math.cos(th) * R, py = N.y + Math.sin(th) * R, nx = -Math.sin(th), ny = Math.cos(th), sg;
+        for (sg = -1; sg <= 1; sg += 2) {
+          var bx = px + Math.cos(th) * sg * 3, by = py + Math.sin(th) * sg * 3;
+          c.strokeStyle = rgba(ORO, 0.85 * fa); c.lineWidth = 1.3; c.beginPath(); c.moveTo(bx - nx * 9, by - ny * 9); c.lineTo(bx + nx * 9, by + ny * 9); c.stroke();
+          c.fillStyle = rgba(ORO_HI, 0.8 * fa); c.beginPath(); c.arc(bx - nx * 7, by - ny * 7, 1, 0, TAU); c.arc(bx + nx * 7, by + ny * 7, 1, 0, TAU); c.fill();
+        }
+      });
+      // las analíticas: aro dorado, fondo de noche, núcleo encendido (los nodos mayores de la máquina, sin color propio)
+      var fn = sm((f - 0.55) * 2.4);
+      g.an.forEach(function(a){
+        c.fillStyle = rgba(FONDO, fn); c.beginPath(); c.arc(a.P.x, a.P.y, a.r, 0, TAU); c.fill();
+        c.strokeStyle = rgba(ORO, 0.8 * fn); c.lineWidth = 1; c.stroke();
+        c.fillStyle = rgba(ORO_HI, 0.85 * fn); c.beginPath(); c.arc(a.P.x, a.P.y, 2.2, 0, TAU); c.fill();
+      });
+      // el marco del instrumento: esquinas y la línea de cero, punteada
+      if (g.osc) {
+        var o2 = g.osc;
+        c.strokeStyle = rgba(ORO, 0.45 * fa); c.lineWidth = 0.9;
+        [[o2.x, o2.y, 1, 1], [o2.x + o2.w, o2.y, -1, 1], [o2.x, o2.y + o2.h, 1, -1], [o2.x + o2.w, o2.y + o2.h, -1, -1]].forEach(function(q){
+          c.beginPath(); c.moveTo(q[0] + q[2] * 7, q[1]); c.lineTo(q[0], q[1]); c.lineTo(q[0], q[1] + q[3] * 7); c.stroke();
+        });
+        c.setLineDash([1, 3]); c.strokeStyle = rgba(ORO, 0.25 * fa); c.beginPath(); c.moveTo(o2.x + 4, o2.y + o2.h / 2); c.lineTo(o2.x + o2.w - 4, o2.y + o2.h / 2); c.stroke(); c.setLineDash([]);
+      }
+    }
+
+    /* ── lo vivo: el estado (cuadros, giros, chispas, contadores) y su dibujo ── */
+    var cuadros = [], orbitas = [], chispas = [], prox = [], actividad = 0;
+    function sincronizar(){
+      var ms = reloj();
+      conts.forEach(function(c){ c.v = Math.floor(proyeccion(c.k, ms)); c.el.textContent = fmt(c.v); c.next = 0; c.tic = 0; c.el.classList.remove('tic'); });
+      chispas = []; cuadros = []; orbitas = []; prox = [];
+    }
+    function fuente(k){
+      if (FUENTE[k] && porK[FUENTE[k]] != null) return porK[FUENTE[k]];
+      var r = Math.random(), i; for (i = 0; i < PESOS.length; i++) { r -= PESOS[i][1]; if (r <= 0 && porK[PESOS[i][0]] != null) return porK[PESOS[i][0]]; }
+      return 0;
+    }
+    function programar(c, ms){
+      var media = 1000 / tasa(c.k, ms);
+      var atraso = proyeccion(c.k, ms) - c.v;   // si el conteo al azar se atrasa respecto de la proyección, apura; si se adelanta, afloja
+      var ajuste = atraso > 1.5 ? 0.6 : atraso < -1.5 ? 1.6 : 1;
+      c.next = ms + media * ajuste * (0.45 + 1.1 * Math.random());
+      if (chispas.length < 40) { var a = fuente(c.k), cs = anas[a].cols; chispas.push({ a: a, k: c.k, t0: c.next - VIAJE, col: cs[Math.floor(Math.random() * cs.length)], hit: false }); }
+    }
+    function contar(ms){
+      conts.forEach(function(c){
+        if (!c.next) programar(c, ms);
+        else if (ms >= c.next) { c.v += 1; c.el.textContent = fmt(c.v); c.el.classList.add('tic'); c.tic = ms; programar(c, ms); }
+        else if (c.tic && ms - c.tic > 140) { c.el.classList.remove('tic'); c.tic = 0; }
+      });
+    }
+    function avanzar(ms){
+      var g = G, i;
+      // cada cámara manda un cuadro cada 0,4–1,1 s. Todo se fecha con su instante programado y no con el del
+      // cuadro de pantalla, así la población es la misma aunque el navegador dibuje pocos cuadros
+      for (i = 0; i < g.ins.length; i++) {
+        if (!prox[i]) prox[i] = ms - Math.random() * ENTRA;   // al arrancar, los cables ya vienen con cuadros en camino
+        while (ms >= prox[i]) { if (cuadros.length < 90 && ms - prox[i] < ENTRA) cuadros.push({ i: i, t0: prox[i] }); prox[i] += 420 + Math.random() * 680; }
+      }
+      // el cuadro que llega al aro entra al núcleo y gira hacia la salida mientras se dora
+      for (i = cuadros.length - 1; i >= 0; i--) if (ms - cuadros[i].t0 >= ENTRA) {
+        orbitas.push({ th: g.ins[cuadros[i].i].th, r: 0.3 + 0.45 * Math.random(), w: 1.1 + 0.9 * Math.random(), t0: cuadros[i].t0 + ENTRA, vida: GIRO * (0.8 + 0.4 * Math.random()) });
+        cuadros.splice(i, 1);
+      }
+      for (i = orbitas.length - 1; i >= 0; i--) if (ms - orbitas[i].t0 >= orbitas[i].vida) orbitas.splice(i, 1);
+      // la chispa que llega a su analítica la enciende
+      for (i = chispas.length - 1; i >= 0; i--) {
+        var ch = chispas[i], e = ms - ch.t0;
+        if (e >= VIAJE + 600) { chispas.splice(i, 1); continue; }
+        if (!ch.hit && e >= T1) { ch.hit = true; var an = anas[ch.a]; an.pulso = ms; an.pcol = ch.col; an.act = ms; an.li.classList.add('act'); }
+      }
+      anas.forEach(function(an){ if (an.act && ms - an.act > 180) { an.li.classList.remove('act'); an.act = 0; } });
+      contar(ms);
+    }
+    // la onda que corre por un cable: un degradé a lo largo de su cuerda, u = A·sen(ks − ωt), con crestas finas
+    function onda(cb, ms, fase, crestas, periodo, col, amp){
+      var gr = cV.createLinearGradient(cb.A.x, cb.A.y, cb.B.x, cb.B.y), j, n = 28;
+      for (j = 0; j <= n; j++) { var s = j / n, w = Math.sin(TAU * (crestas * s - ms / periodo + fase)); gr.addColorStop(s, rgba(col, amp * Math.pow(w > 0 ? w : 0, 6) * sm(s * 6) * sm((1 - s) * 6))); }
+      return gr;
+    }
+    function chispa(c, cb, s, col, al, r){   // la cabeza, su halo y la estela por el camino
+      var p = punto(cb, s), k, q0 = p, q1;
+      c.lineWidth = r * 0.9;
+      for (k = 1; k <= 5; k++) { q1 = punto(cb, s - k * 4.5); c.strokeStyle = rgba(col, al * 0.55 * (1 - k / 6)); c.beginPath(); c.moveTo(q0[0], q0[1]); c.lineTo(q1[0], q1[1]); c.stroke(); q0 = q1; }
+      var gl = c.createRadialGradient(p[0], p[1], 0, p[0], p[1], r * 4.6);
+      gl.addColorStop(0, rgba(col, 0.5 * al)); gl.addColorStop(1, rgba(col, 0));
+      c.fillStyle = gl; c.beginPath(); c.arc(p[0], p[1], r * 4.6, 0, TAU); c.fill();
+      c.fillStyle = rgba(mezcla(col, [255, 255, 255], 0.35), al); c.beginPath(); c.arc(p[0], p[1], r, 0, TAU); c.fill();
+    }
+    function vivo(ms){
+      var c = cV, g = G, N, i, k;
+      if (!g) return;
+      c.clearRect(0, 0, W, H);
+      var ga = RM ? 1 : sm((trazo - 0.5) / 0.5); if (ga <= 0) return;
+      c.globalAlpha = ga; c.lineCap = 'round'; N = g.N;
+      // la onda: un pulso de luz por cada cable, con su fase; hacia el núcleo en las entradas, hacia afuera en las salidas
+      c.lineWidth = 1.5;
+      g.ins.forEach(function(e, i){ c.strokeStyle = onda(e.c, ms, i * 0.37, 1.7, 2300, ORO_HI, 0.62); trazar(c, e.c); });
+      g.an.forEach(function(a, i){ c.strokeStyle = onda(a.c1, ms, 0.2 + i * 0.29, 1.5, 1900, ORO_HI, 0.5); trazar(c, a.c1); });
+      // los cuadros, viajando de cada cámara al aro
+      for (i = 0; i < cuadros.length; i++) {
+        var q = cuadros[i], u = (ms - q.t0) / ENTRA; if (u < 0 || u >= 1) continue;
+        var e = g.ins[q.i], p = punto(e.c, u * e.c.len), al = sm(u / 0.08);
+        c.fillStyle = rgba(BLANCO, 0.14 * al); c.beginPath(); c.arc(p[0], p[1], 4.4, 0, TAU); c.fill();
+        c.fillStyle = rgba(BLANCO, 0.92 * al); c.beginPath(); c.arc(p[0], p[1], 1.5, 0, TAU); c.fill();
+      }
+      // adentro del núcleo: el cuadro entra por el aro, gira hacia la salida y se dora
+      actividad += (Math.min(1, orbitas.length / 14) - actividad) * 0.04;
+      var cor = c.createRadialGradient(N.x, N.y, N.R * 0.98, N.x, N.y, N.R * 1.75);
+      cor.addColorStop(0, rgba(ORO_HI, 0.05 + 0.13 * actividad)); cor.addColorStop(1, rgba(ORO_HI, 0));
+      c.fillStyle = cor; c.beginPath(); c.arc(N.x, N.y, N.R * 1.75, 0, TAU); c.arc(N.x, N.y, N.R * 0.98, 0, TAU, true); c.fill();
+      for (i = 0; i < orbitas.length; i++) {
+        var ob = orbitas[i], v = (ms - ob.t0) / ob.vida; if (v < 0 || v >= 1) continue;
+        var th = ob.th + ob.w * (ms - ob.t0) / 1000, rr = N.R * (0.95 + (ob.r - 0.95) * sm(v / 0.35)) * (1 - 0.2 * v);
+        var x = N.x + Math.cos(th) * rr, y = N.y + Math.sin(th) * rr, al2 = sm(v / 0.1) * (1 - sm((v - 0.55) / 0.45));
+        c.fillStyle = rgba(mezcla(BLANCO, ORO_HI, sm(v * 1.8)), 0.9 * al2); c.beginPath(); c.arc(x, y, 1.4, 0, TAU); c.fill();
+      }
+      // el anillo que gira por dentro (tres arcos, como el del tablero) y el centro
+      var ang = (ms / 1000 * 0.55) % TAU;
+      c.lineWidth = 2;
+      for (k = 0; k < 3; k++) { c.strokeStyle = rgba(ORO_HI, 0.78 - k * 0.2); c.beginPath(); c.arc(N.x, N.y, N.R * 0.82, ang + k * TAU / 3, ang + k * TAU / 3 + Math.PI * 0.42); c.stroke(); }
+      c.fillStyle = rgba(ORO_HI, 0.35 + 0.4 * actividad); c.beginPath(); c.arc(N.x, N.y, 1.8, 0, TAU); c.fill();
+      // el instrumento: las tres cintas de la onda de la identidad, en hilo dorado, con la amplitud de la hora del día
+      if (g.osc) {
+        var o2 = g.osc, hh = o2.h / 2, amp = hh * 0.8 * (0.42 + 0.58 * Math.min(1, curva(horaLocal(ms)) / 1.58)), tt = (ms % OSC) / OSC;
+        [[1.8, ORO_HI, 0.85, 0.42, 1], [2.3, ORO, 0.7, 0.34, 0.8], [2.7, BLANCO, 0.4, 0.3, 0.62]].forEach(function(w, j){
+          var gr = c.createLinearGradient(o2.x, 0, o2.x + o2.w, 0);
+          gr.addColorStop(0, rgba(w[1], 0)); gr.addColorStop(0.16, rgba(w[1], w[2])); gr.addColorStop(0.84, rgba(w[1], w[2])); gr.addColorStop(1, rgba(w[1], 0));
+          c.strokeStyle = gr; c.lineWidth = 1; c.beginPath();
+          for (k = 0; k <= 64; k++) { var xn = k / 64, yy = o2.y + hh + amp * w[4] * perfil(TAU * w[0] * (xn - tt / w[0]) + j * 1.3, w[3]); if (k) c.lineTo(o2.x + xn * o2.w, yy); else c.moveTo(o2.x, yy); }
+          c.stroke();
+        });
+      }
+      // la analítica que acaba de recibir una chispa: se enciende en el color del producto y suelta un anillo
+      anas.forEach(function(an, i){
+        var u = (ms - an.pulso) / 1100; if (u < 0 || u >= 1) return;
+        var P = g.an[i].P, gl = c.createRadialGradient(P.x, P.y, 0, P.x, P.y, 18);
+        gl.addColorStop(0, rgba(an.pcol, 0.4 * (1 - u))); gl.addColorStop(1, rgba(an.pcol, 0));
+        c.fillStyle = gl; c.beginPath(); c.arc(P.x, P.y, 18, 0, TAU); c.fill();
+        c.strokeStyle = rgba(an.pcol, 0.85 * (1 - u)); c.lineWidth = 1.2; c.beginPath(); c.arc(P.x, P.y, 7 + 15 * sm(u), 0, TAU); c.stroke();
+        c.strokeStyle = rgba(an.pcol, 1 - u); c.beginPath(); c.arc(P.x, P.y, 7, 0, TAU); c.stroke();
+        c.fillStyle = rgba(an.pcol, 1 - u); c.beginPath(); c.arc(P.x, P.y, 2.6, 0, TAU); c.fill();
+      });
+      // las chispas: del núcleo a la analítica, por su línea, y de ahí a la cifra, que sube cuando llegan
+      for (i = 0; i < chispas.length; i++) {
+        var ch = chispas[i], e2 = ms - ch.t0; if (e2 < 0) continue;
+        var ga2 = g.an[ch.a], r3 = g.r3[ch.a + '|' + ch.k];
+        if (e2 < T1) chispa(c, ga2.c1, e2 / T1 * ga2.c1.len, ch.col, sm(e2 / 120), 2.2);
+        else if (e2 < T1 + T2) { if (ga2.c2) chispa(c, ga2.c2, (e2 - T1) / T2 * ga2.c2.len, ch.col, 0.9, 2); }
+        else if (e2 < VIAJE) { if (r3) chispa(c, r3, (e2 - T1 - T2) / T3 * r3.len, ch.col, 1, 2.2); }
+        else if (r3) {   // la llegada: un anillo chico junto a la cifra
+          var ua = (e2 - VIAJE) / 600, B = r3.B;
+          c.strokeStyle = rgba(ch.col, 0.7 * (1 - ua)); c.lineWidth = 1; c.beginPath(); c.arc(B.x, B.y, 3 + 11 * sm(ua), 0, TAU); c.stroke();
+        }
+      }
+      c.globalAlpha = 1;
+    }
+
+    /* ── el reloj: un solo rAF, sólo con el motor a la vista y la pestaña visible ── */
+    var corriendo = false, visible = false, raf = 0, paradoEn = 0, listo = false;
+    function cuadro(){
+      if (!corriendo) return;
+      var ms = reloj();
+      if (trazo < 1) { trazo = Math.min(1, (performance.now() - trazoT0) / 1900); plano(); }
+      avanzar(ms); vivo(ms);
+      raf = requestAnimationFrame(cuadro);
+    }
+    function arrancar(){
+      if (corriendo || RM || !listo) return;
+      corriendo = true;
+      if (!trazoT0) trazoT0 = performance.now();
+      var pausa = paradoEn ? reloj() - paradoEn : 0;
+      if (!paradoEn || pausa > 15000) sincronizar();   // si estuvo mucho fuera de vista, vuelve a la proyección
+      else {   // una pausa corta congela el reloj: nada sube de golpe al volver
+        conts.forEach(function(c){ if (c.next) c.next += pausa; });
+        chispas.forEach(function(p){ p.t0 += pausa; }); cuadros.forEach(function(p){ p.t0 += pausa; }); orbitas.forEach(function(p){ p.t0 += pausa; });
+        prox = prox.map(function(t){ return t + pausa; });
+      }
+      raf = requestAnimationFrame(cuadro);
+    }
+    function parar(){ if (corriendo) paradoEn = reloj(); corriendo = false; cancelAnimationFrame(raf); }
+    function estatico(){   // prefers-reduced-motion: un cuadro quieto bien compuesto, con la proyección de ahora
+      var ms = reloj(), g = G;
+      sincronizar(); trazo = 1; plano();
+      g.ins.forEach(function(e, i){ [0.16, 0.5, 0.82].forEach(function(u, j){ if (j === 1 || (i + j) % 2 === 0) cuadros.push({ i: i, t0: ms - u * ENTRA }); }); });
+      for (var k = 0; k < 10; k++) orbitas.push({ th: g.th0 + 0.15 * k, r: 0.32 + (k % 3) * 0.16, w: 1.6, t0: ms - (0.2 + (k % 5) * 0.14) * GIRO, vida: GIRO });
+      [['vehiculos', 'autos', 0.5], ['personas', 'eventos', 0.2], ['patentes', 'patentes', 0.72], ['aforo', 'eventos', 0.86], ['merodeo', 'eventos', 0.3]].forEach(function(q){
+        var a = porK[q[0]]; if (a == null || !contK[q[1]]) return;
+        chispas.push({ a: a, k: q[1], t0: ms - q[2] * VIAJE, col: anas[a].cols[anas[a].cols.length - 1], hit: true });
+      });
+      anas[porK.vehiculos || 0].pulso = ms - 400; anas[porK.vehiculos || 0].pcol = anas[porK.vehiculos || 0].cols[0];
+      actividad = 0.7;
+      vivo(ms);
+    }
+    function rearmar(){
+      if (!medir()) return;
+      listo = true;
+      if (RM) { estatico(); return; }
+      plano(); if (!corriendo) vivo(reloj());
+      if (visible && !document.hidden) arrancar();
+    }
+    new IntersectionObserver(function(es){ visible = es[0].isIntersecting; if (visible && !document.hidden) arrancar(); else parar(); }, { rootMargin: '120px 0px' }).observe(mot);
+    document.addEventListener('visibilitychange', function(){ if (document.hidden) parar(); else if (visible) arrancar(); });
+    if ('ResizeObserver' in window) new ResizeObserver(function(){ rearmar(); }).observe(mot);
+    else window.addEventListener('resize', rearmar, { passive: true });
+    rearmar();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(rearmar);
+  })();
+</script>
+</body>
+</html>
