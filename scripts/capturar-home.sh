@@ -9,6 +9,9 @@
 # PANTALLA=1 fotografía UNA pantalla real, sin inyectar el alto fijo del hero: ANCHO×ALTO (ANCHO=1440 por defecto).
 # Con ANCHO≤500 va por el iframe del celular (del ancho y el alto pedidos) y recorta la captura a ese cuadro.
 # Sale una sola captura, ${N}_p<ancho>x<alto>.png: sirve para ver qué entra sin scrollear.
+# Con PANTALLA=1, BAJAR=<px> fotografía esa misma pantalla bajada <px> (y ANCLA=<id>, bajada hasta ese id): va siempre
+# por el iframe, del tamaño de la pantalla, así el 100svh del hero sigue siendo el de la pantalla y se ve lo que queda
+# abajo de la portada (el encuadre 5: la banda de la máquina). Sale ${N}_p<ancho>x<alto>_b<px>.png (o _<id>.png).
 set -e
 RAIZ=${RAIZ:-/Users/tano/dev/RIALabs/Proyectos/RIA}   # con RAIZ=... se fotografía otro checkout (un worktree)
 S=${CAPTURAS:-"$(dirname "$0")/capturas"}
@@ -34,10 +37,15 @@ inj = "<style>" + alto + "html{scroll-behavior:auto}*,*::before,*::after{animati
 open(f"{d}/_preview.html","w").write(src.replace("</head>", inj, 1))
 PY
 ANCHO=${ANCHO:-1440}
-MW=390; [[ -n "$PANTALLA" && $ANCHO -le 500 ]] && MW=$ANCHO
+MW=390; [[ -n "$PANTALLA" && ( $ANCHO -le 500 || -n "$BAJAR$ANCLA" ) ]] && MW=$ANCHO
+FRAG=""; BAJA=""; SUF=""
+if [[ -n "$PANTALLA" ]]; then
+  [[ -n "$ANCLA" ]] && { FRAG="#$ANCLA"; SUF="_$ANCLA"; }
+  [[ -n "$BAJAR" ]] && { BAJA=" onload=\"this.contentWindow.scrollTo(0,$BAJAR)\""; SUF="_b$BAJAR"; }
+fi
 cat > "$RAIZ/_mob.html" <<HTML
 <style>html,body{margin:0;background:#000;overflow:hidden}iframe{border:0;width:${MW}px;height:${ALTO}px;display:block;margin:0 auto}</style>
-<iframe src="/$VER/_preview.html$Q"></iframe>
+<iframe src="/$VER/_preview.html$Q$FRAG"$BAJA></iframe>
 HTML
 (cd "$RAIZ" && exec python3 -m http.server $PUERTO --bind 127.0.0.1 >/dev/null 2>&1) &   # exec: el PID es el del servidor, y limpiar() lo mata
 MIPID=$!
@@ -45,7 +53,7 @@ for i in {1..10}; do nc -z 127.0.0.1 $PUERTO >/dev/null 2>&1 && break; sleep .3;
 CH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 LOG="$S/chrome.log"; : > "$LOG"
 if [[ -n "$PANTALLA" ]]; then
-  OUT="$S/${N}_p${ANCHO}x${ALTO}.png"
+  OUT="$S/${N}_p${ANCHO}x${ALTO}${SUF}.png"
   # Chrome headless a veces se cuelga esperando (sin CPU): un perro guardián lo mata a los 45 s
   # RM=1 fotografía con prefers-reduced-motion
   foto(){ "$CH" --headless=new --disable-gpu --hide-scrollbars --window-size=$1 --enable-logging=stderr --v=0 ${RM:+--force-prefers-reduced-motion} \
@@ -56,6 +64,8 @@ if [[ -n "$PANTALLA" ]]; then
   if [[ $ANCHO -le 500 ]]; then
     foto 500,$ALTO "http://127.0.0.1:$PUERTO/_mob.html"
     [[ -f "$OUT" ]] && python3 -c 'import sys; from PIL import Image; f,w,h=sys.argv[1],int(sys.argv[2]),int(sys.argv[3]); im=Image.open(f); x=(im.size[0]-w)//2; im.crop((x,0,x+w,h)).save(f)' "$OUT" $ANCHO $ALTO
+  elif [[ -n "$SUF" ]]; then
+    foto $ANCHO,$ALTO "http://127.0.0.1:$PUERTO/_mob.html"
   else
     foto $ANCHO,$ALTO "http://127.0.0.1:$PUERTO/$VER/_preview.html$Q"
   fi

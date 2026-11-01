@@ -37,3 +37,15 @@ Podemos hacer que los videos de Sebastian y Matias sean más largos, y las sonri
 **2026-11-01 14:14** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA/.worktrees/hero-stand`
 
 continue
+
+---
+
+**2026-11-01 14:49** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA/.worktrees/hero-stand`
+
+Probemos ahora una version donde la maquina pasa a estar abajo del nombre, como la teniamos antes. El eclipse como logo y el nombre de la empresa con las animaciones de los CEOs quedan como portada pero la maquina la pasamos abajo.
+
+---
+
+**2026-11-01 21:14** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA/.worktrees/hero-stand`
+
+continue

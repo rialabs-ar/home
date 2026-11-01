@@ -17,6 +17,108 @@
 
 ### 0.1 Qué cambió y por qué
 
+- **El stand con la máquina abajo: quinto encuadre del hero, `?hero=5` (rama `hero-stand`, 2026-11-01).** Matías,
+  verbatim: *«Probemos ahora una version donde la maquina pasa a estar abajo del nombre, como la teniamos antes. El eclipse
+  como logo y el nombre de la empresa con las animaciones de los CEOs quedan como portada pero la maquina la pasamos
+  abajo.»* (en `docs/prompts-usuario/REGISTRO-2026-11.md`). **Qué es.** La primera pantalla (`100svh`) es sólo la
+  portada: el rótulo, **el eclipse solo como figura** (flama, estrella de luz, sin máquina adentro), **RIA / LABS** debajo,
+  **los dos retratos vivos a los costados del eclipse** (Matías a la izquierda, Sebastián a la derecha, sólo el nombre,
+  la misma máscara elíptica que el 4) y la línea **Smart City Expo · Barcelona · 3–5 de noviembre** al pie. Al hacer
+  scroll, antes de `#productos`, **la máquina entera con su reactor propio en el centro**, como en main o en el encuadre
+  1, con **«Tu infraestructura ya existe. / Nosotros la hacemos pensar.»** como su pie; su salida es **la red abierta** del
+  4. Los encuadres 1–4 no cambian y el de por defecto sigue siendo el 2.
+  **Las decisiones, medidas.** (1) *Los retratos se alinean con el eclipse*, no con el wordmark ni con el conjunto: las
+  caras (el 44 % del alto de la foto, donde la viñeta de los clips centra la cara) van a la altura exacta del centro del
+  disco —Matías, el eclipse y Sebastián en una misma línea, tres caras— y el nombre al pie de la parte visible de cada
+  foto. Alinearlos con el wordmark (como en el 4) los dejaba al pie del eclipse, con los costados de arriba vacíos;
+  con el conjunto, las caras caían ~22 px bajo el centro del disco sin ganar nada. (2) *El grupo escala como una sola
+  pieza*: la foto mide 0,64 del eclipse (lo visible de la foto queda del tamaño del disco más la flama: el eclipse,
+  con su aureola, sigue siendo la figura) y su centro va a 0,65 eclipses del centro de la pantalla, así lo visible de cada
+  foto queda a ~0,1 eclipse de la flama. Centrarlas en el espacio libre de cada lado (la primera prueba) las dejaba como
+  islas lejos del logo. (3) *El eclipse se sienta al pie de su fila* y RIA / LABS sube 7vh sobre su aureola (el 4 sube
+  5vh): cuando el ancho lo limita (pantallas 4:3), el aire sobrante va arriba y no entre el disco y el nombre. Tope de
+  ancho 46vw (42 dejaba 190 px de aire arriba en 1024×768). (4) *La frase va con la máquina*, abajo, como su pie: no
+  encontré razón para dejarla en la portada —sin la máquina arriba, «la hacemos pensar» no tiene a qué referirse— y la
+  portada respira mejor con un solo texto al pie, la expo, que queda **debajo de RIA / LABS**.
+  **Cómo está hecho.** CSS: `html[data-hero="5"]` con la misma escala de espacios `--u`, los márgenes del nav y el mismo
+  `--ria` que el 4. Cada `<figure class="stand">` cubre la fila del eclipse y es un **contenedor de tamaño**
+  (`container-type: size`): `100cqh` es el alto de la fila, así `--e: min(100cqh, 46vw, 820px)` es exactamente lo que
+  mide el eclipse (su misma fórmula) sin medir nada en JS; la foto y el nombre se posicionan con `--e`. Los retratos se
+  estampan desde el mismo `<template id="stand-tpl">` con el mismo script (ahora con `data-hero` 4 o 5), y el del
+  `<head>` acepta `[1-5]` y precarga los pósters en el 4 y el 5. La máquina sale del hero con un script de cinco líneas
+  que sigue al `</header>`: sólo con `data-hero="5"`, durante el parseo, mueve `#maquina` y `#maq-pie` a un
+  `<div class="maq-banda" id="banda-maquina">` (padding `9vh 52px 5vh`; 24 px en celular). La caja de la máquina tiene
+  la proporción del dibujo horizontal (1116 × 320 unidades, centrada en el reactor: el reactor queda justo sobre la
+  frase) con tope de escala 1,45; en celular, la del vertical con tope en `78svh`, así máquina y pie entran juntos en
+  una pantalla. Script «LA MÁQUINA»: `ABIERTA = VAR === '4' || VAR === '5'`; en el 5 la red se arma con el reactor
+  propio (`OJO` sigue siendo sólo 2 y 4); sus límites (`T.ext`) son el borde de la ventana a los costados, **el pliegue
+  arriba** (el pie del hero) y **el contenido de `#productos` abajo**; `armarRedAbierta` cuenta desde el origen del
+  viewBox (que en el 4 es 0,0: mismas cuentas) y en la banda su fade **nace 24 px bajo el pliegue y llega entero a los
+  164** (nunca entra en la primera pantalla ni sobre la foto de Sebastián), se pierde 20 px antes de «Productos» y se
+  aparta 70 px de las letras de la frase. La estrella no asoma del lado de Sebastián (`cos a > 0,3`, como el 3 del
+  lado del logo): su rayo largo apunta siempre a la derecha y desde el limbo derecho llegaría a su foto.
+  **Retratos:** igual que en el 4 —autoplay mudo, `DESFASE = 0,87` (se turnan la sonrisa), pausa fuera de pantalla (el
+  observador mira `.hero-escena`: al bajar a la banda se pausan) y con la pestaña oculta, póster con reduced-motion o
+  Save-Data (verificado por DOM: 0 `<video>`, 2 `<img>`), pósters precargados sólo en el 4 y el 5 (en 1–3 y por defecto
+  no hay ni preload ni retratos en el DOM). De día, la misma máscara blanda del 4.
+  **La red abierta en el 5:** sale de la brida del reactor en abanico hacia la derecha y sube hasta cerca del pliegue y
+  baja más allá de la frase, perdiéndose antes de «Productos»; destellos de colores desde la química como en el 4 (la
+  misma simulación, la misma semilla). En celular el abanico de 100° abre a los dos costados del reactor, hasta los
+  bordes, y muere 80 px antes del pie de la caja, delante de la frase.
+  **Celular (≤860 px):** primera pantalla con el eclipse arriba, grande (hasta el ancho de la pantalla: la caja es casi
+  toda aureola), RIA / LABS subido `clamp(10px, 4vh, 36px)` sobre la aureola, **los dos retratos de a par** debajo
+  (41vw de ancho con tope en 19svh: 160×200 a 390×844, 126×158 a 390×664), cada uno con su nombre centrado debajo, y la
+  expo al pie; la foto va a escala 1,12 hacia la cara (1,3 en el 4). Abajo, la máquina vertical (estación arriba,
+  reactor al medio, red abajo) con su pie. **Cómo se elige:** `?hero=5` (con `?tema=dia` para el día); sin parámetro
+  sigue el 2. **Medidas de la primera pantalla** (`getBoundingClientRect` en Chrome headless por iframe del tamaño
+  exacto, animaciones a cero, px; «rótulo→llama» = del pie del rótulo a la punta de la flama, 1,17 radios; «luna→RIA» =
+  del pie del disco a la caja de RIA; «cara−luna» = línea de las caras menos centro del disco; «foto↔llama» = del borde
+  interior de la caja de la foto a la flama, izquierda / derecha —la diferencia es la libración de la luna—, lo visible
+  de la foto empieza ~20–30 px más adentro; «foto→nombre» negativo = el nombre se apoya sobre el pie fundido de la foto):
+
+  | Pantalla | eclipse caja / disco | RIA / LABS | nav→rótulo | rótulo→llama | luna→RIA | LABS→expo | expo→borde | foto | cara−luna | foto↔borde | foto↔llama | foto→nombre | nombre→RIA |
+  |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+  | 1440×900 | 614 / 336 | 108 / 19,4 | 21,6 | 123 | 86,6 | 21,6 | 32,4 | 314×393 | −0,3 | 164 / 164 | 48 / 43 | −36 | 46 |
+  | 1280×720 | 469 / 257 | 86,4 / 15,6 | 17,3 | 95 | 64,3 | 17,3 | 25,9 | 240×300 | −0,2 | 215 / 215 | 36 / 33 | −28 | 31 |
+  | 1920×1080 | 769 / 421 | 128 / 23 | 24 | 154 | 110 | 24 | 36 | 394×492 | −0,3 | 263 / 263 | 60 / 54 | −45 | 66 |
+  | 1024×768 | 471 / 258 | 92,2 / 16,6 | 18,4 | 133 | 62 | 18,4 | 27,6 | 241×302 | −0,2 | 85 / 85 | 37 / 33 | −28 | 29 |
+
+  | Celular | eclipse caja / disco | RIA / LABS | nav→rótulo | rótulo→llama | luna→RIA | LABS→fotos | fotos | foto↔borde | entre fotos | nombre→expo | expo→borde |
+  |---|---|---|---|---|---|---|---|---|---|---|---|
+  | 390×844 | 390 / 213 | 56,6 / 10,2 | 20 | 92 | 64,4 | 10 | 160×200 | 29,5 / 29,6 | 11 | 18,7 | 30 |
+  | 360×740 | 321 / 175 | 52,2 / 9,4 | 17,8 | 68 | 51,8 | 8,8 | 141×176 | 31,7 / 31,7 | 15 | 16,5 | 26,6 |
+  | 390×664 | 285 / 156 | 49,1 / 8,8 | 15,9 | 61 | 45,9 | 8 | 126×158 | 46,4 / 46,4 | 45 | 14,6 | 23,9 |
+
+  En las siete las fotos son simétricas respecto del centro (±0,1 px) y nada toca el nav (el rótulo queda a 2u de su
+  borde; a 360 el rótulo va en dos líneas, igual que en el 4). **La banda** («g» = px por unidad de diseño; «pliegue→red»
+  = del pie del hero al nodo visible más alto, opacidad ≥ 0,05; en celular la red vive al costado y debajo del reactor):
+
+  | Pantalla | caja de la máquina | g | estación | pliegue→caja | caja→frase | pliegue→red | red→«Productos» | frase→«Productos» |
+  |---|---|---|---|---|---|---|---|---|
+  | 1440×900 | 1336×383 | 1,18 | 425×324 | 81 | 33 | 69 | 90 | 176 |
+  | 1280×720 | 1176×337 | 1,03 | 373×285 | 65 | 33 | 67 | 96 | 168 |
+  | 1920×1080 | 1816×464 | 1,45 | 524×400 | 97 | 33 | 57 | 84 | 186 |
+  | 1024×768 | 920×264 | 0,80 | 290×221 | 69 | 33 | 68 | 85 | 170 |
+  | 390×844 | 342×658 | 0,73 | 203×265 | 51 | 33 | 446 | 229 | 134 |
+  | 360×740 | 312×577 | 0,64 | 178×233 | 44 | 33 | 387 | 241 | 130 |
+
+  El centro del reactor coincide con el de la frase en los seis (±0,1 px). **Verificado:** capturas reales de la
+  primera pantalla en los seis tamaños más 390×664 y 900×700, de la banda en los seis (`ANCLA=banda-maquina`), día,
+  reduced-motion y la transición del pliegue a 1440×900 (`BAJAR=450`: la red empieza ~80 px bajo la línea de la expo);
+  sin errores de JS (colector de `error`/`unhandledrejection`/`console.error` en el harness de medidas) y los `<script>`
+  pasan `node --check`. **El 4 no cambió:** 30 cajas del hero (nav, rótulo, expo, escena, máquina, eclipse, wordmark,
+  frase, fotos, nombres, fuentes, preload, alto de página) idénticas antes y después en sus seis tamaños y de día, y lo
+  mismo para 1, 2, 3 y el de por defecto (sólo 0,1 px de ruido subpíxel en la frase del 3, que ninguna regla nueva
+  toca); la red del 4 es la misma en la captura (0,36 % de píxeles distintos: engranajes, tokens y destellos en otro
+  instante). Capturas en `_capturas/hero-5/` (ignorado; `antes/` y `despues/` del 4). **Gotchas:** con `aspect-ratio`
+  y ancho `auto`, Chrome pasa el `max-height` al ancho y la caja se angosta y queda corrida a la izquierda (la máquina
+  quedaba 100 px fuera del eje de la frase a 1920 y 58 en 390): por eso la banda lleva `width: 100%` explícito. Un
+  `Range` sobre un bloque mide el bloque entero, no las letras: la caja de la frase se mide con un Range por párrafo. El
+  modo `BAJAR=` del script de captura hace el scroll en el `onload` del iframe y, con tiempo virtual, a veces no llega a
+  correr el IntersectionObserver que revela la máquina (la banda sale vacía en la foto aunque en el navegador se revela:
+  verificado por DOM, `maq vis` tras bajar): para la banda usar `ANCLA=banda-maquina`. **Script de captura:** con
+  `PANTALLA=1`, `BAJAR=<px>` o `ANCLA=<id>` fotografían la pantalla bajada, siempre por un iframe del tamaño de la
+  pantalla (así el `100svh` del hero sigue siendo el de la pantalla); sin esas variables se comporta igual que antes.
 - **La red abierta (encuadre 4, rama `red-abierta`, 2026-11-01).** Matías, verbatim, sobre la portada del stand: *«Por
   ultimo, la parte de la red a la derecha de la maquina (la salida del eclipse) quisiera que fuera una red abierta que no
   termine, que se difumine y pierda en el espacio para que parezca mas grande, y sacaria los nombres de los productos
@@ -713,7 +815,9 @@
 
 `#inicio` hero, una pantalla (eclipse · RIA LABS · `#maquina` · el pie «Tu infraestructura ya existe. / Nosotros la hacemos pensar.»;
 en el encuadre por defecto, `?hero=2`, la máquina pasa a través del eclipse y RIA LABS va debajo; en el 4, `?hero=4`, el stand:
-lo mismo más los retratos vivos de Matías y Sebastián en las esquinas de abajo, con nombre y oficio) →
+lo mismo más los retratos vivos de Matías y Sebastián en las esquinas de abajo, con nombre y oficio; en el 5, `?hero=5`, el
+hero es sólo la portada —eclipse, RIA LABS, los dos retratos a los costados del eclipse y la expo— y `#maquina` con su pie
+pasa a una banda propia, `#banda-maquina`, entre el hero y `#productos`) →
 `#productos` (`#analitico` · `#smartcity` · `#automocion`) → `#dataflow` →
 `#laboratorio` → `#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
 
