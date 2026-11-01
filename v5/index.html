@@ -475,100 +475,6 @@
   .df-l { display: block; font-size: 12px; font-weight: 300; letter-spacing: 0.3px; line-height: 1.4; color: var(--muted); margin-top: 8px; }
   .df-nota { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 0.4px; line-height: 1.7; color: var(--muted); opacity: 0.65; margin-top: 28px; }
 
-  /* ── LABORATORIO · nuestra casa ─────────────────────
-     El laboratorio no es un anexo: es el origen. Tres partes: el linaje (de qué pregunta salió
-     cada producto), la bitácora de las expediciones en curso y la puerta a la casa grande
-     (/laboratorio/). Todo color sale de las variables de tema; los acentos de cada expedición
-     tienen su versión de día (--lab-c1…c6, definidos acá y no en :root). El dorado es la luz
-     de una lámpara de taller: un resplandor detrás del título y un filo arriba de cada ficha. */
-  #laboratorio { position: relative; overflow: hidden;
-    --lab-c1: #4fd48f; --lab-c2: #7F77DD; --lab-c3: #f0785a; --lab-c4: #6fb6ff; --lab-c5: #b7e05a; --lab-c6: #ff8fcf; }
-  html[data-tema="dia"] #laboratorio { --lab-c1: #1f8a52; --lab-c2: #5a50c4; --lab-c3: #bf4b2b; --lab-c4: #2a6cb5; --lab-c5: #6c8a10; --lab-c6: #bd3d8c; }
-  #laboratorio::before { content: ''; position: absolute; top: -60px; left: -160px; width: 1000px; height: 660px; z-index: -1; pointer-events: none;
-    background: radial-gradient(ellipse at 34% 36%, rgba(200,134,10,0.17) 0%, rgba(200,134,10,0.05) 40%, transparent 66%); opacity: var(--glow); transition: opacity var(--t-tema) ease; }
-  .lab-sub { display: flex; align-items: baseline; gap: 10px 22px; flex-wrap: wrap; margin: 76px 0 30px; padding-top: 24px; border-top: 1px solid var(--border2); }
-  .lab-sub span { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 400; letter-spacing: 3.5px; text-transform: uppercase; color: var(--gold); }
-  .lab-sub em { font-style: normal; font-size: 14.5px; font-weight: 300; color: var(--muted); }
-  /* El linaje: una vía por producto, de la pregunta de origen al planeta. Los hitos se encienden
-     de izquierda a derecha al entrar en pantalla (abajo de 860 px la vía es vertical). */
-  .lab-linajes { display: grid; gap: 38px; }
-  .lab-via { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0 26px; }
-  .lab-hito { position: relative; padding-top: 26px; }
-  .lab-hito::before { content: ''; position: absolute; top: 5px; left: 13px; right: -26px; height: 1px; background: var(--border3); background: color-mix(in srgb, var(--c) 52%, transparent); transform: scaleX(0); transform-origin: left; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
-  .lab-hito::after { content: ''; position: absolute; top: 1px; left: 0; width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--c); background: var(--bg); opacity: 0; transition: opacity 0.5s ease, background-color var(--t-tema) ease; }
-  .lab-fin::before { display: none; }
-  .lab-fin::after { width: 13px; height: 13px; top: -1px; left: -2px; background: var(--c); border-color: transparent; box-shadow: 0 0 14px var(--c); }
-  .vis .lab-hito::before { transform: scaleX(1); }
-  .vis .lab-hito::after { opacity: 1; }
-  .lab-hito:nth-child(1)::before { transition-delay: .15s; } .lab-hito:nth-child(2)::before { transition-delay: .6s; } .lab-hito:nth-child(3)::before { transition-delay: 1.05s; }
-  .lab-hito:nth-child(1)::after { transition-delay: .05s; } .lab-hito:nth-child(2)::after { transition-delay: .55s; } .lab-hito:nth-child(3)::after { transition-delay: 1s; } .lab-hito:nth-child(4)::after { transition-delay: 1.45s; }
-  .lab-hito b { display: block; font-weight: 500; font-size: 15px; letter-spacing: 0.2px; line-height: 1.35; color: var(--white); margin-bottom: 6px; }
-  .lab-hito span { display: block; font-size: 13px; font-weight: 300; line-height: 1.62; color: var(--muted); }
-  .lab-fin a { display: block; text-decoration: none; color: inherit; }
-  .lab-fin b { color: var(--c); font-size: 17px; }
-  .lab-fin a:hover b { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
-  /* La bitácora: cada expedición con la pregunta que la abrió, dónde se prueba, qué medimos y qué no sabemos. */
-  .lab-mesa { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border2); }
-  .lab-exp { background: var(--tarjeta2); padding: 34px 32px 32px; position: relative; overflow: hidden; transition: background-color 0.3s, color var(--t-tema) ease; }
-  .lab-exp::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, var(--c) 0%, transparent 72%); opacity: 0.6; transition: opacity 0.3s; }
-  .lab-exp:hover { background: var(--bg2); }
-  .lab-exp:hover::before { opacity: 1; }
-  .lab-donde { font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; color: var(--c); line-height: 1.7; margin-bottom: 14px; }
-  .lab-nombre { font-weight: 500; font-size: 24px; letter-spacing: 0.4px; line-height: 1.15; color: var(--white); margin-bottom: 6px; }
-  .lab-antes { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 1.5px; color: var(--muted); opacity: 0.6; margin: -2px 0 8px; }
-  .lab-preg { font-size: 18px; font-weight: 300; line-height: 1.45; color: var(--white); margin: 12px 0 22px; padding-left: 14px; border-left: 1px solid var(--c); max-width: 520px; }
-  .lab-bit { display: grid; gap: 14px; max-width: 560px; }
-  .lab-bit dt { font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); opacity: 0.75; margin-bottom: 5px; }
-  .lab-bit dd { font-size: 14px; font-weight: 300; line-height: 1.7; color: var(--muted); }
-  .lab-bit dd b { color: var(--white); font-weight: 400; }
-  .lab-bit dd i { color: var(--white); }
-  .lab-seguir { display: inline-block; margin-top: 22px; padding-bottom: 2px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 1.6px; text-transform: uppercase; color: var(--c); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
-  .lab-seguir:hover { border-color: var(--c); }
-  /* La expedición con material propio: el video de la ochava a la izquierda, la bitácora a la derecha. */
-  .lab-ancha { grid-column: 1 / -1; display: grid; grid-template-columns: 1.15fr 1fr; padding: 0; }
-  .lab-ancha .lab-exp-txt { padding: 34px 36px 32px; }
-  .lab-vid { position: relative; background: var(--bg); min-height: 320px; }
-  .lab-vid video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-  .lab-vid-tag { position: absolute; left: 14px; bottom: 12px; z-index: 1; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.6px; text-transform: uppercase; color: #f0ece0; background: rgba(7,6,15,0.72); padding: 5px 9px; }
-  /* La que se mudó: a la derecha, la puerta al producto donde vive hoy. */
-  .lab-mudada { grid-template-columns: 1fr 280px; }
-  .lab-mudanza { display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 34px 32px; border-left: 1px solid var(--border2); text-decoration: none; color: inherit; transition: background-color 0.3s; }
-  .lab-mudanza:hover { background: var(--ghost); }
-  .lab-mudanza-k { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); opacity: 0.75; }
-  .lab-planeta { width: 18px; height: 18px; border-radius: 50%; background: var(--c); box-shadow: 0 0 18px var(--c); margin: 6px 0 4px; }
-  .lab-mudanza b { font-weight: 500; font-size: 20px; color: var(--c); }
-  .lab-mudanza em { font-style: normal; font-size: 13px; font-weight: 300; line-height: 1.6; color: var(--muted); }
-  .lab-mudanza i { font-style: normal; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--c); margin-top: 8px; }
-  /* La puerta a la casa grande. */
-  .lab-puerta { margin-top: 56px; display: flex; align-items: center; gap: 14px 18px; flex-wrap: wrap; }
-  .lab-puerta-nota { flex-basis: 100%; margin-top: 14px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300; letter-spacing: 0.4px; line-height: 1.75; color: var(--muted); opacity: 0.8; }
-  .lab-puerta-nota a { color: var(--gold-hi); text-decoration: none; border-bottom: 1px solid var(--border); }
-  @media(max-width:1020px){
-    .lab-via { gap: 0 18px; }
-    .lab-hito::before { right: -18px; }
-    .lab-ancha { grid-template-columns: 1fr 1fr; }
-    .lab-mudada { grid-template-columns: 1fr 240px; }
-  }
-  @media(max-width:860px){
-    .lab-sub { margin-top: 60px; }
-    .lab-via { grid-template-columns: 1fr; gap: 0; }
-    .lab-hito { padding: 0 0 22px 26px; }
-    .lab-hito::before { top: 14px; bottom: -6px; left: 4px; right: auto; width: 1px; height: auto; transform: scaleY(0); transform-origin: top; }
-    .vis .lab-hito::before { transform: scaleY(1); }
-    .lab-hito::after { top: 6px; }
-    .lab-fin::after { top: 4px; left: -2px; }
-    .lab-hito:last-child { padding-bottom: 0; }
-    .lab-mesa, .lab-ancha, .lab-mudada { grid-template-columns: 1fr; }
-    .lab-exp, .lab-ancha .lab-exp-txt { padding: 28px 22px 26px; }
-    .lab-ancha { padding: 0; }
-    .lab-vid { min-height: 0; aspect-ratio: 16 / 9; }
-    .lab-mudanza { border-left: none; border-top: 1px solid var(--border2); padding: 24px 22px; }
-    .lab-preg { font-size: 17px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .lab-hito::before, .lab-hito::after { transition: none; transform: none; opacity: 1; }
-  }
-
   /* PRINCIPLES */
   .princ-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 60px; background: var(--border2); }
   .pr { background: var(--tarjeta); padding: 36px 30px; position: relative; overflow: hidden; transition: background-color 0.3s, color var(--t-tema) ease; }
@@ -1331,140 +1237,6 @@
     <p class="df-nota">proyección sobre lo medido el 10 oct 2026 · 8 cámaras · un equipo en Rosario</p>
   </div>
 </section>
-
-<!-- ══════════════ LABORATORIO · NUESTRA CASA ══════════════
-     Tres partes: el linaje (de qué pregunta salió cada producto), la bitácora de las expediciones
-     en curso y la puerta a /laboratorio/. Los datos salen de los repos de cada proyecto (ver
-     CONTENIDO.md §0); si un número no está medido, no está acá. -->
-<section class="section" id="laboratorio">
-  <div class="wrap">
-    <p class="lbl rev">Laboratorio</p>
-    <h2 class="ttl rev d1">Pasá, esta es<br>nuestra casa</h2>
-    <p class="bdy rev d2">Todo lo que está arriba empezó acá, con una pregunta que nadie había pedido medir. Acá se busca, se imagina y se trabaja: un cuaderno con patentes anotadas a birome, una cámara que mira la calle desde una ochava, un semáforo que se dejó manejar. <strong>Lo que funciona en la calle se muda arriba, con cliente adentro. Lo demás se queda en casa, en prueba.</strong></p>
-    <p class="bdy rev d2">La casa tiene dos puertas en Rosario: <strong>la ochava</strong>, donde la cámara de la esquina alimenta al motor las veinticuatro horas, y <strong>el taller</strong>, donde el motor se escribe. Y una sola regla de convivencia, la misma de arriba: si no está medido, no se dice.</p>
-
-    <!-- El linaje: lo que hoy es producto antes fue laboratorio. Una vía por producto. -->
-    <div class="lab-sub rev"><span>De acá salieron</span><em>Lo que hoy es producto, antes fue laboratorio. Cada vía se lee de izquierda a derecha.</em></div>
-    <div class="lab-linajes">
-      <div class="lab-linaje rev" style="--c:var(--c-aut)">
-        <ol class="lab-via" aria-label="De dónde salió RIA Automoción">
-          <li class="lab-hito"><b>Un auto, una barrera, un cuaderno</b><span>En la posventa de una concesionaria de Rosario, la patente, la hora y el nombre se anotaban con birome.</span></li>
-          <li class="lab-hito"><b>La cámara leyó la patente</b><span>Lectura de patentes en el ingreso, en producción desde marzo de 2026: la primera cámara que ya estaba y que pusimos a pensar.</span></li>
-          <li class="lab-hito"><b>Se prototipó sobre el plano del taller</b><span>Los seis pasos del circuito, trazados a mano: turno, recepción, taller, control, lavado, entrega.</span></li>
-          <li class="lab-hito lab-fin"><a href="#automocion"><b>RIA Automoción</b><span>1.100 vehículos activos, todos los días. La patente que nace en Gestoría es la que la cámara lee cuando el auto vuelve.</span></a></li>
-        </ol>
-      </div>
-      <div class="lab-linaje rev d1" style="--c:var(--c-ana)">
-        <ol class="lab-via" aria-label="De dónde salió RIA Analítico">
-          <li class="lab-hito"><b>La misma cámara del ingreso</b><span>Esa lectura de patentes se procesaba en un servidor alquilado, lejos de la cámara: el video viajaba hasta allá y la respuesta volvía. Ahí nació la pregunta de la seguridad.</span></li>
-          <li class="lab-hito"><b>Todo en una PC, en el cliente</b><span>La misma analítica corriendo entera en una computadora instalada en el lugar. Primer recorrido completo, de la cámara a la base, en mayo de 2026.</span></li>
-          <li class="lab-hito"><b>Buscar por lo que la cámara vio</b><span>«Auto rojo Fiat entre las diez y las once», por texto o por voz, y aparece el clip. La búsqueda forense en castellano, agosto de 2026.</span></li>
-          <li class="lab-hito lab-fin"><a href="#analitico"><b>RIA Analítico</b><span>Un producto, dos brazos: Integradores y Monitoreo. En producción con integradores y centrales.</span></a></li>
-        </ol>
-      </div>
-      <div class="lab-linaje rev d2" style="--c:var(--c-esp)">
-        <ol class="lab-via" aria-label="De dónde salió RIA Smartcity">
-          <li class="lab-hito"><b>Un semáforo que ve</b><span>La cámara de nuestra ochava le dio el verde a un controlador que lee video en vez de una espira enterrada: −27 % de demora contra tiempo fijo.</span></li>
-          <li class="lab-hito"><b>¿Y si la esquina hiciera todo?</b><span>Los mismos autos del semáforo son el conteo que Tránsito no tiene; las mismas trayectorias, el mapa de por dónde cruza la gente. Desde agosto de 2026 la esquina mide 24/7.</span></li>
-          <li class="lab-hito"><b>Las palomas de una plaza</b><span>Contadas por visión, sin tocar a nadie. Demostrado a la Municipalidad de Rosario el 25 de agosto, y sumado como una vertical más de la misma esquina.</span></li>
-          <li class="lab-hito lab-fin"><a href="#smartcity"><b>RIA Smartcity</b><span>Ciudad · Predio · Acceso · Barrio y centro comercial. Midiendo 24/7 en Rosario.</span></a></li>
-        </ol>
-      </div>
-    </div>
-
-    <!-- La bitácora: las expediciones en curso -->
-    <div class="lab-sub rev"><span>Expediciones en curso</span><em>La pregunta que las abrió, dónde se prueban, qué medimos y qué no sabemos todavía.</em></div>
-    <div class="lab-mesa">
-      <article class="lab-exp lab-ancha rev" style="--c:var(--lab-c1)">
-        <div class="lab-vid">
-          <video muted loop playsinline preload="none" poster="/laboratorio/media/traffic-deteccion.jpg" aria-label="La cámara de nuestra ochava un día de lluvia: cada auto con su clase, su velocidad y el tiempo que le falta para llegar a la línea de parada">
-            <source src="/laboratorio/media/traffic-deteccion.mp4" type="video/mp4">
-          </video>
-          <span class="lab-vid-tag">nuestra ochava · día de lluvia · sin editar</span>
-        </div>
-        <div class="lab-exp-txt">
-          <p class="lab-donde">Expedición 01 · nuestra ochava, Rosario · invierno de 2026</p>
-          <h3 class="lab-nombre">Tránsito inteligente</h3>
-          <p class="lab-preg">¿Una cámara ve lo suficiente para manejar un semáforo?</p>
-          <dl class="lab-bit">
-            <div><dt>Hasta ahora</dt><dd>Pusimos la cámara de la esquina a leer el tránsito y le dimos el semáforo a un controlador que mira video en vez de una espira enterrada. Contra un semáforo de tiempo fijo alimentado con los mismos autos, <b>−27 % de demora</b>. Un día de lluvia, con el asfalto espejado, cero falsos positivos.</dd></div>
-            <div><dt>Todavía no sabemos</dt><dd>Cómo se lleva con la esquina de al lado: una sola cámara no hace una ola verde. Y la calibración de esta ochava sigue provisoria hasta que midamos dos distancias con cinta.</dd></div>
-          </dl>
-          <a class="lab-seguir" href="/laboratorio/#p04">Seguir la expedición →</a>
-        </div>
-      </article>
-
-      <article class="lab-exp rev d1" style="--c:var(--lab-c2)">
-        <p class="lab-donde">Expedición 02 · una concesionaria de Rosario · desde mayo de 2026</p>
-        <h3 class="lab-nombre">RIA Diálogo</h3>
-        <p class="lab-antes">antes RIA Comms</p>
-        <p class="lab-preg">¿Qué pasa cuando la conversación con el cliente deja de vivir en el WhatsApp de alguien?</p>
-        <dl class="lab-bit">
-          <div><dt>Hasta ahora</dt><dd>Cada mensaje que entra queda guardado, clasificado, ruteado al responsable y medido, sin que el equipo cambie de aplicación; las notas de voz se transcriben y entran al buscador. <b>Lo usamos nosotros primero</b>, sobre nuestra propia operación, y hoy corre en la operación comercial de una concesionaria.</dd></div>
-          <div><dt>Todavía no sabemos</dt><dd>Cómo se llama. <i>Diálogo</i> es una propuesta por la regla de una palabra; la casa grande todavía lo llama Comms.</dd></div>
-        </dl>
-        <a class="lab-seguir" href="/laboratorio/#p03">Seguir la expedición →</a>
-      </article>
-
-      <article class="lab-exp rev d2" style="--c:var(--lab-c3)">
-        <p class="lab-donde">Expedición 03 · una transmisión de tenis, en el estudio · desde septiembre de 2026</p>
-        <h3 class="lab-nombre">Deportes</h3>
-        <p class="lab-preg">¿Puede el motor dibujar sobre una transmisión deportiva lo que la cámara no muestra?</p>
-        <dl class="lab-bit">
-          <div><dt>Hasta ahora</dt><dd>Empezamos por el tenis porque la cancha se deja medir. El motor ya encuentra sus cuatro esquinas solo, sin un punto marcado a mano, con <b>poco más de un píxel de error</b>, y vuelve a calibrar después de cada corte de plano. Ve a la jugadora, a la jueza de silla y a los recogepelotas; a la tribuna, no.</dd></div>
-          <div><dt>Todavía no sabemos</dt><dd>La pelota: mide seis píxeles a 720p. Y qué contar en los veinte segundos entre punto y punto, que es justo el hueco que esto viene a llenar.</dd></div>
-        </dl>
-      </article>
-
-      <article class="lab-exp rev d1" style="--c:var(--lab-c4)">
-        <p class="lab-donde">Expedición 04 · un barrio en Álvarez, un centro comercial en Rosario · desde septiembre de 2026</p>
-        <h3 class="lab-nombre">Maqueta navegable</h3>
-        <p class="lab-preg">¿Se puede recorrer un barrio por capas, como una maqueta que flota, antes de que exista el sensor?</p>
-        <dl class="lab-bit">
-          <div><dt>Hasta ahora</dt><dd>Levantamos el barrio desde el legajo de obra real: <b>1.276 tramos</b> de cloaca, agua, gas y fibra, 19 manzanas, el lago y el cerco. Cinco niveles en carrusel y cuatro maneras de manejarlo —mouse, teclado, voz y gestos frente a la cámara— sobre un mismo vocabulario. Después lo repetimos sobre un centro comercial sin tocar el motor.</dd></div>
-          <div><dt>Todavía no sabemos</dt><dd>Qué pasa cuando entra la primera cámara de verdad. Toda la actividad es simulada, y la pantalla lo dice en todo momento.</dd></div>
-        </dl>
-      </article>
-
-      <article class="lab-exp rev d2" style="--c:var(--lab-c6)">
-        <p class="lab-donde">Expedición 05 · un stand, una fiesta, una feria</p>
-        <h3 class="lab-nombre">Estación IA</h3>
-        <p class="lab-preg">¿Cómo se ve un modelo generativo trabajando, para alguien que nunca vio uno?</p>
-        <dl class="lab-bit">
-          <div><dt>Hasta ahora</dt><dd>Una selfie se vuelve personaje animado en segundos y se lleva por QR. Es un juego de stand, y es la demostración más honesta que tenemos: <b>la gente ve al modelo trabajar en vivo</b>, sin diapositivas.</dd></div>
-          <div><dt>Todavía no sabemos</dt><dd>Si es un juego o una pieza. Mientras tanto, es la mejor manera que encontramos de explicar en una feria qué hacemos.</dd></div>
-        </dl>
-      </article>
-
-      <article class="lab-exp lab-ancha lab-mudada rev" style="--c:var(--lab-c5)">
-        <div class="lab-exp-txt">
-          <p class="lab-donde">La que se mudó · las palomas de una plaza · agosto de 2026</p>
-          <h3 class="lab-nombre">Fauna urbana</h3>
-          <p class="lab-preg">¿Se puede contar la fauna de una plaza sin tocar a nadie?</p>
-          <dl class="lab-bit">
-            <div><dt>Hasta ahora</dt><dd>Arrancó con un paper que prometía estimar población y entregaba detección. Hicimos el camino que dejaba abierto: en bandada densa el detector borra palomas reales, así que se cuenta por punto; y lo que la cámara ve nunca es la bandada entera, así que cada cifra dice si es medida o estimada. Lo mostramos a la <b>Municipalidad de Rosario el 25 de agosto</b>.</dd></div>
-            <div><dt>Lo que dejó en casa</dt><dd>La pieza se quedó en el motor y la pregunta se mudó arriba: hoy es la vertical Fauna de la ciudad medida. Lo que no tenemos medido todavía, y lo decimos, es qué fracción de la bandada ve la cámara en una plaza real.</dd></div>
-          </dl>
-        </div>
-        <a class="lab-mudanza" href="#smartcity" style="--c:var(--c-esp)">
-          <span class="lab-mudanza-k">Hoy vive arriba</span>
-          <span class="lab-planeta" aria-hidden="true"></span>
-          <b>RIA Smartcity</b>
-          <em>La vertical Fauna de la ciudad medida, sobre la misma cámara que cuenta autos y peatones.</em>
-          <i>Subir a verla →</i>
-        </a>
-      </article>
-    </div>
-
-    <div class="lab-puerta rev d2">
-      <a href="/laboratorio/" class="btn-gold">Recorrer el laboratorio →</a>
-      <a href="/laboratorio/#metodo" class="btn-ghost">Las seis reglas de la casa</a>
-      <p class="lab-puerta-nota">La puerta está abierta. Si tenés una pregunta que nadie midió todavía, <a href="#contacto">contanos</a>: así empezaron todas las de arriba.</p>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
 
 <!-- ══════════════ MÉTODO ══════════════ -->
 <section class="section" id="metodologia">
@@ -3805,12 +3577,12 @@
   })();
 
   /* ══════════════════════════════════════════
-     LABORATORIO Y EQUIPO · videos: el de la ochava y los dos retratos vivos cargan y arrancan sólo a la vista,
-     y se pausan al salir (misma mecánica que /laboratorio/). Con prefers-reduced-motion queda el póster, quieto:
-     en el equipo, la misma foto de siempre.
+     EQUIPO · videos: los dos retratos vivos cargan y arrancan sólo a la vista, y se pausan al salir (misma
+     mecánica que /laboratorio/, adonde se mudó el video de la ochava el 01/11). Con prefers-reduced-motion queda
+     el póster, quieto: la misma foto de siempre.
      ══════════════════════════════════════════ */
   (function(){
-    var vids = Array.prototype.slice.call(document.querySelectorAll('#laboratorio video, #equipo video'));
+    var vids = Array.prototype.slice.call(document.querySelectorAll('#equipo video'));
     if (!vids.length || RM) return;
     var vo = new IntersectionObserver(function(es){
       es.forEach(function(e){
