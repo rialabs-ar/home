@@ -113,7 +113,7 @@
                 fill var(--t-tema) ease, stroke var(--t-tema) ease, stop-color var(--t-tema) ease;
   }
   /* Mientras cambia el tema, los elementos con transición rápida propia (hover) van al ritmo del tema. */
-  html[data-transicion] :is(nav, .nav-links a, .nav-cta, .btn-gold, .btn-ghost, .prod-pres a, .prod-dest, .c-email, .pr) { transition-duration: var(--t-tema); }
+  html[data-transicion] :is(nav, .nav-links a, .nav-cta, .btn-gold, .btn-ghost, .prod-pres a, .prod-dest, .c-email) { transition-duration: var(--t-tema); }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -530,15 +530,6 @@
   .df-l { display: block; font-size: 12px; font-weight: 300; letter-spacing: 0.3px; line-height: 1.4; color: var(--muted); margin-top: 8px; }
   .df-nota { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 0.4px; line-height: 1.7; color: var(--muted); opacity: 0.65; margin-top: 28px; }
 
-  /* PRINCIPLES */
-  .princ-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 60px; background: var(--border2); }
-  .pr { background: var(--tarjeta); padding: 36px 30px; position: relative; overflow: hidden; transition: background-color 0.3s, color var(--t-tema) ease; }
-  .pr:hover { background: var(--bg2); }
-  .pr-ghost { font-weight: 600; font-size: 68px; letter-spacing: 1px; color: var(--ghost); position: absolute; top: 12px; right: 16px; line-height: 1; }
-  .pr-bar { width: 22px; height: 2px; background: var(--gold); margin-bottom: 18px; transition: width 0.3s; }
-  .pr:hover .pr-bar { width: 44px; }
-  .pr-t { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 12px; }
-  .pr-b { font-size: 13px; font-weight: 300; line-height: 1.7; color: var(--muted); }
 
   /* ── EQUIPO ───────────────────────────────────────── */
   .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 56px; background: var(--border2); }
@@ -597,7 +588,6 @@
     .df-n { font-size: 24px; }
     .df-tab li:first-child .df-n { font-size: 48px; }
     .founder { grid-template-columns: 170px 1fr; gap: 24px; padding: 32px 28px; }
-    .princ-grid { grid-template-columns: 1fr 1fr; }
   }
   @media(max-width:860px){
     nav{padding:14px 24px;} .nav-links{display:none;} .nav-burger{display:block;} .nav-cta{display:none;}
@@ -660,7 +650,7 @@
     .df-tab li:first-child .df-n{font-size:46px;}
     .df-n{font-size:26px;}
     .df-nota{margin-top:24px;}
-    .princ-grid,.team-grid{grid-template-columns:1fr;}
+    .team-grid{grid-template-columns:1fr;}
     .maq-t1,.maq-t2{font-size:14px;}
     .founder{grid-template-columns:1fr;}
     .f-photo{max-width:240px;}
@@ -1340,22 +1330,6 @@
       <li><span class="df-n" data-df="patentes">20.750</span><span class="df-l">patentes leídas</span></li>
     </ul>
     <p class="df-nota">proyección sobre lo medido el 10 oct 2026 · 8 cámaras · un equipo en Rosario</p>
-  </div>
-</section>
-
-<!-- ══════════════ MÉTODO ══════════════ -->
-<section class="section" id="metodologia">
-  <div class="wrap">
-    <p class="lbl rev">Método</p>
-    <h2 class="ttl rev d1">La forma<br>en que pensamos</h2>
-    <div class="princ-grid">
-      <div class="pr rev"><span class="pr-ghost">1</span><div class="pr-bar"></div><h4 class="pr-t">El problema primero, la tecnología después</h4><p class="pr-b">No llegamos con una solución buscando un problema. La IA es el medio, no el fin. Si la mejor solución es simple, así la hacemos.</p></div>
-      <div class="pr rev d1"><span class="pr-ghost">2</span><div class="pr-bar"></div><h4 class="pr-t">Partimos de lo que ya tenés</h4><p class="pr-b">Las cámaras, los sensores y los sistemas instalados son el punto de partida, no el obstáculo. Una capacidad nueva se enciende por configuración, no por obra.</p></div>
-      <div class="pr rev d2"><span class="pr-ghost">3</span><div class="pr-bar"></div><h4 class="pr-t">Si no está medido, no se dice</h4><p class="pr-b">Definimos las métricas antes de la primera línea de código. Cada proyecto publica sus números y, cuando un número todavía no es confiable, se oculta.</p></div>
-      <div class="pr rev d3"><span class="pr-ghost">4</span><div class="pr-bar"></div><h4 class="pr-t">Simplicidad como estándar de calidad</h4><p class="pr-b">Un sistema que nadie usa no sirve. Diseñamos para que el equipo del cliente lo adopte naturalmente. La complejidad no es señal de calidad: la adopción sí.</p></div>
-      <div class="pr rev d4"><span class="pr-ghost">5</span><div class="pr-bar"></div><h4 class="pr-t">Los límites los decimos nosotros</h4><p class="pr-b">Cada producto declara lo que todavía no hace. Preferimos una capacidad menos en la lista a una promesa que alguien va a tener que cumplir o borrar.</p></div>
-      <div class="pr rev d5"><span class="pr-ghost">6</span><div class="pr-bar"></div><h4 class="pr-t">Se instala, no se demuestra</h4><p class="pr-b">Sin procedimiento de instalación sigue siendo un experimento. Documentamos, capacitamos y aseguramos la autonomía del equipo del cliente.</p></div>
-    </div>
   </div>
 </section>
 

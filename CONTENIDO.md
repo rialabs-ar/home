@@ -968,8 +968,8 @@ en el encuadre por defecto, `?hero=2`, la máquina pasa a través del eclipse y 
 lo mismo más los retratos vivos de Matías y Sebastián en las esquinas de abajo, con nombre y oficio; en el 5, `?hero=5`, el
 hero es sólo la portada —eclipse, RIA LABS, los dos retratos a los costados del eclipse y la expo— y `#maquina` con su pie
 pasa a una banda propia, `#banda-maquina`, entre el hero y `#productos`) →
-`#productos` (`#analitico` · `#smartcity` · `#automocion`) → `#dataflow` →
-`#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
+`#productos` (`#smartcity` · `#analitico` · `#automotrices`, con `#automocion` como ancla vieja) → `#dataflow` →
+`#equipo` (el Laboratorio y el Método se fueron a `/laboratorio/` y `/metodo/` el 01/11, §0.1 y §0.6) → `#contacto` (separador orbital) → contacto → footer.
 
 ### 0.3 Assets nuevos
 
@@ -1367,6 +1367,85 @@ hero** (reemplazada por la máquina, §0.1): 1.100 vehículos activos (`drivecor
 siguen en el linaje del laboratorio) y 30 mil lecturas por día en una puerta (`dataflow-rosental/docs/ESTADO.md` en el
 commit `13377c9`, línea 35; ya no se publican).
 
+### 0.6 La página del Método (`/metodo/`, 2026-11-01)
+
+> Prompt de giro, verbatim: `docs/prompts-usuario/2026-11-01-home-en-paginas-y-oficina-rosario.md` — *«La sección de El
+> Metodo tiene que pasar a una página propia y estar expresada con mas espacio y acompañada de artefactos visuales en
+> movimiento que expresen el mensaje de cada item.»* (rama `pagina-metodo`).
+
+**Qué es.** `metodo/index.html`, autocontenida. La sección «Método» (`#metodologia`, la grilla de seis tarjetas) **salió
+de la home** junto con su CSS (`PRINCIPLES`, `.princ-grid` en los dos media queries y `.pr` en la lista de transición del
+tema); entre Laboratorio y Equipo queda un solo divisor. La nav y el pie de la home ya apuntaban a `/metodo/`.
+
+**La base, copiada.** Fuentes, tokens de `:root`, la base (reset, ruido), EL CIELO (CSS, canvas y script), NAV, BUTTONS,
+LAYOUT, CONTACT (el anillo y «Hablemos.»), FOOTER, REVEAL y las reglas de base del `@media(max-width:860px)`, copiados
+tal cual de `v5/index.html` con el comentario «copiado de v5/index.html (BLOQUE) el 01/11 — mantener igual» arriba de
+cada uno. Sólo noche (sin tema día ni desenclipsar). La nav lleva enlaces absolutos (`/#smartcity`, `/#analitico`,
+`/#automotrices`, `/dataflow/`, `/laboratorio/`, `/metodo/` con `aria-current="page"` —subrayado dorado—, `/#rosario`),
+el logo va a `/`; **«Conversemos» va a `#contacto` de la propia página** (tiene su «Hablemos.»). El pie: `/#productos`,
+`/dataflow/`, `/laboratorio/`, `/metodo/`, `/#rosario`, `/#contacto`. `<title>` «Método — RIA Labs», description y og
+propios (`og:url` `https://rialabs.ar/metodo/`, `og:image` la de la home), `canonical`.
+
+**Secuencia.** Encabezado: «Método» · **La forma en que pensamos** (el título de la home, a 46–92 px) · *«No son valores
+de folleto. Son seis reglas que deciden, en cada proyecto, qué se construye y qué se deja afuera.»* · un índice de las
+seis (`#regla-1` … `#regla-6`). Después **una estación por regla** (`<section class="met-est">`, `min-height:
+min(90vh, 880px)`, casi una pantalla en desktop): el número fantasma (el `.pr-ghost` de la home a escala de estación),
+«Regla 0N», el título, **el texto de la home tal cual** y el artefacto con su epígrafe en DM Mono («FIG. 0N — …»); las
+pares van con el artefacto a la izquierda. En celular: título · artefacto · texto. Cierre: «Las reglas, en uso» · **Se ven
+mejor funcionando** · *«En el laboratorio, cada expedición con la pregunta que la abrió, lo que medimos y lo que todavía
+no sabemos. En los productos, lo que ya se instala.»* · «Recorrer el laboratorio →» (`/laboratorio/`) y «Ver los
+productos» (`/#productos`); después el anillo, «Hablemos.» y el pie.
+
+**Los seis artefactos** (SVG que arma el script «EL MÉTODO»; la gramática de la máquina: línea fina dorada, plano técnico
+—grilla tenue y las cuatro escuadras de la estación—, tokens de colores con halo, nodos de la red, rótulos en DM Mono):
+
+1. *El problema primero, la tecnología después* — se dibuja el problema (una forma irregular con cinco particularidades
+   de color) y se le toman las cotas; recién después llega la herramienta, **una pieza cuadrada de catálogo** que tapa
+   una parte y deja otra afuera (las particularidades de afuera titilan), y **se deforma hasta tomar la forma del
+   problema**; toca cada particularidad y empieza a andar (tres tokens la recorren). Ciclo 13 s.
+2. *Partimos de lo que ya tenés* — el plano de un edificio con tres cámaras, un sensor en el portón, el gabinete y **el
+   cableado ya dibujado desde el primer cuadro** (punteado gris). En la ficha «config» se prenden los interruptores uno
+   por uno: cada dispositivo se enciende (cono de visión, ondas del sensor) y sus datos viajan **por los cables que ya
+   estaban** hasta el motor (el aro del reactor, con su química). Ninguna línea nueva aparece. Ciclo 12,4 s.
+3. *Si no está medido, no se dice* — un registrador: las muestras corren a la izquierda, con el promedio de las últimas
+   diez y su banda (± 2 errores estándar). Mientras falta muestra, la lectura es una raya («falta muestra»); cuando la
+   banda entra en la tolerancia (las marcas punteadas junto a la cabeza), **aparece la cifra**; el sensor se vuelve
+   ruidoso (puntos violeta), la banda se abre y **la cifra se oculta** («no es confiable») hasta que la ventana vuelve a
+   estar limpia. **La cifra es el promedio real de los puntos que se ven** (lo dice el epígrafe): muestras simuladas con
+   semilla, no un dato de producto. Ciclo 14 s.
+4. *Simplicidad como estándar de calidad* — una red enmarañada («todo lo posible») entre una entrada y una salida; el uso
+   pasa por un solo camino, que se calienta en dorado; dos tokens grises exploran ramas muertas y se apagan; lo que nadie
+   usa se apaga (queda un rastro al 20 %), **el camino se endereza en una línea** («lo que se usa») y por ella pasa cada
+   vez más uso, de colores. Ciclo 14 s.
+5. *Los límites los decimos nosotros* — la red de lo que el sistema hace; **una pluma dorada traza la frontera**, con las
+   marcas de plano del lado de afuera; afuera se raya y quedan, punteadas, las capacidades que todavía no están. Rótulos
+   «hace | todavía no» a los dos lados de la línea. Los datos circulan y, **cuando uno llega a la frontera, la toca (un
+   anillo) y vuelve**. Después de trazarla no se reinicia: sigue andando (caminatas sembradas de 10 min).
+6. *Se instala, no se demuestra* — sobre el banco, el prototipo en línea punteada (anda: su luz titila); **el manual
+   tilda sus cinco pasos** y con cada paso se arma en línea firme lo instalado (poste, equipo, cable, gabinete, la luz de
+   en marcha y el cono); llega el equipo del cliente (teal), **el de RIA se va**, y el sistema sigue latiendo solo (el
+   trazo de abajo no se corta). Ciclo 15 s.
+
+**Cómo está hecho.** Cada artefacto es una función pura del tiempo (`frame(t)` pone los atributos del cuadro *t*; azar
+mulberry32 con semilla), así `?t=<s>` adelanta todos los relojes y cada foto es reproducible. Cada figura tiene su reloj:
+arranca la primera vez que entra a la vista, corre sólo a la vista (IntersectionObserver) y con la pestaña visible, un
+solo rAF para las seis. Con `prefers-reduced-motion`, un cuadro quieto por figura (`quieto`: el instante que mejor cuenta
+la regla —el problema con la herramienta ajustada; todo encendido; la cifra con el bulto de ruido en la historia; la línea
+con el rastro de la maraña; un toque en la frontera; lo instalado con el cliente—) y no hay bucle. viewBox 480 × 360; los
+rótulos toman `--fs`, recalculado con el ancho para quedar entre 9 y 11,5 px en pantalla. Colores en hex (la página es
+sólo noche). Sin librerías.
+
+**Verificado:** `node --check` de los `<script>` de `metodo/index.html` y `v5/index.html`; sin errores de JS en Chrome
+headless (colector de `error`, 1440 y celular); capturas de página completa a 1440 y 390 con `?t=2`, `3,4`, `6,2`, `9,5`
+y `12,4`, reduced-motion (`PANTALLA=1 RM=1`) y la home donde estaba la sección. **Ojo con el script de captura:** sin
+`QUERY=t=…` las figuras salen casi vacías (el reloj virtual de Chrome apenas avanza el rAF): usar `QUERY=t=9.5` o `RM=1`.
+Capturas en `_capturas/pagina-metodo/` (ignorado; `hoja_*.png` junta las seis figuras de cada instante).
+
+**Pendiente / para decidir:** el copete, el cierre («Se ven mejor funcionando») y los epígrafes son textos nuevos; el
+título sigue siendo el de la home. El botón «Las seis reglas de la casa» de `#laboratorio` en la home todavía apunta a
+`/laboratorio/#metodo` (lo repunta la rama `pagina-laboratorio`, que saca esa sección). `og:image` es la de la home:
+una tarjeta propia de la página sería mejor. La página es sólo noche.
+
 ---
 
 ## 1. Identidad de marca
@@ -1478,6 +1557,9 @@ Cuatro líneas de servicio, con evolución del enfoque entre versiones.
 ---
 
 ## 4. Metodología y principios
+
+> Desde el 2026-11-01 los seis principios vigentes (los de la v5, no los de abajo) viven en su propia página,
+> `/metodo/`, cada uno con su artefacto animado: §0.6.
 
 ### 4.1 Seis principios (idénticos en v2 y v4 — núcleo filosófico estable)
 
@@ -1908,6 +1990,7 @@ El CTA secundario del hero dice **"Ver el laboratorio →"** y baja a `#laborato
 |---|---|---|
 | `/` | Home institucional (rewrite a `/v4/index.html`) | `v4/index.html` |
 | `/laboratorio/` | Laboratorio — la casa, las dos puertas, de dónde salió cada producto y las expediciones en curso (desde el 01/11; §0.1) | `laboratorio/index.html` |
+| `/metodo/` | Método — las seis reglas, una estación con su artefacto animado por regla (2026-11-01, §0.6) | `metodo/index.html` |
 | `/v1/`, `/v2/`, `/v3/` | Prototipos históricos | — |
 
 ### 12.5 Anchors de `/laboratorio/`

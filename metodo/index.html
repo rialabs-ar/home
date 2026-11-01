@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Método — RIA Labs</title>
+<meta name="description" content="La forma en que pensamos: seis reglas que deciden qué se construye y qué se deja afuera. El problema primero, partir de lo que ya tenés, si no está medido no se dice, simplicidad, límites declarados y sistemas que se instalan. RIA Labs, Rosario.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <meta name="theme-color" content="#07060f">
+  <link rel="canonical" href="https://rialabs.ar/metodo/">
+
+  <!-- Open Graph / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rialabs.ar/metodo/">
+  <meta property="og:title" content="Método — RIA Labs · La forma en que pensamos">
+  <meta property="og:description" content="Seis reglas que deciden qué se construye y qué se deja afuera, cada una con su dibujo: el problema primero, lo que ya tenés, lo medido, lo simple, los límites y lo instalado.">
+  <meta property="og:image" content="https://rialabs.ar/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Método — RIA Labs · La forma en que pensamos">
+  <meta name="twitter:description" content="Seis reglas que deciden qué se construye y qué se deja afuera, cada una con su dibujo.">
+  <meta name="twitter:image" content="https://rialabs.ar/og-image.png">
+
+<!-- copiado de v5/index.html (FUENTES) el 01/11 — mantener igual -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@200;300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  /* copiado de v5/index.html (TOKENS :root) el 01/11 — mantener igual. Sólo noche: esta página no tiene el tema día. */
+  :root {
+    --bg:      #0b0a14;
+    --bg2:     #100f1e;
+    --bg3:     #0d0c1a;
+    --gold:    #c8860a;
+    --gold-hi: #EF9F27;
+    --gold-lo: #7a5008;
+    --blue:    #4a8fd4;
+    --blue-lo: #1e4a78;
+    --teal:    #2fd0c8;
+    --white:   #f0ece0;
+    --muted:   #8a8478;
+    --border:  rgba(200,134,10,0.14);
+    --border2: rgba(255,255,255,0.055);
+    --border3: rgba(255,255,255,0.18);
+    /* un color por producto: el mismo en la órbita del hero, en la banda y en la nav */
+    --c-ana: #4a8fd4;
+    --c-esp: #2fd0c8;
+    --c-aut: #EF9F27;
+    /* superficies translúcidas (el cielo se ve a través) */
+    --banda:    rgba(16,15,30,0.78);
+    --banda2:   rgba(13,12,26,0.78);
+    --tarjeta:  rgba(11,10,20,0.86);
+    --tarjeta2: rgba(13,12,26,0.86);
+    --nav-bg:   rgba(11,10,20,0.92);
+    --nav-bg2:  rgba(11,10,20,0.97);
+    --ghost:    rgba(200,134,10,0.06);
+    --nodo:     #3a3850;
+    --ruido:    0.025;
+    --glow:     0.42;
+    /* el eclipse en colores de tema: la luna, el sol que asoma detrás y los halos de la corona
+       (de afuera hacia adentro). De noche los halos son el resplandor contra el negro; de día,
+       el mismo resplandor contra el papel. */
+    --luna:       #0b0a14;
+    --luna-cuerpo: #0b0a14;   /* la cara oscura de la luna viajera: se funde con el fondo del tema */
+    --sol-tapado: #1c1810;
+    --h1: #1a0900; --h2: #2a1200; --h3: #3d1c00; --h4: #633806; --h5: #854F0B; --h6: #BA7517;
+    /* cuánto tarda el cambio de tema; el ciclo del eclipse lo ajusta a cada fase */
+    --t-tema: 2.5s;
+  }
+  /* copiado de v5/index.html (BASE) el 01/11 — mantener igual */
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Saira', sans-serif; background: var(--bg); color: var(--white); overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: var(--ruido); pointer-events: none; z-index: 9999; transition: opacity var(--t-tema) ease;
+  }
+
+  /* copiado de v5/index.html (EL CIELO) el 01/11 — mantener igual */
+  /* ── EL CIELO ─────────────────────────────────────────
+     Un canvas fijo detrás de todo: estrellas con profundidad, titilan despacio, se corren
+     con el scroll (las cercanas más que las lejanas) y cada tanto cruza un meteoro.
+     Las bandas de las secciones son translúcidas para que el cielo se vea a través. */
+  #cielo { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; transition: opacity var(--t-tema) ease; }
+  html[data-tema="dia"] #cielo { opacity: 0; }
+  body > *:not(#cielo):not(nav):not(.nav-menu):not(#luna-viajera) { position: relative; z-index: 1; }
+
+  /* copiado de v5/index.html (NAV) el 01/11 — mantener igual */
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 22px 52px; display: flex; align-items: center; justify-content: space-between; transition: padding 0.35s, background 0.35s; }
+  nav.scrolled { background: var(--nav-bg); border-bottom: 1px solid var(--border2); backdrop-filter: blur(14px); padding-top: 14px; padding-bottom: 14px; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo svg { transition: filter 0.3s; }
+  .nav-logo:hover svg { filter: drop-shadow(0 0 6px rgba(239,159,39,0.6)); }
+  .nav-wm { font-weight: 500; font-size: 18px; letter-spacing: 3px; color: var(--white); }
+  .nav-wm em { font-style: normal; font-size: 12px; font-weight: 300; letter-spacing: 2px; color: var(--gold-hi); margin-left: 4px; vertical-align: 2px; }
+  .nav-links { display: flex; gap: clamp(16px, 3.2vw - 14px, 32px); list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 0.8px; white-space: nowrap; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a .pt { display: inline-block; width: 5px; height: 5px; border-radius: 50%; margin-right: 7px; vertical-align: 2px; background: var(--c); opacity: 0.8; }
+  .nav-right { display: flex; align-items: center; gap: 14px; }
+  .nav-cta { background: transparent; border: 1px solid var(--gold); color: var(--gold-hi); padding: 8px 22px; font-family: 'Saira', sans-serif; font-size: 13px; letter-spacing: 1px; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+  .nav-cta:hover { background: var(--gold); color: var(--bg); }
+  .nav-burger { display: none; background: none; border: 1px solid var(--border2); color: var(--white); width: 42px; height: 36px; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; }
+  .nav-menu { display: none; position: fixed; top: 62px; left: 0; right: 0; z-index: 199; background: var(--nav-bg2); border-bottom: 1px solid var(--border2); padding: 12px 24px 22px; flex-direction: column; }
+  .nav-menu.open { display: flex; }
+  .nav-menu a { color: var(--white); text-decoration: none; font-size: 16px; font-weight: 300; letter-spacing: 0.5px; padding: 12px 0; border-bottom: 1px solid var(--border2); }
+  .nav-menu a:last-child { border-bottom: none; color: var(--gold-hi); }
+  /* Siete enlaces: el gap baja de 32 (desde 1440) a 18 (en 1024) y entre 861 y 1023 px no entran, así que va el menú
+     (MENÚ) con el botón Conversemos a la vista; por debajo de 861, el de celular de siempre (sin el botón) */
+  @media (min-width: 861px) and (max-width: 1023px) {
+    .nav-links { display: none; } .nav-burger { display: block; }
+    .nav-menu { padding-left: 52px; padding-right: 52px; }
+  }
+
+  /* copiado de v5/index.html (BUTTONS) el 01/11 — mantener igual */
+  /* BUTTONS */
+  .btn-gold { background: var(--gold); color: var(--bg); border: none; padding: 14px 38px; font-family: 'Saira', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 1.5px; cursor: pointer; text-decoration: none; display: inline-block; transition: background-color 0.2s, color var(--t-tema) ease; }
+  .btn-gold:hover { background: var(--gold-hi); }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border2); padding: 14px 38px; font-family: 'Saira', sans-serif; font-size: 14px; font-weight: 300; letter-spacing: 1.5px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
+  .btn-ghost:hover { color: var(--white); border-color: var(--border3); }
+
+  /* copiado de v5/index.html (LAYOUT) el 01/11 — mantener igual */
+  /* LAYOUT */
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 48px; }
+  .section { padding: 112px 0; }
+  .divider { height: 1px; background: var(--border2); }
+  .lbl { font-size: 10px; font-weight: 400; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .lbl::before { content: ''; width: 20px; height: 1px; background: var(--gold); display: inline-block; }
+  .ttl { font-size: clamp(36px, 5vw, 62px); font-weight: 500; letter-spacing: 0.5px; line-height: 1.05; color: var(--white); margin-bottom: 22px; }
+  .bdy { font-size: 17px; font-weight: 300; line-height: 1.78; color: var(--muted); max-width: 640px; }
+  .bdy strong { color: var(--white); font-weight: 400; }
+  .bdy + .bdy { margin-top: 16px; }
+
+  /* copiado de v5/index.html (CONTACT) el 01/11 — mantener igual */
+  /* CONTACT */
+  .contact { text-align: center; padding: 0 48px 140px; position: relative; overflow: hidden; }
+  .contact::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 900px; height: 450px; background: radial-gradient(ellipse, rgba(200,134,10,0.038) 0%, transparent 68%); pointer-events: none; }
+  .c-pre { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; }
+  .c-ttl { font-weight: 500; font-size: clamp(52px,9vw,108px); letter-spacing: 2px; line-height: 1; color: var(--white); margin-bottom: 20px; }
+  .c-sub { font-size: 17px; font-weight: 300; color: var(--muted); max-width: 520px; margin: 0 auto 40px; line-height: 1.72; }
+  .c-email { display: inline-block; font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 300; color: var(--blue); letter-spacing: 2px; text-decoration: none; border-bottom: 1px solid var(--blue-lo); padding-bottom: 2px; margin-bottom: 44px; transition: color 0.2s, border-color 0.2s; }
+  .c-email:hover { color: var(--white); border-color: var(--muted); }
+  .c-loc { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; color: var(--muted); opacity: 0.35; margin-top: 36px; }
+
+  /* copiado de v5/index.html (FOOTER) el 01/11 — mantener igual */
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border2); padding: 32px 52px; display: flex; align-items: center; justify-content: space-between; background: var(--banda); }
+  .f-logo { font-weight: 500; font-size: 16px; letter-spacing: 3px; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+  .f-logo svg { opacity: 0.8; flex: none; }
+  .f-logo em { font-style: normal; font-size: 11px; font-weight: 300; letter-spacing: 2px; color: var(--gold-lo); margin-left: 5px; vertical-align: 1px; }
+  .f-copy { font-size: 11px; font-weight: 300; color: var(--muted); opacity: 0.35; }
+  .f-links { display: flex; gap: 22px; list-style: none; }
+  .f-links a { font-size: 12px; font-weight: 300; color: var(--muted); text-decoration: none; opacity: 0.35; transition: opacity 0.2s, color var(--t-tema) ease; }
+  .f-links a:hover { opacity: 1; }
+
+  /* copiado de v5/index.html (REVEAL) el 01/11 — mantener igual */
+  /* REVEAL */
+  .rev { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease, color var(--t-tema) ease, background-color var(--t-tema) ease, border-color var(--t-tema) ease; }
+  .rev.vis { opacity: 1; transform: translateY(0); }
+  .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s} .d4{transition-delay:.32s} .d5{transition-delay:.4s}
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .rev { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* copiado de v5/index.html (RESPONSIVE 860) el 01/11 — mantener igual (sólo las reglas de la base, del @media(max-width:860px) de la home) */
+  @media(max-width:860px){
+    nav{padding:14px 24px;} .nav-links{display:none;} .nav-burger{display:block;} .nav-cta{display:none;}
+    .wrap{padding:0 24px;} .section{padding:80px 0;}
+    footer{flex-direction:column;gap:14px;text-align:center;padding:28px 24px;}
+    .f-links{display:none;} .contact{padding:80px 24px 100px;}
+  }
+
+  /* ══════════════════════════════════════════
+     /metodo/ · lo propio de esta página (2026-11-01). Lo de arriba es la base de la home, copiada.
+     Una estación por regla: el título y el texto de un lado, el artefacto del otro (se alternan), casi una
+     pantalla cada una en desktop; en celular, título · artefacto · texto. Los artefactos son SVG que arma el
+     script «EL MÉTODO» (viewBox 480 × 360); los rótulos de adentro toman su tamaño de --fs, que el script
+     calcula para que no bajen de 9 px en pantalla.
+     ══════════════════════════════════════════ */
+  .nav-links a[aria-current="page"] { color: var(--white); text-decoration: underline; text-decoration-color: var(--gold); text-decoration-thickness: 1px; text-underline-offset: 7px; }
+  .nav-menu a[aria-current="page"] { color: var(--gold-hi); }
+
+  /* el encabezado: el título de la home, más grande, y el índice de las seis */
+  .met-cab { padding: 176px 0 96px; }
+  .met-h1 { font-size: clamp(46px, 6.6vw, 92px); margin-bottom: 30px; }
+  .met-cab .bdy { font-size: 19px; max-width: 600px; }
+  .met-indice { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 40px; margin-top: 72px; border-top: 1px solid var(--border2); }
+  .met-indice li { border-bottom: 1px solid var(--border2); }
+  .met-indice a { display: flex; gap: 16px; align-items: baseline; padding: 18px 0; color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 300; line-height: 1.45; transition: color 0.2s; }
+  .met-indice a:hover, .met-indice a:focus-visible { color: var(--white); }
+  .met-indice a span { flex: none; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; color: var(--gold); }
+
+  /* las estaciones */
+  .met-est { border-top: 1px solid var(--border2); padding: 96px 0; min-height: min(90vh, 880px); display: flex; align-items: center; overflow: hidden; scroll-margin-top: 0; }
+  .met-est > .wrap { width: 100%; max-width: 1300px; }
+  .met-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-rows: 1fr auto auto 1fr; grid-template-areas: ". fig" "cab fig" "txt fig" ". fig"; column-gap: clamp(40px, 6vw, 92px); }
+  .met-est.inv .met-grid { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); grid-template-areas: "fig ." "fig cab" "fig txt" "fig ."; }
+  .met-cab-est { grid-area: cab; position: relative; }
+  /* el número fantasma, el de las tarjetas de la home (.pr-ghost) a escala de estación */
+  .met-ghost { position: absolute; left: -8px; bottom: calc(100% - 0.34em); font-weight: 600; font-size: clamp(120px, 14vw, 200px); line-height: 1; letter-spacing: 2px; color: var(--ghost); pointer-events: none; user-select: none; z-index: -1; }
+  .met-t { font-size: clamp(30px, 3.3vw, 46px); font-weight: 500; line-height: 1.08; letter-spacing: 0.3px; color: var(--white); margin-bottom: 26px; }
+  .met-b { grid-area: txt; font-size: 18px; max-width: 500px; }
+  .met-fig { grid-area: fig; align-self: center; justify-self: center; width: 100%; max-width: 680px; margin: 0; }
+  .met-svg { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; overflow: hidden; }
+  .met-svg .mt-lab { font-family: 'DM Mono', monospace; font-size: var(--fs, 10px); font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; }
+  .met-svg .mt-cod { font-family: 'DM Mono', monospace; font-size: var(--fs, 10px); font-weight: 300; letter-spacing: 0.04em; }
+  .met-svg .mt-cifra { font-family: 'Saira', sans-serif; font-weight: 500; letter-spacing: 0.5px; }
+  /* un rótulo sobre el rayado: un borde del color del fondo, por detrás de la letra */
+  .met-svg .mt-halo { paint-order: stroke; stroke: var(--bg); stroke-width: 5px; stroke-linejoin: round; }
+  .met-cap { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300; letter-spacing: 0.3px; line-height: 1.75; color: var(--muted); margin-top: 18px; max-width: 540px; }
+  .met-cap b { font-weight: 400; color: var(--gold); letter-spacing: 2px; margin-right: 8px; }
+
+  /* el cierre: a dónde se ven funcionando */
+  .met-cierre { border-top: 1px solid var(--border2); padding-bottom: 40px; }
+  .met-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 40px; }
+
+  @media (max-width: 1020px) {
+    .met-indice { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 860px) {
+    .met-cab { padding: 124px 0 64px; }
+    .met-cab .bdy { font-size: 17px; }
+    .met-indice { grid-template-columns: 1fr; margin-top: 44px; }
+    .met-indice a { padding: 15px 0; }
+    .met-est { min-height: 0; padding: 72px 0 76px; }
+    .met-grid, .met-est.inv .met-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; grid-template-areas: "cab" "fig" "txt"; }
+    .met-ghost { font-size: 116px; }
+    .met-t { margin-bottom: 28px; }
+    .met-fig { margin-bottom: 30px; }
+    .met-b { font-size: 17px; }
+    .met-cap { font-size: 10.5px; }
+    .met-ctas .btn-gold, .met-ctas .btn-ghost { padding: 13px 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- copiado de v5/index.html (EL CIELO) el 01/11 — mantener igual -->
+<canvas id="cielo" aria-hidden="true"></canvas>
+
+<!-- copiado de v5/index.html (NAV) el 01/11 — mantener igual, con enlaces absolutos y aria-current en Método -->
+<nav id="nav">
+  <a href="/" class="nav-logo" id="nav-logo" title="Inicio">
+    <!-- el isotipo: el anillo (logos/ria-anillo-color.svg) a 24 px; el grosor sube de 6 a 7,5 de 100 para que
+         a este tamaño siga siendo un aro y no un hilo -->
+    <svg width="24" height="24" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="nav-anillo" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f8df6a"/><stop offset="0.3" stop-color="#e4753d"/><stop offset="0.62" stop-color="#d35745"/><stop offset="1" stop-color="#c54a45"/>
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="42.5" stroke="url(#nav-anillo)" stroke-width="7.5"/>
+    </svg>
+    <span class="nav-wm">RIA <em>Labs</em></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/#smartcity" style="--c:var(--c-esp)"><span class="pt"></span>Smartcity</a></li>
+    <li><a href="/#analitico" style="--c:var(--c-ana)"><span class="pt"></span>Analítico</a></li>
+    <li><a href="/#automotrices" style="--c:var(--c-aut)"><span class="pt"></span>Automotrices</a></li>
+    <li><a href="/dataflow/">Dataflow</a></li>
+    <li><a href="/laboratorio/">Laboratorio</a></li>
+    <li><a href="/metodo/" aria-current="page">Método</a></li>
+    <li><a href="/#rosario">Rosario</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#contacto" class="nav-cta">Conversemos</a>
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">MENÚ</button>
+  </div>
+</nav>
+<div class="nav-menu" id="menu">
+  <a href="/#smartcity">RIA Smartcity</a>
+  <a href="/#analitico">RIA Analítico</a>
+  <a href="/#automotrices">RIA Automotrices</a>
+  <a href="/dataflow/">Dataflow · el motor</a>
+  <a href="/laboratorio/">Laboratorio</a>
+  <a href="/metodo/" aria-current="page">Método</a>
+  <a href="/#rosario">Rosario</a>
+  <a href="#contacto">Conversemos</a>
+</div>
+
+<!-- ══════════════ MÉTODO · encabezado ══════════════
+     El título es el de la sección que tenía la home hasta el 01/11. Los seis principios, con el texto de la home
+     tal cual (la versión vieja de /laboratorio/#metodo, «Seis reglas que no negociamos», no se mezcla). -->
+<header class="met-cab" id="inicio">
+  <div class="wrap">
+    <p class="lbl rev">Método</p>
+    <h1 class="ttl met-h1 rev d1">La forma<br>en que pensamos</h1>
+    <p class="bdy rev d2">No son valores de folleto. Son seis reglas que deciden, en cada proyecto, qué se construye y qué se deja afuera.</p>
+    <ol class="met-indice rev d3" aria-label="Las seis reglas">
+      <li><a href="#regla-1"><span>01</span>El problema primero, la tecnología después</a></li>
+      <li><a href="#regla-2"><span>02</span>Partimos de lo que ya tenés</a></li>
+      <li><a href="#regla-3"><span>03</span>Si no está medido, no se dice</a></li>
+      <li><a href="#regla-4"><span>04</span>Simplicidad como estándar de calidad</a></li>
+      <li><a href="#regla-5"><span>05</span>Los límites los decimos nosotros</a></li>
+      <li><a href="#regla-6"><span>06</span>Se instala, no se demuestra</a></li>
+    </ol>
+  </div>
+</header>
+
+<!-- ══════════════ LAS SEIS ESTACIONES ══════════════
+     Cada una: el número fantasma, el título, el texto y su artefacto (lo dibuja el script «EL MÉTODO» según
+     data-fig). Las pares van con el artefacto a la izquierda. -->
+<section class="met-est" id="regla-1" aria-labelledby="regla-1-t">
+  <div class="wrap met-grid">
+    <div class="met-cab-est">
+      <span class="met-ghost" aria-hidden="true">01</span>
+      <p class="lbl rev">Regla 01</p>
+      <h2 class="met-t rev d1" id="regla-1-t">El problema primero, la tecnología después</h2>
+    </div>
+    <figure class="met-fig rev d2" data-fig="problema">
+      <svg class="met-svg" viewBox="0 0 480 360" role="img" aria-label="Primero se dibuja el problema, una forma irregular con sus particularidades marcadas y sus medidas. Después llega una herramienta cuadrada, de catálogo, que deja afuera parte del problema; se deforma hasta tomar la forma del problema, toca cada particularidad y empieza a andar."></svg>
+      <figcaption class="met-cap"><b>FIG. 01</b>Primero se dibuja el problema, con sus medidas. La herramienta llega después y toma su forma.</figcaption>
+    </figure>
+    <p class="bdy met-b rev d2">No llegamos con una solución buscando un problema. La IA es el medio, no el fin. Si la mejor solución es simple, así la hacemos.</p>
+  </div>
+</section>
+
+<section class="met-est inv" id="regla-2" aria-labelledby="regla-2-t">
+  <div class="wrap met-grid">
+    <div class="met-cab-est">
+      <span class="met-ghost" aria-hidden="true">02</span>
+      <p class="lbl rev">Regla 02</p>
+      <h2 class="met-t rev d1" id="regla-2-t">Partimos de lo que ya tenés</h2>
+    </div>
+    <figure class="met-fig rev d2" data-fig="existente">
+      <svg class="met-svg" viewBox="0 0 480 360" role="img" aria-label="El plano de un edificio con tres cámaras y un sensor que ya estaban instalados, con su cableado, apagados. En una ficha de configuración se encienden uno por uno; cada uno se ilumina y sus datos viajan por los cables que ya existían hasta el motor. No se tiende ningún cable nuevo."></svg>
+      <figcaption class="met-cap"><b>FIG. 02</b>Las cámaras y el sensor ya estaban, con su cableado. Se encienden desde la configuración: no se tiende un cable nuevo.</figcaption>
+    </figure>
+    <p class="bdy met-b rev d2">Las cámaras, los sensores y los sistemas instalados son el punto de partida, no el obstáculo. Una capacidad nueva se enciende por configuración, no por obra.</p>
+  </div>
+</section>
+
+<section class="met-est" id="regla-3" aria-labelledby="regla-3-t">
+  <div class="wrap met-grid">
+    <div class="met-cab-est">
+      <span class="met-ghost" aria-hidden="true">03</span>
+      <p class="lbl rev">Regla 03</p>
+      <h2 class="met-t rev d1" id="regla-3-t">Si no está medido, no se dice</h2>
+    </div>
+    <figure class="met-fig rev d2" data-fig="medido">
+      <svg class="met-svg" viewBox="0 0 480 360" role="img" aria-label="Un gráfico de muestras que llegan de a una. Mientras faltan muestras, la lectura muestra una raya. Cuando la banda de incertidumbre se angosta lo suficiente, aparece la cifra, que es el promedio real de los puntos. Si las muestras se vuelven ruidosas, la banda se ensancha y la cifra se oculta hasta que vuelve a ser confiable."></svg>
+      <figcaption class="met-cap"><b>FIG. 03</b>La cifra aparece cuando la muestra alcanza y se oculta cuando deja de ser confiable. Es el promedio real de los puntos del gráfico.</figcaption>
+    </figure>
+    <p class="bdy met-b rev d2">Definimos las métricas antes de la primera línea de código. Cada proyecto publica sus números y, cuando un número todavía no es confiable, se oculta.</p>
+  </div>
+</section>
+
+<section class="met-est inv" id="regla-4" aria-labelledby="regla-4-t">
+  <div class="wrap met-grid">
+    <div class="met-cab-est">
+      <span class="met-ghost" aria-hidden="true">04</span>
+      <p class="lbl rev">Regla 04</p>
+      <h2 class="met-t rev d1" id="regla-4-t">Simplicidad como estándar de calidad</h2>
+    </div>
+    <figure class="met-fig rev d2" data-fig="simple">
+      <svg class="met-svg" viewBox="0 0 480 360" role="img" aria-label="Una red enmarañada de nodos y conexiones. El uso pasa sólo por un camino, que se enciende; lo que nadie usa se apaga, y el camino usado se endereza hasta quedar como una línea simple por la que pasa cada vez más uso."></svg>
+      <figcaption class="met-cap"><b>FIG. 04</b>De todo lo posible queda lo que se usa. Ese camino se simplifica y pasa a llevar todo el uso.</figcaption>
+    </figure>
+    <p class="bdy met-b rev d2">Un sistema que nadie usa no sirve. Diseñamos para que el equipo del cliente lo adopte naturalmente. La complejidad no es señal de calidad: la adopción sí.</p>
+  </div>
+</section>
+
+<section class="met-est" id="regla-5" aria-labelledby="regla-5-t">
+  <div class="wrap met-grid">
+    <div class="met-cab-est">
+      <span class="met-ghost" aria-hidden="true">05</span>
+      <p class="lbl rev">Regla 05</p>
+      <h2 class="met-t rev d1" id="regla-5-t">Los límites los decimos nosotros</h2>
+    </div>
+    <figure class="met-fig rev d2" data-fig="limites">
+      <svg class="met-svg" viewBox="0 0 480 360" role="img" aria-label="Una red de nodos por donde circulan datos. Una pluma dorada traza una frontera: de un lado, lo que el sistema hace; del otro, rayado, lo que todavía no hace, con nodos apenas insinuados. Cuando un dato llega a la frontera, la toca y vuelve."></svg>
+      <figcaption class="met-cap"><b>FIG. 05</b>La línea la trazamos nosotros. De un lado, lo que el sistema hace; del otro, lo que todavía no.</figcaption>
+    </figure>
+    <p class="bdy met-b rev d2">Cada producto declara lo que todavía no hace. Preferimos una capacidad menos en la lista a una promesa que alguien va a tener que cumplir o borrar.</p>
+  </div>
+</section>
+
+<section class="met-est inv" id="regla-6" aria-labelledby="regla-6-t">
+  <div class="wrap met-grid">
+    <div class="met-cab-est">
+      <span class="met-ghost" aria-hidden="true">06</span>
+      <p class="lbl rev">Regla 06</p>
+      <h2 class="met-t rev d1" id="regla-6-t">Se instala, no se demuestra</h2>
+    </div>
+    <figure class="met-fig rev d2" data-fig="instala">
+      <svg class="met-svg" viewBox="0 0 480 360" role="img" aria-label="Un prototipo dibujado en línea punteada sobre un banco de trabajo. Un manual tilda sus pasos uno por uno y, con cada paso, el equipo queda instalado en un poste con su gabinete. Llega el equipo del cliente, el de RIA Labs se va, y el sistema sigue latiendo solo."></svg>
+      <figcaption class="met-cap"><b>FIG. 06</b>Del prototipo a lo instalado, paso por paso y verificado. Después, el equipo del cliente lo opera solo.</figcaption>
+    </figure>
+    <p class="bdy met-b rev d2">Sin procedimiento de instalación sigue siendo un experimento. Documentamos, capacitamos y aseguramos la autonomía del equipo del cliente.</p>
+  </div>
+</section>
+
+<!-- ══════════════ CIERRE ══════════════ -->
+<section class="section met-cierre">
+  <div class="wrap">
+    <p class="lbl rev">Las reglas, en uso</p>
+    <h2 class="ttl rev d1">Se ven mejor<br>funcionando</h2>
+    <p class="bdy rev d2">En el laboratorio, cada expedición con la pregunta que la abrió, lo que medimos y lo que todavía no sabemos. En los productos, lo que ya se instala.</p>
+    <div class="met-ctas rev d3">
+      <a href="/laboratorio/" class="btn-gold">Recorrer el laboratorio →</a>
+      <a href="/#productos" class="btn-ghost">Ver los productos</a>
+    </div>
+  </div>
+</section>
+
+<!-- copiado de v5/index.html (CONTACT) el 01/11 — mantener igual -->
+<!-- Separador de Equipo → Contacto: el anillo solo, el isotipo de la casa (logos/ria-anillo-color.svg).
+     Hasta el 13/10 era un eclipse vectorial con Byte y VRIO en órbita; las menciones a las dos casas
+     salieron de la página ese día. -->
+<div id="contacto" style="display:flex;justify-content:center;padding:0;">
+  <svg id="equipo-anillo" width="540" height="200" viewBox="0 0 480 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="eq-anillo" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f8df6a"/><stop offset="0.3" stop-color="#e4753d"/><stop offset="0.62" stop-color="#d35745"/><stop offset="1" stop-color="#c54a45"/>
+      </linearGradient>
+    </defs>
+    <circle cx="240" cy="90" r="29" stroke="url(#eq-anillo)" stroke-width="4"/>
+  </svg>
+</div>
+
+<!-- ══════════════ CONTACTO ══════════════ -->
+<div class="contact">
+  <p class="c-pre rev">¿Tenés un problema que nadie resolvió?</p>
+  <h2 class="c-ttl rev d1">Hablemos.</h2>
+  <p class="c-sub rev d2">Contanos el problema en una primera conversación y te mostramos qué puede ver tu infraestructura que hoy no está viendo.</p>
+  <a href="mailto:hola@rialabs.ar" class="c-email rev d3">hola@rialabs.ar</a><br>
+  <a href="mailto:hola@rialabs.ar" class="btn-gold rev d4">Escribinos</a>
+  <p class="c-loc rev d5">Rosario, Santa Fe · Argentina</p>
+</div>
+
+<!-- copiado de v5/index.html (FOOTER) el 01/11 — mantener igual, con enlaces absolutos -->
+<footer>
+  <div class="f-logo">
+    <!-- el anillo, 18 px, con el wordmark apagado del pie -->
+    <svg width="18" height="18" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="f-anillo" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f8df6a"/><stop offset="0.3" stop-color="#e4753d"/><stop offset="0.62" stop-color="#d35745"/><stop offset="1" stop-color="#c54a45"/>
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="42" stroke="url(#f-anillo)" stroke-width="8.5"/>
+    </svg>
+    RIA <em>Labs</em>
+  </div>
+  <p class="f-copy">© 2026 RIA Labs · Rosario, Argentina</p>
+  <ul class="f-links">
+    <li><a href="/#productos">Productos</a></li>
+    <li><a href="/dataflow/">Dataflow</a></li>
+    <li><a href="/laboratorio/">Laboratorio</a></li>
+    <li><a href="/metodo/">Método</a></li>
+    <li><a href="/#rosario">Rosario</a></li>
+    <li><a href="/#contacto">Contacto</a></li>
+  </ul>
+</footer>
+
+<script>
+  /* copiado de v5/index.html (ENCABEZADO DEL SCRIPT: RM, NS, el()) el 01/11 — mantener igual */
+  var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs) {
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+
+  /* copiado de v5/index.html (EL CIELO) el 01/11 — mantener igual */
+  /* ══════════════════════════════════════════
+     EL CIELO · estrellas con profundidad, titilar, paralaje de scroll y meteoros
+     ══════════════════════════════════════════ */
+  (function(){
+    var cv = document.getElementById('cielo');
+    if (!cv || !cv.getContext) return;
+    var ctx = cv.getContext('2d');
+    var W = 0, H = 0, DPR = 1, stars = [], meteors = [], nextMeteor = 0;
+    var mouseX = 0.5, mouseY = 0.5;
+    var COLORS = ['#f0ece0','#f0ece0','#f0ece0','#f0ece0','#f0ece0','#f0ece0','#ffe2b0','#EF9F27','#4a8fd4','#4a8fd4','#2fd0c8'];
+
+    function resize(){
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth; H = window.innerHeight;
+      cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+      cv.style.width = W + 'px'; cv.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      seed();
+    }
+    function seed(){
+      // Densidad fija por área: ~360 estrellas a 1440×900, ~130 en un celular.
+      var n = Math.round(W * H / 3600);
+      stars = [];
+      for (var i = 0; i < n; i++) {
+        var z = Math.pow(Math.random(), 1.6);       // la mayoría lejos, pocas cerca
+        stars.push({
+          x: Math.random() * W, y: Math.random() * H,
+          z: z,
+          r: 0.35 + z * 1.25,
+          a: 0.12 + z * 0.55,
+          ph: Math.random() * Math.PI * 2,
+          sp: 0.25 + Math.random() * 0.9,
+          c: COLORS[Math.floor(Math.random() * COLORS.length)]
+        });
+      }
+    }
+    function spawnMeteor(now){
+      var fromLeft = Math.random() > 0.5;
+      meteors.push({
+        x: fromLeft ? Math.random() * W * 0.5 : W * 0.5 + Math.random() * W * 0.5,
+        y: Math.random() * H * 0.45,
+        vx: (fromLeft ? 1 : -1) * (0.55 + Math.random() * 0.35),
+        vy: 0.35 + Math.random() * 0.25,
+        t0: now, life: 650 + Math.random() * 500, len: 90 + Math.random() * 80
+      });
+      nextMeteor = now + 9000 + Math.random() * 11000;
+    }
+    var scrollY = 0;
+    function draw(now){
+      ctx.clearRect(0, 0, W, H);
+      var t = now / 1000;
+      var sy = scrollY;
+      var mx = (mouseX - 0.5) * 10, my = (mouseY - 0.5) * 6;
+      for (var i = 0; i < stars.length; i++) {
+        var s = stars[i];
+        // paralaje: las cercanas (z alto) se corren más con el scroll y con el mouse; deriva lentísima a la derecha
+        var drift = t * 0.6 * s.z;
+        var x = ((s.x + drift + mx * s.z) % W + W) % W;
+        var y = ((s.y - sy * s.z * 0.09 + my * s.z) % H + H) % H;
+        var tw = RM ? 1 : (0.6 + 0.4 * Math.sin(t * s.sp + s.ph));
+        ctx.globalAlpha = s.a * tw;
+        ctx.fillStyle = s.c;
+        ctx.beginPath();
+        ctx.arc(x, y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      if (!RM) {
+        if (now > nextMeteor) spawnMeteor(now);
+        for (var m = meteors.length - 1; m >= 0; m--) {
+          var me = meteors[m];
+          var p = (now - me.t0) / me.life;
+          if (p >= 1) { meteors.splice(m, 1); continue; }
+          var hx = me.x + me.vx * (now - me.t0), hy = me.y + me.vy * (now - me.t0);
+          var tx = hx - me.vx * me.len, ty = hy - me.vy * me.len;
+          var g = ctx.createLinearGradient(tx, ty, hx, hy);
+          g.addColorStop(0, 'rgba(240,236,224,0)');
+          g.addColorStop(1, 'rgba(255,226,176,' + (0.55 * Math.sin(p * Math.PI)) + ')');
+          ctx.globalAlpha = 1; ctx.strokeStyle = g; ctx.lineWidth = 1.1;
+          ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(hx, hy); ctx.stroke();
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+    var running = false;
+    function loop(now){ if (!running) return; draw(now); requestAnimationFrame(loop); }
+    function start(){ if (running || RM) return; running = true; requestAnimationFrame(loop); }
+    function stop(){ running = false; }
+
+    window.addEventListener('resize', function(){ resize(); if (RM) draw(performance.now()); }, { passive: true });
+    window.addEventListener('scroll', function(){ scrollY = window.scrollY; if (RM) draw(performance.now()); }, { passive: true });
+    window.addEventListener('mousemove', function(e){ mouseX = e.clientX / W; mouseY = e.clientY / H; }, { passive: true });
+    document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+    resize();
+    nextMeteor = performance.now() + 4000;
+    if (RM) draw(performance.now()); else start();
+  })();
+
+  /* copiado de v5/index.html (NAV) el 01/11 — mantener igual */
+  /* ══════════════════════════════════════════
+     NAV · fondo al scrollear, menú en móvil
+     ══════════════════════════════════════════ */
+  (function(){
+    var nav = document.getElementById('nav');
+    var burger = document.getElementById('burger');
+    var menu = document.getElementById('menu');
+    window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 50); }, { passive: true });
+    function close(){ menu.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); burger.textContent = 'MENÚ'; }
+    burger.addEventListener('click', function(){
+      var open = !menu.classList.contains('open');
+      menu.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.textContent = open ? 'CERRAR' : 'MENÚ';
+      if (open) nav.classList.add('scrolled');
+    });
+    menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
+  })();
+
+  /* copiado de v5/index.html (REVEAL) el 01/11 — mantener igual */
+  /* REVEAL */
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+  document.querySelectorAll('.rev').forEach(function(n){ obs.observe(n); });
+
+  /* ══════════════════════════════════════════
+     EL MÉTODO · un artefacto por regla (propio de /metodo/, 2026-11-01)
+     Seis figuras en SVG con la gramática de la home: línea fina dorada sobre el cielo, plano técnico (la grilla tenue y
+     las escuadras de las esquinas, como la estación de la máquina), tokens de colores con su halo y nodos de la red.
+     Cada artefacto es una función pura del tiempo —frame(t) pone los atributos del cuadro t, con azar sembrado—, así
+     ?t=<s> adelanta todos los relojes y cada foto es reproducible. Cada figura tiene su reloj: arranca la primera vez
+     que entra a la vista, corre sólo mientras está a la vista y con la pestaña visible (un solo rAF para todas) y se
+     pausa al salir. Las narrativas (1, 2, 3, 4 y 6) cierran su ciclo con un fundido y vuelven a empezar; la 5, después
+     de trazar la frontera, sigue andando sin reiniciarse. Con prefers-reduced-motion se pinta una sola vez el cuadro
+     quieto de cada una (quieto: el instante que mejor cuenta la regla) y no hay bucle.
+     Coordenadas: viewBox 480 × 360. Los rótulos toman su tamaño de --fs, que se recalcula con el ancho para que no
+     bajen de 9 px en pantalla (ni pasen de 11,5).
+     ══════════════════════════════════════════ */
+  (function(){
+    var figs = document.querySelectorAll('.met-fig[data-fig]');
+    if (!figs.length) return;
+    var TAU = Math.PI * 2;
+    var T_INI = parseFloat((location.search.match(/[?&]t=([\d.]+)/) || [])[1]) || 0;
+    var GOLD = '#c8860a', HI = '#EF9F27', BLUE = '#4a8fd4', VIO = '#7F77DD', TEAL = '#2fd0c8', NODO = '#3a3850',
+        GRIS = '#8a8478', BLANCO = '#f0ece0', FL = '#fff6dc', FONDO = '#100f1e', MET = '#141122';
+
+    function cl(v, a, b){ return v < a ? a : v > b ? b : v; }
+    function sm(t){ t = cl(t, 0, 1); return t * t * (3 - 2 * t); }
+    function ent(t, a, d){ return sm((t - a) / d); }            // 0 → 1 entre a y a + d, suavizado
+    function lerp(a, b, k){ return a + (b - a) * k; }
+    function r1(v){ return Math.round(v * 10) / 10; }
+    function r3(v){ return Math.round(v * 1000) / 1000; }
+    function mk(tag, at, par){ var n = document.createElementNS(NS, tag); for (var k in at) n.setAttribute(k, at[k]); if (par) par.appendChild(n); return n; }
+    function sa(n, k, v){ if (n['_' + k] !== v) { n['_' + k] = v; n.setAttribute(k, v); } }   // sólo toca el DOM si cambió
+    function op(n, v){ sa(n, 'opacity', Math.round(cl(v, 0, 1) * 100) / 100); }
+    function mover(n, x, y){ sa(n, 'transform', 'translate(' + r1(x) + ' ' + r1(y) + ')'); }
+    function txt(n, s){ if (n._txt !== s) { n._txt = s; n.textContent = s; } }
+    function rng(s){ return function(){ s = (s + 0x6D2B79F5) | 0; var t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+    function gauss(r){ return Math.sqrt(-2 * Math.log(1 - r())) * Math.cos(TAU * r()); }
+    function dP(pts, z){ var s = ''; for (var i = 0; i < pts.length; i++) s += (i ? 'L' : 'M') + r1(pts[i].x) + ' ' + r1(pts[i].y); return z ? s + 'Z' : s; }
+    function pt(x, y){ return { x: x, y: y }; }
+    // una polilínea medida: at(u) es el punto a la fracción u (0..1) de su largo
+    function poli(pts, cerrada){
+      var p = cerrada ? pts.concat([pts[0]]) : pts, acc = [0], L = 0, i;
+      for (i = 1; i < p.length; i++) { L += Math.hypot(p[i].x - p[i - 1].x, p[i].y - p[i - 1].y); acc.push(L); }
+      return { L: L, at: function(u){
+        var d = cl(u, 0, 1) * L, j = 1;
+        while (j < acc.length - 1 && acc[j] < d) j++;
+        var s = acc[j] - acc[j - 1], k = s > 0 ? (d - acc[j - 1]) / s : 0;
+        return pt(lerp(p[j - 1].x, p[j].x, k), lerp(p[j - 1].y, p[j].y, k));
+      } };
+    }
+    // el plano: la grilla técnica y las cuatro escuadras, como la estación de la máquina. Devuelve la capa del dibujo.
+    function plano(svg){
+      var g = mk('g', {}, svg), d = '', x, y;
+      for (x = 24; x < 480; x += 24) d += 'M' + x + ' 8V352';
+      for (y = 24; y < 360; y += 24) d += 'M8 ' + y + 'H472';
+      mk('path', { d: d, stroke: '#ffffff', 'stroke-opacity': 0.035, 'stroke-width': 0.6, fill: 'none' }, g);
+      [[8, 8, 1, 1], [472, 8, -1, 1], [8, 352, 1, -1], [472, 352, -1, -1]].forEach(function(c){
+        mk('path', { d: 'M' + (c[0] + c[2] * 16) + ' ' + c[1] + 'H' + c[0] + 'V' + (c[1] + c[3] * 16), stroke: GOLD, 'stroke-width': 0.9, opacity: 0.45, fill: 'none' }, g);
+      });
+      return mk('g', {}, svg);
+    }
+    function rot(par, x, y, s, col, anchor, cls){ var n = mk('text', { x: x, y: y, 'class': cls || 'mt-lab', fill: col || GOLD, 'text-anchor': anchor || 'start' }, par); n.textContent = s; return n; }
+    // un token: el punto de color con su halo, como los de la máquina
+    function token(par, col, r){ r = r || 2.4; var g = mk('g', { opacity: 0 }, par); mk('circle', { r: r * 2.6, fill: col, opacity: 0.16 }, g); g._c = mk('circle', { r: r, fill: col }, g); return g; }
+    // una persona: cabeza y hombros, de línea
+    function persona(par, col){ var g = mk('g', { opacity: 0 }, par); mk('circle', { cx: 0, cy: -27, r: 4.6, fill: FONDO, stroke: col, 'stroke-width': 1.2 }, g); mk('path', { d: 'M-9 0V-8Q-9 -19 0 -19Q9 -19 9 -8V0', fill: FONDO, stroke: col, 'stroke-width': 1.2 }, g); return g; }
+    // un arco de onda (el sensor que emite): centro, radio, dirección y apertura en grados
+    function arco(cx, cy, r, dir, ab){ var a0 = (dir - ab) * Math.PI / 180, a1 = (dir + ab) * Math.PI / 180; return 'M' + r1(cx + r * Math.cos(a0)) + ' ' + r1(cy + r * Math.sin(a0)) + 'A' + r1(r) + ' ' + r1(r) + ' 0 0 1 ' + r1(cx + r * Math.cos(a1)) + ' ' + r1(cy + r * Math.sin(a1)); }
+    // tokens que recorren una polilínea a velocidad fija; t0 es cuándo sale el primero (antes no hay ninguno en el camino)
+    function flujo(par, pts, cols, n, vel){
+      var P = poli(pts), toks = [], k;
+      for (k = 0; k < n; k++) toks.push(token(par, cols[k % cols.length]));
+      return function(t, t0, a){
+        var dur = P.L / vel;
+        for (k = 0; k < n; k++) {
+          var edad = t - t0 - k * dur / n;
+          if (edad < 0 || a <= 0) { op(toks[k], 0); continue; }
+          var u = (edad % dur) / dur, p = P.at(u);
+          mover(toks[k], p.x, p.y); op(toks[k], a * Math.min(1, u * 10, (1 - u) * 10));
+        }
+      };
+    }
+    var DEFS = {};
+
+    /* 1 · El problema primero, la tecnología después. Primero se dibuja el problema —una forma irregular, con sus
+       particularidades (los puntos de color)— y se le toman las medidas (cotas de plano). La herramienta llega después,
+       genérica: una pieza cuadrada de catálogo que tapa parte del problema y deja otra afuera (las particularidades que
+       quedan afuera titilan). Se deforma hasta tomar la forma del problema, toca cada particularidad y recién entonces
+       anda: tres tokens la recorren y cada particularidad se enciende cuando pasan. */
+    DEFS.problema = function(svg){
+      var capa = plano(svg), cx = 232, cy = 178, SX = 1.3, N = 120, i;
+      function rP(a){ return 62 + 13 * Math.sin(3 * a + 0.6) + 8 * Math.sin(5 * a + 2.1) + 6 * Math.sin(2 * a + 4) + 3 * Math.sin(7 * a + 1); }
+      var prob = [], fit = [], cuad = [], ext = { x0: null, x1: null, y0: null, y1: null };
+      for (i = 0; i < N; i++) {
+        var a = i / N * TAU, r = rP(a), c = Math.cos(a), s = Math.sin(a);
+        var p = pt(cx + SX * r * c, cy + r * s); prob.push(p);
+        fit.push(pt(cx + SX * (r + 12) * c, cy + (r + 12) * s));
+        var rs = 58 / Math.pow(Math.pow(Math.abs(c), 6) + Math.pow(Math.abs(s), 6), 1 / 6);
+        cuad.push(pt(cx + rs * c, cy + rs * s));
+        if (!ext.x0 || p.x < ext.x0.x) ext.x0 = p; if (!ext.x1 || p.x > ext.x1.x) ext.x1 = p;
+        if (!ext.y0 || p.y < ext.y0.y) ext.y0 = p; if (!ext.y1 || p.y > ext.y1.y) ext.y1 = p;
+      }
+      var dProb = dP(prob, true);
+      var relleno = mk('path', { d: dProb, fill: HI, opacity: 0 }, capa);
+      var borde = mk('path', { d: dProb, fill: 'none', stroke: HI, 'stroke-width': 1.3, pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-dashoffset': 1, 'stroke-linejoin': 'round' }, capa);
+      // las cotas: ancho abajo y alto a la izquierda, con líneas de extensión y los trazos oblicuos de plano
+      var yC = ext.y1.y + 30, xC = ext.x0.x - 30, gC = mk('g', { opacity: 0 }, capa);
+      mk('path', { d: 'M' + r1(ext.x0.x) + ' ' + r1(ext.x0.y + 8) + 'V' + r1(yC + 6) + 'M' + r1(ext.x1.x) + ' ' + r1(ext.x1.y + 8) + 'V' + r1(yC + 6) +
+        'M' + r1(ext.y0.x - 8) + ' ' + r1(ext.y0.y) + 'H' + r1(xC - 6) + 'M' + r1(ext.y1.x - 8) + ' ' + r1(ext.y1.y) + 'H' + r1(xC - 6),
+        stroke: GRIS, 'stroke-width': 0.6, 'stroke-dasharray': '2 3', opacity: 0.6, fill: 'none' }, gC);
+      var cotaH = mk('path', { d: 'M' + r1(ext.x0.x) + ' ' + r1(yC) + 'H' + r1(ext.x1.x), stroke: GOLD, 'stroke-width': 0.9, pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-dashoffset': 1, fill: 'none' }, gC);
+      var cotaV = mk('path', { d: 'M' + r1(xC) + ' ' + r1(ext.y0.y) + 'V' + r1(ext.y1.y), stroke: GOLD, 'stroke-width': 0.9, pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-dashoffset': 1, fill: 'none' }, gC);
+      function obl(x, y){ return 'M' + r1(x - 4) + ' ' + r1(y + 4) + 'L' + r1(x + 4) + ' ' + r1(y - 4); }
+      var marcas = mk('path', { d: obl(ext.x0.x, yC) + obl(ext.x1.x, yC) + obl(xC, ext.y0.y) + obl(xC, ext.y1.y), stroke: HI, 'stroke-width': 1.1, fill: 'none', opacity: 0 }, gC);
+      // el rótulo del problema, con su línea de llamada
+      var pL = prob[Math.round(N * 0.69)], gLP = mk('g', { opacity: 0 }, capa);
+      mk('path', { d: 'M' + r1(pL.x) + ' ' + r1(pL.y - 5) + 'V54H' + r1(pL.x - 20), stroke: GOLD, 'stroke-width': 0.7, opacity: 0.7, fill: 'none' }, gLP);
+      mk('circle', { cx: r1(pL.x), cy: r1(pL.y), r: 2, fill: HI }, gLP);
+      rot(gLP, r1(pL.x - 26), 58, 'el problema', GOLD, 'end');
+      // las particularidades: ángulo y qué tan adentro
+      var hechos = [[0.25, 0.72], [1.5, 0.64], [2.7, 0.74], [3.55, 0.6], [5.1, 0.74]].map(function(f, k){
+        var r = rP(f[0]) * f[1], x = cx + SX * r * Math.cos(f[0]), y = cy + r * Math.sin(f[0]);
+        var g = mk('g', { opacity: 0 }, capa), col = [BLUE, VIO, TEAL][k % 3];
+        var aro = mk('circle', { cx: r1(x), cy: r1(y), r: 3, fill: 'none', stroke: col, 'stroke-width': 1, opacity: 0 }, g);
+        var luz = mk('circle', { cx: r1(x), cy: r1(y), r: 8, fill: col, opacity: 0 }, g);
+        mk('circle', { cx: r1(x), cy: r1(y), r: 3, fill: col }, g);
+        var fuera = Math.pow(Math.abs(x - cx) / 58, 6) + Math.pow(Math.abs(y - cy) / 58, 6) > 1;
+        return { x: x, y: y, g: g, aro: aro, luz: luz, fuera: fuera, i: Math.round(f[0] / TAU * N) % N, col: col };
+      });
+      // la herramienta
+      var gH = mk('g', { opacity: 0 }, capa);
+      var herr = mk('path', { d: '', fill: MET, 'fill-opacity': 0.9, stroke: GOLD, 'stroke-width': 1.1, 'stroke-linejoin': 'round' }, gH);
+      var llamH = mk('path', { d: '', stroke: GOLD, 'stroke-width': 0.7, opacity: 0.7, fill: 'none' }, gH);
+      var rotH = rot(gH, 0, 58, 'la herramienta', GOLD, 'start');
+      var toques = hechos.map(function(h){
+        var q = fit[h.i];
+        return { l: mk('line', { x1: r1(h.x), y1: r1(h.y), x2: r1(q.x), y2: r1(q.y), stroke: h.col, 'stroke-width': 0.8, 'stroke-dasharray': '2 3', opacity: 0 }, capa),
+                 n: mk('circle', { cx: r1(q.x), cy: r1(q.y), r: 3.4, fill: FONDO, stroke: HI, 'stroke-width': 1, opacity: 0 }, capa) };
+      });
+      var PF = poli(fit, true), toks = [BLUE, TEAL, VIO].map(function(c){ return token(capa, c); });
+      var iQ = Math.round(N * 0.86), ultimo = '';
+      return { dur: 13, quieto: 10.4, frame: function(t){
+        op(capa, 1 - ent(t, 12.2, 0.8));
+        sa(borde, 'stroke-dashoffset', r3(1 - ent(t, 0.2, 2.4)));
+        op(relleno, 0.05 * ent(t, 2.2, 0.8));
+        op(gLP, ent(t, 1.0, 0.6));
+        op(gC, ent(t, 2.6, 0.4)); sa(cotaH, 'stroke-dashoffset', r3(1 - ent(t, 2.6, 1))); sa(cotaV, 'stroke-dashoffset', r3(1 - ent(t, 2.9, 1))); op(marcas, ent(t, 3.5, 0.4));
+        var off = (1 - ent(t, 4.0, 1.5)) * 280, k = ent(t, 6.1, 1.9), clave = r1(off) + '|' + r3(k);
+        op(gH, ent(t, 4.0, 0.3));
+        if (clave !== ultimo) {
+          ultimo = clave;
+          var pts = cuad.map(function(q, j){ return pt(lerp(q.x, fit[j].x, k) + off, lerp(q.y, fit[j].y, k)); });
+          sa(herr, 'd', dP(pts, true));
+          var Q = pts[iQ], lx = cx + 84 + off;
+          sa(llamH, 'd', 'M' + r1(Q.x) + ' ' + r1(Q.y) + 'L' + r1(lx - 8) + ' 54H' + r1(lx - 3));
+          sa(rotH, 'x', r1(lx));
+        }
+        sa(herr, 'fill-opacity', r3(0.9 * (1 - k)));
+        sa(herr, 'stroke', k > 0.98 ? HI : GOLD);
+        var tt = t - 8.7, us = [];
+        toks.forEach(function(tk, j){
+          if (tt < 0) { op(tk, 0); return; }
+          var u = (tt * 0.085 + j / 3) % 1, p = PF.at(u); us.push(u);
+          mover(tk, p.x, p.y); op(tk, ent(t, 8.7, 0.5));
+        });
+        hechos.forEach(function(h, j){
+          var t0 = 1.3 + j * 0.28, parp = h.fuera && t > 5.4 && t < 6.3 ? 0.5 + 0.5 * Math.cos((t - 5.4) * 15) : 1;
+          op(h.g, ent(t, t0, 0.3) * parp);
+          var u = (t - t0) / 0.9; sa(h.aro, 'r', r1(3 + 12 * cl(u, 0, 1))); op(h.aro, u > 0 && u < 1 ? (1 - u) * 0.8 : 0);
+          // se enciende cuando pasa un token por su punto de contacto
+          var cerca = 0, uh = h.i / N; us.forEach(function(u2){ var d = Math.abs(u2 - uh); d = Math.min(d, 1 - d); cerca = Math.max(cerca, 1 - d / 0.03); });
+          op(h.luz, 0.28 * cl(cerca, 0, 1));
+          op(toques[j].l, 0.8 * ent(t, 7.9 + j * 0.12, 0.4)); op(toques[j].n, ent(t, 7.9 + j * 0.12, 0.4));
+        });
+      } };
+    };
+
+    /* 2 · Partimos de lo que ya tenés. El plano de un edificio con lo que ya estaba: tres cámaras, un sensor en el
+       portón, el gabinete y el cableado (punteado gris, dibujado desde el primer cuadro). A la derecha, la ficha de
+       configuración: cada interruptor que se prende enciende su dispositivo —el cono de visión, las ondas del sensor— y
+       sus datos viajan por los cables que ya estaban, hasta el motor. Ninguna línea nueva aparece en el plano. */
+    DEFS.existente = function(svg){
+      var capa = plano(svg), i;
+      mk('path', { d: 'M40 44H316V316H270M222 316H40V44M172 44V118M172 152V196H122M86 196H40', stroke: GRIS, 'stroke-width': 1.1, opacity: 0.5, fill: 'none' }, capa);
+      var DEV = [
+        { x: 54, y: 58, a: 45, col: BLUE, nom: 'cámara 1', cab: [pt(60, 66), pt(60, 224), pt(232, 224)] },
+        { x: 302, y: 58, a: 135, col: BLUE, nom: 'cámara 2', cab: [pt(296, 66), pt(296, 150), pt(250, 150), pt(250, 212)] },
+        { x: 54, y: 302, a: -45, col: BLUE, nom: 'cámara 3', cab: [pt(60, 294), pt(60, 240), pt(232, 240)] },
+        { x: 246, y: 314, a: -90, col: TEAL, nom: 'sensor', sensor: true, cab: [pt(246, 306), pt(246, 252)] }
+      ];
+      var T_ON = [1.4, 2.6, 3.8, 5.0], VEL = 120, FIN = 10.9;
+      var gCab = mk('g', {}, capa), gLuz = mk('g', {}, capa), gDev = mk('g', {}, capa), gTok = mk('g', {}, capa);
+      // el gabinete (ya estaba) y el cable que sale del edificio hacia el motor (también)
+      mk('rect', { x: 232, y: 212, width: 36, height: 40, rx: 2, fill: MET, stroke: GRIS, 'stroke-width': 0.9, opacity: 0.85 }, gDev);
+      mk('path', { d: 'M240 222H260M240 230H260M240 238H254', stroke: GRIS, 'stroke-width': 0.8, opacity: 0.6 }, gDev);
+      var red = [pt(268, 232), pt(340, 232), pt(340, 272), pt(386, 272)];
+      mk('path', { d: dP(red), stroke: GRIS, 'stroke-width': 0.9, 'stroke-dasharray': '3 4', opacity: 0.55, fill: 'none' }, gCab);
+      var redLuz = mk('path', { d: dP(red), stroke: HI, 'stroke-width': 1.1, opacity: 0, fill: 'none' }, gLuz);
+      // el motor: el aro del reactor con sus halos, y la química adentro
+      var MX = 410, MY = 272, gM = mk('g', {}, capa), gMluz = mk('g', { opacity: 0 }, capa);
+      mk('circle', { cx: MX, cy: MY, r: 22, fill: FONDO, stroke: GRIS, 'stroke-width': 1, opacity: 0.7 }, gM);
+      [[30, 6, '#3d1c00', 0.5], [27, 3.5, '#633806', 0.45], [25, 2, '#854F0B', 0.4]].forEach(function(h){ mk('circle', { cx: MX, cy: MY, r: h[0], fill: 'none', stroke: h[2], 'stroke-width': h[1], opacity: h[3] }, gMluz); });
+      mk('circle', { cx: MX, cy: MY, r: 22, fill: 'none', stroke: HI, 'stroke-width': 1.3 }, gMluz);
+      var quim = [], Rq = rng(7);
+      for (i = 0; i < 7; i++) quim.push({ n: mk('circle', { r: 1.7, fill: [BLUE, VIO, TEAL][i % 3] }, gMluz), r: 4 + Rq() * 12, w: (0.4 + Rq() * 0.7) * (Rq() < 0.5 ? -1 : 1), f: Rq() * TAU });
+      rot(capa, MX, 316, 'motor', GOLD, 'middle');
+      // la ficha de configuración
+      mk('rect', { x: 340, y: 40, width: 128, height: 150, rx: 2, fill: MET, 'fill-opacity': 0.92, stroke: GOLD, 'stroke-width': 0.8, opacity: 0.9 }, capa);
+      rot(capa, 352, 62, 'config', GOLD);
+      mk('path', { d: 'M352 72H456', stroke: GOLD, 'stroke-width': 0.6, opacity: 0.35 }, capa);
+      var flujos = [], devs = DEV.map(function(d, k){
+        var o = { d: d }, ar = d.a * Math.PI / 180, lx = d.x + 7 * Math.cos(ar), ly = d.y + 7 * Math.sin(ar);
+        mk('path', { d: dP(d.cab), stroke: GRIS, 'stroke-width': 0.9, 'stroke-dasharray': '3 4', opacity: 0.55, fill: 'none' }, gCab);
+        o.cabLuz = mk('path', { d: dP(d.cab), stroke: d.col, 'stroke-width': 1, 'stroke-dasharray': '3 4', opacity: 0, fill: 'none' }, gLuz);
+        if (!d.sensor) {
+          var a0 = ar - 0.4, a1 = ar + 0.4, L = 86;
+          o.cono = mk('path', { d: 'M' + r1(lx) + ' ' + r1(ly) + 'L' + r1(lx + L * Math.cos(a0)) + ' ' + r1(ly + L * Math.sin(a0)) + 'A' + L + ' ' + L + ' 0 0 1 ' + r1(lx + L * Math.cos(a1)) + ' ' + r1(ly + L * Math.sin(a1)) + 'Z', fill: d.col, 'fill-opacity': 0.07, stroke: d.col, 'stroke-width': 0.6, 'stroke-dasharray': '3 4', opacity: 0 }, gLuz);
+          mk('circle', { cx: d.x, cy: d.y, r: 6.5, fill: MET, stroke: GRIS, 'stroke-width': 0.9 }, gDev);
+          mk('circle', { cx: r1(lx), cy: r1(ly), r: 2.8, fill: FONDO, stroke: GRIS, 'stroke-width': 0.8 }, gDev);
+          o.on = mk('g', { opacity: 0 }, gDev);
+          mk('circle', { cx: d.x, cy: d.y, r: 6.5, fill: 'none', stroke: d.col, 'stroke-width': 1.1 }, o.on);
+          mk('circle', { cx: r1(lx), cy: r1(ly), r: 2.8, fill: d.col }, o.on);
+        } else {
+          mk('rect', { x: d.x - 8, y: d.y - 3, width: 16, height: 6, rx: 1.5, fill: MET, stroke: GRIS, 'stroke-width': 0.9 }, gDev);
+          o.on = mk('g', { opacity: 0 }, gDev);
+          mk('rect', { x: d.x - 8, y: d.y - 3, width: 16, height: 6, rx: 1.5, fill: 'none', stroke: d.col, 'stroke-width': 1.1 }, o.on);
+          o.ondas = [0, 1, 2].map(function(){ return mk('path', { d: '', fill: 'none', stroke: d.col, 'stroke-width': 0.9, opacity: 0 }, gLuz); });
+        }
+        var y = 94 + k * 24;
+        o.nom = rot(capa, 352, y + 3.5, d.nom, GRIS, 'start', 'mt-cod');
+        mk('rect', { x: 430, y: y - 5.5, width: 24, height: 11, rx: 5.5, fill: 'none', stroke: GRIS, 'stroke-width': 0.8, opacity: 0.8 }, capa);
+        o.llave = mk('rect', { x: 430, y: y - 5.5, width: 24, height: 11, rx: 5.5, fill: d.col, 'fill-opacity': 0.25, stroke: d.col, 'stroke-width': 0.9, opacity: 0 }, capa);
+        o.perilla = mk('circle', { cx: 435.5, cy: y, r: 3.6, fill: GRIS }, capa);
+        flujos.push(flujo(gTok, d.cab, [d.col], 3, VEL));
+        o.llega = T_ON[k] + poli(d.cab).L / VEL;   // cuándo llega el primer dato al gabinete
+        return o;
+      });
+      var flujoRed = flujo(gTok, red, [BLUE, TEAL, BLUE, VIO], 4, VEL);
+      return { dur: 12.4, quieto: 8.6, frame: function(t){
+        var fin = 1 - ent(t, FIN, 0.8), alguno = 0, primero = 99;
+        devs.forEach(function(o, k){
+          var on = ent(t, T_ON[k], 0.35) * fin;
+          alguno = Math.max(alguno, on); primero = Math.min(primero, o.llega);
+          op(o.on, on); op(o.llave, on); op(o.cabLuz, 0.6 * on);
+          sa(o.perilla, 'cx', r1(lerp(435.5, 448.5, on))); sa(o.perilla, 'fill', on > 0.5 ? o.d.col : GRIS);
+          sa(o.nom, 'fill', on > 0.5 ? BLANCO : GRIS);
+          if (o.cono) op(o.cono, on);
+          if (o.ondas) o.ondas.forEach(function(w, j){
+            var u = ((t - T_ON[k]) / 1.8 + j / 3) % 1;
+            if (t < T_ON[k] || on <= 0) { op(w, 0); return; }
+            sa(w, 'd', arco(o.d.x, o.d.y - 4, 6 + 34 * u, -90, 38)); op(w, (1 - u) * 0.8 * on);
+          });
+          flujos[k](t, T_ON[k] + 0.2, on);
+        });
+        var link = ent(t, primero, 0.4) * fin;
+        op(redLuz, 0.5 * link); op(gMluz, link);
+        flujoRed(t, primero, link);
+        quim.forEach(function(q){ var a = q.f + t * q.w; sa(q.n, 'cx', r1(MX + q.r * Math.cos(a))); sa(q.n, 'cy', r1(MY + q.r * 0.8 * Math.sin(a))); });
+      } };
+    };
+
+    /* 3 · Si no está medido, no se dice. Las muestras llegan de a una y corren hacia la izquierda, como en un registrador.
+       Sobre ellas, el promedio de las últimas diez y su banda (± dos errores estándar): con pocas muestras la banda es
+       ancha y la lectura muestra una raya; cuando se angosta lo suficiente, aparece la cifra —que es el promedio real de
+       los puntos que se ven—. Después el sensor se vuelve ruidoso (puntos violeta): la banda se abre, la cifra se oculta
+       y vuelve recién cuando la ventana está limpia otra vez. A la derecha de la cabeza, la tolerancia. */
+    DEFS.medido = function(svg){
+      var capa = plano(svg), X0 = 40, X1 = 306, Y0 = 56, Y1 = 300, VMIN = 22, VMAX = 62, VX = 19.5, THR = 2.3, W = 10, i;
+      function yv(v){ return Y1 - (v - VMIN) / (VMAX - VMIN) * (Y1 - Y0); }
+      var gEje = mk('g', {}, capa), d = 'M' + X0 + ' ' + Y0 + 'V' + Y1 + 'H' + X1;
+      for (i = 24; i <= 60; i += 8) d += 'M' + (X0 - 4) + ' ' + r1(yv(i)) + 'H' + X0;
+      mk('path', { d: d, stroke: GRIS, 'stroke-width': 0.9, opacity: 0.55, fill: 'none' }, gEje);
+      rot(gEje, X0, 40, 'muestras', GRIS);
+      // las muestras de todo el ciclo, sembradas; el estimador de cada una, con histéresis para no titilar
+      var R = rng(31), S = [], ts = 0.6, ok = false, tf = -1e9;
+      while (ts < 13.3) { var ru = ts > 6.4 && ts < 9.2; S.push({ t: ts, v: cl(42 + gauss(R) * (ru ? 10.5 : 2.3), VMIN + 1.5, VMAX - 1.5), ru: ru }); ts += 0.22; }
+      S.forEach(function(s, j){
+        var a = Math.max(0, j - W + 1), n = j - a + 1, m = 0, q = 0, sucia = false, k;
+        for (k = a; k <= j; k++) { m += S[k].v; sucia = sucia || S[k].ru; } m /= n;
+        for (k = a; k <= j; k++) q += (S[k].v - m) * (S[k].v - m);
+        var hw = n > 1 ? 2 * Math.sqrt(q / (n - 1)) / Math.sqrt(n) : 99;
+        var nuevo = ok ? hw <= THR * 1.1 : n >= 9 && hw <= THR * 0.9;
+        if (nuevo !== ok) { ok = nuevo; tf = s.t; }
+        s.m = m; s.n = n; s.hw = hw; s.ok = ok; s.tf = tf; s.sucia = sucia;
+      });
+      var banda = mk('path', { d: '', fill: GOLD, opacity: 0.13 }, capa);
+      var lMal = mk('path', { d: '', fill: 'none', stroke: GRIS, 'stroke-width': 1, 'stroke-dasharray': '3 3', opacity: 0.8 }, capa);
+      var lBien = mk('path', { d: '', fill: 'none', stroke: HI, 'stroke-width': 1.4, 'stroke-linejoin': 'round' }, capa);
+      var gP = mk('g', {}, capa);
+      S.forEach(function(s){ s.el = mk('circle', { cx: 0, cy: r1(yv(s.v)), r: 2.1, fill: s.ru ? VIO : BLUE, opacity: 0 }, gP); });
+      // la cabeza: el intervalo de ahora contra la tolerancia (las dos marcas punteadas)
+      var cab = mk('line', { x1: 0, x2: 0, y1: 0, y2: 0, stroke: HI, 'stroke-width': 1.6, opacity: 0 }, capa);
+      var tol = mk('path', { d: '', fill: 'none', stroke: GOLD, 'stroke-width': 0.9, 'stroke-dasharray': '2 2', opacity: 0 }, capa);
+      // la lectura
+      rot(capa, 348, 70, 'lectura', GOLD);
+      mk('path', { d: 'M348 80H462', stroke: GOLD, 'stroke-width': 0.6, opacity: 0.3 }, capa);
+      var raya = mk('text', { x: 346, y: 134, 'class': 'mt-cifra', 'font-size': 46, fill: GRIS, opacity: 0 }, capa); raya.textContent = '—';
+      var cifra = mk('text', { x: 346, y: 134, 'class': 'mt-cifra', 'font-size': 46, fill: HI, opacity: 0 }, capa);
+      var tN = rot(capa, 348, 162, '', GRIS, 'start', 'mt-cod'), tH = rot(capa, 348, 180, '', GRIS, 'start', 'mt-cod');
+      var e1 = rot(capa, 348, 214, '', GRIS), e2 = rot(capa, 348, 230, '', GRIS);
+      function coma(v, dec){ return v.toFixed(dec).replace('.', ','); }
+      return { dur: 14, quieto: 12.6, frame: function(t){
+        op(capa, 1 - ent(t, 13.3, 0.6));
+        var arr = '', aba = [], bien = '', mal = '', prev = null, j, s, ult = -1;
+        for (j = 0; j < S.length; j++) {
+          s = S[j];
+          if (s.t > t) { op(s.el, 0); continue; }
+          ult = j;
+          var x = X1 - (t - s.t) * VX;
+          if (x < X0 + 2) { op(s.el, 0); prev = null; continue; }
+          sa(s.el, 'cx', r1(x)); op(s.el, ent(t, s.t, 0.12) * (0.35 + 0.6 * cl((x - X0) / 60, 0, 1)));
+          if (s.n >= 2) {
+            var hw = Math.min(s.hw, 13), ym = r1(yv(s.m));
+            arr += (arr ? 'L' : 'M') + r1(x) + ' ' + r1(yv(s.m + hw)); aba.push(r1(x) + ' ' + r1(yv(s.m - hw)));
+            if (prev) { var seg = 'M' + prev.x + ' ' + prev.y + 'L' + r1(x) + ' ' + ym; if (prev.ok && s.ok) bien += seg; else mal += seg; }
+            prev = { x: r1(x), y: ym, ok: s.ok };
+          }
+        }
+        sa(banda, 'd', arr ? arr + 'L' + aba.reverse().join('L') + 'Z' : '');
+        sa(lBien, 'd', bien); sa(lMal, 'd', mal);
+        var sh = 0, est = ['falta', 'muestra'];
+        if (ult >= 0) {
+          s = S[ult];
+          var xc = r1(X1 - (t - s.t) * VX), h2 = Math.min(s.hw, 13);
+          sa(cab, 'x1', xc); sa(cab, 'x2', xc); sa(cab, 'y1', r1(yv(s.m + h2))); sa(cab, 'y2', r1(yv(s.m - h2))); sa(cab, 'stroke', s.ok ? HI : GRIS); op(cab, s.n >= 2 ? 1 : 0);
+          var xt = X1 + 7;
+          sa(tol, 'd', 'M' + xt + ' ' + r1(yv(s.m + THR)) + 'h8M' + xt + ' ' + r1(yv(s.m - THR)) + 'h8M' + (xt + 4) + ' ' + r1(yv(s.m + THR)) + 'V' + r1(yv(s.m - THR))); op(tol, s.n >= 2 ? 0.85 : 0);
+          sh = s.ok ? ent(t, s.tf, 0.45) : 1 - ent(t, s.tf, 0.45);
+          txt(cifra, coma(Math.round(s.m * 10) / 10, 1));
+          txt(tN, 'n = ' + s.n); txt(tH, '± ' + (s.hw > 50 ? '—' : coma(s.hw, 1)));
+          est = s.ok ? ['medido', ''] : s.sucia ? ['no es', 'confiable'] : ['falta', 'muestra'];
+        } else { op(cab, 0); op(tol, 0); txt(tN, 'n = 0'); txt(tH, '± —'); }
+        op(cifra, sh); op(raya, 0.75 * (1 - sh));
+        txt(e1, est[0]); txt(e2, est[1]); sa(e1, 'fill', est[0] === 'medido' ? HI : GRIS);
+      } };
+    };
+
+    /* 4 · Simplicidad como estándar de calidad. Una red enmarañada —todo lo posible— entre una entrada y una salida.
+       El uso pasa por un solo camino, que se calienta (dorado); dos tokens exploran ramas que no llevan a ningún lado y
+       se apagan. Lo que nadie usa se apaga y queda como un rastro; el camino usado se endereza hasta ser una línea, y por
+       la línea pasa cada vez más uso. */
+    DEFS.simple = function(svg){
+      var capa = plano(svg), R = rng(4021), nod = [], i, j, guard = 0;
+      var E = pt(32, 180), S = pt(448, 180);
+      while (nod.length < 24 && guard++ < 5000) {
+        var p = pt(70 + R() * 340, 54 + R() * 254), lejos = Math.hypot(p.x - E.x, p.y - E.y) > 44 && Math.hypot(p.x - S.x, p.y - S.y) > 44;
+        for (j = 0; j < nod.length && lejos; j++) if (Math.hypot(nod[j].x - p.x, nod[j].y - p.y) < 38) lejos = false;
+        if (lejos) nod.push(p);
+      }
+      var iE = nod.length, iS = iE + 1; nod.push(E, S);
+      // el camino que se usa: el nodo más cerca de cada parada, de izquierda a derecha
+      var camino = [iE], usados = {};
+      [124, 204, 284, 364].forEach(function(tx){
+        var mejor = -1, dm = 1e9;
+        for (j = 0; j < iE; j++) { if (usados[j]) continue; var dd = Math.abs(nod[j].x - tx) + 0.45 * Math.abs(nod[j].y - 180); if (dd < dm) { dm = dd; mejor = j; } }
+        usados[mejor] = 1; camino.push(mejor);
+      });
+      camino.push(iS);
+      var simple = {}; camino.forEach(function(n, k){ simple[n] = pt(32 + k * 83.2, 180); });
+      // las aristas: los tres vecinos más cercanos, algunas cuerdas largas y el camino
+      var ar = [], ya = {};
+      function arista(a, b, uso){ var k = Math.min(a, b) + '-' + Math.max(a, b); if (ya[k] !== undefined) { if (uso) ar[ya[k]].uso = true; return; } ya[k] = ar.length; ar.push({ a: a, b: b, uso: !!uso }); }
+      for (i = 0; i < iE; i++) {
+        var orden = []; for (j = 0; j < nod.length; j++) if (j !== i) orden.push(j);
+        orden.sort(function(x, y){ return Math.hypot(nod[x].x - nod[i].x, nod[x].y - nod[i].y) - Math.hypot(nod[y].x - nod[i].x, nod[y].y - nod[i].y); });
+        for (j = 0; j < 3; j++) arista(i, orden[j]);
+      }
+      for (i = 0; i < 9; i++) { var a = Math.floor(R() * iE), b = Math.floor(R() * iE); if (a !== b) arista(a, b); }
+      for (i = 0; i + 1 < camino.length; i++) arista(camino[i], camino[i + 1], true);
+      var gA = mk('g', {}, capa), gU = mk('g', {}, capa), gN = mk('g', {}, capa), gT = mk('g', {}, capa);
+      ar.forEach(function(e, k){
+        e.el = mk('line', { stroke: '#4c4868', 'stroke-width': 0.9, opacity: 0 }, gA);
+        if (e.uso) e.luz = mk('line', { stroke: HI, 'stroke-width': 1.4, 'stroke-linecap': 'round', opacity: 0 }, gU);
+        e.t0 = 0.1 + k * 0.012;
+      });
+      var enCamino = {}; camino.forEach(function(n){ enCamino[n] = 1; });
+      nod.forEach(function(p, k){
+        var extremo = k >= iE;
+        p.el = mk('circle', { r: extremo ? 6 : 3 + R() * 2, fill: FONDO, stroke: extremo ? HI : k % 3 === 0 ? VIO : NODO, 'stroke-width': extremo ? 1.2 : 0.9, opacity: 0 }, gN);
+        if (enCamino[k] && !extremo) p.luz = mk('circle', { r: 4.6, fill: FONDO, stroke: HI, 'stroke-width': 1.2, opacity: 0 }, gN);
+        if (extremo) mk('circle', { cx: p.x, cy: p.y, r: 2, fill: HI }, gN);
+        p.t0 = 0.2 + k * 0.02;
+      });
+      // los exploradores: entran por el camino y se desvían a una rama muerta
+      function vecinos(n){ var v = []; ar.forEach(function(e){ if (e.a === n) v.push(e.b); if (e.b === n) v.push(e.a); }); return v; }
+      function rama(desde){ var v = vecinos(desde).filter(function(x){ return !enCamino[x]; }); if (!v.length) return null; var x1 = v[Math.floor(R() * v.length)], w = vecinos(x1).filter(function(x){ return !enCamino[x] && x !== desde; }); return w.length ? [x1, w[Math.floor(R() * w.length)]] : [x1]; }
+      var expl = [];
+      [[1, 2.6], [2, 4.3]].forEach(function(c){ var r = rama(camino[c[0]]); if (r) expl.push({ ruta: camino.slice(0, c[0] + 1).concat(r), e: c[1] }); });
+      // los usos: pocos al principio, por el camino enredado; muchos al final, por la línea
+      var usos = [], k2;
+      for (k2 = 0; k2 < 4; k2++) usos.push({ e: 1.8 + k2 * 0.95, v: 120, c: HI });
+      for (k2 = 0; k2 < 13; k2++) usos.push({ e: 8.1 + k2 * 0.31, v: 150, c: [BLUE, TEAL, VIO][k2 % 3] });
+      var pool = []; for (k2 = 0; k2 < 16; k2++) pool.push(token(gT, HI));
+      var rUso = rot(capa, 240, 160, 'lo que se usa', HI, 'middle'), rTodo = rot(capa, 28, 38, 'todo lo posible', GRIS);
+      return { dur: 14, quieto: 11.4, frame: function(t){
+        op(capa, 1 - ent(t, 12.9, 0.8));
+        var kS = ent(t, 6.4, 1.8), apaga = 1 - 0.8 * ent(t, 5.9, 1.5), calor = ent(t, 2.0, 3.2);
+        var pos = nod.map(function(p, k){ return simple[k] ? pt(lerp(p.x, simple[k].x, kS), lerp(p.y, simple[k].y, kS)) : p; });
+        ar.forEach(function(e){
+          var A = pos[e.a], B = pos[e.b], ap = ent(t, e.t0, 0.5);
+          sa(e.el, 'x1', r1(A.x)); sa(e.el, 'y1', r1(A.y)); sa(e.el, 'x2', r1(B.x)); sa(e.el, 'y2', r1(B.y));
+          op(e.el, ap * (e.uso ? 1 : apaga));
+          if (e.luz) { sa(e.luz, 'x1', r1(A.x)); sa(e.luz, 'y1', r1(A.y)); sa(e.luz, 'x2', r1(B.x)); sa(e.luz, 'y2', r1(B.y)); op(e.luz, 0.85 * calor); }
+        });
+        nod.forEach(function(p, k){
+          var P = pos[k], ap = ent(t, p.t0, 0.5);
+          sa(p.el, 'cx', r1(P.x)); sa(p.el, 'cy', r1(P.y)); op(p.el, ap * (enCamino[k] ? 1 : apaga));
+          if (p.luz) { sa(p.luz, 'cx', r1(P.x)); sa(p.luz, 'cy', r1(P.y)); op(p.luz, calor); }
+        });
+        op(rTodo, ent(t, 0.5, 0.6) * (1 - ent(t, 5.9, 1))); op(rUso, ent(t, 8.4, 0.6));
+        var Pc = poli(camino.map(function(n){ return pos[n]; })), libre = 0;
+        usos.forEach(function(u){
+          var tt = t - u.e, dur = Pc.L / u.v;
+          if (tt < 0 || tt > dur || libre >= pool.length) return;
+          var tk = pool[libre++], q = Pc.at(tt / dur); sa(tk._c, 'fill', u.c); mover(tk, q.x, q.y); op(tk, Math.min(1, tt * 6, (dur - tt) * 6));
+        });
+        expl.forEach(function(x){
+          if (libre >= pool.length) return;
+          var Px = poli(x.ruta.map(function(n){ return pos[n]; })), dur = Px.L / 110, tt = t - x.e;
+          if (tt < 0 || tt > dur) return;
+          var tk = pool[libre++], q = Px.at(tt / dur); sa(tk._c, 'fill', GRIS); mover(tk, q.x, q.y); op(tk, Math.min(1, tt * 6) * (1 - ent(tt / dur, 0.7, 0.3)));
+        });
+        for (; libre < pool.length; libre++) op(pool[libre], 0);
+      } };
+    };
+
+    /* 5 · Los límites los decimos nosotros. Primero la red de lo que el sistema hace; después una pluma dorada traza la
+       frontera, con las marcas de plano del lado de afuera, y lo de afuera se raya: ahí quedan, apenas insinuadas, las
+       capacidades que todavía no están. Los datos circulan por la red y, cuando uno llega a la frontera, la toca (un
+       anillo) y vuelve: el sistema no cruza su propia línea. Después de trazarla, sigue andando sin reiniciarse. */
+    DEFS.limites = function(svg){
+      var capa = plano(svg), i, INTRO = 3.8;
+      var B = [pt(300, 8), pt(300, 104), pt(336, 104), pt(336, 196), pt(284, 196), pt(284, 352)];
+      var FUERA = [pt(300, 8), pt(472, 8), pt(472, 352), pt(284, 352), pt(284, 196), pt(336, 196), pt(336, 104), pt(300, 104)];
+      var clip = mk('clipPath', { id: 'met-fuera' }, mk('defs', {}, svg)); mk('path', { d: dP(FUERA, true) }, clip);
+      var d = ''; for (var c = 280; c < 480 + 344; c += 11) d += 'M' + c + ' 8L' + (c - 344) + ' 352';
+      var raya = mk('path', { d: d, stroke: GRIS, 'stroke-width': 0.7, opacity: 0, fill: 'none', 'clip-path': 'url(#met-fuera)' }, capa);
+      var N = [pt(66, 72), pt(146, 50), pt(226, 88), pt(98, 156), pt(184, 146), pt(258, 150), pt(62, 252), pt(146, 268), pt(230, 236), pt(196, 322)];
+      var A = [[0, 1], [1, 2], [0, 3], [1, 4], [2, 4], [2, 5], [3, 4], [4, 5], [3, 6], [4, 8], [5, 8], [6, 7], [7, 8], [7, 9], [8, 9], [3, 7]];
+      var G = [pt(398, 58), pt(416, 154), pt(394, 284), pt(446, 222)], GA = [[2, 0], [5, 1], [8, 2]], GG = [[1, 3], [2, 3]];
+      // dónde cruza cada arista hacia lo que todavía no hace: se vuelve una hoja del grafo (el dato llega y vuelve)
+      function cruce(P, Q){
+        for (var k = 0; k + 1 < B.length; k++) {
+          var a = B[k], b = B[k + 1], rx = Q.x - P.x, ry = Q.y - P.y, sx = b.x - a.x, sy = b.y - a.y, den = rx * sy - ry * sx;
+          if (Math.abs(den) < 1e-9) continue;
+          var u = ((a.x - P.x) * sy - (a.y - P.y) * sx) / den, v = ((a.x - P.x) * ry - (a.y - P.y) * rx) / den;
+          if (u > 0 && u < 1 && v >= 0 && v <= 1) return pt(P.x + rx * u, P.y + ry * u);
+        }
+        return null;
+      }
+      var gRed = mk('g', { opacity: 0 }, capa), gFant = mk('g', { opacity: 0 }, capa);
+      var X = GA.map(function(g){ return cruce(N[g[0]], G[g[1]]); });
+      GA.forEach(function(g, k){
+        mk('line', { x1: X[k].x, y1: r1(X[k].y), x2: G[g[1]].x, y2: G[g[1]].y, stroke: GRIS, 'stroke-width': 0.8, 'stroke-dasharray': '2 4', opacity: 0.55 }, gFant);
+        N.push(X[k]); A.push([g[0], N.length - 1]);
+      });
+      GG.forEach(function(g){ mk('line', { x1: G[g[0]].x, y1: G[g[0]].y, x2: G[g[1]].x, y2: G[g[1]].y, stroke: GRIS, 'stroke-width': 0.8, 'stroke-dasharray': '2 4', opacity: 0.45 }, gFant); });
+      G.forEach(function(p){ mk('circle', { cx: p.x, cy: p.y, r: 5, fill: FONDO, stroke: GRIS, 'stroke-width': 0.9, 'stroke-dasharray': '2 2', opacity: 0.8 }, gFant); });
+      A.forEach(function(e){ mk('line', { x1: N[e[0]].x, y1: r1(N[e[0]].y), x2: r1(N[e[1]].x), y2: r1(N[e[1]].y), stroke: NODO, 'stroke-width': 1, opacity: 1 }, gRed); });
+      N.forEach(function(p, k){ if (k < 10) mk('circle', { cx: p.x, cy: p.y, r: k % 3 === 0 ? 4.5 : 3.6, fill: FONDO, stroke: k % 3 === 0 ? VIO : '#5a5676', 'stroke-width': 1 }, gRed); });
+      // la frontera, la pluma que la traza y las marcas del lado de afuera
+      var PB = poli(B), linea = mk('path', { d: dP(B), fill: 'none', stroke: HI, 'stroke-width': 1.5, pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-dashoffset': 1, 'stroke-linejoin': 'round' }, capa);
+      var marcas = [], acc = 0;
+      for (i = 0; i + 1 < B.length; i++) {
+        var a = B[i], b = B[i + 1], L = Math.hypot(b.x - a.x, b.y - a.y), dx = (b.x - a.x) / L, dy = (b.y - a.y) / L;
+        for (var s = 5; s < L - 2; s += 10) {
+          var x = a.x + dx * s, y = a.y + dy * s;
+          marcas.push({ s: (acc + s) / PB.L, el: mk('line', { x1: r1(x), y1: r1(y), x2: r1(x + dy * 6), y2: r1(y - dx * 6), stroke: GOLD, 'stroke-width': 0.9, opacity: 0 }, capa) });
+        }
+        acc += L;
+      }
+      var pluma = mk('g', { opacity: 0 }, capa); mk('circle', { r: 9, fill: HI, opacity: 0.18 }, pluma); mk('circle', { r: 3, fill: FL }, pluma);
+      var rH = rot(capa, 290, 32, 'hace', HI, 'end', 'mt-lab mt-halo'), rN = rot(capa, 310, 32, 'todavía no', GRIS, 'start', 'mt-lab mt-halo');
+      // los datos: caminatas sembradas por la red; cuando llegan a un cruce, se quedan un instante y vuelven
+      var vec = N.map(function(){ return []; });
+      A.forEach(function(e){ vec[e[0]].push(e[1]); vec[e[1]].push(e[0]); });
+      var esCruce = function(n){ return n >= 10; }, VEL = 58, LARGO = 600;
+      var anillos = X.map(function(p){ return { llegadas: [], el: mk('circle', { cx: r1(p.x), cy: r1(p.y), r: 3, fill: 'none', stroke: FL, 'stroke-width': 1.1, opacity: 0 }, capa) }; });
+      var toks = [[3, BLUE, 11], [8, TEAL, 23], [1, VIO, 47]].map(function(cf){
+        var Rw = rng(cf[2]), segs = [], n = cf[0], prev = -1, t0 = 0;
+        while (t0 < LARGO) {
+          var vs = vec[n], cand = vs.filter(function(v){ return v !== prev; }), sig;
+          if (esCruce(n)) sig = prev;
+          else {
+            var cr = cand.filter(esCruce);
+            sig = cr.length && Rw() < 0.42 ? cr[0] : (cand.filter(function(v){ return !esCruce(v); })[Math.floor(Rw() * cand.filter(function(v){ return !esCruce(v); }).length)]);
+            if (sig === undefined) sig = vs[Math.floor(Rw() * vs.length)];
+          }
+          var dur = Math.hypot(N[sig].x - N[n].x, N[sig].y - N[n].y) / VEL;
+          segs.push({ a: n, b: sig, t0: t0, t1: t0 + dur });
+          t0 += dur;
+          if (esCruce(sig)) { anillos[sig - 10].llegadas.push(t0); segs.push({ a: sig, b: sig, t0: t0, t1: t0 + 0.4 }); t0 += 0.4; }
+          prev = n; n = sig;
+        }
+        return { segs: segs, el: token(capa, cf[1]) };
+      });
+      anillos.forEach(function(an){ an.llegadas.sort(function(a, b){ return a - b; }); });
+      function busca(arr, v, clave){ var lo = 0, hi = arr.length - 1, r = -1; while (lo <= hi) { var m = (lo + hi) >> 1, x = clave ? arr[m][clave] : arr[m]; if (x <= v) { r = m; lo = m + 1; } else hi = m - 1; } return r; }
+      // el cuadro quieto: un toque en la frontera, recién empezado
+      var primer = 1e9; anillos.forEach(function(an){ for (var k = 0; k < an.llegadas.length; k++) if (an.llegadas[k] > 4) { primer = Math.min(primer, an.llegadas[k]); break; } });
+      return { dur: 0, quieto: INTRO + (primer < 1e9 ? primer : 6) + 0.22, frame: function(t){
+        op(gRed, ent(t, 0, 0.8));
+        var u = ent(t, 0.8, 2.6), pb = PB.at(u);
+        sa(linea, 'stroke-dashoffset', r3(1 - u));
+        mover(pluma, pb.x, pb.y); op(pluma, ent(t, 0.8, 0.2) * (1 - ent(t, 3.4, 0.4)));
+        marcas.forEach(function(m){ op(m.el, 0.55 * cl((u - m.s) * 12, 0, 1)); });
+        op(raya, 0.24 * ent(t, 3.2, 0.8)); op(gFant, ent(t, 3.3, 0.8)); op(rH, ent(t, 3.3, 0.6)); op(rN, ent(t, 3.5, 0.6));
+        var tt = t - INTRO;
+        if (tt > LARGO - 1) tt = tt % (LARGO - 1);
+        toks.forEach(function(tk){
+          if (tt < 0) { op(tk.el, 0); return; }
+          var k = busca(tk.segs, tt, 't0'), sg = tk.segs[Math.max(0, k)], f = sg.t1 > sg.t0 ? cl((tt - sg.t0) / (sg.t1 - sg.t0), 0, 1) : 0;
+          mover(tk.el, lerp(N[sg.a].x, N[sg.b].x, f), lerp(N[sg.a].y, N[sg.b].y, f)); op(tk.el, ent(tt, 0, 0.6));
+        });
+        anillos.forEach(function(an){
+          var k = busca(an.llegadas, tt), v = k >= 0 ? (tt - an.llegadas[k]) / 0.9 : 2;
+          sa(an.el, 'r', r1(3 + 13 * cl(v, 0, 1))); op(an.el, v >= 0 && v < 1 ? (1 - v) * 0.9 : 0);
+        });
+      } };
+    };
+
+    /* 6 · Se instala, no se demuestra. Sobre el banco, el prototipo en línea punteada: anda (su luz titila), pero es
+       provisorio. El manual tilda sus pasos uno por uno y con cada paso verificado se arma, en línea firme, lo instalado:
+       el poste, el equipo, el cable, el gabinete y la luz de en marcha. Llega el equipo del cliente y el de RIA Labs se
+       va; el sistema sigue latiendo solo (el trazo de abajo no se corta). */
+    DEFS.instala = function(svg){
+      var capa = plano(svg), i, PASOS = [2.4, 3.4, 4.4, 5.4, 6.4], ENMARCHA = 6.6;
+      mk('path', { d: 'M20 318H464', stroke: GRIS, 'stroke-width': 0.9, opacity: 0.5 }, capa);
+      // el banco y el prototipo
+      mk('path', { d: 'M28 262H174M40 262V318M162 262V318', stroke: GRIS, 'stroke-width': 1.1, opacity: 0.6, fill: 'none' }, capa);
+      var gProto = mk('g', {}, capa), dash = { fill: 'none', stroke: GOLD, 'stroke-width': 0.9, 'stroke-dasharray': '3 2.5' };
+      function pr(tag, at){ var o = {}; for (var k in dash) o[k] = dash[k]; for (k in at) o[k] = at[k]; return mk(tag, o, gProto); }
+      pr('rect', { x: 46, y: 228, width: 40, height: 27, rx: 1.5 }); pr('path', { d: 'M40 259H92' }); pr('path', { d: 'M52 236H72M52 242H66M52 248H76', opacity: 0.6 });
+      pr('rect', { x: 104, y: 246, width: 28, height: 14, rx: 1 }); pr('path', { d: 'M108 246V242M114 246V242M120 246V242M126 246V242', opacity: 0.7 });
+      pr('rect', { x: 142, y: 236, width: 24, height: 15, rx: 2 }); pr('circle', { cx: 170, cy: 243.5, r: 4.5 }); pr('path', { d: 'M154 251V262' });
+      pr('path', { d: 'M88 252C96 268 98 238 104 253M132 253C138 264 142 246 148 251' });
+      var ledP = mk('circle', { cx: 147, cy: 241, r: 1.7, fill: TEAL, opacity: 0 }, capa);
+      rot(capa, 28, 342, 'prototipo', GOLD);
+      // el manual
+      var gMan = mk('g', { opacity: 0 }, capa);
+      mk('path', { d: 'M200 46H272L284 58V172H200Z', fill: MET, 'fill-opacity': 0.92, stroke: GOLD, 'stroke-width': 0.9 }, gMan);
+      mk('path', { d: 'M272 46V58H284', fill: 'none', stroke: GOLD, 'stroke-width': 0.8, opacity: 0.7 }, gMan);
+      rot(gMan, 200, 36, 'manual', GOLD);
+      var filas = PASOS.map(function(p, k){
+        var y = 74 + k * 22, largo = [44, 36, 46, 30, 40][k];
+        mk('rect', { x: 209, y: y - 5, width: 10, height: 10, rx: 1, fill: 'none', stroke: GRIS, 'stroke-width': 0.8 }, gMan);
+        var barra = mk('path', { d: 'M227 ' + y + 'H' + (227 + largo), stroke: GRIS, 'stroke-width': 2, opacity: 0.45, 'stroke-linecap': 'round' }, gMan);
+        var tilde = mk('path', { d: 'M211 ' + y + 'L214 ' + (y + 3.5) + 'L220 ' + (y - 4.5), fill: 'none', stroke: HI, 'stroke-width': 1.5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-dashoffset': 1 }, gMan);
+        return { barra: barra, tilde: tilde };
+      });
+      // lo instalado, pieza por pieza (una por paso)
+      var piezas = [mk('g', { opacity: 0 }, capa), mk('g', { opacity: 0 }, capa), mk('g', { opacity: 0 }, capa), mk('g', { opacity: 0 }, capa), mk('g', { opacity: 0 }, capa)];
+      mk('path', { d: 'M396 48V318M396 92H374', stroke: BLANCO, 'stroke-width': 1.2, opacity: 0.55, fill: 'none' }, piezas[0]);
+      mk('rect', { x: 344, y: 84, width: 30, height: 16, rx: 2, fill: MET, stroke: HI, 'stroke-width': 1.1 }, piezas[1]);
+      mk('circle', { cx: 339, cy: 92, r: 5, fill: FONDO, stroke: HI, 'stroke-width': 1.1 }, piezas[1]);
+      mk('path', { d: 'M401 100V268', stroke: HI, 'stroke-width': 1, opacity: 0.7, fill: 'none' }, piezas[2]);
+      mk('rect', { x: 386, y: 268, width: 30, height: 50, rx: 1.5, fill: MET, stroke: HI, 'stroke-width': 1.1 }, piezas[3]);
+      mk('path', { d: 'M392 296H410M392 304H410', stroke: GOLD, 'stroke-width': 0.8, opacity: 0.6 }, piezas[3]);
+      var a0 = 84 * Math.PI / 180, a1 = 114 * Math.PI / 180;
+      mk('path', { d: 'M336 97L' + r1(336 + 104 * Math.cos(a0)) + ' ' + r1(97 + 104 * Math.sin(a0)) + 'A104 104 0 0 1 ' + r1(336 + 104 * Math.cos(a1)) + ' ' + r1(97 + 104 * Math.sin(a1)) + 'Z', fill: TEAL, 'fill-opacity': 0.06, stroke: TEAL, 'stroke-width': 0.6, 'stroke-dasharray': '3 4' }, piezas[4]);
+      var led = mk('circle', { cx: 401, cy: 280, r: 2.6, fill: TEAL }, piezas[4]);
+      rot(piezas[4], 468, 30, 'instalado', GOLD, 'end');
+      var bajada = flujo(capa, [pt(401, 102), pt(401, 266)], [TEAL], 3, 70);
+      // la gente: RIA Labs junto al banco; el equipo del cliente junto al gabinete
+      var ria = [persona(capa, HI), persona(capa, HI)], cli = [persona(capa, TEAL), persona(capa, TEAL), persona(capa, TEAL)];
+      var rRia = rot(capa, 203, 274, 'ria', HI, 'middle'), rCli = rot(capa, 338, 274, 'cliente', TEAL, 'middle');
+      var XRIA = [192, 214], XCLI = [316, 340, 362], pulsos = cli.map(function(){ return mk('circle', { r: 6, fill: 'none', stroke: TEAL, 'stroke-width': 0.9, opacity: 0 }, capa); });
+      // el latido: un registro que corre de derecha a izquierda desde que el sistema queda en marcha
+      var latido = mk('path', { d: '', fill: 'none', stroke: TEAL, 'stroke-width': 1.1, 'stroke-linejoin': 'round', opacity: 0 }, capa);
+      function pulso(p){ p = ((p % 1.2) + 1.2) % 1.2; return p < 0.05 ? -0.15 * p / 0.05 : p < 0.09 ? lerp(-0.15, 1, (p - 0.05) / 0.04) : p < 0.13 ? lerp(1, -0.4, (p - 0.09) / 0.04) : p < 0.18 ? lerp(-0.4, 0, (p - 0.13) / 0.05) : 0; }
+      return { dur: 15, quieto: 12.6, frame: function(t){
+        op(capa, 1 - ent(t, 14.2, 0.8));
+        op(gProto, 1 - 0.72 * ent(t, 2.4, 4.6));
+        op(ledP, t < 0.6 ? 0 : (0.5 + 0.5 * Math.sin(t * 5)) * (1 - 0.8 * ent(t, 2.4, 4.6)));
+        op(gMan, ent(t, 1.4, 0.7));
+        filas.forEach(function(f, k){ var u = ent(t, PASOS[k], 0.35); sa(f.tilde, 'stroke-dashoffset', r3(1 - u)); sa(f.barra, 'stroke', u > 0.5 ? GOLD : GRIS); op(f.barra, 0.45 + 0.4 * u); });
+        piezas.forEach(function(g, k){ op(g, ent(t, PASOS[k] + 0.15, 0.5)); });
+        op(led, t > ENMARCHA ? 0.65 + 0.35 * Math.sin(t * 4) : 0);
+        bajada(t, ENMARCHA, ent(t, ENMARCHA, 0.4));
+        var se = ent(t, 8.6, 1.2);
+        ria.forEach(function(p, k){ mover(p, XRIA[k] - 34 * se, 318); op(p, ent(t, 0.3, 0.6) * (1 - se)); });
+        op(rRia, ent(t, 0.5, 0.6) * (1 - ent(t, 8.4, 0.8)));
+        cli.forEach(function(p, k){ var ll = ent(t, 7.6 + k * 0.25, 0.8); mover(p, XCLI[k] + 26 * (1 - ll), 318); op(p, ll); });
+        op(rCli, ent(t, 8.4, 0.6));
+        pulsos.forEach(function(c, k){
+          var v = ((t - 9.6 - k * 0.55) % 1.65) / 1.1;
+          sa(c, 'cx', XCLI[k]); sa(c, 'cy', 291); sa(c, 'r', r1(6 + 9 * cl(v, 0, 1))); op(c, t > 9.6 + k * 0.55 && v < 1 ? (1 - v) * 0.6 : 0);
+        });
+        var pts = [], x;
+        for (x = 300; x <= 468; x += 2) { var tau = t - (468 - x) / 60; pts.push(pt(x, 340 - (tau > ENMARCHA ? 9 * pulso(tau - ENMARCHA) : 0))); }
+        sa(latido, 'd', dP(pts)); op(latido, 0.9 * ent(t, ENMARCHA, 0.4));
+      } };
+    };
+
+    /* el reloj: uno por figura, un solo rAF para todas */
+    var activos = [];
+    Array.prototype.forEach.call(figs, function(f){
+      var svg = f.querySelector('svg'), def = DEFS[f.getAttribute('data-fig')];
+      if (!svg || !def) return;
+      var a = def(svg);
+      a.svg = svg; a.t = T_INI; a.vis = false;
+      a.pinta = function(){ a.frame(RM ? a.quieto : a.dur ? a.t % a.dur : a.t); };
+      a.pinta();
+      activos.push(a);
+    });
+    function rotulos(){
+      activos.forEach(function(a){ var k = a.svg.getBoundingClientRect().width / 480; if (k > 0) a.svg.style.setProperty('--fs', r1(cl(10 * k, 9, 11.5) / k) + 'px'); });
+    }
+    rotulos();
+    window.addEventListener('resize', rotulos, { passive: true });
+    if (RM) return;
+    var raf = 0, ultimo = 0;
+    function cuadro(now){
+      raf = 0;
+      var dt = ultimo ? Math.min((now - ultimo) / 1000, 0.1) : 0, alguna = false;
+      ultimo = now;
+      activos.forEach(function(a){ if (a.vis) { a.t += dt; a.pinta(); alguna = true; } });
+      if (alguna && !document.hidden) raf = requestAnimationFrame(cuadro); else ultimo = 0;
+    }
+    function arrancar(){
+      if (raf || document.hidden || !activos.some(function(a){ return a.vis; })) return;
+      ultimo = 0; raf = requestAnimationFrame(cuadro);
+    }
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ activos.forEach(function(a){ if (a.svg === e.target) a.vis = e.isIntersecting; }); });
+      arrancar();
+    }, { rootMargin: '40px 0px' });
+    activos.forEach(function(a){ io.observe(a.svg); });
+    document.addEventListener('visibilitychange', function(){
+      if (document.hidden) { if (raf) cancelAnimationFrame(raf); raf = 0; ultimo = 0; } else arrancar();
+    });
+  })();
+</script>
+</body>
+</html>
