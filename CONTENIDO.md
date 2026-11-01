@@ -755,9 +755,76 @@
     **Las 24 analíticas y los 30 mil eventos por día en una instalación ya no se publican en la home** (siguen
     medidos; fuentes en §0.5). El count-up (`[data-countup]`) se fue con ella. Criterio intacto: si no está medido,
     no se dice.
+- **La página del Laboratorio (rama `pagina-laboratorio`, 2026-11-01).** Matías, verbatim (en
+  `docs/prompts-usuario/2026-11-01-home-en-paginas-y-oficina-rosario.md`): *«Todo lo que ea Laboratorio tiene que ir en
+  su propia pagina, dedicada exclusivamente a laboratorio, y no en la pagina principal como hay ahora. Y hay que borrar
+  los productos de laboratorio: RIA DIÁLOGO DEPORTES MAQUETA Y ESTACIÓN IA, que hoy no deberían estar allí. Aqui
+  tambien cambiar el orden de "De aca salieron", poniendo: 1 SMARTCITY; 2 RIA analitico; 3 RIA Automotrices.»*
+  **Qué es.** `laboratorio/index.html` se reescribió entero: la página de octubre (§5bis: cinco proyectos p01–p05, tres
+  de los cuales ya eran producto, órbita, rail y «Seis reglas que no negociamos», con CSS propio) se fue, y en su lugar
+  está la sección «nuestra casa» de la home (la entrada que sigue), con una página entera de aire. **La home ya no la
+  tiene:** salieron `<section id="laboratorio">` con el divisor que la seguía (de la banda Dataflow se pasa al Método),
+  el CSS «LABORATORIO · nuestra casa» y `#laboratorio video` del script de videos, que queda sólo para `#equipo`; la nav
+  y el pie ya apuntaban a `/laboratorio/` desde 33563bb. **La base es la de la home, copiada tal cual** —fuentes, tokens
+  de `:root`, el cielo, nav y menú móvil, botones, layout, reveal, el anillo con «Hablemos.» y el pie—, cada bloque con
+  el comentario «copiado de v5/index.html (BLOQUE) el 01/11 — mantener igual». Nav con enlaces absolutos y
+  `aria-current="page"` en Laboratorio (subrayado dorado; en el menú móvil, una rayita). Sólo noche. `<title>`
+  «Laboratorio — RIA Labs»; description y og propios («Pasá, esta es nuestra casa: de dónde salió cada producto y qué
+  estamos probando ahora, con los números medidos y los límites dichos por nosotros»); og:image, la de la home.
+  **Secuencia:** `#casa` → `#puertas` → `#linaje` → `#expediciones` → `#metodo` → el anillo y «Hablemos.» (`#contacto`)
+  → pie.
+  - **La casa** (`#casa`): rótulo *Laboratorio*, **«Pasá, esta es nuestra casa»** a 96 px y el copete, que ahora dice
+    «Todo lo que hoy es producto empezó acá…» y «Lo que funciona en la calle **se vuelve producto**, con cliente adentro»
+    (en la home: «todo lo que está arriba», «se muda arriba»; acá no hay arriba). A la derecha, *La casa, por dentro*:
+    el índice de las cuatro partes, cada una con su bajada.
+  - **Las dos puertas** (`#puertas`, «La casa tiene dos puertas en Rosario»), cada una con un dibujo vivo. *La ochava*:
+    «Donde la cámara de la esquina alimenta al motor las veinticuatro horas. Es la que le dio el verde al semáforo de la
+    expedición 01 y la que, desde agosto de 2026, mide la esquina entera.» Dibujo: la esquina desde arriba —cuatro
+    manzanas con su ochava, dos calles de una mano, sendas—, la cámara en la ochava con su cono, un semáforo que alterna
+    (4 s de verde por mano, 0,6 de amarillo, 0,4 de todo rojo) y autos que frenan en la línea y guardan distancia; el que
+    entra al cono queda en una caja verde. *El taller*: «Donde el motor se escribe: Dataflow (→ `/dataflow/`), el mismo
+    debajo de los tres productos. Lo que la ochava ve, el taller lo vuelve pieza.» Dibujo: una ventana «dataflow · el
+    motor» que se escribe sola, línea por línea, en los colores de los tres productos. Cierra a lo grande: «Y una sola
+    regla de convivencia: **si no está medido, no se dice.**»
+  - **De acá salieron** (`#linaje`): el orden pedido, **Smartcity · Analítico · Automotrices**; *RIA Automoción* pasa a
+    **RIA Automotrices**; los planetas van a `/#smartcity`, `/#analitico` y `/#automotrices`; la búsqueda forense es
+    «**en tu idioma**» (antes «en castellano»). El cierre de Smartcity decía «Ciudad · Predio · Acceso · Barrio y centro
+    comercial»: **Predio salió** (era el Jockey, que sale de Smartcity; no se nombra) y la línea es la de los sabores de
+    hoy, **«Ciudad · Centros comerciales · Country · Birdmap · EcoAceite. Midiendo 24/7 en Rosario.»** (Entrypoint y
+    Acceso no tienen web y no se nombran).
+  - **Expediciones en curso** (`#expediciones`): **fuera RIA Diálogo, Deportes, Maqueta navegable y Estación IA.**
+    Quedan *Tránsito inteligente* (01, a lo ancho con el video de la ochava, igual que en la home) y *Fauna urbana* (la
+    que se mudó). Para que la mesa siga armada con dos, Tránsito trae **su cuaderno**, rescatado del proyecto 04 de la
+    página de octubre: *el mismo auto, dos sensores* (la espira contra la cámara, ahora **apilado**: un panel arriba del
+    otro, así se lee en 390; escala 2,44 px/m, el borde izquierdo a 150 m de la línea de parada), *lo que midió* (−27 %
+    de demora contra tiempo fijo · 15–18 ms de inferencia por cuadro, en la placa · 0 falsos positivos sobre asfalto
+    mojado · 15 fps en el navegador, y las barras de anticipación 52 m / 150 m con la cita del manual de detectores de
+    EE. UU.) y tres notas (*No se cambia el semáforo: se cambia el sensor* · *La zona de dilema, servida por ETA* · *El
+    número espera a la muestra*). Fauna urbana: «la pregunta se mudó: hoy es Birdmap, en RIA Smartcity»; su puerta
+    (*Hoy vive en* RIA Smartcity) va a `/#smartcity` y a **birdmap.rialabs.ar ↗** (en octubre no se enlazaba por no
+    comercial; desde el 01/11 Birdmap es un sabor de Smartcity con su web).
+  - **La puerta** (`#metodo`): «La puerta está abierta. Si tenés una pregunta que nadie midió todavía, contanos: así
+    empezaron todos nuestros productos.» Botones **«Las seis reglas de la casa →»** (`/metodo/`; las reglas no se
+    repiten acá) y «Ver los productos» (`/#productos`). Ya no está «Recorrer el laboratorio →»: es esta página.
+  - **Enlaces viejos:** `/laboratorio/#metodo` cae en la puerta hacia `/metodo/`; `#p04` en Tránsito; `#p01`, `#p02` y
+    `#p05` en las vías de Automotrices, Analítico y Smartcity; `#cierre` en «Hablemos.»; `#p03` (Comms) ya no existe y
+    cae al principio. Fuera de la home sólo `v4/` (histórico) enlaza a `/laboratorio/#p0x`; en los otros proyectos de
+    `Proyectos/` no hay enlaces a la página.
+  - **Movimiento:** cada dibujo corre sólo a la vista y con la pestaña visible (`animar()` en el script); con
+    `prefers-reduced-motion`, un cuadro quieto (el taller, escrito entero). El video de la ochava carga y arranca sólo a
+    la vista. La lógica del semáforo se corrió diez minutos en Node: cero autos encimados.
+  - **Qué no se trajo** de la página de octubre: lo que es producto (Drivecore, la analítica de video, Comms, Smartcity
+    con sus capturas) vive en la home; el **video del tablero** (`traffic-dashboard.mp4`), porque su barra dice «Byte
+    Analítico · cámara calle Byte» y el cuadro muestra −32,7 % (un instante; lo publicado es −27 %); y la «categoría ya
+    validada» (−23 % de una empresa británica), que es argumento comercial. `laboratorio/media/` queda entera aunque
+    `sc-*.jpg` y `traffic-dashboard.*` ya no los use ninguna página.
+  - Capturas de la verificación (1440 y 390, reduced-motion, las anclas viejas): `_capturas/pagina-laboratorio/`
+    (ignorado).
 - **Laboratorio es la casa** (rama `laboratorio-casa`, 2026-10-10; pedido verbatim en el registro de prompts:
   «un laboratorio como un centro de experimentación y creación, más búsqueda y aventura, más imaginación y
-  trabajo… más en nuestra cosa, nuestra casa»). Antes era una grilla de seis fichas iguales con rótulo de
+  trabajo… más en nuestra cosa, nuestra casa»). *Fue sección de la home hasta el 01/11: desde entonces vive en
+  `/laboratorio/` (la entrada anterior), con el linaje reordenado y sólo dos expediciones. Lo que sigue la describe
+  tal como estaba en la home.* Antes era una grilla de seis fichas iguales con rótulo de
   estado («Lo que todavía es pregunta»), que presentaba el laboratorio como un backlog. Ahora la sección es
   **el origen**, en primera persona del plural y con los mismos números medidos, en tres partes:
   - **Titular:** *Pasá, esta es nuestra casa*. **Copete:** «Todo lo que está arriba empezó acá, con una
@@ -883,8 +950,8 @@
   (hoy el anillo solo), el bloque de empresa de Sebastián (ahora **Integrador** · «Desde hace 25 años · seguridad
   electrónica · Rosario»; su bio dice «al frente de una empresa de seguridad electrónica e integración de sistemas»),
   «con VRIO Estudio entre sus emprendimientos» de la bio de Matías, y en el Laboratorio «la ochava de Byte» pasó a
-  **«nuestra ochava»** y las dos puertas de la casa son «la ochava» y «el taller». Quedan menciones en `/laboratorio/`
-  (otra pasada). Y el producto **RIA Espacio pasó a llamarse RIA Espacios** («explica mejor la naturaleza de la
+  **«nuestra ochava»** y las dos puertas de la casa son «la ochava» y «el taller». Quedaban menciones en `/laboratorio/`:
+  se fueron con la página nueva del 01/11. Y el producto **RIA Espacio pasó a llamarse RIA Espacios** («explica mejor la naturaleza de la
   versión reproducible en sabores»): nav, menú, banda, satélites, Laboratorio y metadatos; la entrada de diccionario
   sigue siendo *espacio.* en singular y el ancla `#espacio` no cambió para no romper enlaces.
 
@@ -902,7 +969,7 @@ lo mismo más los retratos vivos de Matías y Sebastián en las esquinas de abaj
 hero es sólo la portada —eclipse, RIA LABS, los dos retratos a los costados del eclipse y la expo— y `#maquina` con su pie
 pasa a una banda propia, `#banda-maquina`, entre el hero y `#productos`) →
 `#productos` (`#analitico` · `#smartcity` · `#automocion`) → `#dataflow` →
-`#laboratorio` → `#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
+`#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
 
 ### 0.3 Assets nuevos
 
@@ -1167,16 +1234,18 @@ visita. Costo de la tercera vuelta: US$ 1,40; la familia stand completa, ≈ US$
 
 ### 0.4 Pendientes que deja la v5
 
-- Renombrar *RIA Comms* → *RIA Diálogo* en `/laboratorio/` (y decidir si va *Diálogo* o *Comunicación*).
+- ~~Renombrar *RIA Comms* → *RIA Diálogo* en `/laboratorio/`~~: sin objeto desde el 01/11 (Diálogo salió del
+  laboratorio y la página nueva no lo nombra).
 - Los sitios de producto siguen diciendo *Byte Analítico* y *RIA Drivecore*; la home ya dice *RIA
   Analítico* y *RIA Automoción*.
-- `/laboratorio/` presenta cinco proyectos de los cuales tres ya son producto; reordenarlo con el criterio
-  de la home (productos arriba, laboratorio = lo que todavía es pregunta) es la próxima pasada.
-- `/laboratorio/` tiene una referencia vieja: el proyecto 05 dice «El proyecto 03 contestó su pregunta»
-  hablando de Tránsito, que desde el reordenamiento del 14/08 es el 04.
+- ~~`/laboratorio/` presenta cinco proyectos de los cuales tres ya son producto~~ y ~~la referencia vieja al proyecto
+  03~~: resueltos el 01/11, la página se reescribió (§0.1, «La página del Laboratorio»).
+- `/laboratorio/` sin el video del tablero: si se quiere de vuelta, hay que regrabarlo sin la marca «Byte Analítico» de
+  su barra. Y `laboratorio/media/sc-*.jpg` y `traffic-dashboard.*` quedaron sin uso: decidir si se borran.
 - Las maquetas Sapiens y Neander están en vivo (`sapiens.dataflow.rialabs.ar`, `neander.dataflow.rialabs.ar`)
-  como prototipos sin control de acceso y con la actividad marcada como simulada; la home no las enlaza
-  desde la expedición 04. Decidir si se enlazan.
+  como prototipos sin control de acceso y con la actividad marcada como simulada. La expedición que las contaba
+  (Maqueta navegable) salió del laboratorio el 01/11; si vuelven, es como sabores de Smartcity (Country, Centros
+  comerciales).
 - **RIA Espacio pasa a llamarse RIA Espacios** (Matías, 13/10: el plural «explica mejor la naturaleza de la versión
   reproducible en sabores»). La máquina ya rotula *Espacios*; el resto de la página (nav, banda, laboratorio, metas) y
   el ancla `#espacio` siguen en singular: renombrar en una pasada aparte, después de integrar las ramas del 13/10.
@@ -1190,7 +1259,8 @@ visita. Costo de la tercera vuelta: US$ 1,40; la familia stand completa, ≈ US$
   para que el wordmark salga fiel (`logos/build-pngs.sh`).
 - Quedan menciones a Byte y VRIO fuera del hero, el pie y el separador: la meta description («Nacidos de Byte y
   VRIO»), las fichas de Equipo (la casa Byte de Sebastián, VRIO Estudio en la bio de Matías) y el Laboratorio («dos
-  puertas en Rosario: Byte… y VRIO»). Es otra pasada.
+  puertas en Rosario: Byte… y VRIO»). Es otra pasada. *(El Laboratorio quedó resuelto el 13/10 en la home y el 01/11 en
+  `/laboratorio/`: la página nueva no nombra ni a Byte ni a VRIO.)*
 - Si el desenclipsar vuelve (`DESENCLIPSAR_ACTIVO = true`), el isotipo de la nav —hoy el anillo— ya no tiene luna que
   acompañe el viaje; decidir si el anillo acompaña de otra forma o no acompaña.
 - Los contadores de la banda Dataflow proyectan la lectura del tablero del 10/10/2026 (§0.5): cada tanto conviene
@@ -1504,6 +1574,9 @@ Ocupa el lugar que tenían los dos casos, con el mismo tratamiento visual (`.cas
 ---
 
 ## 5bis. Página Laboratorio (`/laboratorio/`)
+
+> **Reemplazada el 2026-11-01** por la página nueva (§0.1, «La página del Laboratorio»): la casa, las dos puertas, el
+> linaje y dos expediciones. Lo que sigue describe la página de agosto–octubre, como archivo.
 
 > Página propia (no una sección del home). Agregada el 2026-08-06. Misma identidad visual que v4
 > (Saira + DM Mono, fondo `#0b0a14`, dorado, ruido, reveals por IntersectionObserver), con un color
@@ -1834,16 +1907,18 @@ El CTA secundario del hero dice **"Ver el laboratorio →"** y baja a `#laborato
 | Ruta | Contenido | Fuente |
 |---|---|---|
 | `/` | Home institucional (rewrite a `/v4/index.html`) | `v4/index.html` |
-| `/laboratorio/` | Laboratorio — modalidad de trabajo + cinco proyectos | `laboratorio/index.html` |
+| `/laboratorio/` | Laboratorio — la casa, las dos puertas, de dónde salió cada producto y las expediciones en curso (desde el 01/11; §0.1) | `laboratorio/index.html` |
 | `/v1/`, `/v2/`, `/v3/` | Prototipos históricos | — |
 
 ### 12.5 Anchors de `/laboratorio/`
 
-- `#p01` — RIA Drivecore · `#p02` — Analítica de video · `#p03` — RIA Comms · `#p04` — Tránsito inteligente · `#p05` — RIA Smartcity
-- `#metodo` — "Seis reglas que no negociamos"
-- `#cierre` — "¿Tenés un problema que nadie resolvió?"
+Desde el 2026-11-01: `#casa` · `#puertas` · `#linaje` (las vías llevan los ids viejos: `#p05` Smartcity, `#p02`
+Analítico, `#p01` Automotrices) · `#expediciones` (`#p04` Tránsito inteligente) · `#metodo` (la puerta hacia `/metodo/`)
+· `#contacto` / `#cierre` («Hablemos.»). `#p03` (RIA Comms) ya no existe. La nav es la de la home con enlaces absolutos y
+Laboratorio marcado con `aria-current`.
 
-Su nav apunta al home con rutas absolutas (`/#servicios`, `/#caso`, …) y marca "Laboratorio" como activo. Un rail vertical fijo (visible ≥1340 px) indica en qué proyecto está el scroll.
+> Hasta el 01/11: `#p01` RIA Drivecore · `#p02` Analítica de video · `#p03` RIA Comms · `#p04` Tránsito inteligente ·
+> `#p05` RIA Smartcity · `#metodo` «Seis reglas que no negociamos» · `#cierre`; con un rail vertical fijo (≥1340 px).
 
 ---
 
