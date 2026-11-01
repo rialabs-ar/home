@@ -65,6 +65,66 @@
   `retratos-stand`, 480×600, sin el eclipse chico): en la captura a 1440×900 las dos cabezas quedan a la misma altura y la
   máscara funde bien con los stops de los provisorios, así que no se tocó nada; el `DESFASE` sigue sin mirarse en un
   navegador real.
+
+  **Segunda vuelta, medida (01/11).** Matías, verbatim: *«Saca el nombre del oficio. Agrega la linea de "Smart City
+  Expo · Barcelona · 3–5 de noviembre". Saca los pequeños eclipses sobre las cabezas de Matias y Sebastian y trata de
+  redondear las imagenes de fondo de esas dos fotos. Los fondos de las fotos se tienen que difuminar con el fondo de la
+  pagina. [...] Hagamos también que todo el titulo RIA Labs este mas grande y acomodemos bien los elementos en la
+  portada, midamos para que todo quede bien armonico en el espacio entre ellos y con los margenes»* (en el mismo
+  archivo de prompts; los eclipses chicos eran los pósters provisorios en caché: los reales no los traen). Lo que
+  sigue **reemplaza** la mecánica descripta arriba:
+  - **Sin oficio:** bajo cada retrato va sólo el nombre (Saira 500, `clamp(13px, 1.1vw, 16px)`, blanco).
+  - **La expo, encendida:** `EXPO = 'Smart City Expo · Barcelona · 3–5 de noviembre'` en el script del stand; es una
+    línea en el lenguaje del rótulo de arriba (mono, versalitas, 4 px de tracking) en `--gold-hi`, que **cierra la
+    escena debajo de la frase**, centrada y a lo ancho (`.hero-expo`, fila 4 de la grilla). Se eligió abajo y no bajo
+    el rótulo de arriba porque es lo que liga a los dos retratos —las dos personas, esta feria— y porque el rótulo de
+    arriba sigue diciendo de dónde somos. Vaciar la constante la apaga.
+  - **La escena pasa a tres columnas** (franja · centro · franja), sólo en el 4: el eclipse y la máquina cruzan las
+    tres; el wordmark (fila 2) y la frase (fila 3) van en la del centro; **cada retrato es un ancla de alto cero en la
+    fila del wordmark** (`.stand-ancla`, `align-self: center`: no mide, no empuja ni la máquina ni el logo; sube la
+    mitad de lo que sube el wordmark sobre la aureola, así los centros coinciden) con la foto absoluta encima,
+    centrada en la franja, y **su nombre es un ítem de la fila de la frase** (`align-self: end`): el pie del nombre y
+    el de la frase son el mismo. El `<figure>` es `display: contents`. Las franjas miden lo mismo a los dos lados,
+    así los retratos son simétricos respecto del wordmark; y en los seis tamaños caen bajo la estación y la red.
+  - **RIA / LABS más grande:** `--ria: clamp(56px, min(10.5vw, 12svh), 128px)` (108 px a 1440×900, antes 76; 86 a
+    1280×720; 128 a 1920×1080; 92 a 1024×768) y LABS en proporción (0,18 de RIA, margen 0,07): el wordmark entero
+    crece junto. En celular `clamp(44px, min(14.5vw, 7.4svh), 68px)` (57 a 390, 52 a 360).
+  - **Escala de espacios `--u` = 1,2 vh** (6–12 px; 5–10 en celular): 2u entre los grupos de texto (nav→rótulo —el
+    padding de arriba pasa a `83px + 2u`, que es el alto del nav más 2u—, LABS→frase, frase→expo), 3u de margen
+    inferior, 1u de gap de grilla. **Márgenes laterales = los del nav:** 52 px (24 en celular) en vez de los 24/16 del
+    hero; la máquina se arma 5 % más chica y queda alineada con el logo y el botón del nav.
+  - **Fundido redondo:** la máscara calca la viñeta horneada de los clips (elipse centrada al 44 % del alto, radios =
+    el semiancho y la distancia del centro al borde de abajo; plena hasta 0,28 r, cielo puro `#0b0a14` desde 0,80 r)
+    apenas más grande —`ellipse 52% 58% at 50% 44%`, plena al 30 %, 0,75 al 55 %, 0,25 al 82 %, cero al 100 %— para
+    no recortar contexto, y el `<video>`/`<img>` de adentro lleva un degradé lineal que funde el borde de arriba
+    (donde la elipse no llega a cero). Resultado: la cara entera, las pantallas y el muro se pierden en redondo, sin
+    borde ni rectángulo. En celular, donde la foto va escalada 1,3 a la cara y la viñeta horneada ya no coincide con
+    la caja, la máscara vuelve a la elipse que llega a cero en los cuatro bordes (`50% 46% at 50% 45%`); de día, lo
+    mismo con stops más blandos. Fotos: `clamp(150px, 30svh, 330px)` de alto, 4:5, `object-position 50% 45%`.
+  - **Celular (≤860 px):** la misma grilla con una fila más: fotos flanqueando RIA / LABS (centradas con el
+    wordmark), **los nombres en su propia fila** debajo (la frase a lo ancho no entra al lado de un nombre en 390 px),
+    después la frase y la expo (8,5 px / 1,6 de tracking, entra en una línea a 360). Cuesta ~24 px a la máquina.
+  - **Las medidas** (`getBoundingClientRect` en Chrome headless por iframe del tamaño exacto, animaciones a cero; en
+    px; «hueco» = tope de la foto menos pie de la estación/red, negativo = se montan en el borde transparente de
+    arriba, que la máscara y la viñeta dejan en cielo puro; «foto↔RIA» izquierda / derecha):
+
+    | Pantalla | RIA / LABS | nav→rótulo | rótulo→dibujo | luna→RIA | LABS→frase | frase→expo | expo→borde | foto | hueco | foto↔borde | foto↔RIA |
+    |---|---|---|---|---|---|---|---|---|---|---|---|
+    | 1440×900 | 108 / 19,4 | 21,6 | 141 | 86 | 21,6 | 21,6 | 32,4 | 216×270 | 28 | 222 | 181 / 170 |
+    | 1280×720 | 86,4 / 15,6 | 17,3 | 84 | 61 | 17,2 | 17,3 | 25,9 | 173×216 | −11 | 208 | 179 / 170 |
+    | 1920×1080 | 128 / 23,0 | 24 | 162 | 111 | 24 | 24 | 36 | 259×324 | 25 | 310 | 271 / 258 |
+    | 1024×768 | 92,2 / 16,6 | 18,4 | 135 | 77 | 18,4 | 18,4 | 27,6 | 184×230 | 38 | 138 | 104 / 95 |
+    | 390×844 | 56,6 / 10,2 | 20 | 21 | — | 44 (fila de nombres) | 20 | 30 | 109×136 | 0 (x aparte) | 26 | 7 / 2 |
+    | 360×740 | 52,2 / 9,4 | 17,8 | 19 | — | 40 (ídem) | 18 | 27 | 101×126 | −1 (x aparte) | 25 | 6 / 1 |
+
+    En los seis el **centro de la foto coincide con el centro del wordmark** (±0,1 px) y las dos fotos distan lo mismo
+    del centro de la pantalla; en los cuatro de escritorio el **pie del nombre es el pie de la frase** (la misma
+    coordenada); en celular los nombres van 10 px bajo el wordmark y la frase arranca 12 px bajo las fotos. El margen
+    lateral del hero es el del logo y el botón del nav (52 / 24). «rótulo→dibujo» es del pie del rótulo al tope de la
+    estación (la flama del eclipse empieza ~30 px más abajo que ella en 1440); «luna→RIA», del pie del disco negro al
+    tope de RIA. Capturas de los seis más `?tema=dia` y reduced-motion en `_capturas/hero-stand/`.
+  - Herramientas de la sesión (fuera del repo): `medir.sh` + `tabla.py` en el scratchpad; conviene traerlas a
+    `scripts/` si se vuelve a medir.
 - **RIA Smartcity (2026-10-29).** «Creo que tenemos que renombrar RIA Espacios a RIA Smartcity para poder abarcar
   esta expo Barcelona a la que estamos a punto de ir y nuestro nuevo producto RIA Smartcity Entrypoint. Sin perder el
   resto de las cosas que ya hicimos.» El producto 02 vuelve a llamarse **RIA Smartcity** (Smart City Expo World
@@ -612,8 +672,8 @@ lo mismo más los retratos vivos de Matías y Sebastián en las esquinas de abaj
 | `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos vigentes 720×900 (4:5): la familia **con melena** (~120 KB y ~103 KB desde el 11/10, con el eclipse unificado). Son el **póster** de los retratos vivos y la foto que queda con `prefers-reduced-motion` |
 | `assets/retrato-sebastian.mp4` / `.webm` · `assets/retrato-matias.mp4` / `.webm` | **retratos vivos** (2026-10-11): clips 720×900, 24 fps, en loop (9,67 s y 10,25 s), H.264 `yuv420p` sin audio + VP9. Sebastián 1,09 MB / 0,90 MB · Matías 0,83 MB / 0,65 MB |
 | `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~82 KB y ~79 KB, con el mismo eclipse unificado). Para cambiar de familia alcanza con renombrar; la sobria no tiene clip |
-| `assets/retrato-stand-matias.jpg` · `assets/retrato-stand-sebastian.jpg` | **retratos stand** (2026-10-31), el póster: 480×600 (4:5) JPG progresivo q84, 26 KB y 30 KB. Es **exactamente el cuadro 0** del loop de al lado. La familia sobria sin su eclipse chico, con el contexto de cada uno conservado y viñeteado hacia el cielo `#0b0a14`, y una luz de borde dorada del lado que mira al centro de la portada: Matías va a la IZQUIERDA (borde a la derecha), Sebastián a la DERECHA (borde a la izquierda) Los usa el encuadre 4 de la portada (`?hero=4`, §0.1), que apunta a estos nombres. |
-| `assets/retrato-stand-matias.mp4` / `.webm` · `assets/retrato-stand-sebastian.mp4` / `.webm` | los **retratos stand vivos**: posando quietos esperando la foto, pestañeos, respiración, pelo inmóvil, contexto casi quieto. 480×600, 24 fps, loop de 9,54 s (Matías, 229 cuadros) y 8,96 s (Sebastián, 215), H.264 `yuv420p` sin audio + VP9, un solo keyframe. Matías 184 KB / 101 KB · Sebastián 212 KB / 121 KB |
+| `assets/retrato-stand-matias.jpg` · `assets/retrato-stand-sebastian.jpg` | **retratos stand** (2026-10-31, segunda vuelta 01/11), el póster: 480×600 (4:5) JPG progresivo q84, 15 KB y 19 KB. Es **exactamente el cuadro 0** del loop de al lado, un momento neutro (ojos abiertos, boca en reposo). La familia sobria sin su eclipse chico, con el contexto de cada uno conservado y fundido **en redondo** hacia el cielo `#0b0a14` (viñeta elíptica centrada en la cara: cielo puro antes del borde, sin rectángulo), y una luz de borde dorada del lado que mira al centro de la portada: Matías va a la IZQUIERDA (borde a la derecha), Sebastián a la DERECHA (borde a la izquierda). Los usa el encuadre 4 de la portada (`?hero=4`, §0.1), que apunta a estos nombres. |
+| `assets/retrato-stand-matias.mp4` / `.webm` · `assets/retrato-stand-sebastian.mp4` / `.webm` | los **retratos stand vivos**: posando, miran a cámara, **sonríen** (una sonrisa franca que aparece, se sostiene y se relaja, dos veces por loop) y pestañean; pelo inmóvil, contexto casi quieto. 480×600, 24 fps, loop de 9,46 s (Matías, 227 cuadros) y 9,50 s (Sebastián, 228), H.264 `yuv420p` sin audio + VP9, un solo keyframe. Matías 141 KB / 96 KB · Sebastián 173 KB / 117 KB. |
 | `scripts/generar-retratos-vivos.py` | cómo se hicieron el eclipse unificado y los retratos vivos (abajo): `fondo`, `video`, `post`, y `costura` para medir el loop; y la familia `stand` (`fondo-stand`, `medir-stand`, `vinetear`, `post <p>-stand`) |
 | `assets/eclipse-corona.webp` · `.jpg` | **la corona fotográfica** (2026-10-12): WebP 1000×1000 con alfa desde la luminancia, 150 KB, el disco negro centrado a r = 0,1515 del lado. El jpg (37 KB) es la misma toma sobre negro. **Desde el 13/10 la página no carga ninguno de los dos** (la corona es la flama procedural); quedan en el repo por si el ciclo o la foto vuelven |
 | `assets/eclipse-sol.webp` | la fotósfera en luz blanca, 720×720, alfa = disco (r = 0,4873 del lado), 20 KB. Desde el 13/10 va en `data-href`: se descarga sólo cuando el ciclo o `?tema=dia` la piden |
@@ -810,8 +870,37 @@ barrido sobre los PNG del loop de Sebastián: a crf 24 el mp4 pesa 135 KB pero c
 viñeta); **crf 22 + `aq-mode=3`** (más bits a lo oscuro) baja a 0,79 por 216 KB, y crf 18 a 0,67 por 457 KB sin ganancia visible
 a 240 px. VP9 crf 24 + `aq-mode 2`. **Un solo keyframe por loop** (`-g 999`): libvpx-vp9 metía uno en el cuadro 128, un «pop»
 del mismo tipo que el cierre, adentro del loop. Si en el navegador el reinicio se nota, el dial es crf 18 (≈ el doble de peso).
-Costo total: ≈ US$ 2,22. Variantes, clips crudos, tiras, hojas de contacto y los PNG de los dos loops en `_capturas/retratos-vivos/`
-(ignorado); `ladoalado-stand-final.png` y `hoja-final-stand.png` son las piezas con que se verificó.
+Costo de la primera vuelta: ≈ US$ 2,22. Variantes, clips crudos, tiras, hojas de contacto y los PNG de los dos loops en
+`_capturas/retratos-vivos/` (ignorado); `ladoalado-stand-final.png` y `hoja-final-stand.png` son las piezas con que se verificó.
+
+**Segunda vuelta (2026-11-01): la sonrisa y el fundido redondo.** Matías, al ver la portada: «Saca los pequeños eclipses sobre
+las cabezas de Matias y Sebastian y trata de redondear las imagenes de fondo de esas dos fotos. Los fondos de las fotos se
+tienen que difuminar con el fondo de la pagina. Y recuerda hacer las fotos vivas, como dos personas que miran a la camara
+sonrien y pestanean». Los eclipses ya no estaban en los clips (veía en caché los pósters provisorios y el server local no
+servía `Range`, así que Safari no reproducía el video; lo arregló la madre). Lo que sí faltaba: la **sonrisa** de la primera
+vuelta era mínima, con la boca cerrada —el prompt pedía «la media sonrisa se tensa y se relaja casi imperceptiblemente» y el
+negativo llevaba «expression change, smile change, mouth opening»—, y la viñeta era un rectángulo redondeado que llegaba a
+cero recién en el borde: sin máscara CSS se leía el rectángulo.
+
+1. **Clips con la sonrisa como evento.** Mismo Kling, mismos fijos, prompt nuevo: posando, mirando a la lente, «rompe en una
+   sonrisa cálida y franca: se arma en un segundo, los labios se abren y asoman los dientes, las mejillas suben y los ojos se
+   arrugan; la sostiene un par de segundos y vuelve con suavidad a su media sonrisa serena al final» (el truco del loop exige
+   volver a la foto). Negativo sin expresión ni boca; con «grimace, exaggerated smile, laughing». 4 clips, US$ 1,40 (Matías 4–5,
+   Sebastián 3–4), **los cuatro sirven**: en todos la sonrisa aparece a ~1,1 s, abierta entre ~1,4 y ~3,3 s, de vuelta a ~3,6 s;
+   pestañeos naturales, cabeza quieta, pelo inmóvil, fondo sin pulsos. Se lee «persona posando que sonríe a la cámara».
+2. **El loop.** Dos clips por persona, dos sonrisas por loop (Matías 4 → 5: 227 cuadros, 9,46 s; Sebastián 3 → 4: 228, 9,50 s).
+   Las juntas caen en tramos neutros (cola relajada ↔ cabeza antes de la sonrisa). El cuadro 0 (= póster) se elige ahora con
+   **ojos y boca** en reposo (menor desviación contra la mediana por píxel de las dos zonas en ±12 cuadros): neutro, sin
+   pestañeo ni sonrisa.
+3. **Fundido redondo en el asset.** Viñeta **elíptica** centrada en la cara (centro al 44 % de la altura; plena hasta 0,28 del
+   radio, `#0b0a14` puro desde 0,80; radios = semiancho y distancia del centro al borde de abajo): los cuatro bordes del cuadro
+   miden (12, 10, 20) en el mp4, las pantallas de Matías y el muro de Sebastián se pierden en redondo, el torso se funde a la
+   altura del pecho. Aunque no hubiera máscara CSS, no se lee ningún rectángulo. De paso, el cierre del loop a 192×240 bajó a
+   0,35 (antes 0,55–0,71): la elipse deja más cielo puro y menos ruido de códec.
+
+Costo de la segunda vuelta: ≈ US$ 1,40; la familia stand completa, ≈ US$ 3,62 (12 ediciones + 9 clips). Las tiras donde se ve
+la sonrisa: `_capturas/retratos-vivos/retrato-stand-{matias,sebastian}-sonrisa.png` (los loops finales a 8 fps) y
+`kling-*-stand-{3,4,5}-sonrisa.png` (los clips crudos); `hoja-final-stand-sonrisa.png` y `ladoalado-stand-sonrisa.png`, la verificación.
 
 ### 0.4 Pendientes que deja la v5
 

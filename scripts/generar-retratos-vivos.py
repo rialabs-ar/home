@@ -64,6 +64,19 @@ Lo que quedó hecho (2026-10-31, rama `retratos-stand`, familia stand; ver CONTE
           centro del segundo más quieto con los ojos abiertos. Cierre a 192×240 (la escala de la portada): 0,55–0,71 total,
           grano del códec (I-frame contra último P-frame), no un salto de imagen; póster ↔ cuadro 0: 0,67–0,76.
   costo   ≈ US$ 2,22 (12 ediciones + 5 clips; sin fallos cobrados: el único 429 fue al crear, antes del cobro).
+
+Segunda vuelta (2026-11-01, misma rama): «como dos personas que miran a la camara sonrien y pestanean» + «redondear las
+imagenes de fondo… se tienen que difuminar con el fondo de la pagina».
+  video   4 kling más (US$ 1,40): matias 4–5, sebastian 3–4, con la sonrisa como evento del prompt (aparece a ~1,1 s, abierta
+          con dientes entre ~1,4 y ~3,3 s, vuelve a la media sonrisa de la foto a ~3,6 s) y sin «expression/smile change» en
+          el negativo. Los cuatro sirven: cabeza quieta, pelo inmóvil, fondo sin pulsos (cielo ×1,06–1,12), pestañeos.
+  post    matias ← kling-4 → kling-5 (juntas 118→3 y 118→8, rotado 195): 227 cuadros, 9,46 s; sebastian ← kling-3 → kling-4
+          (115→3 y 118→4, rotado 213): 228 cuadros, 9,50 s. Dos sonrisas por loop. El cuadro 0 (= póster) ahora se elige con
+          ojos Y boca en reposo (ZONA_BOCA). Viñeta ELÍPTICA centrada en la cara (plena hasta 0,28, cielo puro en 0,80 del
+          radio): bordes del cuadro = #0b0a14 medido, sin rectángulo. Cierre a 192×240: 0,35 (antes 0,55–0,71: la elipse deja
+          más cielo puro y menos ruido de códec); póster ↔ cuadro 0: 0,84–0,85. Pesos: Matías 15 KB / 141 KB / 96 KB,
+          Sebastián 19 KB / 173 KB / 117 KB (jpg / mp4 / webm).
+  costo   ≈ US$ 1,40 esta vuelta; ≈ US$ 3,62 la familia stand completa.
 """
 import base64, json, os, re, subprocess, sys, time, urllib.request, pathlib, concurrent.futures
 
@@ -233,35 +246,46 @@ FONDO_STAND_PLANO = {   # con los lados del PRIMER brief (Sebastián a la izquie
                                                    LADO="LEFT")),
 }
 # El clip: lo mismo que VIVO_COMUN pero SIN viento. Posando quietos esperando la foto: respiración, dos o tres pestañeos,
-# micro-ajustes de la sonrisa, la mirada a cámara. El pelo no se mueve (ni ventilador ni brisa), cámara fija, luz constante.
-# El contexto puede tener vida mínima (un cursor, un brillo leve en el código; las cámaras del muro casi quietas), nunca
-# scroll ni cambios de contenido: la costura del loop funde dos clips, y si las pantallas cambian de contenido el fundido
-# se ve. Si aun así complica la costura, quietas.
+# la mirada a cámara. El pelo no se mueve (ni ventilador ni brisa), cámara fija, luz constante. El contexto puede tener vida
+# mínima (un cursor, un brillo leve en el código; las cámaras del muro casi quietas), nunca scroll ni cambios de contenido:
+# la costura del loop funde dos clips, y si las pantallas cambian de contenido el fundido se ve. Si aun así complica la
+# costura, quietas.
+# Segunda vuelta (2026-11-01). Matías, al ver la portada: «recuerda hacer las fotos vivas, como dos personas que miran a la
+# camara sonrien y pestanean». La primera vuelta pedía «la media sonrisa se tensa y se relaja casi imperceptiblemente» y
+# llevaba «expression change, smile change, mouth opening» en el negativo: salió boca cerrada, no se leía «sonríen». Ahora
+# la sonrisa es el evento del clip —aparece, se sostiene, se relaja— y vuelve a la expresión de la foto al final (el truco
+# del loop lo exige). El cuadro 0 (= póster) se elige después, en post, en un momento neutro.
 VIVO_STAND_COMUN = (
     "Locked-off photographic portrait on a tripod: the camera does not move at all, the framing is identical from the "
-    "first frame to the last. The man holds his pose completely still, looking straight into the lens, waiting for the "
-    "photographer to take the picture. He is clearly alive: he blinks naturally two or three times, his chest rises and "
-    "falls with slow quiet breathing, his {SONRISA} tightens and relaxes almost imperceptibly, and his head has the "
-    "tiniest natural micro-movements, as a person posing does. There is NO wind and NO fan: his hair does not move at "
-    "all, not a single strand, and his clothes do not move. {ROPA} The background stays in place and almost still: "
-    "{FONDO}. No scrolling, no content changing, no flashing, no shadows passing, no light pulsing. Constant lighting "
-    "throughout: the same warm key light on his face and the same thin golden rim light on his {LADO} edge. Same face, "
-    "same identity, {RASGOS} from start to finish. Photoreal, cinematic, 24 fps, no morphing. The last frame matches "
-    "the first frame exactly so the clip loops seamlessly."
+    "first frame to the last. The man stands still, posing for the photographer, looking straight into the lens the "
+    "whole time. During the clip he breaks into a warm, genuine, friendly smile at the camera: the smile builds naturally "
+    "over about a second, his lips part to show a hint of his teeth, his cheeks lift and his eyes crease with it; he holds "
+    "the open smile for a couple of seconds, then it relaxes gently back to his calm {SONRISA} by the end of the clip. He "
+    "blinks naturally two or three times. His chest rises and falls with slow quiet breathing and his head has the "
+    "tiniest natural micro-movements. There is NO wind and NO fan: his hair does not move at all, not a single strand, and "
+    "his clothes do not move. {ROPA} The background stays in place and almost still: {FONDO}. No scrolling, no content "
+    "changing, no flashing, no shadows passing, no light pulsing. Constant lighting throughout: the same warm key light on "
+    "his face and the same thin golden rim light on his {LADO} edge. Same face, same identity, {RASGOS} from start to "
+    "finish. Photoreal, cinematic, 24 fps, no morphing. The last frame matches the first frame exactly so the clip loops "
+    "seamlessly."
 )
 VIVO_STAND = {
     "matias-stand":    VIVO_STAND_COMUN.format(
         SONRISA="knowing half-smile", ROPA="He keeps his arms crossed, still.", LADO="right",
         FONDO="the monitors with code may show at most a cursor blinking or a faint shimmer of the text, and the blue "
               "wireframe city model does not move",
-        RASGOS="same stubble beard, same knowing half-smile, same crossed arms"),
+        RASGOS="same stubble beard, same eyes, same crossed arms"),
     "sebastian-stand": VIVO_STAND_COMUN.format(
         SONRISA="calm half-smile", ROPA="The collar of his navy jacket stays still.", LADO="left",
         FONDO="the video wall of street-camera feeds is nearly frozen, with at most a faint shimmer, and the equipment "
               "rack with blue LEDs keeps its LEDs steadily lit, not blinking",
-        RASGOS="same rectangular glasses, same grey-streaked beard, same calm half-smile"),
+        RASGOS="same rectangular glasses, same grey-streaked beard, same eyes"),
 }
-NEGATIVO_STAND = NEGATIVO + ", wind, breeze, fan, hair moving, hair blowing, clothes moving, scrolling text, screens changing, LEDs blinking"
+# El negativo de la familia stand NO lleva «expression change, smile change, mouth opening» (la sonrisa es el evento).
+NEGATIVO_STAND = ("camera movement, zoom, pan, dolly, handheld shake, face change, identity change, different person, talking, "
+                  "head turning away, looking away, extra limbs, extra hands, text, watermark, flicker, lighting change, warping, "
+                  "morphing, blur, cartoon, grimace, exaggerated smile, laughing, wind, breeze, fan, hair moving, hair blowing, "
+                  "clothes moving, scrolling text, screens changing, LEDs blinking")
 
 
 # ── Replicate ─────────────────────────────────────────────────────────────────────────────────────
@@ -374,21 +398,25 @@ def medir_stand(origen, *variantes):
 
 
 # ── viñeta hacia el cielo (post, PIL): subordina el contexto y deja el borde listo para la máscara CSS ──
-# Rectángulo redondeado (norma p = 3) centrado un poco por debajo del centro: f = 1 dentro de R0, cae con suavidad
-# (smoothstep) a 0 en R1, y el píxel se mezcla hacia CIELO con 1 − f. Se calcula una sola vez por tamaño y se aplica
-# con Image.composite a cada cuadro y al póster, así todos reciben exactamente la misma viñeta.
-VINETA = {"R0": 0.42, "R1": 1.02, "P": 3.0, "CY": 0.54, "RY": 0.66}   # radios en fracción del semilado; RY estira el eje vertical
+# Segunda vuelta (2026-11-01). Matías: «trata de redondear las imagenes de fondo de esas dos fotos. Los fondos de las fotos
+# se tienen que difuminar con el fondo de la pagina». La primera viñeta era un rectángulo redondeado (norma 3, plena hasta
+# 0,42 del semilado, a cero en 1,02 —o sea, en el borde mismo—) y, sin máscara CSS, se leía el rectángulo. Ahora es una
+# ELIPSE centrada en la cara (CX, CY en fracción del cuadro), plena hasta R0 y a #0b0a14 PURO en R1 < 1, con los radios
+# medidos desde el centro hasta el borde (RX = semiancho, RY = distancia del centro al borde de abajo): f = 1 adentro de
+# R0, cae con smoothstep a 0 en R1, y el píxel se mezcla hacia CIELO con 1 − f. El contexto se intuye, no se recorta.
+# Se calcula una sola vez por tamaño y se aplica con Image.composite a cada cuadro y al póster: todos la misma viñeta.
+VINETA = {"CX": 0.5, "CY": 0.44, "R0": 0.28, "R1": 0.80, "RX": 0.5, "RY": 0.56, "P": 2.0}
 _mascaras = {}
 
 def mascara_vineta(tam):
     from PIL import Image
     if tam in _mascaras: return _mascaras[tam]
-    w, h = tam; R0, R1, P, CY, RY = (VINETA[k] for k in ("R0", "R1", "P", "CY", "RY"))
+    w, h = tam; CX, CY, R0, R1, RX, RY, P = (VINETA[k] for k in ("CX", "CY", "R0", "R1", "RX", "RY", "P"))
     m = Image.new("L", tam); px = m.load()
     for y in range(h):
         ny = abs((y / (h - 1)) - CY) / RY
         for x in range(w):
-            nx = abs((x / (w - 1)) - 0.5) / 0.5
+            nx = abs((x / (w - 1)) - CX) / RX
             r = (nx ** P + ny ** P) ** (1 / P)
             t = min(max((r - R0) / (R1 - R0), 0.0), 1.0)
             px[x, y] = round(255 * (1 - t * t * (3 - 2 * t)))
@@ -549,13 +577,27 @@ def _dif(a, b, cara=None):
         d += PESO_CARA * ImageStat.Stat(ImageChops.difference(a.crop(cara), b.crop(cara))).mean[0]
     return d
 
-def _cuadro_quieto(cuadros, zona_ojos, radio=12):
-    """Índice del cuadro cuyo entorno (±radio) tiene la menor desviación máxima de los ojos contra su mediana por píxel:
-    lejos de cualquier pestañeo, con los ojos como están casi todo el tiempo (abiertos)."""
+# La boca, para que el cuadro 0 (= póster) tampoco caiga en plena sonrisa: la mediana por píxel de ojos + boca es la
+# expresión de casi todo el tiempo (ojos abiertos, boca en reposo) y el cuadro 0 es el que menos se aparta de ella en ±12.
+ZONA_BOCA = {"matias": (0.40, 0.49, 0.62, 0.58), "sebastian": (0.38, 0.46, 0.64, 0.56)}
+for _p in ("matias", "sebastian"):
+    ZONA_BOCA[f"{_p}-stand"] = ZONA_BOCA[_p]
+
+def _cuadro_quieto(cuadros, zona_ojos, radio=12, zona_boca=None):
+    """Índice del cuadro cuyo entorno (±radio) tiene la menor desviación máxima de los ojos (y la boca, si se pasa) contra
+    su mediana por píxel: lejos de cualquier pestañeo o sonrisa, con la cara como está casi todo el tiempo."""
     from PIL import Image, ImageChops, ImageStat
     w, h = cuadros[0].size
     z = (int(zona_ojos[0] * w), int(zona_ojos[1] * h), int(zona_ojos[2] * w), int(zona_ojos[3] * h))
-    ojos = [im.convert("L").crop(z).resize((60, 20), Image.BILINEAR) for im in cuadros]
+    if zona_boca:   # ojos y boca, una sobre otra, en una sola imagen chica
+        zb = (int(zona_boca[0] * w), int(zona_boca[1] * h), int(zona_boca[2] * w), int(zona_boca[3] * h))
+        def juntar(im):
+            g = im.convert("L"); u = Image.new("L", (60, 40))
+            u.paste(g.crop(z).resize((60, 20), Image.BILINEAR), (0, 0)); u.paste(g.crop(zb).resize((60, 20), Image.BILINEAR), (0, 20))
+            return u
+        ojos = [juntar(im) for im in cuadros]
+    else:
+        ojos = [im.convert("L").crop(z).resize((60, 20), Image.BILINEAR) for im in cuadros]
     px = [o.load() for o in ojos]; ref = Image.new("L", ojos[0].size); rp = ref.load()
     for y in range(ojos[0].height):
         for x in range(ojos[0].width):
@@ -630,10 +672,10 @@ def post(persona, clips, fundido=6, ventana=30):
             # El cuadro 0 es el póster, así que no puede caer en un pestañeo ni al lado de uno. Como es un loop, se rota:
             # el cuadro 0 pasa a ser el centro del segundo más quieto en la zona de los ojos (la menor desviación máxima
             # contra la mediana por píxel en ±12 cuadros), los fundidos quedan adentro y el cierre es un paso cualquiera.
-            R = _cuadro_quieto(final, ZONA_OJOS[persona])
+            R = _cuadro_quieto(final, ZONA_OJOS[persona], zona_boca=ZONA_BOCA[persona])
             final = final[R:] + final[:R]
             centros = sorted((c - R) % len(final) for c in centros)
-            print(f"  rotado {R} cuadros: el cuadro 0 es el más quieto con los ojos abiertos; fundidos en "
+            print(f"  rotado {R} cuadros: el cuadro 0 es el más quieto con los ojos abiertos y la boca en reposo; fundidos en "
                   + ", ".join(f"{c / 24:.2f} s" for c in centros))
             if not os.environ.get("SIN_VINETA"):   # la misma viñeta en todos los cuadros (y en el póster)
                 final = [vinetear(im) for im in final]
