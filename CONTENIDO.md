@@ -17,6 +17,269 @@
 
 ### 0.1 Qué cambió y por qué
 
+- **El stand con la máquina abajo: quinto encuadre del hero, `?hero=5` (rama `hero-stand`, 2026-11-01).** Matías,
+  verbatim: *«Probemos ahora una version donde la maquina pasa a estar abajo del nombre, como la teniamos antes. El eclipse
+  como logo y el nombre de la empresa con las animaciones de los CEOs quedan como portada pero la maquina la pasamos
+  abajo.»* (en `docs/prompts-usuario/REGISTRO-2026-11.md`). **Qué es.** La primera pantalla (`100svh`) es sólo la
+  portada: el rótulo, **el eclipse solo como figura** (flama, estrella de luz, sin máquina adentro), **RIA / LABS** debajo,
+  **los dos retratos vivos a los costados del eclipse** (Matías a la izquierda, Sebastián a la derecha, sólo el nombre,
+  la misma máscara elíptica que el 4) y la línea **Smart City Expo · Barcelona · 3–5 de noviembre** al pie. Al hacer
+  scroll, antes de `#productos`, **la máquina entera con su reactor propio en el centro**, como en main o en el encuadre
+  1, con **«Tu infraestructura ya existe. / Nosotros la hacemos pensar.»** como su pie; su salida es **la red abierta** del
+  4. Los encuadres 1–4 no cambian y el de por defecto sigue siendo el 2.
+  **Las decisiones, medidas.** (1) *Los retratos se alinean con el eclipse*, no con el wordmark ni con el conjunto: las
+  caras (el 44 % del alto de la foto, donde la viñeta de los clips centra la cara) van a la altura exacta del centro del
+  disco —Matías, el eclipse y Sebastián en una misma línea, tres caras— y el nombre al pie de la parte visible de cada
+  foto. Alinearlos con el wordmark (como en el 4) los dejaba al pie del eclipse, con los costados de arriba vacíos;
+  con el conjunto, las caras caían ~22 px bajo el centro del disco sin ganar nada. (2) *El grupo escala como una sola
+  pieza*: la foto mide 0,64 del eclipse (lo visible de la foto queda del tamaño del disco más la flama: el eclipse,
+  con su aureola, sigue siendo la figura) y su centro va a 0,65 eclipses del centro de la pantalla, así lo visible de cada
+  foto queda a ~0,1 eclipse de la flama. Centrarlas en el espacio libre de cada lado (la primera prueba) las dejaba como
+  islas lejos del logo. (3) *El eclipse se sienta al pie de su fila* y RIA / LABS sube 7vh sobre su aureola (el 4 sube
+  5vh): cuando el ancho lo limita (pantallas 4:3), el aire sobrante va arriba y no entre el disco y el nombre. Tope de
+  ancho 46vw (42 dejaba 190 px de aire arriba en 1024×768). (4) *La frase va con la máquina*, abajo, como su pie: no
+  encontré razón para dejarla en la portada —sin la máquina arriba, «la hacemos pensar» no tiene a qué referirse— y la
+  portada respira mejor con un solo texto al pie, la expo, que queda **debajo de RIA / LABS**.
+  **Cómo está hecho.** CSS: `html[data-hero="5"]` con la misma escala de espacios `--u`, los márgenes del nav y el mismo
+  `--ria` que el 4. Cada `<figure class="stand">` cubre la fila del eclipse y es un **contenedor de tamaño**
+  (`container-type: size`): `100cqh` es el alto de la fila, así `--e: min(100cqh, 46vw, 820px)` es exactamente lo que
+  mide el eclipse (su misma fórmula) sin medir nada en JS; la foto y el nombre se posicionan con `--e`. Los retratos se
+  estampan desde el mismo `<template id="stand-tpl">` con el mismo script (ahora con `data-hero` 4 o 5), y el del
+  `<head>` acepta `[1-5]` y precarga los pósters en el 4 y el 5. La máquina sale del hero con un script de cinco líneas
+  que sigue al `</header>`: sólo con `data-hero="5"`, durante el parseo, mueve `#maquina` y `#maq-pie` a un
+  `<div class="maq-banda" id="banda-maquina">` (padding `9vh 52px 5vh`; 24 px en celular). La caja de la máquina tiene
+  la proporción del dibujo horizontal (1116 × 320 unidades, centrada en el reactor: el reactor queda justo sobre la
+  frase) con tope de escala 1,45; en celular, la del vertical con tope en `78svh`, así máquina y pie entran juntos en
+  una pantalla. Script «LA MÁQUINA»: `ABIERTA = VAR === '4' || VAR === '5'`; en el 5 la red se arma con el reactor
+  propio (`OJO` sigue siendo sólo 2 y 4); sus límites (`T.ext`) son el borde de la ventana a los costados, **el pliegue
+  arriba** (el pie del hero) y **el contenido de `#productos` abajo**; `armarRedAbierta` cuenta desde el origen del
+  viewBox (que en el 4 es 0,0: mismas cuentas) y en la banda su fade **nace 24 px bajo el pliegue y llega entero a los
+  164** (nunca entra en la primera pantalla ni sobre la foto de Sebastián), se pierde 20 px antes de «Productos» y se
+  aparta 70 px de las letras de la frase. La estrella no asoma del lado de Sebastián (`cos a > 0,3`, como el 3 del
+  lado del logo): su rayo largo apunta siempre a la derecha y desde el limbo derecho llegaría a su foto.
+  **Retratos:** igual que en el 4 —autoplay mudo, `DESFASE = 0,87` (se turnan la sonrisa), pausa fuera de pantalla (el
+  observador mira `.hero-escena`: al bajar a la banda se pausan) y con la pestaña oculta, póster con reduced-motion o
+  Save-Data (verificado por DOM: 0 `<video>`, 2 `<img>`), pósters precargados sólo en el 4 y el 5 (en 1–3 y por defecto
+  no hay ni preload ni retratos en el DOM). De día, la misma máscara blanda del 4.
+  **La red abierta en el 5:** sale de la brida del reactor en abanico hacia la derecha y sube hasta cerca del pliegue y
+  baja más allá de la frase, perdiéndose antes de «Productos»; destellos de colores desde la química como en el 4 (la
+  misma simulación, la misma semilla). En celular el abanico de 100° abre a los dos costados del reactor, hasta los
+  bordes, y muere 80 px antes del pie de la caja, delante de la frase.
+  **Celular (≤860 px):** primera pantalla con el eclipse arriba, grande (hasta el ancho de la pantalla: la caja es casi
+  toda aureola), RIA / LABS subido `clamp(10px, 4vh, 36px)` sobre la aureola, **los dos retratos de a par** debajo
+  (41vw de ancho con tope en 19svh: 160×200 a 390×844, 126×158 a 390×664), cada uno con su nombre centrado debajo, y la
+  expo al pie; la foto va a escala 1,12 hacia la cara (1,3 en el 4). Abajo, la máquina vertical (estación arriba,
+  reactor al medio, red abajo) con su pie. **Cómo se elige:** `?hero=5` (con `?tema=dia` para el día); sin parámetro
+  sigue el 2. **Medidas de la primera pantalla** (`getBoundingClientRect` en Chrome headless por iframe del tamaño
+  exacto, animaciones a cero, px; «rótulo→llama» = del pie del rótulo a la punta de la flama, 1,17 radios; «luna→RIA» =
+  del pie del disco a la caja de RIA; «cara−luna» = línea de las caras menos centro del disco; «foto↔llama» = del borde
+  interior de la caja de la foto a la flama, izquierda / derecha —la diferencia es la libración de la luna—, lo visible
+  de la foto empieza ~20–30 px más adentro; «foto→nombre» negativo = el nombre se apoya sobre el pie fundido de la foto):
+
+  | Pantalla | eclipse caja / disco | RIA / LABS | nav→rótulo | rótulo→llama | luna→RIA | LABS→expo | expo→borde | foto | cara−luna | foto↔borde | foto↔llama | foto→nombre | nombre→RIA |
+  |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+  | 1440×900 | 614 / 336 | 108 / 19,4 | 21,6 | 123 | 86,6 | 21,6 | 32,4 | 314×393 | −0,3 | 164 / 164 | 48 / 43 | −36 | 46 |
+  | 1280×720 | 469 / 257 | 86,4 / 15,6 | 17,3 | 95 | 64,3 | 17,3 | 25,9 | 240×300 | −0,2 | 215 / 215 | 36 / 33 | −28 | 31 |
+  | 1920×1080 | 769 / 421 | 128 / 23 | 24 | 154 | 110 | 24 | 36 | 394×492 | −0,3 | 263 / 263 | 60 / 54 | −45 | 66 |
+  | 1024×768 | 471 / 258 | 92,2 / 16,6 | 18,4 | 133 | 62 | 18,4 | 27,6 | 241×302 | −0,2 | 85 / 85 | 37 / 33 | −28 | 29 |
+
+  | Celular | eclipse caja / disco | RIA / LABS | nav→rótulo | rótulo→llama | luna→RIA | LABS→fotos | fotos | foto↔borde | entre fotos | nombre→expo | expo→borde |
+  |---|---|---|---|---|---|---|---|---|---|---|---|
+  | 390×844 | 390 / 213 | 56,6 / 10,2 | 20 | 92 | 64,4 | 10 | 160×200 | 29,5 / 29,6 | 11 | 18,7 | 30 |
+  | 360×740 | 321 / 175 | 52,2 / 9,4 | 17,8 | 68 | 51,8 | 8,8 | 141×176 | 31,7 / 31,7 | 15 | 16,5 | 26,6 |
+  | 390×664 | 285 / 156 | 49,1 / 8,8 | 15,9 | 61 | 45,9 | 8 | 126×158 | 46,4 / 46,4 | 45 | 14,6 | 23,9 |
+
+  En las siete las fotos son simétricas respecto del centro (±0,1 px) y nada toca el nav (el rótulo queda a 2u de su
+  borde; a 360 el rótulo va en dos líneas, igual que en el 4). **La banda** («g» = px por unidad de diseño; «pliegue→red»
+  = del pie del hero al nodo visible más alto, opacidad ≥ 0,05; en celular la red vive al costado y debajo del reactor):
+
+  | Pantalla | caja de la máquina | g | estación | pliegue→caja | caja→frase | pliegue→red | red→«Productos» | frase→«Productos» |
+  |---|---|---|---|---|---|---|---|---|
+  | 1440×900 | 1336×383 | 1,18 | 425×324 | 81 | 33 | 69 | 90 | 176 |
+  | 1280×720 | 1176×337 | 1,03 | 373×285 | 65 | 33 | 67 | 96 | 168 |
+  | 1920×1080 | 1816×464 | 1,45 | 524×400 | 97 | 33 | 57 | 84 | 186 |
+  | 1024×768 | 920×264 | 0,80 | 290×221 | 69 | 33 | 68 | 85 | 170 |
+  | 390×844 | 342×658 | 0,73 | 203×265 | 51 | 33 | 446 | 229 | 134 |
+  | 360×740 | 312×577 | 0,64 | 178×233 | 44 | 33 | 387 | 241 | 130 |
+
+  El centro del reactor coincide con el de la frase en los seis (±0,1 px). **Verificado:** capturas reales de la
+  primera pantalla en los seis tamaños más 390×664 y 900×700, de la banda en los seis (`ANCLA=banda-maquina`), día,
+  reduced-motion y la transición del pliegue a 1440×900 (`BAJAR=450`: la red empieza ~80 px bajo la línea de la expo);
+  sin errores de JS (colector de `error`/`unhandledrejection`/`console.error` en el harness de medidas) y los `<script>`
+  pasan `node --check`. **El 4 no cambió:** 30 cajas del hero (nav, rótulo, expo, escena, máquina, eclipse, wordmark,
+  frase, fotos, nombres, fuentes, preload, alto de página) idénticas antes y después en sus seis tamaños y de día, y lo
+  mismo para 1, 2, 3 y el de por defecto (sólo 0,1 px de ruido subpíxel en la frase del 3, que ninguna regla nueva
+  toca); la red del 4 es la misma en la captura (0,36 % de píxeles distintos: engranajes, tokens y destellos en otro
+  instante). Capturas en `_capturas/hero-5/` (ignorado; `antes/` y `despues/` del 4). **Gotchas:** con `aspect-ratio`
+  y ancho `auto`, Chrome pasa el `max-height` al ancho y la caja se angosta y queda corrida a la izquierda (la máquina
+  quedaba 100 px fuera del eje de la frase a 1920 y 58 en 390): por eso la banda lleva `width: 100%` explícito. Un
+  `Range` sobre un bloque mide el bloque entero, no las letras: la caja de la frase se mide con un Range por párrafo. El
+  modo `BAJAR=` del script de captura hace el scroll en el `onload` del iframe y, con tiempo virtual, a veces no llega a
+  correr el IntersectionObserver que revela la máquina (la banda sale vacía en la foto aunque en el navegador se revela:
+  verificado por DOM, `maq vis` tras bajar): para la banda usar `ANCLA=banda-maquina`. **Script de captura:** con
+  `PANTALLA=1`, `BAJAR=<px>` o `ANCLA=<id>` fotografían la pantalla bajada, siempre por un iframe del tamaño de la
+  pantalla (así el `100svh` del hero sigue siendo el de la pantalla); sin esas variables se comporta igual que antes.
+- **La red abierta (encuadre 4, rama `red-abierta`, 2026-11-01).** Matías, verbatim, sobre la portada del stand: *«Por
+  ultimo, la parte de la red a la derecha de la maquina (la salida del eclipse) quisiera que fuera una red abierta que no
+  termine, que se difumine y pierda en el espacio para que parezca mas grande, y sacaria los nombres de los productos
+  como items en la red, solo salen de la maquina quimica pulsos de energia que se distribuyen por la red, de diferentes
+  colores.»* **Qué es.** Sólo en el stand (`?hero=4`; los encuadres 1–3 no cambian): la constelación cerrada de la
+  salida —tres nodos con ANALÍTICO · SMARTCITY · AUTOMOCIÓN y quince menores con borde— deja lugar a una **red sin
+  nombres** que sale de la brida en abanico y sigue hacia la derecha, arriba y abajo **hasta el borde de la ventana y más
+  allá**: la sección deja de recortar en este encuadre, así las aristas cruzan el borde y no se le ve el final. Más
+  nodos y más aristas cuanto más lejos, y más tenues y más finos, hasta quedar como estrellas entre las del cielo. Los
+  productos ya están en el nav; de la red salen los tres **troncos** dorados de siempre (en el lugar de los tres
+  productos, con sus conductos desde la brida y las dos aristas doradas que respiran) y de ahí la malla. **Los pulsos
+  de energía salen de la química**: cada partícula de una estructura madura que cruza la brida lanza un destello **de
+  su color** (azul de la cámara `--maq-p1` = `--c-ana`, violeta del registro `--maq-p2`, teal del sensor `--maq-p3` =
+  `--c-esp`; las tres primeras de cada estructura) y la estructura entera, al terminar de cruzar, uno **dorado**
+  (`--gold-hi` = `--c-aut`). Cada destello viaja por el conducto hasta un tronco (nunca el mismo dos veces seguidas),
+  sigue de nodo en nodo siempre alejándose de la salida, prefiriendo la arista que mantiene el rumbo, se **bifurca** en
+  algunos nodos (una rama más débil) y pierde energía en cada salto hasta apagarse a lo lejos; la arista por la que pasa
+  y el nodo al que llega quedan brillando en su color (2,6 y 3,4 s). Cadencia medida con 192 s de reacción: una ráfaga
+  cada 9–10 s (32,9 · 46,9 · 55,7 · 64,9 · 73,9 · 83,2 · 93,3 s…), de 3–4 destellos de colores distintos en ~2 s. Vivo
+  pero sereno: la red está «respirando» la mitad del tiempo y quieta la otra mitad. **Cómo está hecho** (script «LA
+  MÁQUINA», `ABIERTA = VAR === '4'`; `armarRedAbierta`, `lanzarChispa`/`ramificar`, `pintarRed`): la red se muestrea
+  con un **Poisson de radio decreciente** (separación mínima 64 px cerca → 32 lejos; en vertical 46 → 24) con azar
+  propio (`rndR`, semilla fija: la misma caja da siempre la misma red y la reacción no gasta su azar en armarla), en un
+  abanico desde la brida (horizontal: |v| < 60 + 1,25·u desde u = 95; vertical: un sector de 100° desde u = −140, que
+  alcanza los flancos de abajo del eclipse; nunca sobre la flama, a 1,3 R del centro). Aristas a los 2 vecinos más
+  cercanos (3 a lo lejos) a menos de 2,4 radios, y siempre una hacia un nodo más cercano a la salida, para que un
+  destello pueda llegarle; cada arista va del nodo de adentro al de afuera, y por ahí corren los destellos. **El
+  fade** de cada punto: decae con la distancia a la brida (piso 0,08: una estrella), se apaga bajo el nav (48 → 148 px
+  de ventana), bajo la caja se atenúa y alrededor de la **foto de Sebastián** —leída del DOM con
+  `getBoundingClientRect`, así sigue al layout de la otra sesión— baja a 0,1 (la red pasa por detrás, muy tenue: la
+  sección baja al z-index de los retratos, que vienen después en el DOM, y sigue encima del eclipse); en vertical muere
+  80 px antes del pie de la caja, delante del wordmark y los retratos. El color va del gris violeta de la constelación
+  (`--nodo`) al violeta de los nodos (`--maq-vio`) con **`color-mix()` por fade**, declarado por `style` con el gris
+  antes en la misma cascada (un navegador sin color-mix ve la red gris); la opacidad baja con el fade; los nodos lejanos
+  pierden el aro y quedan como puntos violeta tenues; cada tercero es violeta, como antes. Lo que no se ve no se dibuja
+  (bajo 0,04). Unos 160 nodos y 300 aristas a 1440×900, 320 a 1920×1080, 75 a 390×844. **Los destellos** son estado
+  de la simulación (`segs`: cada salto con su arista, su instante, su color y su energía, decididos al lanzarlo con
+  `rndR`: pintar es sólo leer; `?t=` da siempre la misma foto), un pool de 28 (núcleo + cola) en el mismo rAF; los
+  nodos cercanos titilan como antes. Los pulsos de la constelación siguen lanzándose invisibles, así **la reacción es
+  idéntica en el 2 y en el 4** al mismo `?t=`. Con `prefers-reduced-motion`, un cuadro con cuatro destellos ya en camino,
+  de los cuatro colores. **Rearmado sin perder los destellos:** los candidatos del Poisson se tiran en px sobre una caja
+  canónica fija alrededor de la salida (u ∈ [−200, 1400], v ∈ [−1400, 1400]) y el radio decae en px, así un cambio
+  chico de la caja (la fuente que carga y corre el logo unos px, un resize) da casi la misma red; cada nodo lleva una
+  clave estable (su candidato; los troncos `T0..T2`) y `armar` re-mapea por clave los destellos en vuelo a la red nueva
+  (verificado en el log: 63 → 58 → 52 recorridos a través de dos rearmados al cargar la fuente). **Accesibilidad:** el
+  grupo de la red va `aria-hidden` y sin `pointer-events` (ya no tiene enlaces) y el `aria-label` del SVG en este
+  encuadre describe los pulsos de colores en vez de «cada producto es un enlace». **CSS:** una sola regla, en el bloque
+  de la máquina: `html[data-hero="4"] .hero .maq { overflow: visible; z-index: 2 }`. **Verificado en captura real**
+  (`PANTALLA=1 … QUERY=hero=4`): 1440×900 (también `t=7500` con la ráfaga de los 46,9 s en vuelo, reduced-motion y
+  `tema=dia`), 1280×720, 1920×1080, 390×844 y 360×740; sin `Uncaught`. Capturas en `_capturas/red-abierta/`
+  (ignorado). Gotcha de captura: Chrome headless con `--virtual-time-budget` casi no corre cuadros de rAF (la
+  simulación avanza apenas 0,1 s después del precalentamiento), así que para fotografiar una ráfaga hay que apuntar
+  `?t=` 2–3 s después de una salida conocida (`t=7500` → 49,5 s de reacción: la de los 46,9 s), no esperar a que pase.
+- **El stand: cuarto encuadre del hero, `?hero=4` (rama `hero-stand`, 2026-10-31).** Matías, verbatim: *«Probemos
+  una version de portada con el logo de RIA Labs como esta ahora con el eclipse actual y la maquina dibujada pero que
+  entre todo en una sola pagina de pantalla, y a cada costado del logo las imagenes de los ceos, Matias y Sebastian, en
+  movimiento como posando esperando que le saquen la foto con el parpadeo de ojos y todo, pero sin pelo agregado. La
+  idea es mostrar los CEOs que estan presentes en el stand como una primera vista cuando se visita la home de la
+  empresa»*; y después, sobre una captura del encuadre 2: *«abajo de la maquina, del lado izquierdo, a la altura de
+  RIA, pone la imagen viva de Matias desarrollador, y a la misma altura pero del lado derecho, abajo de la red de
+  sistemas, pone la foto viva de Sebastian de Byte»* (los dos en `docs/prompts-usuario/2026-11-01-portada-ceos-en-el-stand.md`).
+  Contexto: Smart City Expo World Congress, Barcelona, 3–5/11/2026; los dos están en el stand y la home es lo primero
+  que ve quien los visita. **Qué es:** el encuadre 2 tal cual (el eclipse es el reactor, RIA / LABS debajo, la frase al
+  pie) más **los dos retratos vivos en las esquinas de abajo, a la altura de RIA / LABS**: Matías a la izquierda, bajo
+  la estación (engranajes y entradas); Sebastián a la derecha, bajo la red; del mismo tamaño, simétricos respecto del
+  logo, con el rótulo **nombre · oficio** como en `#equipo` (Matías Gallego · Programador, Sebastián Acedo ·
+  Integrador) a la altura de la frase. No es la sección de equipo subida: es la recepción. Ningún otro texto nuevo
+  («desarrollador» y «de Byte» son cómo Matías identifica las fotos; Byte no vuelve a la página). Una línea opcional
+  con la feria queda **apagada** detrás de la constante `EXPO` del script del stand (debajo del rótulo del hero, en
+  gris; el texto sugerido está en el comentario). **Cómo está hecho:** la grilla es la misma del 2; los retratos son
+  dos `<figure class="stand">` absolutas dentro de `.hero-escena` (no miden: no empujan ni la máquina ni el logo),
+  cada una en la franja que va del borde a la mitad menos lo que reserva el wordmark (`--stand-centro`) y centrada en
+  esa franja —que es justo donde caen la estación y la red, en todos los anchos—, con el pie del rótulo al ras del pie
+  de la escena. Sin tarjeta ni marco: una **máscara radial** (`mask-image`, óvalo centrado en la cara) funde la foto
+  con el cielo, con decisión porque los retratos traen su contexto (Matías con las pantallas de código y la maqueta,
+  Sebastián con el muro de cámaras y el rack) y el fondo oscurecido hacia los bordes. Alto `clamp(140px, 27svh,
+  290px)` (243 px a 1440×900, 194 a 1280×720, 290 a 1920×1080), 4:5; el eclipse sigue siendo la figura (disco de 299
+  px a 1440×900). El marcado vive en `<template id="stand-tpl">` y un script lo estampa durante el parseo **sólo con
+  `data-hero="4"`**: en los otros encuadres no existe en el DOM y no se descarga ni el póster (verificado por DOM). En
+  el 4 el script del `<head>` pide los dos pósters con `<link rel=preload fetchpriority=high>`: son lo más grande que
+  pinta la primera pantalla. Los clips van con `autoplay muted loop playsinline` sobre su póster; el script «EL
+  STAND» arranca el segundo en otro punto del loop (`DESFASE` del largo: 0,42 al principio, 0,87 desde la tercera vuelta de los retratos, para que se turnen la sonrisa lenta; ver §0.3), los pausa
+  fuera de pantalla y con la pestaña oculta (IntersectionObserver + visibilitychange) y los retoma al volver. Con
+  `prefers-reduced-motion` o Save-Data el estampado cambia cada `<video>` por su póster (el `<img>` de adentro, con
+  su `alt`). `alt` y `aria-label` describen a cada uno con su contexto, sin melena. La máquina y la estrella tratan
+  al 4 como al 2 (`OJO` en «LA MÁQUINA»; la estrella no asoma sobre las bridas). De día (`?tema=dia&hero=4`) el
+  retrato sigue siendo una foto nocturna sobre papel: el óvalo se funde más despacio para no quedar como un agujero
+  con borde. **Celular (≤860 px):** los dos flanquean RIA / LABS, con el pie de la foto a la altura de LABS y el rótulo
+  al lado del wordmark; la frase sigue debajo a lo ancho; la máquina vertical no cambia (los retratos no miden).
+  Más chicos (`clamp(84px, 28vw, 112px)` de ancho: 109 a 390, 100 a 360) y acercados a la cara (escala 1,3 con origen
+  en la cara) para que se lean en 100 px; el nombre a 11 px en una línea, el oficio a 8,5. En 390×844 y 360×740
+  quedan por fuera de la constelación (sus vértices bajos están en x 140–250). **Verificado en captura real**
+  (`PANTALLA=1 … QUERY=hero=4`): 1440×900, 1280×720, 1920×1080, 1024×768, 390×844 y 360×740, más `?tema=dia` y
+  reduced-motion a 1440×900; en todos entra en la pantalla y no tapa nodos ni etiquetas. Capturas en
+  `_capturas/hero-stand/` (ignorado). **Depende de los retratos reales** (`assets/retrato-stand-*`, §0.3, los produce
+  otra sesión): el ajuste fino de la máscara, el `object-position` (hoy 50 % 30 %: con los provisorios Matías queda un
+  poco más abajo que Sebastián porque su cabeza viene más baja en el cuadro) y el `DESFASE`, que hay que mirar con los
+  pestañeos reales. Los encuadres 1–3 y el de por defecto (2) no cambian. **Los reales entraron el 01/11** (merge de
+  `retratos-stand`, 480×600, sin el eclipse chico): en la captura a 1440×900 las dos cabezas quedan a la misma altura y la
+  máscara funde bien con los stops de los provisorios, así que no se tocó nada; el `DESFASE` sigue sin mirarse en un
+  navegador real.
+
+  **Segunda vuelta, medida (01/11).** Matías, verbatim: *«Saca el nombre del oficio. Agrega la linea de "Smart City
+  Expo · Barcelona · 3–5 de noviembre". Saca los pequeños eclipses sobre las cabezas de Matias y Sebastian y trata de
+  redondear las imagenes de fondo de esas dos fotos. Los fondos de las fotos se tienen que difuminar con el fondo de la
+  pagina. [...] Hagamos también que todo el titulo RIA Labs este mas grande y acomodemos bien los elementos en la
+  portada, midamos para que todo quede bien armonico en el espacio entre ellos y con los margenes»* (en el mismo
+  archivo de prompts; los eclipses chicos eran los pósters provisorios en caché: los reales no los traen). Lo que
+  sigue **reemplaza** la mecánica descripta arriba:
+  - **Sin oficio:** bajo cada retrato va sólo el nombre (Saira 500, `clamp(13px, 1.1vw, 16px)`, blanco).
+  - **La expo, encendida:** `EXPO = 'Smart City Expo · Barcelona · 3–5 de noviembre'` en el script del stand; es una
+    línea en el lenguaje del rótulo de arriba (mono, versalitas, 4 px de tracking) en `--gold-hi`, que **cierra la
+    escena debajo de la frase**, centrada y a lo ancho (`.hero-expo`, fila 4 de la grilla). Se eligió abajo y no bajo
+    el rótulo de arriba porque es lo que liga a los dos retratos —las dos personas, esta feria— y porque el rótulo de
+    arriba sigue diciendo de dónde somos. Vaciar la constante la apaga.
+  - **La escena pasa a tres columnas** (franja · centro · franja), sólo en el 4: el eclipse y la máquina cruzan las
+    tres; el wordmark (fila 2) y la frase (fila 3) van en la del centro; **cada retrato es un ancla de alto cero en la
+    fila del wordmark** (`.stand-ancla`, `align-self: center`: no mide, no empuja ni la máquina ni el logo; sube la
+    mitad de lo que sube el wordmark sobre la aureola, así los centros coinciden) con la foto absoluta encima,
+    centrada en la franja, y **su nombre es un ítem de la fila de la frase** (`align-self: end`): el pie del nombre y
+    el de la frase son el mismo. El `<figure>` es `display: contents`. Las franjas miden lo mismo a los dos lados,
+    así los retratos son simétricos respecto del wordmark; y en los seis tamaños caen bajo la estación y la red.
+  - **RIA / LABS más grande:** `--ria: clamp(56px, min(10.5vw, 12svh), 128px)` (108 px a 1440×900, antes 76; 86 a
+    1280×720; 128 a 1920×1080; 92 a 1024×768) y LABS en proporción (0,18 de RIA, margen 0,07): el wordmark entero
+    crece junto. En celular `clamp(44px, min(14.5vw, 7.4svh), 68px)` (57 a 390, 52 a 360).
+  - **Escala de espacios `--u` = 1,2 vh** (6–12 px; 5–10 en celular): 2u entre los grupos de texto (nav→rótulo —el
+    padding de arriba pasa a `83px + 2u`, que es el alto del nav más 2u—, LABS→frase, frase→expo), 3u de margen
+    inferior, 1u de gap de grilla. **Márgenes laterales = los del nav:** 52 px (24 en celular) en vez de los 24/16 del
+    hero; la máquina se arma 5 % más chica y queda alineada con el logo y el botón del nav.
+  - **Fundido redondo:** la máscara calca la viñeta horneada de los clips (elipse centrada al 44 % del alto, radios =
+    el semiancho y la distancia del centro al borde de abajo; plena hasta 0,28 r, cielo puro `#0b0a14` desde 0,80 r)
+    apenas más grande —`ellipse 52% 58% at 50% 44%`, plena al 30 %, 0,75 al 55 %, 0,25 al 82 %, cero al 100 %— para
+    no recortar contexto, y el `<video>`/`<img>` de adentro lleva un degradé lineal que funde el borde de arriba
+    (donde la elipse no llega a cero). Resultado: la cara entera, las pantallas y el muro se pierden en redondo, sin
+    borde ni rectángulo. En celular, donde la foto va escalada 1,3 a la cara y la viñeta horneada ya no coincide con
+    la caja, la máscara vuelve a la elipse que llega a cero en los cuatro bordes (`50% 46% at 50% 45%`); de día, lo
+    mismo con stops más blandos. Fotos: `clamp(150px, 30svh, 330px)` de alto, 4:5, `object-position 50% 45%`.
+  - **Celular (≤860 px):** la misma grilla con una fila más: fotos flanqueando RIA / LABS (centradas con el
+    wordmark), **los nombres en su propia fila** debajo (la frase a lo ancho no entra al lado de un nombre en 390 px),
+    después la frase y la expo (8,5 px / 1,6 de tracking, entra en una línea a 360). Cuesta ~24 px a la máquina.
+  - **Las medidas** (`getBoundingClientRect` en Chrome headless por iframe del tamaño exacto, animaciones a cero; en
+    px; «hueco» = tope de la foto menos pie de la estación/red, negativo = se montan en el borde transparente de
+    arriba, que la máscara y la viñeta dejan en cielo puro; «foto↔RIA» izquierda / derecha):
+
+    | Pantalla | RIA / LABS | nav→rótulo | rótulo→dibujo | luna→RIA | LABS→frase | frase→expo | expo→borde | foto | hueco | foto↔borde | foto↔RIA |
+    |---|---|---|---|---|---|---|---|---|---|---|---|
+    | 1440×900 | 108 / 19,4 | 21,6 | 141 | 86 | 21,6 | 21,6 | 32,4 | 216×270 | 28 | 222 | 181 / 170 |
+    | 1280×720 | 86,4 / 15,6 | 17,3 | 84 | 61 | 17,2 | 17,3 | 25,9 | 173×216 | −11 | 208 | 179 / 170 |
+    | 1920×1080 | 128 / 23,0 | 24 | 162 | 111 | 24 | 24 | 36 | 259×324 | 25 | 310 | 271 / 258 |
+    | 1024×768 | 92,2 / 16,6 | 18,4 | 135 | 77 | 18,4 | 18,4 | 27,6 | 184×230 | 38 | 138 | 104 / 95 |
+    | 390×844 | 56,6 / 10,2 | 20 | 21 | — | 44 (fila de nombres) | 20 | 30 | 109×136 | 0 (x aparte) | 26 | 7 / 2 |
+    | 360×740 | 52,2 / 9,4 | 17,8 | 19 | — | 40 (ídem) | 18 | 27 | 101×126 | −1 (x aparte) | 25 | 6 / 1 |
+
+    En los seis el **centro de la foto coincide con el centro del wordmark** (±0,1 px) y las dos fotos distan lo mismo
+    del centro de la pantalla; en los cuatro de escritorio el **pie del nombre es el pie de la frase** (la misma
+    coordenada); en celular los nombres van 10 px bajo el wordmark y la frase arranca 12 px bajo las fotos. El margen
+    lateral del hero es el del logo y el botón del nav (52 / 24). «rótulo→dibujo» es del pie del rótulo al tope de la
+    estación (la flama del eclipse empieza ~30 px más abajo que ella en 1440); «luna→RIA», del pie del disco negro al
+    tope de RIA. Capturas de los seis más `?tema=dia` y reduced-motion en `_capturas/hero-stand/`.
+  - Herramientas de la sesión (fuera del repo): `medir.sh` + `tabla.py` en el scratchpad; conviene traerlas a
+    `scripts/` si se vuelve a medir.
 - **RIA Smartcity (2026-10-29).** «Creo que tenemos que renombrar RIA Espacios a RIA Smartcity para poder abarcar
   esta expo Barcelona a la que estamos a punto de ir y nuestro nuevo producto RIA Smartcity Entrypoint. Sin perder el
   resto de las cosas que ya hicimos.» El producto 02 vuelve a llamarse **RIA Smartcity** (Smart City Expo World
@@ -39,12 +302,68 @@
   Nosotros la hacemos pensar.». Salieron el titular «Metaestructura», la cita, el audio y su script «LA FRASE
   HABLADA», los botones «Ver los productos» / «Conocer el motor →» y la tipografía M PLUS Rounded 1c (no se usaba
   en otro lado). La máquina dejó de ser banda propia: vive dentro de `<header>` debajo del logo, sin fondo ni
-  bordes (`.hero .maq`), con el mismo `id="maquina"` y el mismo script. `<title>` vuelve a «RIA Labs — Software e
+  bordes (`.hero .maq`), con el mismo `id="maquina"` y el mismo script (el mismo día, más tarde, el hero pasó a
+  medir una pantalla y el orden depende del encuadre: ver el bullet siguiente). `<title>` vuelve a «RIA Labs — Software e
   inteligencia artificial»; `og:title`/`twitter:title` y la description arrancan con la frase. La OG muestra eclipse
   + RIA LABS + la frase (el modo OG del script de captura esconde el dibujo y deja el pie). **El discurso quedó
   guardado como idea a futuro** en `docs/ideas/2026-10-13-discurso-metaestructura.md` (las dos versiones, cómo se
   podría producir y cómo no, y dónde está el código en git). Los bullets de «Superestructura/Metaestructura» que
   siguen más abajo son historia.
+- **El hero entra en una pantalla: tres encuadres, `?hero=1|2|3` (rama `hero-pantalla`, 2026-10-14).** Matías,
+  verbatim: *«ok bien, tratemos de que entre en la pantalla de presentacion de la web. Aunque el dibujo es hermoso
+  verlo en grande, no se como se puede acomodar...hmm»*. Apilado, el hero medía ~1.300 px (eclipse ~400 · RIA / LABS
+  ~150 · máquina ~355 · pie ~70) y una laptop muestra 720–900: la máquina y la frase quedaban bajo el pliegue. Ahora
+  el hero mide **una pantalla** (`height: 100svh`, piso de 560 px) y adentro una grilla, `.hero-escena`, reparte el
+  alto entre el eclipse, el logo, la máquina y su pie. El pie dejó de estar dentro de `#maquina`: es su hermano
+  (`.maq-pie`), así cada encuadre lo pone al pie aunque entre la máquina y él vaya el logo. **La máquina ya no tiene
+  tamaño propio**: el script «LA MÁQUINA» calcula el viewBox para la caja que la grilla le deja (una unidad de
+  diseño —las de la original de 1200×380— mide g px y el dibujo queda centrado; las etiquetas de los productos no
+  bajan de 8,5 px en pantalla y el radio de clic de cada producto, de 22 px) y se rearma sola cuando la caja cambia (ResizeObserver
+  sobre la sección y, en el 2, sobre el eclipse; también al cargar la fuente), sin perder el estado de la reacción.
+  La grilla tenue de la original se funde hacia los bordes (máscara radial) porque ya no hay banda que la corte. El
+  encuadre lo decide un script en el `<head>` (`data-hero` en `<html>`, antes del primer cuadro); sin parámetro, o con
+  uno inválido, es el 2.
+  1. **Escalonado** (`?hero=1`). Todo apilado como antes, medido por el alto: eclipse `clamp(160px, 32svh, 400px)`
+     (disco de 158 px a 1440×900, 126 a 1280×720), RIA a `9,2svh`, y la máquina horizontal y entera con todo el alto
+     que sobra (1.054 px de ancho a 1440×900, 794 a 1280×720: g 0,94 y 0,71). El más conservador; en pantallas bajas
+     la máquina queda chica.
+  2. **El eclipse es el reactor** (`?hero=2`, **el de por defecto**). La máquina pasa *a través* del eclipse del hero:
+     la estación manda su cañería a una brida en la punta de la flama (de la brida sale una boquilla fina que se
+     apaga antes del limbo), el token cruza la corona y entra al disco, y **la química de partículas se pinta adentro
+     del disco negro, sobre la luna** (recortada a 0,985 del radio de la luna: la flama queda libre); de la brida del
+     otro lado salen los tres conductos a la constelación. El reactor chico, su aro y su manómetro no se dibujan. El
+     script lee el centro y el radio del eclipse del DOM (`offsetLeft/Top/Width` de `#sistema-wrap`, que no ven el
+     transform de la entrada; luna = 93/340 del ancho) y escala la estación y la constelación para que respiren
+     alrededor. El eclipse es tan alto como su fila, con tope de 38vw (disco de 299 px a 1440×900, 251 a 1280×720,
+     399 a 1920×1080) y la estación mide 361×282 px a 1440×900 —como la de la banda original—; RIA / LABS va debajo
+     del conjunto, subido 5vh sobre la aureola de abajo (sólo aureola: la flama queda arriba), y la frase al pie. La
+     estrella de luz no asoma sobre las bridas (±25° del eje de la cañería). De día (`?tema=dia`) el reactor es el sol
+     encendido y la química se ve sobre la fotósfera. **Por qué es el de por defecto:** es el que mejor usa la
+     pantalla —el eclipse deja de ser una figura aparte que se come 400 px de alto y pasa a ser el motor del dibujo,
+     así el dibujo se ve del tamaño de la original y el eclipse, más grande que antes— y el que más sentido tiene: la
+     química vuelve al centro del eclipse, donde nació en la primera v5, y la página dice en una sola imagen lo que
+     dice la frase.
+  3. **Lockup y escenario** (`?hero=3`). El eclipse chico (`clamp(120px, 23svh, 240px)`: disco de 113 px a
+     1440×900) a la izquierda de RIA / LABS, a la altura de la R, como un logo horizontal arriba; la máquina, con su
+     propio reactor, toma el escenario grande de abajo (1.350 px de ancho a 1440×900, g 1,22: un 30 % más grande que
+     la banda original; 1.192 a 1280×720). El dibujo se ve más grande que en ningún otro; el eclipse pierde
+     protagonismo. La estrella sólo asoma del lado de afuera (del lado del logo, los rayos cruzarían la R).
+
+  **Móvil (≤860 px).** La máquina va vertical y compacta: la estación girada arriba, el reactor (o el eclipse) al
+  medio, la constelación apretada a lo largo del flujo (0,6 en el 1 y el 3, 0,78 en el 2) y Analítico y Automoción
+  rotulando hacia afuera, Espacios abajo (centradas bajo sus nodos se pisaban). En 390×844: el **1** muestra eclipse
+  (disco de 107 px) · RIA / LABS · la máquina vertical de ~165 px de ancho (se reconoce, pero chica: g 0,43) · la
+  frase; el **2**, la máquina vertical con el eclipse como reactor al medio (disco de 119 px, estación de 144×184),
+  RIA / LABS y la frase; el **3**, el lockup arriba (disco de 64 px, RIA a 49 px) y la máquina vertical más grande de
+  las tres (g 0,63), con la frase al pie. Las tres entran enteras; en 390×664 (Safari con sus barras: el `svh` real
+  de un iPhone) también, con la máquina chica (g 0,29–0,45).
+
+  Verificado en ventana real (sin el alto fijo que el script de captura le pone al hero): 1440×900, 1280×720,
+  1920×1080, 1440×760 y 390×844 (y 390×664, 768×1024, 1024×768 y 900×600), en noche, `?tema=dia` y reduced-motion,
+  sin errores de consola; en todos el pie termina dentro de la pantalla. Capturas en `_capturas/hero-pantalla/`
+  (ignorado). `scripts/capturar-home.sh` suma `PANTALLA=1` (una pantalla real de `ANCHO`×`ALTO`), `RM=1`
+  (reduced-motion) y un perro guardián para cuando Chrome headless se cuelga. Entre 861 y ~1.000 px de ancho la nav
+  se parte en dos líneas: viene de antes y queda fuera de esta rama.
 - **Los productos son la espina.** Se fueron las secciones *Servicios* (cuatro líneas de consultoría) y
   *Mercado* (radial de seis rubros): describían una consultora, no la empresa de producto que es hoy. Su
   mensaje útil («partimos de lo que ya tenés») pasó al hero, a la banda de Dataflow y al método.
@@ -147,7 +466,8 @@
     horizontal largo, como lo da la lente.
   El SVG `#sistema` conserva el viewBox recortado al eclipse —`310 70 340 340` sobre el sistema de
   coordenadas original, el centro sigue en 480,240— y el tamaño lo da el CSS: `min(400px, 78vw, 44vh)` de
-  ancho, o sea un disco de ~218 px de diámetro en desktop y ~166 en un celular, con la corona desbordando
+  ancho, o sea un disco de ~218 px de diámetro en desktop y ~166 en un celular (desde el 14/10 lo da cada
+  encuadre del hero: ver «El hero entra en una pantalla»), con la corona desbordando
   (177,6 % del ancho; los streamers largos llegan a ~2,6 radios; en 390 px el borde del viewport los corta
   como el cuadro de una cámara). Pesa 248 KB en total (corona 150 + jpg de respaldo 37 + sol 20 + luna 22),
   sin dependencias ni rAF nuevo: el movimiento de la corona es CSS (compositor) y el de las protuberancias,
@@ -336,7 +656,9 @@
     oscuros, `--maq-tubo` para la sombra de la cañería —tostada de día, no marrón—, `--maq-vio`, `--maq-p1/2/3`,
     `--maq-flash`, `--maq-grilla`). **En ≤860 px la máquina gira a vertical**: la estación rota 90° (los dispositivos
     quedan en fila arriba), el reactor al medio y los productos en fila abajo (`viewBox 0 0 480 1040`, ~900 px de
-    banda); el trazado se rearma al cruzar el breakpoint sin perder el estado de la reacción. `prefers-reduced-motion`:
+    banda); el trazado se rearma al cruzar el breakpoint sin perder el estado de la reacción. (Desde el 14/10 el
+    viewBox no es fijo: se calcula para la caja del hero, y la vertical es compacta; ver «El hero entra en una
+    pantalla».) `prefers-reduced-motion`:
     un cuadro compuesto y quieto (la reacción a los 53 s, Analítico recién encendido), sin transiciones. `?t=<ms>`
     adelanta el reloj (`QUERY=t=20000 scripts/capturar-home.sh v5`). Gotcha: la regla de reduced-motion no puede
     declarar `transform: none` sobre los grupos del SVG, porque el CSS pisa el atributo `transform` que ubica la
@@ -491,7 +813,11 @@
 
 ### 0.2 Secuencia de la página (anclas)
 
-`#inicio` hero (eclipse · RIA LABS · `#maquina` con el pie «Tu infraestructura ya existe. / Nosotros la hacemos pensar.») →
+`#inicio` hero, una pantalla (eclipse · RIA LABS · `#maquina` · el pie «Tu infraestructura ya existe. / Nosotros la hacemos pensar.»;
+en el encuadre por defecto, `?hero=2`, la máquina pasa a través del eclipse y RIA LABS va debajo; en el 4, `?hero=4`, el stand:
+lo mismo más los retratos vivos de Matías y Sebastián en las esquinas de abajo, con nombre y oficio; en el 5, `?hero=5`, el
+hero es sólo la portada —eclipse, RIA LABS, los dos retratos a los costados del eclipse y la expo— y `#maquina` con su pie
+pasa a una banda propia, `#banda-maquina`, entre el hero y `#productos`) →
 `#productos` (`#analitico` · `#smartcity` · `#automocion`) → `#dataflow` →
 `#laboratorio` → `#metodologia` → `#equipo` → `#contacto` (separador orbital) → contacto → footer.
 
@@ -503,7 +829,9 @@
 | `assets/retrato-sebastian.jpg` · `assets/retrato-matias.jpg` | retratos vigentes 720×900 (4:5): la familia **con melena** (~120 KB y ~103 KB desde el 11/10, con el eclipse unificado). Son el **póster** de los retratos vivos y la foto que queda con `prefers-reduced-motion` |
 | `assets/retrato-sebastian.mp4` / `.webm` · `assets/retrato-matias.mp4` / `.webm` | **retratos vivos** (2026-10-11): clips 720×900, 24 fps, en loop (9,67 s y 10,25 s), H.264 `yuv420p` sin audio + VP9. Sebastián 1,09 MB / 0,90 MB · Matías 0,83 MB / 0,65 MB |
 | `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~82 KB y ~79 KB, con el mismo eclipse unificado). Para cambiar de familia alcanza con renombrar; la sobria no tiene clip |
-| `scripts/generar-retratos-vivos.py` | cómo se hicieron el eclipse unificado y los retratos vivos (abajo): `fondo`, `video`, `post`, y `costura` para medir el loop |
+| `assets/retrato-stand-matias.jpg` · `assets/retrato-stand-sebastian.jpg` | **retratos stand** (2026-10-31, segunda vuelta 01/11), el póster: 480×600 (4:5) JPG progresivo q84, 15 KB y 19 KB. Es **exactamente el cuadro 0** del loop de al lado, un momento neutro (ojos abiertos, boca en reposo). La familia sobria sin su eclipse chico, con el contexto de cada uno conservado y fundido **en redondo** hacia el cielo `#0b0a14` (viñeta elíptica centrada en la cara: cielo puro antes del borde, sin rectángulo), y una luz de borde dorada del lado que mira al centro de la portada: Matías va a la IZQUIERDA (borde a la derecha), Sebastián a la DERECHA (borde a la izquierda). Los usa el encuadre 4 de la portada (`?hero=4`, §0.1), que apunta a estos nombres. |
+| `assets/retrato-stand-matias.mp4` / `.webm` · `assets/retrato-stand-sebastian.mp4` / `.webm` | los **retratos stand vivos**: posando, miran a cámara, **sonríen** (una sola sonrisa lenta por loop: se arma en ~2 s, se sostiene y se suelta en ~2,5 s) y pestañean; pelo inmóvil, contexto casi quieto. 480×600, 24 fps, loop de 18,04 s (Matías, 433 cuadros, sonrisa 0,8–8,8 s) y 17,92 s (Sebastián, 430, sonrisa 7,5–15,1 s), H.264 `yuv420p` sin audio + VP9, un solo keyframe. Matías 269 KB / 161 KB · Sebastián 331 KB / 205 KB (tercera vuelta, 01/11). |
+| `scripts/generar-retratos-vivos.py` | cómo se hicieron el eclipse unificado y los retratos vivos (abajo): `fondo`, `video`, `post`, y `costura` para medir el loop; y la familia `stand` (`fondo-stand`, `medir-stand`, `vinetear`, `post <p>-stand`) |
 | `assets/eclipse-corona.webp` · `.jpg` | **la corona fotográfica** (2026-10-12): WebP 1000×1000 con alfa desde la luminancia, 150 KB, el disco negro centrado a r = 0,1515 del lado. El jpg (37 KB) es la misma toma sobre negro. **Desde el 13/10 la página no carga ninguno de los dos** (la corona es la flama procedural); quedan en el repo por si el ciclo o la foto vuelven |
 | `assets/eclipse-sol.webp` | la fotósfera en luz blanca, 720×720, alfa = disco (r = 0,4873 del lado), 20 KB. Desde el 13/10 va en `data-href`: se descarga sólo cuando el ciclo o `?tema=dia` la piden |
 | `assets/eclipse-luna.webp` | la luna llena teñida al dorado, 720×720, alfa = disco, 22 KB: la cara iluminada de la luna viajera. Desde el 13/10, `data-href` como la del sol |
@@ -512,7 +840,7 @@
 | `scripts/generar-eclipse.py` | cómo se generaron y procesaron las tres (abajo): `corona`, `sol`, `luna`, `medir`, `post-*`, `hoja` |
 | `og-image.png` | tarjeta 1200×630: el eclipse con la flama ecuánime + RIA Labs + «Metaestructura» en M PLUS Rounded (regenerada el 13/10 con `OG=1 scripts/capturar-home.sh v5`; el modo OG esconde la cita y el control de audio) |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
-| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia`, `QUERY=ciclo=4200`, `QUERY=t=43200000` o `QUERY=estrella=1000` / `estrella=no` fotografía el día, un instante del ciclo del eclipse, la página con el reloj adelantado (astros y banda Dataflow) o la estrella de luz del hero fija en su pico / apagada (sin QUERY sale apagándose: la primera asoma a los 4,5 s y Chrome fotografía a los ~6); la QUERY aplica también a la tarjeta OG; `NOMBRE=dia` nombra los PNG; `ALTO=16000` para la página entera, que mide ~11.300 px en desktop desde el 13/10). Levanta su propio `http.server` en 8895–8899 y lo mata por PID |
+| `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia`, `QUERY=ciclo=4200`, `QUERY=t=43200000` o `QUERY=estrella=1000` / `estrella=no` fotografía el día, un instante del ciclo del eclipse, la página con el reloj adelantado (astros y banda Dataflow) o la estrella de luz del hero fija en su pico / apagada (sin QUERY sale apagándose: la primera asoma a los 4,5 s y Chrome fotografía a los ~6); la QUERY aplica también a la tarjeta OG; `NOMBRE=dia` nombra los PNG; `ALTO=16000` para la página entera, que mide ~11.300 px en desktop desde el 13/10). Desde el 14/10: `PANTALLA=1` fotografía una sola pantalla real de `ANCHO`×`ALTO` sin fijarle el alto al hero (≤500 de ancho va por el iframe del celular y se recorta al cuadro), `RM=1` con reduced-motion, y el modo OG apila eclipse · RIA LABS · la frase en cualquier encuadre. Levanta su propio `http.server` en 8895–8899 y lo mata por PID (con `exec`, para que no quede suelto) |
 
 **Retratos (2026-10-10).** Generados con `google/nano-banana` vía Replicate (token en
 `~/.credentials/replicate.env`) a partir de las fotos reales de `~/dev/RIALabs/Fotos/` (`otra.jpeg` y
@@ -656,6 +984,103 @@ pie, en el separador y en el favicon a 16/32/64 px sobre oscuro y sobre blanco; 
 calibraron mirando capturas fijas, no el movimiento; si en el navegador la flama se siente demasiado quieta o demasiado
 viva, los diales son `LMIN`/`LMAX`, las duraciones de las dos octavas y la deriva (`omega`) al principio del script
 «FLAMA».
+
+**Retratos stand (2026-10-31, rama `retratos-stand`).** Pedido textual de Matías, el día antes de la Smart City Expo
+Barcelona (3–5/11, los dos en el stand): «a cada costado del logo las imagenes de los ceos, Matias y Sebastian, en movimiento
+como posando esperando que le saquen la foto con el parpadeo de ojos y todo, pero sin pelo agregado. La idea es mostrar los
+CEOs que estan presentes en el stand como una primera vista cuando se visita la home de la empresa». Y al ver la portada:
+«abajo de la maquina, del lado izquierdo, a la altura de RIA, pone la imagen viva de Matias desarrollador, y a la misma
+altura pero del lado derecho, abajo de la red de sistemas, pone la foto viva de Sebastian de Byte». Tres etapas, las tres en
+`scripts/generar-retratos-vivos.py` (familia `stand`); la portada que los usa es de la rama de la otra sesión.
+
+1. **El fijo.** Parte de la familia sobria («sin pelo agregado»). Edición nano-banana con dos cambios y nada más: sacar el
+   eclipse chico (en la portada hay un solo eclipse, el del hero) y agregar una luz de borde dorada, fina, del lado que mira al
+   centro: derecha en Matías (va a la izquierda), izquierda en Sebastián (va a la derecha). El contexto que los identifica
+   —«Matías desarrollador»: las pantallas de código y la maqueta; «Sebastián de Byte»: el muro de cámaras y el rack— se
+   conserva. 3 variantes por persona, cara intacta en las seis (mirada cara a cara al 100 %); elegidas `fondo-stand-matias-1`
+   (el borde más legible) y `fondo-stand-sebastian-3`. Antes de ese giro del brief se habían hecho 6 con **fondo liso** del
+   color del cielo (`fondo-stand-plano-*`): salieron bien de parecido pero más gris-azules que `#0b0a14`; quedan en
+   `_capturas/retratos-vivos/` como alternativa. 12 ediciones, US$ 0,47. Medido en los sobrios: la luz cálida de Matías entra
+   por la izquierda del cuadro y la de Sebastián por la derecha, o sea que con los lados invertidos la clave de cada uno queda
+   del lado de afuera y el borde dorado del lado del eclipse —dos luces, no una contradicción, pero queda anotado. **Nunca se
+   espejó una cara.**
+2. **El clip.** Kling v2.5 turbo pro, `start_image` = `end_image` (el truco del loop), 5 s, 1268×1632, 122 cuadros. Prompt:
+   cámara fija, posando quieto mirando a la lente esperando la foto, dos o tres pestañeos, respiración, micro-ajustes de la
+   sonrisa; **sin viento ni ventilador**, ni un pelo se mueve; el contexto en su lugar y casi quieto (a lo sumo un cursor, sin
+   scroll ni cambios de contenido, porque la costura funde dos clips y un cambio de contenido se vería). 5 clips, US$ 1,75:
+   Matías 1–3 y Sebastián 1–2. Pelo quieto en todos, fondo sin pulsos (cielo ×1,00–1,09, dif de fondo ≤ 1,6). Descartado
+   `matias-1`: un pestañeo lento (0,4 s de ojos cerrados, se lee somnoliento) y una deriva de cabeza entre 1,3 y 2,5 s.
+3. **El loop, en post.** A diferencia de la melena, los clips stand **no tienen cabeza ni cola congeladas** (contra el cuadro
+   0 ya difieren 0,2 en el cuadro 2 y la diferencia crece suave): el tramo útil es el clip entero. Dos clips por persona
+   (Sebastián 1 → 2, Matías 2 → 3), juntas elegidas por el par de cuadros más parecido con la cara pesando ×25 (empalman cuadros
+   casi iguales: los dos clips salen de la misma foto), fundido de 6 cuadros. Como el cuadro 0 es el póster, el loop **se rota**
+   al centro del segundo más quieto con los ojos abiertos (menor desviación máxima de los ojos contra su mediana en ±12
+   cuadros): los fundidos quedan adentro y el cierre es un paso cualquiera. Después, la **viñeta** —rectángulo redondeado
+   (norma 3), plena hasta 0,42 del semilado, a cero en 1,02, centro al 54 % de la altura— mezcla cada cuadro y el póster hacia
+   `#0b0a14`, la misma en todos, para que la portada funda los bordes con el cielo con una máscara CSS. 480×600 porque van
+   chicos (200–260 CSS px de alto) y en la primera pantalla. Sebastián 215 cuadros (8,96 s), Matías 229 (9,54 s).
+
+**Lo medido.** A 192×240 (la escala de la portada) el cierre mide 0,55–0,71 contra un paso medio de 0,10–0,13: es **grano del
+códec** (el I-frame contra el último P-frame; el mapa ×20 es ruido fino parejo, sin contorno), no un salto de imagen, y está
+por debajo de 1/255. Póster ↔ cuadro 0: 0,67–0,76 (JPEG q84 contra H.264), ojos abiertos en los dos. La codificación salió de un
+barrido sobre los PNG del loop de Sebastián: a crf 24 el mp4 pesa 135 KB pero cada cuadro queda a 0,90 del origen (ruido en la
+viñeta); **crf 22 + `aq-mode=3`** (más bits a lo oscuro) baja a 0,79 por 216 KB, y crf 18 a 0,67 por 457 KB sin ganancia visible
+a 240 px. VP9 crf 24 + `aq-mode 2`. **Un solo keyframe por loop** (`-g 999`): libvpx-vp9 metía uno en el cuadro 128, un «pop»
+del mismo tipo que el cierre, adentro del loop. Si en el navegador el reinicio se nota, el dial es crf 18 (≈ el doble de peso).
+Costo de la primera vuelta: ≈ US$ 2,22. Variantes, clips crudos, tiras, hojas de contacto y los PNG de los dos loops en
+`_capturas/retratos-vivos/` (ignorado); `ladoalado-stand-final.png` y `hoja-final-stand.png` son las piezas con que se verificó.
+
+**Segunda vuelta (2026-11-01): la sonrisa y el fundido redondo.** Matías, al ver la portada: «Saca los pequeños eclipses sobre
+las cabezas de Matias y Sebastian y trata de redondear las imagenes de fondo de esas dos fotos. Los fondos de las fotos se
+tienen que difuminar con el fondo de la pagina. Y recuerda hacer las fotos vivas, como dos personas que miran a la camara
+sonrien y pestanean». Los eclipses ya no estaban en los clips (veía en caché los pósters provisorios y el server local no
+servía `Range`, así que Safari no reproducía el video; lo arregló la madre). Lo que sí faltaba: la **sonrisa** de la primera
+vuelta era mínima, con la boca cerrada —el prompt pedía «la media sonrisa se tensa y se relaja casi imperceptiblemente» y el
+negativo llevaba «expression change, smile change, mouth opening»—, y la viñeta era un rectángulo redondeado que llegaba a
+cero recién en el borde: sin máscara CSS se leía el rectángulo.
+
+1. **Clips con la sonrisa como evento.** Mismo Kling, mismos fijos, prompt nuevo: posando, mirando a la lente, «rompe en una
+   sonrisa cálida y franca: se arma en un segundo, los labios se abren y asoman los dientes, las mejillas suben y los ojos se
+   arrugan; la sostiene un par de segundos y vuelve con suavidad a su media sonrisa serena al final» (el truco del loop exige
+   volver a la foto). Negativo sin expresión ni boca; con «grimace, exaggerated smile, laughing». 4 clips, US$ 1,40 (Matías 4–5,
+   Sebastián 3–4), **los cuatro sirven**: en todos la sonrisa aparece a ~1,1 s, abierta entre ~1,4 y ~3,3 s, de vuelta a ~3,6 s;
+   pestañeos naturales, cabeza quieta, pelo inmóvil, fondo sin pulsos. Se lee «persona posando que sonríe a la cámara».
+2. **El loop.** Dos clips por persona, dos sonrisas por loop (Matías 4 → 5: 227 cuadros, 9,46 s; Sebastián 3 → 4: 228, 9,50 s).
+   Las juntas caen en tramos neutros (cola relajada ↔ cabeza antes de la sonrisa). El cuadro 0 (= póster) se elige ahora con
+   **ojos y boca** en reposo (menor desviación contra la mediana por píxel de las dos zonas en ±12 cuadros): neutro, sin
+   pestañeo ni sonrisa.
+3. **Fundido redondo en el asset.** Viñeta **elíptica** centrada en la cara (centro al 44 % de la altura; plena hasta 0,28 del
+   radio, `#0b0a14` puro desde 0,80; radios = semiancho y distancia del centro al borde de abajo): los cuatro bordes del cuadro
+   miden (12, 10, 20) en el mp4, las pantallas de Matías y el muro de Sebastián se pierden en redondo, el torso se funde a la
+   altura del pecho. Aunque no hubiera máscara CSS, no se lee ningún rectángulo. De paso, el cierre del loop a 192×240 bajó a
+   0,35 (antes 0,55–0,71): la elipse deja más cielo puro y menos ruido de códec.
+
+Costo de la segunda vuelta: ≈ US$ 1,40; la familia stand completa, ≈ US$ 3,62 (12 ediciones + 9 clips). Las tiras donde se ve
+la sonrisa: `_capturas/retratos-vivos/retrato-stand-{matias,sebastian}-sonrisa.png` (los loops finales a 8 fps) y
+`kling-*-stand-{3,4,5}-sonrisa.png` (los clips crudos); `hoja-final-stand-sonrisa.png` y `ladoalado-stand-sonrisa.png`, la verificación.
+
+**Tercera vuelta (2026-11-01, más tarde): loops largos, una sonrisa lenta.** Matías, con la portada integrada: «Podemos hacer
+que los videos de Sebastian y Matias sean más largos, y las sonrizas mas lentas? En loop, esos videos parece como que rien y
+se ponen serios muy rapidos». Dos sonrisas de ~2 s cada 9,5 s se leían como reírse y ponerse serio.
+
+1. **Clips de 10 s.** Kling acepta `duration` 10 con start = end (US$ 0,70 el clip). Prompt con la sonrisa repartida en el
+   tiempo (`VIVO_STAND_LENTO`: ~2 s en reposo, ~3 en armarse «como un amanecer lento», ~3 sostenida, ~2 en volver) y negativo
+   con «sudden expression change, fast smile, quick grin». Un clip por persona: `kling-matias-stand-6`, `kling-sebastian-stand-5`
+   (US$ 1,40). Aun así Kling armó la sonrisa rápido: del 20 al 80 % del pico en 1,3 s (Matías) y 1,4 s (Sebastián).
+2. **Plan B, `lento`.** Sólo el tramo de la sonrisa se estira con `minterpolate` (compensación de movimiento, no cuadros
+   duplicados) y el resto queda a velocidad natural: `kling-*-lento.mp4`, 12,42 s y 12,12 s; la sonrisa sube en ~2,2 s.
+3. **El loop de ~18 s** con `post`: el tramo de la sonrisa lenta más tramos neutros de la primera vuelta, y `SONRISA_EN` /
+   `RECORTE` para ubicar la sonrisa y emparejar largos (subcomandos nuevos del script). Qué clips neutros y qué cortes exactos
+   no quedó registrado: la sesión se cortó por cuota de Fable antes de anotarlo; los exports, las juntas
+   (`_capturas/retratos-vivos/final/`) y el script son la fuente.
+
+**Lo medido** por la madre sobre los exports (`costura`): Matías 433 cuadros = 18,04 s, sonrisa 0,8–8,8 s (sube en 1,6 s, baja en
+2,3); Sebastián 430 = 17,92 s, sonrisa 7,5–15,1 s (sube en 2,4, baja en 2,5). Cierre último ↔ primero en la cara 1,61 y 1,96
+contra un paso máximo entre cuadros consecutivos de 3,63 y 2,72: no salta. Revisado cuadro a cuadro a 1,5 fps y de cerca en el
+tramo ralentizado: sin labio doble ni párpado fantasma. En la portada, el segundo retrato (Sebastián) arranca en `DESFASE =
+0,87` de su loop (15,6 s): su sonrisa cae a los ~9,8 s de página, después de la de Matías (0,8–8,8), y termina ~1,4 s antes de
+que Matías vuelva a sonreír. Los largos difieren 0,12 s, así que se corren ~1 s cada 8 vueltas (≈ 2,5 min): suficiente para una
+visita. Costo de la tercera vuelta: US$ 1,40; la familia stand completa, ≈ US$ 5,02.
 
 ### 0.4 Pendientes que deja la v5
 
