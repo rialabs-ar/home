@@ -726,7 +726,7 @@ lo mismo más los retratos vivos de Matías y Sebastián en las esquinas de abaj
 | `assets/retrato-sebastian.mp4` / `.webm` · `assets/retrato-matias.mp4` / `.webm` | **retratos vivos** (2026-10-11): clips 720×900, 24 fps, en loop (9,67 s y 10,25 s), H.264 `yuv420p` sin audio + VP9. Sebastián 1,09 MB / 0,90 MB · Matías 0,83 MB / 0,65 MB |
 | `assets/retrato-sebastian-sobrio.jpg` · `assets/retrato-matias-sobrio.jpg` | la familia **sobria**: los mismos retratos sin la melena (~82 KB y ~79 KB, con el mismo eclipse unificado). Para cambiar de familia alcanza con renombrar; la sobria no tiene clip |
 | `assets/retrato-stand-matias.jpg` · `assets/retrato-stand-sebastian.jpg` | **retratos stand** (2026-10-31, segunda vuelta 01/11), el póster: 480×600 (4:5) JPG progresivo q84, 15 KB y 19 KB. Es **exactamente el cuadro 0** del loop de al lado, un momento neutro (ojos abiertos, boca en reposo). La familia sobria sin su eclipse chico, con el contexto de cada uno conservado y fundido **en redondo** hacia el cielo `#0b0a14` (viñeta elíptica centrada en la cara: cielo puro antes del borde, sin rectángulo), y una luz de borde dorada del lado que mira al centro de la portada: Matías va a la IZQUIERDA (borde a la derecha), Sebastián a la DERECHA (borde a la izquierda). Los usa el encuadre 4 de la portada (`?hero=4`, §0.1), que apunta a estos nombres. |
-| `assets/retrato-stand-matias.mp4` / `.webm` · `assets/retrato-stand-sebastian.mp4` / `.webm` | los **retratos stand vivos**: posando, miran a cámara, **sonríen** (una sonrisa franca que aparece, se sostiene y se relaja, dos veces por loop) y pestañean; pelo inmóvil, contexto casi quieto. 480×600, 24 fps, loop de 9,46 s (Matías, 227 cuadros) y 9,50 s (Sebastián, 228), H.264 `yuv420p` sin audio + VP9, un solo keyframe. Matías 141 KB / 96 KB · Sebastián 173 KB / 117 KB. |
+| `assets/retrato-stand-matias.mp4` / `.webm` · `assets/retrato-stand-sebastian.mp4` / `.webm` | los **retratos stand vivos**: posando, miran a cámara, **sonríen** (una sola sonrisa lenta por loop: se arma en ~2 s, se sostiene y se suelta en ~2,5 s) y pestañean; pelo inmóvil, contexto casi quieto. 480×600, 24 fps, loop de 18,04 s (Matías, 433 cuadros, sonrisa 0,8–8,8 s) y 17,92 s (Sebastián, 430, sonrisa 7,5–15,1 s), H.264 `yuv420p` sin audio + VP9, un solo keyframe. Matías 269 KB / 161 KB · Sebastián 331 KB / 205 KB (tercera vuelta, 01/11). |
 | `scripts/generar-retratos-vivos.py` | cómo se hicieron el eclipse unificado y los retratos vivos (abajo): `fondo`, `video`, `post`, y `costura` para medir el loop; y la familia `stand` (`fondo-stand`, `medir-stand`, `vinetear`, `post <p>-stand`) |
 | `assets/eclipse-corona.webp` · `.jpg` | **la corona fotográfica** (2026-10-12): WebP 1000×1000 con alfa desde la luminancia, 150 KB, el disco negro centrado a r = 0,1515 del lado. El jpg (37 KB) es la misma toma sobre negro. **Desde el 13/10 la página no carga ninguno de los dos** (la corona es la flama procedural); quedan en el repo por si el ciclo o la foto vuelven |
 | `assets/eclipse-sol.webp` | la fotósfera en luz blanca, 720×720, alfa = disco (r = 0,4873 del lado), 20 KB. Desde el 13/10 va en `data-href`: se descarga sólo cuando el ciclo o `?tema=dia` la piden |
@@ -954,6 +954,29 @@ cero recién en el borde: sin máscara CSS se leía el rectángulo.
 Costo de la segunda vuelta: ≈ US$ 1,40; la familia stand completa, ≈ US$ 3,62 (12 ediciones + 9 clips). Las tiras donde se ve
 la sonrisa: `_capturas/retratos-vivos/retrato-stand-{matias,sebastian}-sonrisa.png` (los loops finales a 8 fps) y
 `kling-*-stand-{3,4,5}-sonrisa.png` (los clips crudos); `hoja-final-stand-sonrisa.png` y `ladoalado-stand-sonrisa.png`, la verificación.
+
+**Tercera vuelta (2026-11-01, más tarde): loops largos, una sonrisa lenta.** Matías, con la portada integrada: «Podemos hacer
+que los videos de Sebastian y Matias sean más largos, y las sonrizas mas lentas? En loop, esos videos parece como que rien y
+se ponen serios muy rapidos». Dos sonrisas de ~2 s cada 9,5 s se leían como reírse y ponerse serio.
+
+1. **Clips de 10 s.** Kling acepta `duration` 10 con start = end (US$ 0,70 el clip). Prompt con la sonrisa repartida en el
+   tiempo (`VIVO_STAND_LENTO`: ~2 s en reposo, ~3 en armarse «como un amanecer lento», ~3 sostenida, ~2 en volver) y negativo
+   con «sudden expression change, fast smile, quick grin». Un clip por persona: `kling-matias-stand-6`, `kling-sebastian-stand-5`
+   (US$ 1,40). Aun así Kling armó la sonrisa rápido: del 20 al 80 % del pico en 1,3 s (Matías) y 1,4 s (Sebastián).
+2. **Plan B, `lento`.** Sólo el tramo de la sonrisa se estira con `minterpolate` (compensación de movimiento, no cuadros
+   duplicados) y el resto queda a velocidad natural: `kling-*-lento.mp4`, 12,42 s y 12,12 s; la sonrisa sube en ~2,2 s.
+3. **El loop de ~18 s** con `post`: el tramo de la sonrisa lenta más tramos neutros de la primera vuelta, y `SONRISA_EN` /
+   `RECORTE` para ubicar la sonrisa y emparejar largos (subcomandos nuevos del script). Qué clips neutros y qué cortes exactos
+   no quedó registrado: la sesión se cortó por cuota de Fable antes de anotarlo; los exports, las juntas
+   (`_capturas/retratos-vivos/final/`) y el script son la fuente.
+
+**Lo medido** por la madre sobre los exports (`costura`): Matías 433 cuadros = 18,04 s, sonrisa 0,8–8,8 s (sube en 1,6 s, baja en
+2,3); Sebastián 430 = 17,92 s, sonrisa 7,5–15,1 s (sube en 2,4, baja en 2,5). Cierre último ↔ primero en la cara 1,61 y 1,96
+contra un paso máximo entre cuadros consecutivos de 3,63 y 2,72: no salta. Revisado cuadro a cuadro a 1,5 fps y de cerca en el
+tramo ralentizado: sin labio doble ni párpado fantasma. En la portada, el segundo retrato (Sebastián) arranca en `DESFASE =
+0,87` de su loop (15,6 s): su sonrisa cae a los ~9,8 s de página, después de la de Matías (0,8–8,8), y termina ~1,4 s antes de
+que Matías vuelva a sonreír. Los largos difieren 0,12 s, así que se corren ~1 s cada 8 vueltas (≈ 2,5 min): suficiente para una
+visita. Costo de la tercera vuelta: US$ 1,40; la familia stand completa, ≈ US$ 5,02.
 
 ### 0.4 Pendientes que deja la v5
 

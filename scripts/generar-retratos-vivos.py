@@ -97,7 +97,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 FFMPEG = "/opt/homebrew/bin/ffmpeg"
 FFPROBE = "/opt/homebrew/bin/ffprobe"
 
-PRECIO = {"nano-banana": 0.039, "kling": 0.07 * 5, "seedance": {"480p": 0.03 * 5, "720p": 0.06 * 5, "1080p": 0.15 * 5}}
+PRECIO = {"nano-banana": 0.039, "kling": 0.07 * 5, "kling-s": 0.07, "seedance": {"480p": 0.03 * 5, "720p": 0.06 * 5, "1080p": 0.15 * 5}}
 
 # ══════════════════════════════════════════════════════════════════════════════════════════════════
 # 1. FONDO — la idea común del eclipse en los dos retratos
@@ -281,11 +281,46 @@ VIVO_STAND = {
               "rack with blue LEDs keeps its LEDs steadily lit, not blinking",
         RASGOS="same rectangular glasses, same grey-streaked beard, same eyes"),
 }
+# Tercera vuelta (2026-11-01, más tarde). Matías, con la portada integrada: «Podemos hacer que los videos de Sebastian y
+# Matias sean más largos, y las sonrizas mas lentas? En loop, esos videos parece como que rien y se ponen serios muy
+# rapidos». Clips de 10 s (Kling acepta duration 5 | 10 con start=end; US$ 0,70 el de 10) con la sonrisa repartida en el
+# tiempo: ~2 s en reposo, ~3 s en armarse, ~3 s sostenida, ~2 s en volver, y reposo hasta el final. El loop largo se arma
+# después con los clips neutros de la primera vuelta (kling-*-stand-1/2/3), que no cuestan nada.
+VIVO_STAND_LENTO_COMUN = (
+    "Locked-off photographic portrait on a tripod: the camera does not move at all, the framing is identical from the "
+    "first frame to the last. The man stands still, posing for the photographer, looking straight into the lens the "
+    "whole time, relaxed and unhurried. Timeline of the ten seconds: for the first two seconds he simply holds his calm "
+    "{SONRISA}, breathing quietly. Then a warm, genuine smile builds VERY SLOWLY, over about three full seconds, like a "
+    "slow sunrise: the corners of his mouth lift little by little, his lips part gradually to show a hint of his teeth, "
+    "his cheeks rise and his eyes crease gently. He holds the full open smile, steady and kind, for about three seconds. "
+    "Then the smile fades just as slowly, over about two seconds, back to his calm {SONRISA}, which he holds until the "
+    "end. Nothing is sudden: every change of expression is gradual and gentle, never a quick grin, never a laugh. He "
+    "blinks naturally a few times at normal speed. His chest rises and falls with slow quiet breathing and his head has "
+    "the tiniest natural micro-movements. There is NO wind and NO fan: his hair does not move at all, not a single "
+    "strand, and his clothes do not move. {ROPA} The background stays in place and almost still: {FONDO}. No scrolling, "
+    "no content changing, no flashing, no shadows passing, no light pulsing. Constant lighting throughout: the same warm "
+    "key light on his face and the same thin golden rim light on his {LADO} edge. Same face, same identity, {RASGOS} "
+    "from start to finish. Photoreal, cinematic, 24 fps, no morphing. The last frame matches the first frame exactly so "
+    "the clip loops seamlessly."
+)
+VIVO_STAND_LENTO = {
+    "matias-stand":    VIVO_STAND_LENTO_COMUN.format(
+        SONRISA="knowing half-smile", ROPA="He keeps his arms crossed, still.", LADO="right",
+        FONDO="the monitors with code may show at most a cursor blinking or a faint shimmer of the text, and the blue "
+              "wireframe city model does not move",
+        RASGOS="same stubble beard, same eyes, same crossed arms"),
+    "sebastian-stand": VIVO_STAND_LENTO_COMUN.format(
+        SONRISA="calm half-smile", ROPA="The collar of his navy jacket stays still.", LADO="left",
+        FONDO="the video wall of street-camera feeds is nearly frozen, with at most a faint shimmer, and the equipment "
+              "rack with blue LEDs keeps its LEDs steadily lit, not blinking",
+        RASGOS="same rectangular glasses, same grey-streaked beard, same eyes"),
+}
 # El negativo de la familia stand NO lleva «expression change, smile change, mouth opening» (la sonrisa es el evento).
 NEGATIVO_STAND = ("camera movement, zoom, pan, dolly, handheld shake, face change, identity change, different person, talking, "
                   "head turning away, looking away, extra limbs, extra hands, text, watermark, flicker, lighting change, warping, "
                   "morphing, blur, cartoon, grimace, exaggerated smile, laughing, wind, breeze, fan, hair moving, hair blowing, "
                   "clothes moving, scrolling text, screens changing, LEDs blinking")
+NEGATIVO_STAND_LENTO = NEGATIVO_STAND + ", sudden expression change, fast smile, quick grin"
 
 
 # ── Replicate ─────────────────────────────────────────────────────────────────────────────────────
@@ -438,13 +473,16 @@ def vinetear_archivo(origen, destino, tam=None):
 # ── 2. video ──────────────────────────────────────────────────────────────────────────────────────
 def video(modelo, persona, n=1, imagen=None, resolucion="720p"):
     stand = persona in VIVO_STAND
+    lenta = stand and os.environ.get("SONRISA") == "lenta"      # tercera vuelta: la sonrisa lenta, pensada para 10 s
+    dur = int(os.environ.get("DURACION", 5))                     # kling: 5 | 10
     img = pathlib.Path(imagen) if imagen else ASSETS / f"retrato-{persona}.jpg"
     uri = data_uri(img)
-    prompt = VIVO_STAND[persona] if stand else VIVO[persona] + (VIENTO_FUERTE if os.environ.get("VIENTO") == "fuerte" else "")
+    prompt = (VIVO_STAND_LENTO if lenta else VIVO_STAND)[persona] if stand else VIVO[persona] + (VIENTO_FUERTE if os.environ.get("VIENTO") == "fuerte" else "")
     if modelo == "kling":
         nombre, entrada = "kwaivgi/kling-v2.5-turbo-pro", {
-            "prompt": prompt, "negative_prompt": NEGATIVO_STAND if stand else NEGATIVO, "start_image": uri, "end_image": uri, "duration": 5}
-        costo = PRECIO["kling"]
+            "prompt": prompt, "negative_prompt": (NEGATIVO_STAND_LENTO if lenta else NEGATIVO_STAND) if stand else NEGATIVO,
+            "start_image": uri, "end_image": uri, "duration": dur}
+        costo = PRECIO["kling-s"] * dur
     elif modelo == "seedance":
         nombre, entrada = "bytedance/seedance-1-pro", {
             "prompt": prompt, "image": uri, "last_frame_image": uri, "duration": 5, "resolution": resolucion,
@@ -583,7 +621,7 @@ ZONA_BOCA = {"matias": (0.40, 0.49, 0.62, 0.58), "sebastian": (0.38, 0.46, 0.64,
 for _p in ("matias", "sebastian"):
     ZONA_BOCA[f"{_p}-stand"] = ZONA_BOCA[_p]
 
-def _cuadro_quieto(cuadros, zona_ojos, radio=12, zona_boca=None):
+def _cuadro_quieto(cuadros, zona_ojos, radio=12, zona_boca=None, centro=None, ancho=72):
     """Índice del cuadro cuyo entorno (±radio) tiene la menor desviación máxima de los ojos (y la boca, si se pasa) contra
     su mediana por píxel: lejos de cualquier pestañeo o sonrisa, con la cara como está casi todo el tiempo."""
     from PIL import Image, ImageChops, ImageStat
@@ -605,7 +643,33 @@ def _cuadro_quieto(cuadros, zona_ojos, radio=12, zona_boca=None):
     dev = [ImageStat.Stat(ImageChops.difference(o, ref)).mean[0] for o in ojos]
     n = len(dev)
     peor = [max(dev[(i + k) % n] for k in range(-radio, radio + 1)) for i in range(n)]
-    return min(range(n), key=lambda i: (peor[i], dev[i]))
+    candidatos = range(n) if centro is None else [(centro + t) % n for t in range(-ancho, ancho + 1)]   # ±3 s del centro
+    return min(candidatos, key=lambda i: (peor[i], dev[i]))
+
+def _rotar_sonrisa(cuadros, R0, segundos, zona_ojos, zona_boca, radio=12):
+    """Devuelve (R, ini, fin): R rota el loop para que la sonrisa arranque en `segundos`, ajustado al cuadro quieto más
+    cercano; ini/fin son la sonrisa medida (índices en el loop sin rotar, con el cuadro R0 como boca en reposo)."""
+    from PIL import ImageChops, ImageStat
+    n = len(cuadros); w, h = cuadros[0].size
+    zb = (int(zona_boca[0] * w), int(zona_boca[1] * h), int(zona_boca[2] * w), int(zona_boca[3] * h))
+    zo = (int(zona_ojos[0] * w), int(zona_ojos[1] * h), int(zona_ojos[2] * w), int(zona_ojos[3] * h))
+    g = [im.convert("L") for im in cuadros]
+    d = lambda a, b, z: ImageStat.Stat(ImageChops.difference(a.crop(z), b.crop(z))).mean[0]
+    boca = [d(x, g[R0], zb) for x in g]; pico = max(boca) or 1
+    alto = [v / pico > 0.35 for v in boca]
+    # la sonrisa más larga (tramo circular de cuadros altos)
+    mejor = None; i = 0
+    while i < n:
+        if alto[i]:
+            j = i
+            while alto[j % n] and j - i < n: j += 1
+            if mejor is None or j - i > mejor[1] - mejor[0]: mejor = (i, j)
+            i = j
+        else: i += 1
+    ini, fin = mejor if mejor else (R0, R0)
+    R = (ini - round(segundos * 24)) % n
+    # el cuadro quieto (ojos y boca en reposo, sin pestañeo en ±radio) más cercano a R, dentro de ±3 s
+    return _cuadro_quieto(cuadros, zona_ojos, radio, zona_boca, centro=R), ini, fin
 
 def post(persona, clips, fundido=6, ventana=30):
     """clips: uno o más mp4 de la misma persona (y del mismo modelo, para que no cambie el color). Salida:
@@ -624,7 +688,12 @@ def post(persona, clips, fundido=6, ventana=30):
         for k, ch in enumerate(chicos):
             if fam == "stand":   # posando quieto no hay tramo congelado que recortar: el clip entero
                 a, z = 0, len(ch) - 1
-                print(f"  {pathlib.Path(clips[k]).name}: {len(ch)} cuadros, entero ({len(ch) / 24:.2f} s)")
+                # RECORTE="k:a-b[,k:a-b]" limita el clip k a los cuadros [a, b] (tercera vuelta: para igualar el largo de los
+                # dos loops se acorta un clip neutro; la junta se busca en la cola nueva y el fundido hace el resto)
+                for r in filter(None, os.environ.get("RECORTE", "").split(",")):
+                    kk, ab = r.split(":"); 
+                    if int(kk) == k: a, z = (int(x) for x in ab.split("-"))
+                print(f"  {pathlib.Path(clips[k]).name}: {len(ch)} cuadros, " + ("entero" if (a, z) == (0, len(ch) - 1) else f"recortado a {a}–{z}") + f" ({(z - a + 1) / 24:.2f} s)")
             else:
                 a, z, _ = _tramo_movil(ch, ZONA_PELO[persona])
                 print(f"  {pathlib.Path(clips[k]).name}: {len(ch)} cuadros, pelo en movimiento del {a} al {z} ({(z - a) / 24:.2f} s)")
@@ -673,6 +742,13 @@ def post(persona, clips, fundido=6, ventana=30):
             # el cuadro 0 pasa a ser el centro del segundo más quieto en la zona de los ojos (la menor desviación máxima
             # contra la mediana por píxel en ±12 cuadros), los fundidos quedan adentro y el cierre es un paso cualquiera.
             R = _cuadro_quieto(final, ZONA_OJOS[persona], zona_boca=ZONA_BOCA[persona])
+            # SONRISA_EN=<segundos> (tercera vuelta): para que los dos loops no sonrían a la vez, el cuadro 0 se corre para
+            # que la sonrisa (la boca lejos de la del cuadro quieto, > 35 % del pico) arranque en ese segundo; el cuadro 0
+            # resultante se ajusta al cuadro quieto más cercano (ojos y boca en reposo) para que el póster siga neutro.
+            if os.environ.get("SONRISA_EN"):
+                R, ini, fin = _rotar_sonrisa(final, R, float(os.environ["SONRISA_EN"]), ZONA_OJOS[persona], ZONA_BOCA[persona])
+                print(f"  SONRISA_EN={os.environ['SONRISA_EN']}: la sonrisa medida iba de {ini / 24:.2f} a {fin / 24:.2f} s; cuadro 0 → {R}")
+            R = (R + int(os.environ.get("ROTAR_EXTRA", 0))) % len(final)   # ajuste fino a mano, en cuadros, si hace falta
             final = final[R:] + final[:R]
             centros = sorted((c - R) % len(final) for c in centros)
             print(f"  rotado {R} cuadros: el cuadro 0 es el más quieto con los ojos abiertos y la boca en reposo; fundidos en "
@@ -701,6 +777,36 @@ def post(persona, clips, fundido=6, ventana=30):
     for ext in (("jpg", "mp4", "webm") if fam == "stand" else ("mp4", "webm")):
         pth = pathlib.Path(f"{dest}.{ext}")
         print(f"{pth.name}: {pth.stat().st_size / 1024:.0f} KB" + ("" if ext == "jpg" else f", {duracion(pth):.2f} s"))
+
+
+# ── lento: re-temporizar SÓLO un tramo de un clip (la sonrisa) con interpolación de movimiento ──────
+# Plan B de la tercera vuelta, si Kling no hace la sonrisa lenta ni a 10 s: el tramo [a, b) del clip se estira ×factor con
+# `minterpolate` (mci + aobmc + bidir: cuadros intermedios por compensación de movimiento, no duplicados) y el resto queda a
+# velocidad natural. Sale un mp4 casi sin pérdida (crf 10) que entra a `post` como un clip más. Los pestañeos que caigan
+# dentro del tramo se ralentizan también: elegir [a, b) sin pestañeos (`costura` los lista) o aceptar uno más lento.
+# Revisar cuadro a cuadro (tira a 12 fps de la boca y los ojos): minterpolate puede dejar un labio doble o un párpado fantasma.
+def lento(clip, salida, factor, *tramos):
+    """tramos: pares a b (cuadros, [a, b)) en orden creciente; cada uno se estira ×factor. Los tramos no deben contener pestañeos."""
+    clip = pathlib.Path(clip); factor = float(factor); cortes = [int(x) for x in tramos]
+    assert len(cortes) % 2 == 0 and cortes == sorted(cortes), "tramos: pares a b crecientes"
+    n = int(subprocess.run([FFPROBE, "-v", "error", "-count_frames", "-select_streams", "v:0", "-show_entries", "stream=nb_read_frames",
+                            "-of", "csv=p=0", str(clip)], capture_output=True, text=True, check=True).stdout.strip())
+    bordes = [0] + cortes + [n]           # segmentos alternados: normal, lento, normal, lento, …, normal
+    partes = []; etiquetas = []
+    for k, (a, b) in enumerate(zip(bordes, bordes[1:])):
+        if b <= a: continue
+        et = f"s{k}"; etiquetas.append(et)
+        if k % 2 == 1:
+            partes.append(f"[0:v]trim=start_frame={a}:end_frame={b},setpts=(PTS-STARTPTS)*{factor},"
+                          f"minterpolate=fps=24:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1[{et}]")
+        else:
+            partes.append(f"[0:v]trim=start_frame={a}:end_frame={b},setpts=PTS-STARTPTS[{et}]")
+    fc = ";".join(partes) + ";" + "".join(f"[{e}]" for e in etiquetas) + f"concat=n={len(etiquetas)}:v=1:a=0[v]"
+    subprocess.run([FFMPEG, "-hide_banner", "-loglevel", "error", "-y", "-i", str(clip), "-filter_complex", fc, "-map", "[v]",
+                    "-r", "24", "-c:v", "libx264", "-preset", "slow", "-crf", "10", "-pix_fmt", "yuv420p", str(salida)], check=True)
+    extra = sum((b - a) * (factor - 1) for a, b in zip(cortes[::2], cortes[1::2]))
+    print(f"{salida}: " + ", ".join(f"{a}–{b} ({(b - a) / 24:.2f} s → {(b - a) * factor / 24:.2f} s)" for a, b in zip(cortes[::2], cortes[1::2]))
+          + f" ×{factor} · clip {n} → ≈{n + extra:.0f} cuadros")
 
 
 # ── costura: ¿empalma el loop? ¿pestañea en el corte? ¿salta del póster al cuadro 0? ─────────────────
@@ -742,6 +848,25 @@ def costura(persona, clip=None):
     cruza = bool(tramos) and (tramos[0][0] == 0 or tramos[-1][1] == len(fr) - 1)
     print("  pestañeos (ojos lejos de la mediana): " + (", ".join(f"{a}–{b} ({a / 24:.2f} s)" for a, b in tramos) or "ninguno")
           + (" · uno cruza el corte" if cruza else ""))
+    if persona in ZONA_BOCA:
+        # Sonrisas: la boca lejos de la del cuadro 0 (que en el loop es neutro por la rotación, y en un clip crudo es la foto),
+        # normalizada al pico; una sonrisa es un tramo ≥ 0,5 s por encima del 35 % del pico. (Con la mediana no sirve: en un
+        # clip de 10 s la sonrisa ocupa más de la mitad y la mediana ES la sonrisa.) Se imprime también cuánto tarda en subir
+        # del 20 % al 80 % del pico y en bajar del 80 % al 20 %: eso es lo que se percibe como «lenta» o «rápida».
+        zb = box(ZONA_BOCA[persona]); bocas = [f.crop(zb) for f in fr]
+        db = [d(o, bocas[0]) for o in bocas]; pico = max(db) or 1; niv = [v / pico for v in db]
+        son, cur = [], None
+        for i, v in enumerate(niv):
+            if v > 0.35: cur = [i, i] if cur is None else [cur[0], i]
+            elif cur: son.append(tuple(cur)); cur = None
+        if cur: son.append(tuple(cur))
+        son = [t for t in son if t[1] - t[0] >= 12]
+        det = []
+        for a, b in son:
+            sube = next((i for i in range(a, b + 1) if niv[i] >= 0.8), b) - next((i for i in range(max(a - 24, 0), b + 1) if niv[i] >= 0.2), a)
+            baja = next((i for i in range(b, min(b + 24, len(niv) - 1) + 1) if niv[i] <= 0.2), b) - next((i for i in range(b, a, -1) if niv[i] >= 0.8), b)
+            det.append(f"{a / 24:.1f}–{b / 24:.1f} s ({(b - a) / 24:.1f} s; sube en {sube / 24:.1f} s, baja en {baja / 24:.1f} s)")
+        print("  sonrisas (boca > 35 % del pico, ≥ 0,5 s): " + (", ".join(det) or "ninguna"))
     poster = pathlib.Path(f"{_salida(persona)}.jpg")
     if poster.exists():
         p = Image.open(poster).convert("L").resize((w, h), Image.LANCZOS)
@@ -853,6 +978,8 @@ if __name__ == "__main__":
             tira(c)
     elif a[0] == "post":   # post <persona> <clip.mp4> [clip2.mp4 ...]   (FUNDIDO=6 cuadros por defecto)
         post(a[1], a[2:], int(os.environ.get("FUNDIDO", 6)))
+    elif a[0] == "lento":   # lento <clip.mp4> <salida.mp4> <factor> a b [a2 b2 ...]
+        lento(a[1], a[2], a[3], *a[4:])
     elif a[0] == "costura":   # costura <persona> [clip.mp4]
         costura(a[1], a[2] if len(a) > 2 else None)
     elif a[0] == "igualar-eclipse":   # origen referencia salida cx cy rcx rcy [cy_nuevo]
