@@ -61,7 +61,10 @@
   `_capturas/hero-stand/` (ignorado). **Depende de los retratos reales** (`assets/retrato-stand-*`, §0.3, los produce
   otra sesión): el ajuste fino de la máscara, el `object-position` (hoy 50 % 30 %: con los provisorios Matías queda un
   poco más abajo que Sebastián porque su cabeza viene más baja en el cuadro) y el `DESFASE`, que hay que mirar con los
-  pestañeos reales. Los encuadres 1–3 y el de por defecto (2) no cambian.
+  pestañeos reales. Los encuadres 1–3 y el de por defecto (2) no cambian. **Los reales entraron el 01/11** (merge de
+  `retratos-stand`, 480×600, sin el eclipse chico): en la captura a 1440×900 las dos cabezas quedan a la misma altura y la
+  máscara funde bien con los stops de los provisorios, así que no se tocó nada; el `DESFASE` sigue sin mirarse en un
+  navegador real.
 - **RIA Smartcity (2026-10-29).** «Creo que tenemos que renombrar RIA Espacios a RIA Smartcity para poder abarcar
   esta expo Barcelona a la que estamos a punto de ir y nuestro nuevo producto RIA Smartcity Entrypoint. Sin perder el
   resto de las cosas que ya hicimos.» El producto 02 vuelve a llamarse **RIA Smartcity** (Smart City Expo World
