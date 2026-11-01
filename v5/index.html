@@ -313,6 +313,10 @@
   /* Desde el 14/10 la máquina vive en el hero, debajo del logo: sin fondo de banda ni bordes, el cielo pasa
      (cómo se reparte el alto: «HERO · los tres encuadres»). */
   .maq-svg { display: block; width: 100%; height: auto; overflow: visible; }
+  /* el stand (encuadre 4): la red de la salida es abierta y sigue más allá de la caja de la sección («la red abierta» en
+     el script), así que la sección no recorta; y baja al z-index de los retratos, que vienen después en el DOM, para que
+     la red pase por detrás de ellos. Sigue encima del eclipse (z 2, antes en el DOM): la química se pinta sobre la luna. */
+  html[data-hero="4"] .hero .maq { overflow: visible; z-index: 2; }
   .maq-t1, .maq-t2 { text-align: center; font-size: 15px; letter-spacing: 0.3px; line-height: 1.5; opacity: 0; transform: translateY(8px); transition: opacity 1.2s ease, transform 1.2s ease, color var(--t-tema) ease; }
   .maq-t1 { font-weight: 300; color: var(--muted); margin-top: 26px; transition-delay: 1s, 1s, 0s; }
   .maq-t2 { font-weight: 400; color: var(--white); margin-top: 4px; transition-delay: 3.4s, 3.4s, 0s; }
@@ -1718,7 +1722,17 @@
     var R = 100, RIN = 92;    // el aro del reactor y el radio de la cámara (unidades de la simulación)
     var VAR = document.documentElement.getAttribute('data-hero') || '2';
     var OJO = VAR === '2' || VAR === '4';   // el eclipse es el reactor (el 4, el stand, es el 2 con los retratos)
+    // en el stand la salida es una red abierta sin productos (ver «la red abierta», abajo); la red tiene su propio azar
+    // determinista para que la misma caja dé siempre la misma red y la reacción no gaste el suyo en armarla
+    var ABIERTA = VAR === '4', seedR = 0;
+    function rndR(){ seedR = (seedR + 0x6D2B79F5) | 0; var t = Math.imul(seedR ^ (seedR >>> 15), 1 | seedR); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
+    function posPag(n){ var x = 0, y = 0; while (n) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; } return { x: x, y: y }; }
     var ecl = document.getElementById('sistema-wrap'), pie = document.getElementById('maq-pie');
+    if (ABIERTA) {
+      // sin los tres productos en la red, el grupo no tiene enlaces ni nada que leer: los productos están en el nav
+      var gcon0 = document.getElementById('mq-con'); gcon0.setAttribute('aria-hidden', 'true'); gcon0.setAttribute('pointer-events', 'none');
+      svg.setAttribute('aria-label', 'La máquina: a la izquierda una cámara, un sensor y un registro, piezas de una máquina que conduce datos hasta un reactor con forma de eclipse; adentro los datos se funden y forman estructuras; a la derecha salen como pulsos de energía de colores que se reparten por una red abierta que se pierde en el cielo.');
+    }
     var mq = window.matchMedia('(max-width: 860px)');
     var L = null, V = null;    // trazado vigente y la vista armada sobre él
     function stToG(x, y){ var e = L.est; return e.rot ? { x: e.x - y, y: e.y + x } : { x: e.x + x, y: e.y + y }; }
@@ -1756,6 +1770,13 @@
         T.clip = T.rm * 0.985; T.q = T.rm * 0.93 / RIN;
         T.est = vert ? { x: T.re.x, y: T.re.y - T.R - LC - 360, rot: 90 } : { x: T.re.x - T.R - LC - 360, y: T.re.y, rot: 0 };
         firma = [ex, ey, rm].map(function(v){ return Math.round(v); }).join(',');
+        if (ABIERTA) {
+          // la red abierta sigue más allá de la caja: cuánto hay de ventana alrededor (en unidades de diseño). El hero
+          // está arriba de la página, así la posición en la página es la posición en la ventana
+          var pp = posPag(sec), iw = window.innerWidth, ih = window.innerHeight;
+          T.ext = { izq: pp.x / g, arr: pp.y / g, der: Math.max(0, iw - pp.x - W) / g, aba: Math.max(0, ih - pp.y - H) / g };
+          firma += '|' + [iw, ih, Math.round(pp.x), Math.round(pp.y)].join(',');
+        }
       }
       T.g = g;
       T.fs = clamp(9.5 * g, 8.5, 11) / g;   // las etiquetas, en unidades de diseño
@@ -1773,6 +1794,8 @@
     var P = [], bonds = [], flashes = [], toks = [], pulsos = [], sec2 = [], lit = [0, 0, 0], litMin = [], ultimaSalida = -1e9, ultimoProd = -1, compuerta = 0, presion = 0;
     var RMAX = 86, NMAX = 34, REST = 13, SEP = 10, BD = 11.5, MAXB = 3, MAXC = 7, AC = 260, DAMP = 2.4, VMAX = 34, KS = 16, KR = 34, PBOND = 3.2;
     var INLET = { x: -RIN, y: 0 }, OUTLET = { x: RIN, y: 0 };
+    // la red abierta: los destellos (segmentos ya decididos, cada uno con su arista, su instante y su energía) y el último tronco usado
+    var segs = [], ultimoTronco = -1, VEL = 150;   // unidades de diseño por segundo de un destello por la red
     var DEV = [ { cad: 2.6, next: 0.9, c: 0, port: 215 }, { cad: 3.6, next: 2.3, c: 2, port: 180 }, { cad: 4.8, next: 3.9, c: 1, port: 145 } ];   // s entre tokens de cámara · sensor · registro
     var T_IN = 3.8, T_ROT = 0.6, T_MAIN = 4.2, T_PUL = 1.7, T_SEC = 0.9;   // s: tramo de entrada · distribuidor · cañería principal · pulso · pulso secundario
     var ROT_PER = 12;   // s por vuelta del distribuidor (tres canales: cada puerta se alinea cada 4 s)
@@ -1810,6 +1833,38 @@
       // el producto de destino: nunca el mismo dos veces seguidas, con un poco de azar
       var i = Math.floor(rnd() * 3); if (i === ultimoProd) i = (i + 1 + Math.floor(rnd() * 2)) % 3;
       ultimoProd = i; pulsos.push({ i: i, t0: simT });
+    }
+    /* ── la red abierta: un destello de energía sale por el conducto de un tronco y se reparte por la red, de nodo en
+       nodo siempre alejándose de la salida, bifurcándose en algunos y perdiendo energía en cada salto hasta apagarse
+       a lo lejos. Todo el recorrido se decide al lanzarlo (con rndR: reproducible), así pintar es sólo leer. c es el
+       color: 0·1·2 el de la partícula que cruzó la brida (azul, violeta, teal), 3 el dorado de la estructura entera. ── */
+    function lanzarChispa(c, t0){
+      var N = V && V.N; if (!N || !N.abierta || !N.troncos.length) return;
+      var col = c === 3 ? HI : PCOL[c];
+      var k = Math.floor(rndR() * 3); if (k === ultimoTronco) k = (k + 1 + Math.floor(rndR() * 2)) % 3;
+      ultimoTronco = k;
+      var ti = N.troncos[k], st = { nb: 0, ns: 0 };
+      segs.push({ cond: k, b: ti, t0: t0, dur: T_PUL, col: col, e: 1 });
+      ramificar(N, ti, t0 + T_PUL, col, 0.92, L.dir, null, st, 0);
+    }
+    function ramificar(N, ni, t0, col, e, dir, via, st, prof){
+      while (e >= 0.2 && prof <= 9 && st.ns < 18) {
+        var n = N.nodos[ni], outs = [], ws = [], tot = 0, k;
+        for (k = 0; k < n.out.length; k++) { var o = n.out[k]; if (o === via || N.nodos[o.b].f < 0.05) continue; var w = 0.3 + Math.max(0, o.dx * dir.x + o.dy * dir.y); outs.push(o); ws.push(w); tot += w; }
+        if (!outs.length) return;
+        // la arista que sigue: con preferencia por la que mantiene el rumbo
+        var r = rndR() * tot, pk = 0; for (; pk < outs.length - 1; pk++) { r -= ws[pk]; if (r <= 0) break; }
+        var ed = outs[pk];
+        // en algunos nodos el destello se bifurca: una rama más débil sigue por otra arista
+        if (outs.length > 1 && st.nb < 3 && prof >= 1 && rndR() < 0.45) {
+          st.nb++; var ed2 = outs[(pk + 1 + Math.floor(rndR() * (outs.length - 1))) % outs.length], d2 = ed2.len / VEL;
+          st.ns++; segs.push({ ed: ed2, a: ni, b: ed2.b, t0: t0, dur: d2, col: col, e: e * 0.75 });
+          ramificar(N, ed2.b, t0 + d2, col, e * 0.75 * 0.86, { x: ed2.dx, y: ed2.dy }, ed2, st, prof + 1);
+        }
+        var du = ed.len / VEL;
+        st.ns++; segs.push({ ed: ed, a: ni, b: ed.b, t0: t0, dur: du, col: col, e: e });
+        t0 += du; e *= 0.86; dir = { x: ed.dx, y: ed.dy }; via = ed; ni = ed.b; prof++;
+      }
     }
 
     /* ── un paso de 1/60 s: tokens, reacción, salidas, pulsos. Todo lo que decide usa rnd(): el orden es fijo. ── */
@@ -1869,7 +1924,15 @@
         p = P[i]; var sp = Math.hypot(p.vx, p.vy), cap = p.ex ? 64 : VMAX; if (sp > cap) { p.vx *= cap / sp; p.vy *= cap / sp; }
         p.x += p.vx * dt; p.y += p.vy * dt;
         var r = Math.hypot(p.x, p.y);
-        if (p.ex && p.x > RIN - 4 && Math.abs(p.y) < 16) { var ex = p.ex; matar(p); if (--ex.n <= 0) lanzarPulso(); continue; }
+        if (p.ex && p.x > RIN - 4 && Math.abs(p.y) < 16) {
+          var ex = p.ex; matar(p);
+          // en la red abierta cada partícula que cruza la brida es un destello de su color (las tres primeras de la
+          // estructura) y la estructura entera, al terminar de cruzar, uno dorado. El pulso de siempre sigue
+          // lanzándose (invisible en el stand): así la reacción es la misma en el encuadre 2 y en el 4
+          if (ABIERTA) { ex.k = (ex.k || 0) + 1; if (ex.k <= 3) lanzarChispa(p.c, simT); if (ex.n <= 1) lanzarChispa(3, simT + 0.3); }
+          if (--ex.n <= 0) lanzarPulso();
+          continue;
+        }
         if (r > RMAX && !(p.ex && p.x > 48 && Math.abs(p.y) < 18)) { var nx = p.x / r, ny = p.y / r, vn = p.vx * nx + p.vy * ny; if (vn > 0) { p.vx -= 1.7 * vn * nx; p.vy -= 1.7 * vn * ny; } p.x = nx * RMAX; p.y = ny * RMAX; }
       }
       // salidas: una estructura que se sostiene (≥4 nodos y 2,5 s sin enlaces nuevos, o un triángulo viejo) cruza a la salida
@@ -1891,6 +1954,8 @@
       }
       for (i = sec2.length - 1; i >= 0; i--) if (simT - sec2[i].t0 >= T_SEC) { litMin[sec2[i].a] = simT; sec2.splice(i, 1); }
       for (i = flashes.length - 1; i >= 0; i--) if (simT - flashes[i].t0 > 0.75) flashes.splice(i, 1);
+      // un destello ya llegado deja brillando su nodo 3,4 s; después se olvida
+      for (i = segs.length - 1; i >= 0; i--) if (simT > segs[i].t0 + segs[i].dur + 3.6) segs.splice(i, 1);
       presion += ((bonds.length / 30) - presion) * 0.8 * dt;
     }
     function avanzar(ms){ var pasos = Math.min(Math.round(ms / 1000 / DT), 24000); while (pasos-- > 0) { paso(); simT += DT; } }
@@ -2144,6 +2209,173 @@
       return N;
     }
 
+    /* ── la red abierta (encuadre 4, el stand; 2026-11-01). Matías: «la parte de la red a la derecha de la máquina
+       quisiera que fuera una red abierta que no termine, que se difumine y pierda en el espacio para que parezca más
+       grande, y sacaría los nombres de los productos como ítems en la red, sólo salen de la máquina química pulsos de
+       energía que se distribuyen por la red, de diferentes colores». La constelación cerrada de los tres productos deja
+       lugar a una red sin nombres que sale de la brida en abanico y sigue hasta el borde de la ventana y más allá (en
+       este encuadre la sección no recorta): más nodos y más aristas cuanto más lejos —la separación mínima baja de 64 a
+       32 px— y más tenues y más finos, hasta quedar como estrellas. Se arma con rndR (semilla fija: la misma caja da
+       siempre la misma red). Coordenadas de la constelación: u a lo largo del flujo, v a lo ancho; la red vive en
+       unidades globales una vez puesta. Lo que no se ve no se dibuja (nodos y aristas bajo 0,04 de fade). ── */
+    function armarRedAbierta(g){
+      var N = { abierta: true, nodos: [], aristas: [], troncos: [], doradas: [], cond: [], tw: [], glow: {} }, i, j, k;
+      V.out = { x: L.re.x + L.dir.x * L.R, y: L.re.y + L.dir.y * L.R };
+      V.duenos = [[], [], []];   // los pulsos de la constelación siguen corriendo invisibles: no tienen a quién propagarse
+      seedR = 20261101;
+      var o = V.out, X = L.ext || { izq: 0, arr: 0, der: 0, aba: 0 }, vb = L.vb, W = vb[2], H = vb[3], g0 = L.g, MAS = 100 / g0;
+      // el abanico: en horizontal se abre desde la brida hacia la derecha, arriba y abajo; en vertical hay poco alto
+      // entre la brida y los retratos, así que se abre casi de inmediato hacia los costados, hasta los bordes y más allá
+      var umax, vmin, vmax, UMIN = L.vert ? 20 : 95, ANCHO0 = L.vert ? 40 : 60, PEND = L.vert ? 3.5 : 1.25;
+      if (!L.vert) { umax = (W + X.der + MAS - o.x) / L.kx; vmin = (-X.arr - MAS - o.y) / L.ky; vmax = (H + X.aba + MAS - o.y) / L.ky; }
+      else { umax = (H + 10 / g0 - o.y) / L.kx; vmin = (o.x - W - X.der - MAS) / L.ky; vmax = (o.x + X.izq + MAS) / L.ky; }
+      if (!(umax > UMIN + 40)) { N.troncos = []; return N; }
+      var Dfar = Math.hypot(umax * L.kx, Math.max(-vmin, vmax) * L.ky), D0 = Dfar * 0.2, D1 = Dfar * 1.02;
+      var yb = (H + X.arr) * g0;   // el pie de la caja, en px desde el borde de arriba de la ventana
+      // el retrato de Sebastián (abajo a la derecha, delante de la red): su foto, leída del DOM, en px de ventana
+      var ret = !L.vert && document.querySelector('.stand-der .stand-media'), RB = null;
+      if (ret && ret.offsetWidth > 0) { var rp = posPag(ret); RB = { x0: rp.x, y0: rp.y, x1: rp.x + ret.offsetWidth, y1: rp.y + ret.offsetHeight }; }
+      // cuánto se ve un punto: decae con la distancia a la salida (piso: una estrella); se apaga bajo el nav; en
+      // horizontal se atenúa bajo la caja y alrededor de la foto del retrato (pasa por detrás, muy tenue); en
+      // vertical muere antes del wordmark y los retratos
+      function fade(u, v){
+        var p = conToG(u, v), dist = Math.hypot(u * L.kx, v * L.ky), f = 0.08 + 0.92 * (1 - sm((dist - D0) / (D1 - D0)));
+        var Xw = (p.x + X.izq) * g0, Y = (p.y + X.arr) * g0;
+        if (!L.vert) {
+          f *= sm((Y - 48) / 100); f *= 1 - 0.7 * sm((Y - yb + 40) / 160);
+          if (RB) { var dr = Math.hypot(Math.max(RB.x0 - Xw, 0, Xw - RB.x1), Math.max(RB.y0 - Y, 0, Y - RB.y1)); f *= 0.1 + 0.9 * sm(dr / 80); }
+        }
+        else f *= 1 - sm((Y - yb + 80) / 90);
+        return clamp(f, 0, 1);
+      }
+      // en vertical el abanico es un sector de 100° desde la brida (alcanza los flancos de abajo del eclipse, hacia los
+      // bordes); en los dos, nunca sobre la flama del eclipse
+      var U0 = L.vert ? -140 : UMIN;
+      function adentro(u, v){
+        if (u < U0 || u > umax || v < vmin || v > vmax) return false;
+        if (L.vert ? Math.atan2(Math.abs(v) * L.ky, u * L.kx) > 1.75 : Math.abs(v) >= ANCHO0 + PEND * u) return false;
+        var p = conToG(u, v); return Math.hypot(p.x - L.re.x, p.y - L.re.y) > L.R * 1.3;
+      }
+      // muestreo de Poisson con radio que baja con la distancia (64 px cerca → 32 lejos; en vertical 46 → 24, que hay
+      // menos lugar): más nodos cuanto más lejos
+      var RN = (L.vert ? 46 : 64) / g0, RF = (L.vert ? 24 : 32) / g0, TR = [[150, -100], [250, -6], [180, 94]], pts = [], celda = {}, CEL = RN, tries = 0;
+      function rad(u, v){ return RN + (RF - RN) * sm(Math.hypot(u * L.kx, v * L.ky) / (Dfar * 0.9)); }
+      function meter(p){ var cx = Math.floor(p.u * L.kx / CEL), cy = Math.floor(p.v * L.ky / CEL); (celda[cx + ',' + cy] = celda[cx + ',' + cy] || []).push(p); pts.push(p); }
+      function libre(u, v, r){
+        var cx = Math.floor(u * L.kx / CEL), cy = Math.floor(v * L.ky / CEL), a, b;
+        for (a = cx - 1; a <= cx + 1; a++) for (b = cy - 1; b <= cy + 1; b++) {
+          var c = celda[a + ',' + b]; if (!c) continue;
+          for (var q = 0; q < c.length; q++) { var du = (c[q].u - u) * L.kx, dv = (c[q].v - v) * L.ky; if (du * du + dv * dv < r * r) return false; }
+        }
+        return true;
+      }
+      TR.forEach(function(p, q){ meter({ u: p[0], v: p[1], tronco: q }); });
+      while (pts.length < 420 && tries++ < 14000) {
+        var u = U0 + rndR() * (umax - U0), v = vmin + rndR() * (vmax - vmin);
+        if (adentro(u, v) && libre(u, v, rad(u, v))) meter({ u: u, v: v, tronco: -1 });
+      }
+      pts.forEach(function(p){ var q = conToG(p.u, p.v); p.x = q.x; p.y = q.y; p.d = Math.hypot(p.u * L.kx, p.v * L.ky); p.f = fade(p.u, p.v); p.out = []; });
+      pts.sort(function(a, b){ return a.d - b.d; });
+      N.nodos = pts;
+      pts.forEach(function(p, q){ p.i = q; if (p.tronco >= 0) N.troncos[p.tronco] = q; });
+      // aristas: cada nodo con sus 2 vecinos más cercanos (3 a lo lejos) a menos de 2,4 radios, y siempre con uno
+      // más cercano a la salida que él, para que un destello pueda llegarle. a es la punta de adentro
+      var claves = {};
+      function enlazar(i, j, dorada){
+        var lo = Math.min(i, j), hi = Math.max(i, j), kk = lo + ',' + hi; if (i === j || claves[kk]) return null; claves[kk] = 1;
+        var pa = pts[i].d <= pts[j].d ? i : j, pb = pa === i ? j : i, A = pts[pa], B = pts[pb], len = Math.hypot(B.x - A.x, B.y - A.y) || 1;
+        var e = { a: pa, b: pb, len: len, dx: (B.x - A.x) / len, dy: (B.y - A.y) / len, f: Math.min(A.f, B.f), dorada: !!dorada, i: N.aristas.length };
+        N.aristas.push(e); A.out.push(e); return e;
+      }
+      var n = pts.length;
+      for (i = 0; i < n; i++) {
+        var p = pts[i], K = p.f > 0.5 ? 2 : 3, rmax = rad(p.u, p.v) * 2.4, cand = [];
+        for (j = 0; j < n; j++) if (j !== i) { var dd = Math.hypot(pts[j].x - p.x, pts[j].y - p.y); if (dd < rmax) cand.push([dd, j]); }
+        cand.sort(function(a, b){ return a[0] - b[0]; });
+        var arriba = false;
+        for (k = 0; k < K && k < cand.length; k++) { enlazar(i, cand[k][1]); if (pts[cand[k][1]].d < p.d) arriba = true; }
+        if (!arriba) for (k = K; k < cand.length; k++) if (pts[cand[k][1]].d < p.d) { enlazar(i, cand[k][1]); break; }
+      }
+      // los tres troncos van unidos entre sí por las aristas doradas que respiran, como los productos de la original
+      if (N.troncos.length === 3) { enlazar(N.troncos[0], N.troncos[1], true); enlazar(N.troncos[1], N.troncos[2], true); }
+      // dibujo: las aristas debajo, los nodos encima. Cerca, el gris violeta de la constelación; a medida que se
+      // aleja, el color se corre al violeta de los nodos (color-mix, con el gris como respaldo en la misma cascada
+      // para un navegador sin color-mix) y la opacidad baja: a lo lejos quedan puntos violeta tenues, como las
+      // estrellas del cielo. Los colores van por style y no por atributo, para que el respaldo funcione
+      var gA = mk('g', {}, g), gN = mk('g', {}, g);
+      function mezcla(f){ var P = Math.round(Math.pow(clamp(f, 0, 1), 0.9) * 10) * 10; return P >= 100 ? NODO : 'color-mix(in srgb, ' + NODO + ' ' + P + '%, var(--maq-vio))'; }
+      N.aristas.forEach(function(e){
+        var A = pts[e.a], B = pts[e.b];
+        if (e.dorada) { e.col = N.doradas.length % 2 ? HI : C; e.oE = 0.42; e.wE = 1; e.css = 'stroke:' + e.col; }
+        else { e.col = mezcla(e.f); e.oE = 0.9 * e.f * (0.42 + 0.58 * e.f); e.wE = 0.8 * (0.4 + 0.6 * e.f); e.css = 'stroke:' + NODO + ';stroke:' + e.col; }
+        if (e.oE < 0.03) { e.el = null; return; }
+        e.el = mk('line', { x1: f1(A.x), y1: f1(A.y), x2: f1(B.x), y2: f1(B.y), style: e.css, 'stroke-width': f2(e.wE), opacity: f2(e.oE) }, gA);
+        if (e.dorada) N.doradas.push({ el: e.el, i: e.i, per: 6000 + N.doradas.length * 1700, ph: N.doradas.length * 2.1 });
+      });
+      pts.forEach(function(p, q){
+        var h = hash(q + 3), tr = p.tronco >= 0;
+        p.col = tr ? C : q % 3 === 0 ? 'var(--maq-vio)' : mezcla(p.f);   // cada tercero violeta, como en la constelación
+        p.cssN = 'fill:' + NODO + ';fill:' + p.col; p.cssA = 'stroke:' + NODO + ';stroke:' + p.col;
+        p.rN = (tr ? 2.6 : 1.4 + 0.5 * h) * (0.55 + 0.45 * p.f); p.oN = (tr ? 0.95 : 0.6) * Math.pow(p.f, 0.8) * (0.5 + 0.5 * p.f);
+        p.rA = (tr ? 7 : 3 + 2 * h) * (0.5 + 0.5 * p.f); p.oA = 0.9 * p.f;
+        p.el = null; p.nuc = null; p.gc = null;
+        if (p.f < 0.04) return;
+        if (p.f > 0.3 || tr) p.el = mk('circle', { cx: f1(p.x), cy: f1(p.y), r: f1(p.rA), fill: 'var(--bg2)', style: p.cssA, 'stroke-width': tr ? 1.1 : 0.8, opacity: f2(p.oA) }, gN);
+        p.nuc = mk('circle', { cx: f1(p.x), cy: f1(p.y), r: f1(p.rN), style: p.cssN, opacity: f2(p.oN) }, gN);
+        p.per = 5000 + hash(q + 7) * 9000; p.ph = hash(q + 7) * TAU;
+        if (p.f > 0.3) N.tw.push(q);
+      });
+      // los conductos de salida del reactor a cada tronco (los mismos de la constelación), y su largo para los destellos
+      N.troncos.forEach(function(ti, i){
+        var m = pts[ti], d = L.dir, c1 = { x: o.x + d.x * 54 * L.kx, y: o.y + d.y * 54 * L.kx }, c2 = { x: m.x - d.x * 64 * L.kx, y: m.y - d.y * 64 * L.kx };
+        var curva = ' C ' + f1(c1.x) + ' ' + f1(c1.y) + ', ' + f1(c2.x) + ' ' + f1(c2.y) + ', ' + f1(m.x) + ' ' + f1(m.y);
+        var oC = i === 1 ? 0.5 : 0.38, pth = mk('path', { d: 'M ' + f1(o.x) + ' ' + f1(o.y) + curva, fill: 'none', stroke: i === 1 ? HI : C, 'stroke-width': i === 1 ? 1.2 : 1, opacity: oC }, g);
+        var lim = { x: L.re.x + d.x * L.clip, y: L.re.y + d.y * L.clip };
+        var pp = mk('path', { d: 'M ' + f1(lim.x) + ' ' + f1(lim.y) + ' L ' + f1(o.x) + ' ' + f1(o.y) + curva, fill: 'none', stroke: 'none' }, g);
+        N.cond.push({ el: pp, len: pp.getTotalLength(), vis: pth, col: i === 1 ? HI : C, oC: oC, gc: null });
+      });
+      return N;
+    }
+    function tocar(gl, key, g, col){ var t = gl[key]; if (!t || t.g < g) gl[key] = { g: g, col: col }; }
+    function pintarRed(N, T){
+      var i, k, p, e, gl = {}, prev = N.glow, slot = 0, key;
+      // los destellos: cada segmento activo ocupa un lugar del pool; la arista se enciende al entrar el destello y
+      // decae en 2,6 s; el nodo, al llegar, en 3,4 s. Los que llegaron ya sólo dejan brillo
+      for (i = 0; i < segs.length; i++) {
+        var s = segs[i], tE = simT - s.t0; if (tE < 0) continue;
+        var f = tE / s.dur, col = s.col, ge = s.e * (1 - sm(tE / 2.6));
+        if (ge > 0.02) tocar(gl, s.cond !== undefined ? 'c' + s.cond : 'e' + s.ed.i, ge, col);
+        if (f >= 1) { var gn = s.e * (1 - sm((tE - s.dur) / 3.4)); if (gn > 0.02) tocar(gl, 'n' + s.b, gn, col); continue; }
+        if (slot >= V.chispas.length) continue;
+        var ch = V.chispas[slot++], pos, cola, fp;
+        if (s.cond !== undefined) { var cd = N.cond[s.cond], e1 = f < 0.5 ? 2 * f * f : -1 + (4 - 2 * f) * f; pos = cd.el.getPointAtLength(cd.len * e1); cola = cd.el.getPointAtLength(cd.len * Math.max(0, e1 - 0.06)); fp = 1; }
+        else { var A = N.nodos[s.a], B = N.nodos[s.b], q = Math.max(0, f - Math.min(0.4, 16 / s.ed.len)); pos = { x: A.x + (B.x - A.x) * f, y: A.y + (B.y - A.y) * f }; cola = { x: A.x + (B.x - A.x) * q, y: A.y + (B.y - A.y) * q }; fp = A.f + (B.f - A.f) * f; }
+        var op = s.e * (0.3 + 0.7 * fp);
+        if (ch.col !== col) { ch.col = col; ch.c.setAttribute('fill', col); ch.cola.setAttribute('stroke', col); }
+        ch.c.setAttribute('cx', f1(pos.x)); ch.c.setAttribute('cy', f1(pos.y)); ch.c.setAttribute('r', f1(1.1 + 1.5 * s.e)); setOp(ch.c, 0.95 * op);
+        ch.cola.setAttribute('x1', f1(cola.x)); ch.cola.setAttribute('y1', f1(cola.y)); ch.cola.setAttribute('x2', f1(pos.x)); ch.cola.setAttribute('y2', f1(pos.y)); setOp(ch.cola, 0.5 * op);
+      }
+      for (; slot < V.chispas.length; slot++) { setOp(V.chispas[slot].c, 0); setOp(V.chispas[slot].cola, 0); }
+      // de fondo, los nodos cercanos titilan apenas, cada uno con su período; las aristas doradas respiran
+      for (i = 0; i < N.tw.length; i++) { p = N.nodos[N.tw[i]]; if (!gl['n' + N.tw[i]]) setOp(p.nuc, (0.45 + 0.15 * Math.sin(T / p.per * TAU + p.ph)) * p.f); }
+      for (i = 0; i < N.doradas.length; i++) { var dl = N.doradas[i]; if (!gl['e' + dl.i]) setOp(dl.el, 0.3 + 0.22 * Math.sin(T / dl.per * TAU + dl.ph)); }
+      // lo que brilla toma el color del destello; lo que brillaba y ya no, vuelve a su color de base
+      for (key in gl) {
+        var t = gl[key], tipo = key.charAt(0), idx = +key.slice(1);
+        if (tipo === 'n') { p = N.nodos[idx]; if (!p.nuc) continue; if (p.gc !== t.col) { p.gc = t.col; p.nuc.style.fill = t.col; if (p.el) p.el.style.stroke = t.col; }
+          setOp(p.nuc, p.oN + (1 - p.oN) * t.g); p.nuc.setAttribute('r', f1(p.rN + 1.8 * t.g)); if (p.el) setOp(p.el, p.oA + (1 - p.oA) * t.g); }
+        else if (tipo === 'e') { e = N.aristas[idx]; if (!e.el) continue; if (e.gc !== t.col) { e.gc = t.col; e.el.style.stroke = t.col; } setOp(e.el, e.oE + (0.95 - e.oE) * t.g); e.el.setAttribute('stroke-width', f2(e.wE + 0.6 * t.g)); }
+        else { var c = N.cond[idx]; if (c.gc !== t.col) { c.gc = t.col; c.vis.setAttribute('stroke', t.col); } setOp(c.vis, c.oC + (0.95 - c.oC) * t.g); }
+      }
+      for (key in prev) if (!gl[key]) {
+        tipo = key.charAt(0); idx = +key.slice(1);
+        if (tipo === 'n') { p = N.nodos[idx]; if (!p.nuc) continue; p.gc = null; p.nuc.style.cssText = p.cssN; p.nuc.setAttribute('r', f1(p.rN)); setOp(p.nuc, p.oN); if (p.el) { p.el.style.cssText = p.cssA; setOp(p.el, p.oA); } }
+        else if (tipo === 'e') { e = N.aristas[idx]; if (!e.el) continue; e.gc = null; e.el.style.cssText = e.css; e.el.setAttribute('stroke-width', f2(e.wE)); setOp(e.el, e.oE); }
+        else { c = N.cond[idx]; c.gc = null; c.vis.setAttribute('stroke', c.col); setOp(c.vis, c.oC); }
+      }
+      N.glow = gl;
+    }
+
     function armar(T){
       L = T;
       svg.setAttribute('viewBox', L.vb.map(f1).join(' '));
@@ -2166,10 +2398,16 @@
       V.E = armarEstacion(gs['mq-est']);
       V.K = armarConductos(gs['mq-cond']);
       V.Rr = armarReactor(gs['mq-re']);
-      V.N = armarConstelacion(gs['mq-con']);
+      V.N = ABIERTA && L.ojo ? armarRedAbierta(gs['mq-con']) : armarConstelacion(gs['mq-con']);
       V.toks = []; for (var k = 0; k < 12; k++) { var gl = mk('circle', { r: 5, opacity: 0 }, gs['mq-tok']), c = mk('circle', { r: 2.3, opacity: 0 }, gs['mq-tok']); V.toks.push({ c: c, gl: gl }); }
-      V.pul = []; for (k = 0; k < 6; k++) { var cola = mk('circle', { r: 1.7, fill: HI, opacity: 0 }, gs['mq-pul']), pc = mk('circle', { r: 2.7, fill: FL, opacity: 0 }, gs['mq-pul']); V.pul.push({ c: pc, cola: cola }); }
-      V.sec = []; for (k = 0; k < 8; k++) V.sec.push(mk('circle', { r: 1.8, fill: FL, opacity: 0 }, gs['mq-pul']));
+      if (V.N.abierta) {
+        // los destellos de la red abierta: núcleo y cola; los recorridos en vuelo apuntaban a la red anterior
+        V.chispas = []; for (k = 0; k < 28; k++) { var cl = mk('line', { stroke: HI, 'stroke-width': 1.1, opacity: 0, 'stroke-linecap': 'round' }, gs['mq-pul']), cc2 = mk('circle', { r: 2.4, fill: FL, opacity: 0 }, gs['mq-pul']); V.chispas.push({ c: cc2, cola: cl, col: null }); }
+        segs.length = 0;
+      } else {
+        V.pul = []; for (k = 0; k < 6; k++) { var cola = mk('circle', { r: 1.7, fill: HI, opacity: 0 }, gs['mq-pul']), pc = mk('circle', { r: 2.7, fill: FL, opacity: 0 }, gs['mq-pul']); V.pul.push({ c: pc, cola: cola }); }
+        V.sec = []; for (k = 0; k < 8; k++) V.sec.push(mk('circle', { r: 1.8, fill: FL, opacity: 0 }, gs['mq-pul']));
+      }
       V.pipeLen = V.E.pipes.map(function(p){ return p.getTotalLength(); });
       V.mainLen = V.K.main.getTotalLength();
       // las partículas vivas vuelven a tomar un círculo de la vista nueva
@@ -2251,6 +2489,8 @@
         if (!fsh || quieto) { setOp(fe, 0); continue; }
         var ff = (simT - fsh.t0) / 0.75; fe.setAttribute('cx', f1(fsh.x)); fe.setAttribute('cy', f1(fsh.y)); fe.setAttribute('r', f1(2 + 13 * ff)); setOp(fe, 0.9 * (1 - ff) * (1 - ff));
       }
+      // la red abierta del stand: destellos, brillos y titilar (el resto de este cuadro es de la constelación)
+      if (N.abierta) { pintarRed(N, T); return; }
       // pulsos por los conductos, y los secundarios de un producto a sus nodos menores
       for (i = 0; i < V.pul.length; i++) {
         var pv = V.pul[i], pu = pulsos[i];
@@ -2302,9 +2542,11 @@
         pend = 0;
         var T = trazado();
         if (!T || (L && T.firma === L.firma)) return;
-        armar(T); pintar(RM);
+        armar(T); if (RM) componerQuieto(); pintar(RM);
       });
     }
+    // el cuadro quieto de reduced-motion en la red abierta: cuatro destellos ya en camino, de los cuatro colores
+    function componerQuieto(){ if (V && V.N.abierta) { lanzarChispa(0, simT - 1.9); lanzarChispa(2, simT - 1.3); lanzarChispa(1, simT - 0.8); lanzarChispa(3, simT - 0.3); } }
     var T0 = trazado(); if (T0) armar(T0);
     if ('ResizeObserver' in window) { var ro = new ResizeObserver(rearmar); ro.observe(sec); if (OJO && ecl) ro.observe(ecl); }
     window.addEventListener('resize', rearmar, { passive: true });
@@ -2313,7 +2555,7 @@
     function mostrar(){ sec.classList.add('vis'); if (pie) pie.classList.add('vis'); }
     if (RM) {
       // un cuadro compuesto y quieto, con el Analítico recién encendido
-      avanzar(PRE + (T_INI || 11000)); lit[0] = simT - 0.5; litMin[0] = simT - 1; if (V) pintar(true);
+      avanzar(PRE + (T_INI || 11000)); lit[0] = simT - 0.5; litMin[0] = simT - 1; componerQuieto(); if (V) pintar(true);
       mostrar();
     } else {
       new IntersectionObserver(function(es){
