@@ -158,6 +158,17 @@
     .nav-links { display: none; } .nav-burger { display: block; }
     .nav-menu { padding-left: 52px; padding-right: 52px; }
   }
+  /* Móviles (02/11): en pantallas táctiles los blancos de toque de la nav llegan a ~44 px sin cambiar el dibujo (padding
+     con margen negativo, o un ::before invisible); el menú se desplaza si no entra en la pantalla (el teléfono en
+     horizontal: 390 px de alto) y, con el teléfono en horizontal, la nav pierde el aire de arriba aunque pase de 860 px */
+  .nav-menu { max-height: calc(100vh - 62px); max-height: calc(100dvh - 62px); overflow-y: auto; overscroll-behavior: contain; }
+  @media (hover: none), (pointer: coarse) {
+    .nav-logo { padding: 8px 0; margin: -8px 0; }
+    .nav-links a { padding: 12px 0; }
+    .nav-burger, .nav-cta { position: relative; }
+    .nav-burger::before, .nav-cta::before { content: ''; position: absolute; inset: -5px -4px; }
+  }
+  @media (orientation: landscape) and (max-height: 500px) { nav { padding-top: 14px; padding-bottom: 14px; } }
 
   /* ── HERO ─────────────────────────────────────────── */
   .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 104px 24px 76px; position: relative; overflow: hidden; }
@@ -735,6 +746,68 @@
     footer{flex-direction:column;gap:14px;text-align:center;padding:28px 24px;}
     .f-links{display:none;} .contact{padding:80px 24px 100px;}
   }
+
+  /* ── MÓVILES (02/11) ─────────────────────────────────
+     Matías muestra la home desde el teléfono y la tablet en la Smart City Expo. Todo va en media queries de pantalla
+     táctil, angosta o de teléfono en horizontal (alto ≤ 500 px): el escritorio no cambia. */
+  /* táctil: blancos de toque de ~44 px sin agrandar el dibujo (un ::before invisible; en los rótulos de la oficina, el
+     ::after, que con el dedo no tiene flecha que mostrar). El círculo que se toca de cada satélite lo agranda su script. */
+  @media (hover: none), (pointer: coarse) {
+    .pi-link, .c-email { position: relative; }
+    .pi-link::before, .c-email::before { content: ''; position: absolute; inset: -12px -6px; }
+    .f-links a { padding: 13px 0; }   /* el pie en la tablet acostada: enlaces de 12 px */
+    .ros-sala::after, .ros-sala:hover::after, .ros-sala:focus-visible::after { content: ''; position: absolute; inset: -12px -8px; margin: 0; opacity: 0; }
+    /* la red abierta de la máquina sale a los costados de su banda: la recorta la banda, no sólo el body (en iOS el
+       overflow-x del body no siempre impide arrastrar la página de costado) */
+    .maq-banda { overflow-x: clip; }
+  }
+  @media (max-width: 860px) {
+    /* lo que hay que leer, a 10 px o más: la línea de arriba y la de la feria (eran 9 y 8,5), los rótulos de las salas
+       de la oficina (eran 9) y la bajada de la tarjeta de Bird Map (13,5 → 14) */
+    .hero-eyebrow { font-size: 10px; letter-spacing: 1.5px; text-wrap: balance; }
+    html[data-hero="4"] .hero-expo, html[data-hero="5"] .hero-expo { font-size: 10px; letter-spacing: 1px; text-wrap: balance; }
+    .ros-sala { font-size: 10px; letter-spacing: 0.6px; }
+    .pd-d { font-size: 14px; }
+    /* las etiquetas de los satélites: con la viñeta de ~340 px, las de 9 unidades quedaban en 6 px. Más grandes y sin el
+       subtítulo, que está entero en la lista de abajo (el script mide el ancho con la letra que tienen) */
+    .prod-vis .sat-lab { font-size: 13px; letter-spacing: 1px; }
+    .prod-vis .sat-s { display: none; }
+    /* el anillo del separador mide 540 px: se recorta en su caja y no hace desbordar la página */
+    #contacto { overflow: hidden; }
+  }
+  /* en el teléfono la viñeta sangra 16 px a cada lado, como en desktop sangra hacia el borde: el astro y sus etiquetas
+     ganan un 10 % */
+  @media (max-width: 480px) {
+    .prod-vis, .prod.inv .prod-vis { width: calc(100% + 32px); max-width: none; margin: 0 -16px; }
+  }
+  /* teléfono en horizontal: la portada entra en la pantalla (el piso de 560 px la estiraba a una pantalla y media) y en el 5
+     los retratos vuelven a los costados del eclipse, con las proporciones de desktop: debajo de RIA / LABS no entraban y
+     quedaban fuera de la primera pantalla. La máquina va horizontal, a lo ancho (el script «LA MÁQUINA» usa la vertical
+     sólo con la pantalla angosta parada). */
+  @media (orientation: landscape) and (max-height: 500px) {
+    html[data-hero="5"] .hero { min-height: 300px; --u: clamp(4px, 1.2vh, 8px); --ria: clamp(36px, 11svh, 56px); --wm-sube: clamp(14px, 5svh, 28px);
+      --h-arriba: calc(64px + var(--u)); --h-abajo: calc(2 * var(--u)); padding-left: 24px; padding-right: 24px; }
+    html[data-hero="5"] .hero-escena { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto auto; margin-top: var(--u); }
+    html[data-hero="5"] #sistema-wrap { grid-area: 1 / 1; height: min(100%, 46vw, 820px); }
+    html[data-hero="5"] .wordmark { grid-area: 2 / 1; margin-top: calc(-1 * var(--wm-sube)); }
+    html[data-hero="5"] .hero-expo { grid-area: 3 / 1; font-size: 10px; letter-spacing: 1.6px; }
+    html[data-hero="5"] .stand { display: block; grid-area: 1 / 1; justify-self: stretch; align-self: stretch; position: relative; z-index: 2; margin: 0; pointer-events: none;
+      container-type: size; --e: min(100cqh, 46vw, 820px); --ret-h: calc(var(--e) * 0.64); --x: calc(var(--e) * 0.65); }
+    html[data-hero="5"] .stand-ancla { position: absolute; top: calc(100% - var(--e) / 2); left: calc(50% - var(--x)); width: 0; height: 0; }
+    html[data-hero="5"] .stand-der .stand-ancla, html[data-hero="5"] .stand-der .stand-rotulo { left: calc(50% + var(--x)); }
+    html[data-hero="5"] .stand-media { --ret-h: calc(var(--e) * 0.64); left: 50%; top: 0; width: calc(var(--ret-h) * 0.8); height: var(--ret-h); transform: translate(-50%, -44%);
+      -webkit-mask-image: radial-gradient(ellipse 52% 58% at 50% 44%, #000 30%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 82%, transparent 100%);
+              mask-image: radial-gradient(ellipse 52% 58% at 50% 44%, #000 30%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 82%, transparent 100%); }
+    html[data-hero="5"] .stand-media video, html[data-hero="5"] .stand-media img { transform: none; }
+    html[data-hero="5"] .stand-rotulo { position: absolute; top: calc(100% - var(--e) / 2 + var(--ret-h) * 0.47); left: calc(50% - var(--x)); transform: translateX(-50%);
+      margin: 0; font-size: 12px; line-height: 1.3; letter-spacing: 0.5px; }
+    html[data-hero="5"] .maq { aspect-ratio: 1116 / 320; max-height: 80svh; }
+    /* la oficina en video, entera en la pantalla: el lienzo vuelve a 16:9 sin recortar los costados y se achica al alto
+       (en 3:2 a lo ancho medía casi pantalla y media) */
+    .ros-vid { aspect-ratio: 16 / 9; max-width: min(1280px, calc((100svh - 96px) * 16 / 9)); --ros-mx: 54%; }
+    html[data-tema="dia"] .ros-vid { --ros-mx: 50%; }
+    .ros-vid-lienzo { left: 0; right: 0; }
+  }
 </style>
 <script>if (/[?&]tema=dia(&|$)/.test(location.search)) document.documentElement.setAttribute('data-tema', 'dia');
 /* el hero en una pantalla tiene cinco encuadres (2026-10-14; el 4, 2026-10-31; el 5, 2026-11-01): ?hero=1 escalonado ·
@@ -1052,6 +1125,8 @@
     if (!tpl || !esc || !('content' in tpl)) return;
     var quieto = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) || !!(navigator.connection && navigator.connection.saveData);
     var frag = tpl.content.cloneNode(true);
+    // muted como propiedad, no sólo el atributo: un <video> clonado puede no heredarlo, y sin él iOS no arranca solo
+    Array.prototype.forEach.call(frag.querySelectorAll('video'), function(v){ v.muted = true; v.defaultMuted = true; });
     if (quieto) Array.prototype.forEach.call(frag.querySelectorAll('video'), function(v){
       var img = v.querySelector('img'); if (img) { img.setAttribute('decoding', 'async'); v.parentNode.replaceChild(img, v); }
     });
@@ -1794,7 +1869,9 @@
       var gcon0 = document.getElementById('mq-con'); gcon0.setAttribute('aria-hidden', 'true'); gcon0.setAttribute('pointer-events', 'none');
       svg.setAttribute('aria-label', 'La máquina: a la izquierda una cámara, un sensor y un registro, piezas de una máquina que conduce datos hasta un reactor con forma de eclipse; adentro los datos se funden y forman estructuras; a la derecha salen como pulsos de energía de colores que se reparten por una red abierta que se pierde en el cielo.');
     }
-    var mq = window.matchMedia('(max-width: 860px)');
+    // vertical en las pantallas angostas, salvo el teléfono en horizontal (Móviles, 02/11: alto ≤ 500 px; ahí la vertical
+    // quedaba en una franja de 300 px de alto y la horizontal entra a lo ancho)
+    var mq = window.matchMedia('(max-width: 860px) and (orientation: portrait), (max-width: 860px) and (min-height: 501px)');
     var L = null, V = null;    // trazado vigente y la vista armada sobre él
     function stToG(x, y){ var e = L.est; return e.rot ? { x: e.x - y, y: e.y + x } : { x: e.x + x, y: e.y + y }; }
     function conToG(x, y){ var o = V.out; return L.est.rot ? { x: o.x - y * L.ky, y: o.y + x * L.kx } : { x: o.x + x * L.kx, y: o.y + y * L.ky }; }
@@ -2906,6 +2983,9 @@
     function pol(r, a){ return f1(r * Math.cos(a)) + ' ' + f1(r * Math.sin(a)); }
     function setOp(n, v){ v = Math.round(v * 50) / 50; if (n.__op !== v) { n.__op = v; n.setAttribute('opacity', v); } }
     var systems = [];
+    // Móviles (02/11): con el dedo, el círculo que se toca de cada satélite crece (12 → 22 unidades más que el cuerpo: ~40 px
+    // en un teléfono); con el mouse queda como estaba
+    var TOQUE = !!(window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches), HIT = TOQUE ? 22 : 12;
 
     /* ── OJO (Analítico) · párpados, humor, iris de fibras, pupila que respira, mirada que sigue algo ── */
     function armarOjo(svg){
@@ -3217,6 +3297,12 @@
       var lx = s.rx * Math.cos(a), ly = s.ry * Math.sin(a);
       return { x: CX + lx * Math.cos(s.tilt) - ly * Math.sin(s.tilt), y: CY + lx * Math.sin(s.tilt) + ly * Math.cos(s.tilt), dy: lx * Math.sin(s.tilt) + ly * Math.cos(s.tilt) };
     }
+    // cuántas unidades del dibujo hay entre el cuadro de la viñeta y el borde de la pantalla (menos 4 de aire)
+    function margenEtiquetas(sys){
+      var rc = sys.vis.querySelector('svg').getBoundingClientRect(), vw = document.documentElement.clientWidth;
+      if (!rc.width) return 20;
+      return Math.max(0, Math.min(rc.left, vw - rc.right) / (rc.width / 480) - 4);
+    }
     function pintar(sys, ms, quieto){
       sys.sats.forEach(function(s){
         var a  = s.a0 + s.dir * (ms / s.period) * TAU;
@@ -3229,7 +3315,7 @@
         s.a.style.opacity = (0.48 + 0.52 * (depth + 1) / 2).toFixed(2);
         s.a.classList.toggle('far', depth < -0.3);
         s.body.setAttribute('r', r.toFixed(2)); s.shd.setAttribute('r', r.toFixed(2));
-        s.halo.setAttribute('r', (r + 7).toFixed(2)); s.hit.setAttribute('r', (r + 12).toFixed(2));
+        s.halo.setAttribute('r', (r + 7).toFixed(2)); s.hit.setAttribute('r', (r + HIT).toFixed(2));
         var dxn = x - CX, dyn = y - CY;
         var along = -(dxn * SUN.x + dyn * SUN.y);
         var perp = Math.hypot(dxn + along * SUN.x, dyn + along * SUN.y);
@@ -3247,11 +3333,20 @@
         // la etiqueta va del lado de afuera; cerca de los bordes del cuadro, o si de costado se saldría más de 20 unidades
         // (en celular la viñeta llega al borde de la pantalla), centrada debajo. El ancho se estima por caracteres: DM Mono
         // es monoespaciada (7,6 unidades por letra del nombre, 5,5 del subtítulo)
+        // (Móviles, 02/11: en celular la etiqueta es más grande y sin subtítulo; el ancho por letra se escala con la letra
+        // que de verdad tiene —7,6 es la de 9 px con 2 de espaciado— y se vuelve a medir si cambia el corte)
         if (s.w == null) { var tn = s.lab.querySelector('.sat-n'), tsub = s.lab.querySelector('.sat-s');
-          s.w = Math.max(tn ? tn.textContent.length * 7.6 : 0, tsub ? tsub.textContent.length * 5.5 : 0); }
+          var porLetra = function(n, base, ref){ var cs = getComputedStyle(n), fz = parseFloat(cs.fontSize), ls = parseFloat(cs.letterSpacing) || 0;
+            return cs.display === 'none' ? 0 : fz ? base * (fz * 0.6 + ls) / ref : base; };
+          s.w = Math.max(tn ? tn.textContent.length * porLetra(tn, 7.6, 7.4) : 0, tsub ? tsub.textContent.length * porLetra(tsub, 5.5, 5.5) : 0); }
+        // (Móviles, 02/11: en el teléfono la viñeta llega casi al borde de la pantalla; lim es cuánto puede salirse una
+        // etiqueta del cuadro sin cortarse —en desktop sobra y queda el margen de 20 de siempre— y la centrada debajo se
+        // corre lo justo para no salirse)
+        var lim = sys.lim == null ? (sys.lim = margenEtiquetas(sys)) : sys.lim, sale = Math.min(20, lim);
         var mode = (x > 404 || x < 76) ? 'middle' : (x >= CX ? 'start' : 'end');
-        if ((mode === 'start' && x + r + 9 + s.w > 500) || (mode === 'end' && x - r - 9 - s.w < -20)) mode = 'middle';
+        if ((mode === 'start' && x + r + 9 + s.w > 480 + sale) || (mode === 'end' && x - r - 9 - s.w < -sale)) mode = 'middle';
         var lx2 = mode === 'start' ? (r + 9) : mode === 'end' ? -(r + 9) : 0;
+        if (mode === 'middle') lx2 = clamp(0, s.w / 2 - lim - x, 480 + lim - s.w / 2 - x);
         s.lab.setAttribute('text-anchor', mode);
         s.lab.setAttribute('x', lx2); s.lab.setAttribute('y', mode === 'middle' ? (r + 15) : 3);
         var ts = s.lab.childNodes;
@@ -3287,6 +3382,11 @@
       systems.forEach(function(sys){ sys.vis.__sys = sys; io.observe(sys.vis); });
       window.addEventListener('scroll', parallax, { passive: true }); parallax();
     }
+    // al girar el equipo o cambiar de corte, el ancho de las etiquetas se vuelve a medir (la letra cambia en ≤860)
+    var mqEt = window.matchMedia && window.matchMedia('(max-width: 860px)');
+    function remedir(){ systems.forEach(function(sys){ sys.lim = null; sys.sats.forEach(function(s){ s.w = null; }); if (RM) pintar(sys, T_INI || 5200, true); }); }
+    if (mqEt) mqEt.addEventListener ? mqEt.addEventListener('change', remedir) : mqEt.addListener(remedir);
+    window.addEventListener('resize', function(){ systems.forEach(function(sys){ sys.lim = null; }); if (RM) remedir(); }, { passive: true });
   })();
 
   /* ══════════════════════════════════════════

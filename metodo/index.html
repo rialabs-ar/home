@@ -118,6 +118,17 @@
     .nav-links { display: none; } .nav-burger { display: block; }
     .nav-menu { padding-left: 52px; padding-right: 52px; }
   }
+  /* Móviles (02/11): en pantallas táctiles los blancos de toque de la nav llegan a ~44 px sin cambiar el dibujo (padding
+     con margen negativo, o un ::before invisible); el menú se desplaza si no entra en la pantalla (el teléfono en
+     horizontal: 390 px de alto) y, con el teléfono en horizontal, la nav pierde el aire de arriba aunque pase de 860 px */
+  .nav-menu { max-height: calc(100vh - 62px); max-height: calc(100dvh - 62px); overflow-y: auto; overscroll-behavior: contain; }
+  @media (hover: none), (pointer: coarse) {
+    .nav-logo { padding: 8px 0; margin: -8px 0; }
+    .nav-links a { padding: 12px 0; }
+    .nav-burger, .nav-cta { position: relative; }
+    .nav-burger::before, .nav-cta::before { content: ''; position: absolute; inset: -5px -4px; }
+  }
+  @media (orientation: landscape) and (max-height: 500px) { nav { padding-top: 14px; padding-bottom: 14px; } }
 
   /* copiado de v5/index.html (BUTTONS) el 01/11 — mantener igual */
   /* BUTTONS */
@@ -238,6 +249,28 @@
     .met-b { font-size: 17px; }
     .met-cap { font-size: 10.5px; }
     .met-ctas .btn-gold, .met-ctas .btn-ghost { padding: 13px 26px; }
+  }
+
+  /* ── MÓVILES (02/11) ── Matías muestra la página desde el teléfono y la tablet en la Smart City Expo. Sólo media
+     queries de pantalla táctil, angosta o de teléfono en horizontal (alto ≤ 500 px): el escritorio no cambia. */
+  /* táctil: blancos de toque de ~44 px sin agrandar el dibujo (un ::before invisible) */
+  @media (hover: none), (pointer: coarse) {
+    .c-email { position: relative; }
+    .c-email::before { content: ''; position: absolute; inset: -12px -6px; }
+    .f-links a { padding: 13px 0; }   /* el pie en la tablet acostada: enlaces de 12 px */
+  }
+  /* los epígrafes de las figuras se leen: no bajan de 11 px (en celular eran 10,5) */
+  @media (max-width: 860px) {
+    .met-cap { font-size: 11px; }
+  }
+  /* teléfono en horizontal: la estación vuelve a ir como en desktop, el texto de un lado y el artefacto del otro (a lo
+     ancho, el artefacto de 4:3 medía pantalla y media de alto), y el artefacto entra en el alto de la pantalla */
+  @media (max-width: 860px) and (orientation: landscape) and (max-height: 500px) {
+    .met-est { padding: 44px 0 48px; }
+    .met-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-rows: 1fr auto auto 1fr; grid-template-areas: ". fig" "cab fig" "txt fig" ". fig"; column-gap: 36px; }
+    .met-est.inv .met-grid { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); grid-template-areas: "fig ." "fig cab" "fig txt" "fig ."; }
+    .met-fig { margin-bottom: 0; max-width: min(680px, calc((100svh - 84px) * 4 / 3)); }
+    .met-ghost { font-size: 92px; }
   }
 </style>
 </head>
