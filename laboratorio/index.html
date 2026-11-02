@@ -366,6 +366,7 @@
   @media (hover: none), (pointer: coarse) {
     .lab-mudanza a, .c-email { position: relative; }
     .lab-mudanza a::before { content: ''; position: absolute; inset: -14px -6px; }
+    .lab-mudanza a + a::before { top: -4px; }   /* los dos enlaces van a 8 px: se reparten el espacio entre ellos */
     .c-email::before { content: ''; position: absolute; inset: -12px -6px; }
   }
   /* los rótulos mono de las fichas, de 9 y 9,5 a 10 px */

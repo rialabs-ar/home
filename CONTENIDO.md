@@ -1907,7 +1907,7 @@ agarró un cuadro con el brazo girado).
   pantalla (en 3:2 medía casi pantalla y media). Los retratos del stand se clonan de un `<template>`: ahora se les pone
   `muted` como propiedad además del atributo (sin eso iOS puede no arrancarlos solos).
 - **/dataflow/**: las entradas del motor vertical de 9 a 10 px; la leyenda del pie toca a ~41 px.
-- **/laboratorio/**: los rótulos mono de las fichas de 9 / 9,5 a 10 px; «Verla en RIA Smartcity» toca a ~42 px; en
+- **/laboratorio/**: los rótulos mono de las fichas de 9 / 9,5 a 10 px; los dos enlaces de la mudanza tocan a ~32 px cada uno (eran 13; van a 8 px uno del otro y se reparten el espacio); en
   horizontal las dos puertas van de a par y el video de la ochava entra en el alto de la pantalla.
 - **/metodo/**: los epígrafes de las figuras no bajan de 11 px; en horizontal cada estación va como en desktop (texto y
   artefacto lado a lado) y el artefacto entra en el alto de la pantalla.
