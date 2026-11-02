@@ -57,7 +57,13 @@
   Del surtidor a la caja, cada minuto cuenta»), como ítem de la lista de Smartcity después de Country, y en la línea de
   sabores del linaje de `/laboratorio/`. Satélite no tiene: el astro ya lleva seis y con siete las etiquetas se pisan. Los dos
   responden 200 desde el box (64.176.19.100); esa noche el DNS todavía se propagaba: algún resolver no encontraba
-  `shopping` y otro todavía mandaba `country` al Netlify viejo (`country-rialabs`, una página del Jockey). La
+  `shopping` y otro todavía mandaba `country` al Netlify viejo (`country-rialabs`, una página del Jockey).
+  **Y el 02/11 a la noche:** el ítem **Acceso** («control de ingreso de un mercado concentrador o de un barrio») pasó a
+  ser **Checkpoint**, con su sitio **https://checkpoint.rialabs.ar/** (RIA Checkpoint, el control de acceso y aforo que
+  se armó en `../ria-access` como «RIA Access» y Matías renombró ese día: `../ria-access/docs/prompts-usuario/2026-11-02-nombre-checkpoint.md`).
+  Es el mismo producto con nombre propio, así que reemplaza a Acceso en su lugar en vez de sumarse al lado. El texto sale
+  de su guion: «Quién entra. Quién está. Quién salió.» y «La cámara reconoce; la persona decide.»; nunca «no se
+  identifica». También en el linaje de `/laboratorio/`. Sin satélite, por lo mismo que Station. La
   tabla de abajo queda como registro de qué dice cada página:
 
   | Producto | Rótulo en la home | Enlace | Qué dice la página (el 01/11) |

@@ -144,3 +144,10 @@ Hay que hacer tambien la traduccion al ingles de  https://station.rialabs.ar
 **2026-11-02 10:55** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
 
 bueno publicamos la nueva version de la web en rialabs.ar
+
+---
+
+**2026-11-02 21:36** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
+
+Agreguemos a la lista de productos de Smartcity el RIA Checkpoint :
+ checkpoint.rialabs.ar
