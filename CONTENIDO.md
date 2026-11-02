@@ -1587,8 +1587,10 @@ Queda un `<span id="equipo">` arriba de la sección para los enlaces viejos. La 
 - Etiqueta: **Rosario** · Título: **De dónde salimos**
 - «**De Rosario, provincia de Santa Fe, Argentina.** Una ciudad puerto sobre el Paraná, de ingenieros y de
   programadores. De acá traemos la costumbre de trabajar con lo que ya está —la cámara que ya cuelga en la esquina, el
-  sensor que ya mide, el cuaderno que alguien ya llena a birome— y la de decir lo que todavía no sabemos.»
-- «Esta es la oficina, sin la pared del frente. Arriba, **los programadores**, donde el motor se escribe, y **la sala de
+  sensor que ya mide, el cuaderno que alguien ya llena a birome— y la de decir lo que todavía no sabemos. Trabajamos en
+  Fisherton, al oeste de la ciudad, en la esquina de Donado y Chassaing.» (la última oración, desde el 02/11, §0.8.1)
+- «Esta es nuestra esquina como la imaginamos: la foto real del edificio, con un piso más y las paredes de vidrio para
+  ver adentro. Arriba, **los programadores**, donde el motor se escribe, y **la sala de
   reuniones**, donde un cliente ve sus propios números. Abajo, **el laboratorio**, donde se prueba lo que todavía es
   pregunta, y **el showroom**, abierto a la vereda. En la ochava, una cámara mira la calle las veinticuatro horas. La
   regla es la misma en las cuatro salas: si no está medido, no se dice.»
@@ -1679,7 +1681,105 @@ quedan en el repo **sin uso** (§0.3); la historia de los dos sigue en §7.
 - Ideas que no entraron: la vereda de enfrente de la otra calle con sus casas bajas fugando a la derecha (en ancho), un
   colectivo que pase cada tanto, y en celular un recorrido lento sala por sala en vez del edificio entero.
 
-#### La oficina en video (`#oficina`, rama `oficina-video`, 2026-11-02)
+#### 0.8.1 El mapa de Rosario con la esquina (`#mapa-rosario`, rama `rosario-mapa`, 2026-11-02)
+
+> Prompt verbatim en `docs/prompts-usuario/2026-11-02-oficina-real-mapa-y-video.md`: «Aca tengo una foto real de nuestro
+> edificio en Rosario, en la esquina de Donado y Chassaing. En la sección de Equipo (donde hicimos el dibujo animado) me
+> gustaria que, primero, podamos agregar un dibujo no tan grande del mapa de rosario en la ubicación donde se encuentra el
+> edificio.» (La segunda parte del pedido, el video hecho con IA desde la foto, es otra rama: `oficina-video`.)
+
+**Qué es.** Un plano chico de Rosario dibujado en el lenguaje de la casa (línea fina dorada sobre el cielo, como un plano
+técnico), al lado del texto de «De dónde salimos»: el contorno del municipio con un fondo apenas dorado; el **Paraná**
+con su agua rayada (rayas horizontales finas, como en un plano) y las dos orillas en `--gold-hi`; las **avenidas** en
+trazo tenue (las primarias y las secundarias, más tenues) y la **Circunvalación** y los accesos un poco más marcados; un
+punto en el **Monumento a la Bandera** rotulado *centro*; el **pin** en la esquina, con el anillo de la casa (el
+degradé del eclipse) y un pulso suave de `--gold-hi`; el norte y una escala de 2 km arriba a la derecha (sobre las islas,
+donde no hay nada); esquinas de marco de plano. Rótulos en DM Mono: **ROSARIO**, **RÍO PARANÁ** (paralelo al canal, del
+lado de las islas), *CENTRO*. Abajo a la izquierda (afuera del municipio, donde el plano está vacío), un **recuadro de
+detalle** unido al pin por las dos líneas de una lupa: las calles reales alrededor de la esquina (±115 m) dibujadas como
+en un plano de manzanas —17,3 m entre líneas de edificación, las 20 varas de Rosario— con **todas las ochavas** (sólo
+entre dos calles que existen: el lado liso de una T no se ochava), **la ochava de la oficina** resaltada en `--gold-hi`
+con un anillo chico que late, y los nombres DONADO y CHASSAING sobre sus calles. Debajo del recuadro: **DONADO Y
+CHASSAING** y **FISHERTON**. Sin coordenadas en pantalla (como en el texto de §0.8). Pie, afuera del SVG: *abrir en el
+mapa ↗* (izquierda) y *© OpenStreetMap* (derecha, con enlace a openstreetmap.org/copyright).
+
+**Dónde va.** Dentro de `.ros-txt` (que pasa a `.ros-txt ros-txt-mapa`): el texto en dos columnas pasa a **texto +
+mapa**; los dos párrafos quedan apilados a la izquierda (la grilla los ubica, no se tocaron sus líneas) y el mapa a la
+derecha, ancho `clamp(280px, 33vw, 400px)` —400 px a 1440, 338 a 1024—, alineado con el primer párrafo. En celular
+(≤860 px), abajo del texto, a lo ancho (342 px a 390; tope de 440 en tablets), y con los rótulos chicos un punto más
+grandes (≥ 8,2 px en pantalla; los nombres de calle del recuadro quedan en ~7,3 px). `scroll-margin-top` para que
+`#mapa-rosario` no quede bajo la nav.
+
+**El texto.** Al final del primer párrafo se sumó: «Trabajamos en Fisherton, al oeste de la ciudad, en la esquina de
+Donado y Chassaing.» (la cita del primer párrafo, arriba en §0.8, todavía no la tiene: se dejó así para no chocar con la
+rama del video, que toca el segundo párrafo; al integrar va ahí). El segundo párrafo («Esta es la oficina, sin la pared
+del frente…») no se tocó.
+
+**La esquina, verificada con OpenStreetMap (Overpass, 02/11):**
+
+- El cruce: el **nodo 1732157336**, que comparten las vías *José Agustín Donado* y *Chassaing*: **−32,9286995,
+  −60,7274409**. Cae dentro de *Municipio de Rosario* (relación 3368048, admin_level 7), *Rosario* (8), *Distrito
+  Noroeste* (9) y el barrio **Fisherton** (10; más fino, OSM lo pone en *Nueva Fisherton*, admin_level 11). No es Funes.
+- La **ochava de la oficina**: **−32,928577, −60,727406**, la medida de Matías que usa la Machine
+  (`ria-smartcity-machine/datos/ubicaciones.json`, «Esquina Donado y Chassaing», 26/10): 13,6 m al norte y 3,3 m al este
+  del cruce de los ejes → la esquina **noreste** (Donado al oeste, Chassaing al sur de la manzana). Un indicio a favor,
+  no una prueba: en la Machine, la cámara de esa ochava tiene su zona de espera de Donado «a la izquierda»
+  (`espera-donado-izq`), que es como se ve Donado desde la ochava noreste mirando al cruce. Es la que se resalta en el
+  recuadro y la que abre el enlace. **A confirmar por Matías** (ver pendientes).
+- Control de lugar: del pin al Monumento a la Bandera (relación 6804977) hay 9,04 km al oeste y 2,10 km al norte, y en el
+  plano el Monumento cae sobre la costa; Fisherton queda al oeste, pegado a la Circunvalación por fuera.
+
+**El enlace.** Todo el mapa es un enlace a Google Maps con la ochava (`https://www.google.com/maps/search/?api=1&query=
+-32.928577,-60.727406`, `target="_blank" rel="noopener"`): en el celular abre la app y sirve para llegar, que es lo que
+quiere quien va a ver la oficina. El `aria-label` del enlace describe el mapa (el SVG va `aria-hidden`). El crédito de
+OSM es un enlace aparte, en el pie (no se anidan enlaces).
+
+**Cómo está hecho.** Los datos se bajaron **una vez** de OpenStreetMap con `scripts/generar-mapa-rosario.py`
+(Overpass, User-Agent `rialabs-home/1.0 (hola@rialabs.ar)`, un pedido cada 2 s, reintentos ante 502/504): el contorno
+del municipio (relación 3368048), el agua del Paraná (el multipolígono 67124: la cadena de orilla se cierra afuera del
+encuadre y las islas quedan como huecos), las vías `motorway`/`trunk`/`primary` y `secondary` dentro del municipio (sin
+las colectoras de la Circunvalación; las dos manos de los bulevares se funden en una raya), el Monumento y las calles a
+260 m de la esquina. El script los proyecta (equirectangular, 1 unidad ≈ 53 m, viewBox 400 × 386,4), los simplifica
+(Douglas-Peucker, 0,3–0,45 u), los recorta al encuadre y hornea un **SVG inline de 16,5 KB y 67 nodos** entre las marcas
+`<!-- MAPA-ROSARIO:inicio -->` y `<!-- MAPA-ROSARIO:fin -->` de `v5/index.html` (no se edita a mano). El SVG no trae
+colores: todo va por clase con las variables de la página (`--gold`, `--gold-hi`, `--bg`, `--muted`), así que el
+**tema día** (`?tema=dia`) lo sigue solo; el anillo del pin usa el degradé del eclipse en los dos temas. CSS: bloque
+propio «ROSARIO · el mapa» (arriba de las reglas de `.ros-txt`, que no se tocaron). JS: un `<script>` chico pegado al
+mapa, «ROSARIO · el mapa».
+
+**Movimiento.** Al entrar en pantalla, el río ya está; se **trazan** las orillas y el contorno del municipio (2,2 s,
+`stroke-dasharray` con `pathLength=1`, cada orilla un path propio), después aparecen la ciudad (el fondo y las avenidas)
+y al final el pin, la lupa y el recuadro. El pin (y el anillo del recuadro, desfasado) **late sólo mientras el mapa se
+ve** (IntersectionObserver pone y saca `.rm-vivo`). Sin JS, sin IntersectionObserver o con **prefers-reduced-motion**:
+el mapa queda dibujado y quieto.
+
+**Cómo se regenera.** Desde la raíz del repo: `python3 scripts/generar-mapa-rosario.py` (usa la caché de
+`scripts/_osm-rosario/`, ignorada por git; si no está, baja los 7 pedidos). `--bajar` vuelve a bajar todo; `--svg
+x.svg` escribe además el SVG suelto; `--no-html` no toca la página. En cada corrida verifica que la esquina siga
+estando dentro del Municipio de Rosario (si no, para sin tocar nada) y avisa si el nodo de OSM cambió. Lo que se ajusta a
+mano está arriba en el script: el encuadre (`SUR`, `NORTE`, `OESTE`, `ESTE`), la ochava (`OCHAVA`), el recuadro
+(`DET_X`, `DET_Y`, `DET_L`, `DET_R`), el ancho de calle (`CALLE_M`) y el corte de la ochava (`OCHAVA_M`).
+
+**Verificado (02/11):** los seis `<script>` de la página pasan `node --check`; capturas (`scripts/capturar-home.sh`,
+`PANTALLA=1`) a 1440×900 (`ANCLA=rosario`), 1024×768, 390×844 (`ANCLA=rosario` y `ANCLA=mapa-rosario`), día a 1440 y a
+390, y reduced-motion, en `_capturas/rosario-mapa/` (ignorado); el estado a mitad del trazado se miró aparte (en la
+captura las transiciones van a cero). En la página, con el mapa a la vista queda `rm-vivo` y sin `rm-espera`; fuera de
+pantalla, al revés.
+
+**Pendiente / para decidir:**
+
+- Que Matías confirme que la oficina es la esquina **noreste** del cruce (la manzana de Donado al oeste y Chassaing al
+  sur). Si fuera otra, alcanza con cambiar `OCHAVA` en el script y regenerar: el lado del cruce que se resalta, el
+  anillo del recuadro, los nombres de calle (se corren a las otras manzanas) y el enlace salen de esa medida (el enlace
+  está escrito en el HTML: cambiar también la `query` del `href`).
+- Google Maps u OpenStreetMap para el enlace (hoy Google, por la app en el celular).
+- Si el punto *centro* (el Monumento) suma o sobra, y si el barrio va como *Fisherton* (hoy) o *Nueva Fisherton*.
+- Los nombres de calle del recuadro quedan chicos en celular (~7,3 px): si molesta, se sacan en celular y queda sólo
+  el rótulo DONADO Y CHASSAING de abajo.
+- Al integrar con la rama del video: si el video muestra la ochava desde otro lado, que el recuadro y el video cuenten
+  la misma esquina.
+
+#### 0.8.2 La oficina en video (`#oficina`, rama `oficina-video`, 2026-11-02)
 
 > Prompt de giro, verbatim, en `docs/prompts-usuario/2026-11-02-oficina-real-mapa-y-video.md`, con la foto real al lado
 > (`2026-11-02-edificio-donado-y-chassaing.jpg`): «El dibujo que hiciste no me parece mal, pero me gustaría que probemos
@@ -1761,9 +1861,9 @@ agarró un cuadro con el brazo girado).
 - **¿Video o dibujo?** Por defecto queda el video; el dibujo sigue entero en `?oficina=dibujo`.
 - **¿Noche o día?** Por defecto, noche. Las dos imágenes concepto enteras están en `assets/oficina-rosario-concepto-{noche,dia}.jpg`.
 - **¿Los rótulos como enlaces?** Están; si distraen, se dejan como texto quitando los `href`.
-- **El segundo párrafo de la sección** habla todavía del dibujo («Esta es la oficina, sin la pared del frente… En la ochava,
+- ~~**El segundo párrafo de la sección** habla todavía del dibujo («Esta es la oficina, sin la pared del frente… En la ochava,
   una cámara mira la calle»): el video no tiene la cámara de la ochava. El texto nuevo lo aplica la madre (no es de esta
-  rama, que no toca `.ros-txt`).
+  rama, que no toca `.ros-txt`).~~ **Resuelto al integrar (02/11):** «Esta es nuestra esquina como la imaginamos…».
 - Si se quiere que el tema día muestre el video de día solo (hoy el tema y la luz del video son independientes).
 - Lo que el concepto inventa y habría que confirmar: el piso de arriba con las paredes de vidrio, el showroom en la planta
   baja hacia la ochava, el brazo robótico.
