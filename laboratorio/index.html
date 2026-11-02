@@ -116,6 +116,17 @@
     .nav-links { display: none; } .nav-burger { display: block; }
     .nav-menu { padding-left: 52px; padding-right: 52px; }
   }
+  /* Móviles (02/11): en pantallas táctiles los blancos de toque de la nav llegan a ~44 px sin cambiar el dibujo (padding
+     con margen negativo, o un ::before invisible); el menú se desplaza si no entra en la pantalla (el teléfono en
+     horizontal: 390 px de alto) y, con el teléfono en horizontal, la nav pierde el aire de arriba aunque pase de 860 px */
+  .nav-menu { max-height: calc(100vh - 62px); max-height: calc(100dvh - 62px); overflow-y: auto; overscroll-behavior: contain; }
+  @media (hover: none), (pointer: coarse) {
+    .nav-logo { padding: 8px 0; margin: -8px 0; }
+    .nav-links a { padding: 12px 0; }
+    .nav-burger, .nav-cta { position: relative; }
+    .nav-burger::before, .nav-cta::before { content: ''; position: absolute; inset: -5px -4px; }
+  }
+  @media (orientation: landscape) and (max-height: 500px) { nav { padding-top: 14px; padding-bottom: 14px; } }
 
   /* copiado de v5/index.html (BUTTONS y LAYOUT) el 01/11 — mantener igual */
   /* BUTTONS */
@@ -347,6 +358,26 @@
     .lab-hito::before { transform: none; }
     .lab-hito::after { opacity: 1; }
     .lab-ab-fill { width: var(--w); }
+  }
+
+  /* ── MÓVILES (02/11) ── Matías muestra la página desde el teléfono y la tablet en la Smart City Expo. Sólo media
+     queries de pantalla táctil, angosta o de teléfono en horizontal (alto ≤ 500 px): el escritorio no cambia. */
+  /* táctil: blancos de toque de ~44 px sin agrandar el dibujo (un ::before invisible) */
+  @media (hover: none), (pointer: coarse) {
+    .lab-mudanza a, .c-email { position: relative; }
+    .lab-mudanza a::before { content: ''; position: absolute; inset: -14px -6px; }
+    .c-email::before { content: ''; position: absolute; inset: -12px -6px; }
+  }
+  /* los rótulos mono de las fichas, de 9 y 9,5 a 10 px */
+  @media (max-width: 860px) {
+    .lab-plano-k, .lab-donde, .lab-bit dt, .lab-celda-k, .lab-ab-k, .lab-mudanza-k { font-size: 10px; }
+    .lab-vid-tag { font-size: 10px; letter-spacing: 1.2px; }
+  }
+  /* teléfono en horizontal: las dos puertas vuelven a ir de a par (una sola, a lo ancho, medía más que la pantalla) y el
+     video de la ochava se achica al alto de la pantalla, centrado en su ficha */
+  @media (max-width: 860px) and (orientation: landscape) and (max-height: 500px) {
+    .lab-puertas { grid-template-columns: 1fr 1fr; }
+    .lab-vid { width: 100%; max-width: calc((100svh - 96px) * 15 / 8); margin: 0 auto; }
   }
 </style>
 </head>

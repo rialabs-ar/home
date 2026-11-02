@@ -1877,6 +1877,49 @@ agarró un cuadro con el brazo girado).
 - Lo que el concepto inventa y habría que confirmar: el piso de arriba con las paredes de vidrio, el showroom en la planta
   baja hacia la ochava, el brazo robótico.
 
+
+### 0.9 Móviles (02/11, rama `moviles-0211`)
+
+> Pedido de Matías antes de la Smart City Expo (muestra el sitio desde el teléfono y la tablet), verbatim en
+> `docs/prompts-usuario/2026-11-02-moviles-en-todo-el-sitio.md`. Sin textos nuevos: sólo media queries de pantalla táctil
+> (`(hover: none), (pointer: coarse)`), angosta (≤860 / ≤480) o de **teléfono en horizontal** (`(orientation: landscape)
+> and (max-height: 500px)`), y la lógica de entrada. **El escritorio no cambia**: la caja de cada elemento HTML de las
+> cuatro páginas es la misma en 1440×900 (y la home también en 1024×768, 1280×720 y 1920×1080), medida contra `main`.
+
+- **Nav (bloque NAV, idéntico en las cuatro páginas).** En táctil, logo, enlaces, MENÚ y Conversemos tocan a ~44 px sin
+  cambiar el dibujo (padding con margen negativo o un `::before` invisible). El menú tiene `max-height` de la pantalla y se
+  desplaza: en horizontal (390 px de alto) «Rosario» y «Conversemos» quedaban afuera y no se podían tocar. Con el teléfono
+  en horizontal la nav pierde el aire de arriba aunque pase de 860 px (Android 915×412).
+- **Home · la portada en horizontal.** El piso de 560 px estiraba el hero a pantalla y media y los dos retratos (debajo de
+  RIA / LABS) quedaban fuera de la primera pantalla. Ahora el hero mide la pantalla y en el 5 los retratos vuelven a los
+  costados del eclipse con las proporciones de desktop (0,64 y 0,65 del eclipse), en 844×390, 915×412 y 932×430.
+- **Home · la máquina en horizontal** va horizontal, a lo ancho: el script «LA MÁQUINA» usa la vertical sólo con la
+  pantalla angosta parada (`(max-width: 860px) and (orientation: portrait), (max-width: 860px) and (min-height: 501px)`).
+- **Home · los astros.** En táctil el círculo que se toca de cada satélite es 22 unidades más grande que el cuerpo (era 12:
+  ~25 px en un teléfono, ahora ~40). En ≤860 las etiquetas pasan de 9 a 13 unidades (6 px → 10 px en un teléfono) y sin
+  el subtítulo, que está en la lista; en ≤480 la viñeta sangra 16 px a cada lado. El script mide el ancho de la etiqueta con
+  la letra que de verdad tiene y no la deja salirse de la pantalla (en desktop sobra margen y queda igual que antes).
+- **Home · toques y letra.** `.pi-link`, el correo y los rótulos de la oficina tocan a ~40–48 px (eran 17–21). La línea de
+  arriba y la de la feria pasan de 9 / 8,5 px a 10 px (con `text-wrap: balance`), los rótulos de las salas de 9 a 10 px y
+  la bajada de Bird Map de 13,5 a 14 px. El anillo del separador (540 px) se recorta en su caja; la red abierta de la
+  máquina, en su banda (`overflow-x: clip`): en iOS el `overflow-x` del body no siempre impide arrastrar de costado.
+- **Home · la oficina en horizontal**: el video vuelve a 16:9 sin recortar los costados y se achica al alto de la
+  pantalla (en 3:2 medía casi pantalla y media). Los retratos del stand se clonan de un `<template>`: ahora se les pone
+  `muted` como propiedad además del atributo (sin eso iOS puede no arrancarlos solos).
+- **/dataflow/**: las entradas del motor vertical de 9 a 10 px; la leyenda del pie toca a ~41 px.
+- **/laboratorio/**: los rótulos mono de las fichas de 9 / 9,5 a 10 px; «Verla en RIA Smartcity» toca a ~42 px; en
+  horizontal las dos puertas van de a par y el video de la ochava entra en el alto de la pantalla.
+- **/metodo/**: los epígrafes de las figuras no bajan de 11 px; en horizontal cada estación va como en desktop (texto y
+  artefacto lado a lado) y el artefacto entra en el alto de la pantalla.
+
+**Cómo se verificó.** El banco común de las seis sesiones (Chrome headless con touch real y UA de iPhone/iPad/Android) en
+375×667, 390×844, 412×915, 844×390, 820×1180, 1180×820 y 1440×900, más 915×412 y 932×430; toques reales
+(`touchscreen.tap`) sobre los satélites con el dedo corrido 14 px del centro, sobre los enlaces 9 px por encima del texto y
+sobre el menú desplazado; la altura que de verdad responde al toque medida con `elementFromPoint`. **Pendiente / para
+Fable:** el astro en celular sigue siendo chico para seis sabores con nombre (las etiquetas se pisan a ratos); la portada
+en la tablet parada (820×1180) usa la composición de celular (retratos debajo de RIA / LABS), que entra pero queda
+despareja; el resto de las etiquetas mono decorativas siguen en 10 px.
+
 ---
 
 ## 1. Identidad de marca
