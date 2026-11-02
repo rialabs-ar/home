@@ -44,7 +44,13 @@
   un «en castellano» en Laboratorio, para esa rama. (5) *Las presentaciones*: bajo los sabores de cada producto, «Las
   presentaciones» — una fila por enlace con qué es, de qué se trata y su dirección con ↗ (todas `target="_blank"
   rel="noopener"`); el botón suelto `prod-link` de cada producto desaparece (su CSS también; la regla de transición de tema
-  de la línea 116 cambia `.prod-link` por `.prod-pres a, .prod-dest`). Leídas el 01/11 a la noche, todas responden 200:
+  de la línea 116 cambia `.prod-link` por `.prod-pres a, .prod-dest`). Leídas el 01/11 a la noche, todas responden 200.
+  **Corregido el 02/11 (Matías: «los links a las presentaciones no puede ser una lista diferente, los links tienen que
+  estar en la misma lista en la que se listan los diferentes subproductos»):** la lista aparte se fue (`.prod-pres*`). Cada
+  sabor que tiene presentación termina, en su mismo ítem, con su dirección y ↗ (`.pi-link`): Ciudad, Centros comerciales,
+  Country, Reciclaje, Integradores y Monitoreo. La presentación de todo el producto (analitico.rialabs.ar,
+  drivecore.rialabs.ar) volvió al pie como `prod-link`, al lado del estado; Bird Map sigue en su tarjeta destacada. La
+  tabla de abajo queda como registro de qué dice cada página:
 
   | Producto | Rótulo en la home | Enlace | Qué dice la página (el 01/11) |
   |---|---|---|---|

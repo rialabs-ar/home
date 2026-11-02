@@ -113,7 +113,7 @@
                 fill var(--t-tema) ease, stroke var(--t-tema) ease, stop-color var(--t-tema) ease;
   }
   /* Mientras cambia el tema, los elementos con transición rápida propia (hover) van al ritmo del tema. */
-  html[data-transicion] :is(nav, .nav-links a, .nav-cta, .btn-gold, .btn-ghost, .prod-pres a, .prod-dest, .c-email) { transition-duration: var(--t-tema); }
+  html[data-transicion] :is(nav, .nav-links a, .nav-cta, .btn-gold, .btn-ghost, .prod-link, .pi-link, .prod-dest, .c-email) { transition-duration: var(--t-tema); }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -491,15 +491,12 @@
   .pd-d { display: block; font-size: 13.5px; font-weight: 300; line-height: 1.6; color: var(--muted); }
   .pd-cta { display: inline-block; margin-top: 11px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300; letter-spacing: 0.6px; color: var(--white); border-bottom: 1px solid var(--c); padding-bottom: 2px; transition: color 0.2s; }
   .prod-dest:hover .pd-cta { color: var(--c); }
-  /* Las presentaciones de cada producto: una fila por enlace (qué es, de qué se trata, y su dirección con ↗) */
-  .prod-pres-t { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; color: var(--c); opacity: 0.85; margin: 2px 0 8px; }
-  .prod-pres { list-style: none; max-width: 600px; margin-bottom: 24px; border-bottom: 1px solid var(--border2); }
-  .prod-pres a { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 20px; align-items: center; padding: 11px 0 12px; border-top: 1px solid var(--border2); text-decoration: none; transition: border-color 0.2s; }
-  .prod-pres b { grid-column: 1; font-size: 14.5px; font-weight: 500; color: var(--white); transition: color 0.2s; }
-  .prod-pres .pp-d { grid-column: 1; font-size: 13px; font-weight: 300; line-height: 1.5; color: var(--muted); margin-top: 2px; }
-  .prod-pres .pp-u { grid-column: 2; grid-row: 1 / span 2; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300; letter-spacing: 0.4px; color: var(--c); white-space: nowrap; }
-  .prod-pres a:hover b, .prod-pres a:focus-visible b { color: var(--c); }
-  .prod-pres a:hover { border-top-color: color-mix(in srgb, var(--c) 50%, transparent); }
+  /* Las presentaciones van en la misma lista que los sabores (pedido de Matías, 02/11): cada ítem que tiene una
+     presentación propia termina con su dirección y ↗. La presentación de todo el producto, si la hay, va en el pie. */
+  .pi-link { display: inline-block; margin-left: 6px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300; letter-spacing: 0.4px; color: var(--c); text-decoration: none; white-space: nowrap; border-bottom: 1px solid color-mix(in srgb, var(--c) 35%, transparent); line-height: 1.5; transition: border-color 0.2s, color 0.2s; }
+  .pi-link:hover, .pi-link:focus-visible { border-bottom-color: var(--c); color: var(--white); }
+  .prod-link { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 300; letter-spacing: 1px; color: var(--white); text-decoration: none; border: 1px solid var(--border2); padding: 10px 18px; transition: all 0.2s; }
+  .prod-link:hover { border-color: var(--c); color: var(--c); }
 
 
   /* ── ROSARIO · la oficina dibujada ──────────────────
@@ -619,8 +616,7 @@
     .prod-dest{flex-direction:column;align-items:flex-start;gap:12px;padding:16px 18px 18px;}
     .pd-vis{width:110px;}
     .pd-t{font-size:17px;}
-    .prod-pres a{grid-template-columns:minmax(0,1fr);}
-    .prod-pres .pp-u{grid-column:1;grid-row:auto;margin-top:5px;white-space:normal;}
+    .pi-link{white-space:normal;word-break:break-all;}
     .maq-t1,.maq-t2{font-size:14px;}
     .ros-txt{grid-template-columns:1fr;gap:16px;}
     .ros-fig{margin-top:28px;padding:0;}
@@ -1093,18 +1089,11 @@
         </a>
         <ul class="prod-items rev d3">
           <li><b>Entrypoint</b> — el acceso instantáneo a la experiencia Smartcity: en un mes, con el parque de cámaras que ya tenés y sensores de bajo costo, sin licitar una cifra extraordinaria.</li>
-          <li><b>Ciudad</b> — movilidad, seguridad vial, espacio público, estacionamiento y ambiente para un municipio, en un equipo del tamaño de un módem.</li>
-          <li><b>Centros comerciales</b> — la playa que cuenta sin barrera, el tráfico y la conversión de cada local, y el tablero de quien administra.</li>
-          <li><b>Country</b> — el barrio que se cuida sin operadores: la patente es la llave y las cámaras hacen la ronda solas.</li>
+          <li><b>Ciudad</b> — movilidad, seguridad vial, espacio público, estacionamiento y ambiente para un municipio, en un equipo del tamaño de un módem. <a class="pi-link" href="https://smartcity.rialabs.ar/" target="_blank" rel="noopener" aria-label="La presentación de Ciudad: smartcity.rialabs.ar">smartcity.rialabs.ar ↗</a></li>
+          <li><b>Centros comerciales</b> — la playa que cuenta sin barrera, el tráfico y la conversión de cada local, y el tablero de quien administra. <a class="pi-link" href="https://grit.rialabs.ar/neander/" target="_blank" rel="noopener" aria-label="La presentación de Centros comerciales: grit.rialabs.ar/neander">grit.rialabs.ar/neander ↗</a></li>
+          <li><b>Country</b> — el barrio que se cuida sin operadores: la patente es la llave y las cámaras hacen la ronda solas. <a class="pi-link" href="https://grit.rialabs.ar/sapiens/" target="_blank" rel="noopener" aria-label="La presentación de Country: grit.rialabs.ar/sapiens">grit.rialabs.ar/sapiens ↗</a></li>
           <li><b>Acceso</b> — control de ingreso de un mercado concentrador o de un barrio: quién entró, cuándo, con qué.</li>
-          <li><b>Reciclaje</b> — cada litro de aceite usado, trazado del restaurante al biodiésel. Un caso particular, pero de ciudad: un proyecto en pleno desarrollo para empresas de Rosario.</li>
-        </ul>
-        <p class="prod-pres-t rev d4">Las presentaciones</p>
-        <ul class="prod-pres rev d4">
-          <li><a href="https://smartcity.rialabs.ar/" target="_blank" rel="noopener"><b>Ciudad</b><span class="pp-d">las cámaras de una ciudad, convertidas en sensores</span><span class="pp-u">smartcity.rialabs.ar ↗</span></a></li>
-          <li><a href="https://grit.rialabs.ar/neander/" target="_blank" rel="noopener"><b>Centros comerciales</b><span class="pp-d">un sábado medido, de la playa al tablero</span><span class="pp-u">grit.rialabs.ar/neander ↗</span></a></li>
-          <li><a href="https://grit.rialabs.ar/sapiens/" target="_blank" rel="noopener"><b>Country</b><span class="pp-d">un día en el barrio, sin una sala de monitoreo</span><span class="pp-u">grit.rialabs.ar/sapiens ↗</span></a></li>
-          <li><a href="https://ecoaceite.byt.ar/" target="_blank" rel="noopener"><b>Eco Aceite</b><span class="pp-d">reciclaje: la trazabilidad del aceite usado</span><span class="pp-u">ecoaceite.byt.ar ↗</span></a></li>
+          <li><b>Reciclaje</b> — cada litro de aceite usado, trazado del restaurante al biodiésel. Un caso particular, pero de ciudad: un proyecto en pleno desarrollo para empresas de Rosario. <a class="pi-link" href="https://ecoaceite.byt.ar/" target="_blank" rel="noopener" aria-label="La presentación de Reciclaje, Eco Aceite: ecoaceite.byt.ar">ecoaceite.byt.ar ↗</a></li>
         </ul>
         <div class="prod-foot rev d4">
           <span class="prod-state">Midiendo 24/7 · municipio y mercado en Rosario</span>
@@ -1188,17 +1177,12 @@
         <h3 class="prod-name rev d1">RIA <em>Analítico</em></h3>
         <p class="prod-lead rev d2">Las cámaras que una central de monitoreo ya tiene, ahora leídas por el motor: personas, vehículos, patentes, zonas, merodeo, sabotaje. <strong>Un producto, dos brazos.</strong></p>
         <ul class="prod-items rev d3">
-          <li><b>Integradores</b> — cualquier cámara, cualquier evento, entregado a la central con foto, video, detalles y descripción.</li>
-          <li><b>Monitoreo</b> — una consola al lado de la central: vivo con analítica, búsqueda forense en tu idioma, alertas que siguen buscando solas, casos que duran más que el turno.</li>
-        </ul>
-        <p class="prod-pres-t rev d4">Las presentaciones</p>
-        <ul class="prod-pres rev d4">
-          <li><a href="https://analitico.rialabs.ar/" target="_blank" rel="noopener"><b>Analítico</b><span class="pp-d">un producto, dos brazos: la puerta a las dos películas</span><span class="pp-u">analitico.rialabs.ar ↗</span></a></li>
-          <li><a href="https://analitico.rialabs.ar/integradores" target="_blank" rel="noopener"><b>Integradores</b><span class="pp-d">de la cámara a la central: cómo viaja el evento, con su evidencia</span><span class="pp-u">analitico.rialabs.ar/integradores ↗</span></a></li>
-          <li><a href="https://analitico.rialabs.ar/monitoreo" target="_blank" rel="noopener"><b>Monitoreo</b><span class="pp-d">ver ahora y volver atrás: la consola, vista por vista</span><span class="pp-u">analitico.rialabs.ar/monitoreo ↗</span></a></li>
+          <li><b>Integradores</b> — cualquier cámara, cualquier evento, entregado a la central con foto, video, detalles y descripción. <a class="pi-link" href="https://analitico.rialabs.ar/integradores" target="_blank" rel="noopener" aria-label="La presentación de Integradores: analitico.rialabs.ar/integradores">analitico.rialabs.ar/integradores ↗</a></li>
+          <li><b>Monitoreo</b> — una consola al lado de la central: vivo con analítica, búsqueda forense en tu idioma, alertas que siguen buscando solas, casos que duran más que el turno. <a class="pi-link" href="https://analitico.rialabs.ar/monitoreo" target="_blank" rel="noopener" aria-label="La presentación de Monitoreo: analitico.rialabs.ar/monitoreo">analitico.rialabs.ar/monitoreo ↗</a></li>
         </ul>
         <div class="prod-foot rev d4">
           <span class="prod-state">En producción · integradores y centrales de monitoreo</span>
+          <a class="prod-link" href="https://analitico.rialabs.ar/" target="_blank" rel="noopener" aria-label="La presentación de RIA Analítico: analitico.rialabs.ar">analitico.rialabs.ar ↗</a>
         </div>
       </div>
     </div>
@@ -1262,12 +1246,9 @@
           <li><b>Taller y posventa</b> — el auto entra y el sistema ya lo conoce; cada paso del circuito trazado, nada se entrega sin control de calidad.</li>
           <li><b>Gerencia</b> — conversá con tus números en tu idioma, sobre lo que pasó de verdad.</li>
         </ul>
-        <p class="prod-pres-t rev d4">La presentación</p>
-        <ul class="prod-pres rev d4">
-          <li><a href="https://drivecore.rialabs.ar/" target="_blank" rel="noopener"><b>Drivecore</b><span class="pp-d">el sistema operativo de la concesionaria, área por área</span><span class="pp-u">drivecore.rialabs.ar ↗</span></a></li>
-        </ul>
         <div class="prod-foot rev d4">
           <span class="prod-state">En producción · concesionaria oficial Fiat, Rosario</span>
+          <a class="prod-link" href="https://drivecore.rialabs.ar/" target="_blank" rel="noopener" aria-label="La presentación de RIA Automotrices: drivecore.rialabs.ar">drivecore.rialabs.ar ↗</a>
         </div>
       </div>
     </div>
