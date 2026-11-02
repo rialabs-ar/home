@@ -138,3 +138,9 @@ Hay que agregar en la parte de aplicaciones de Smartcity la nueva web  https://s
 **2026-11-02 10:54** · sesión `fcaddd61` · desde `~/dev/RIALabs/Proyectos` · (cargado a mano: el cwd de la sesión no tiene `docs/prompts-usuario/`; hora aproximada de carga)
 
 Hay que hacer tambien la traduccion al ingles de  https://station.rialabs.ar
+
+---
+
+**2026-11-02 10:55** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
+
+bueno publicamos la nueva version de la web en rialabs.ar
