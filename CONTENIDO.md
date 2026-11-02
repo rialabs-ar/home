@@ -52,7 +52,10 @@
   drivecore.rialabs.ar) volvió al pie como `prod-link`, al lado del estado; Bird Map sigue en su tarjeta destacada. 
   **Y el 02/11, más tarde:** Centros comerciales y Country dejaron de apuntar a Grit; ahora van a sus sitios nuevos,
   **https://shopping.rialabs.ar/** («RIA Shopping — Lo que el centro comercial sabe de sí mismo») y
-  **https://country.rialabs.ar/** («RIA Country — Un día en el barrio»), en el ítem de la lista y en el satélite. Los dos
+  **https://country.rialabs.ar/** («RIA Country — Un día en el barrio»), en el ítem de la lista y en el satélite.
+  **Y el 02/11 también:** se sumó **Estaciones de servicio**, con su sitio **https://station.rialabs.ar/** («RIA Station —
+  Del surtidor a la caja, cada minuto cuenta»), como ítem de la lista de Smartcity después de Country, y en la línea de
+  sabores del linaje de `/laboratorio/`. Satélite no tiene: el astro ya lleva seis y con siete las etiquetas se pisan. Los dos
   responden 200 desde el box (64.176.19.100); esa noche el DNS todavía se propagaba: algún resolver no encontraba
   `shopping` y otro todavía mandaba `country` al Netlify viejo (`country-rialabs`, una página del Jockey). La
   tabla de abajo queda como registro de qué dice cada página:

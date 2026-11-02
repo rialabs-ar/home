@@ -120,3 +120,21 @@ Para reemplazar los links que dicen `grit` tenemos los nuevos sitios publicados 
 **2026-11-02 02:26** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
 
 Aca tengo una foto real de nuestro edificio en Rosario, en la esquina de Donado y Chassaing. En la sección de Equipo (donde hicimos el dibujo animado) me gustaria que, primero, podamos agregar un dibujo no tan grande del mapa de rosario en la ubicación donde se encuentra el edificio. Y segundo, que trabajemos con IA la foto que te estoy pasando para crear un concepto cercano a la imagen original que te pase antes para crear el dibujo del edificio. El dibujo que hiciste no me parece mal, pero me gustaría que probemos algo con video realista hecho con IA, partiendo desde la foto del edificio original, pero transformandolo para poder mostrar los distintos espacios que propuse.. le podemos agregar otro piso al edificio, le podemos sacar los carteles que dicen "Byte" y poner carteles de RIA Labs, queremos ver solo la esquina con el edificio y no las calles.. estaria bueno que este animado, que se vea la gente adentro, como si las paredes exteriores fueran vidriadas. Que mas se te ocurre?
+
+---
+
+**2026-11-02 (hora no registrada)** · sesión `fcaddd61` · desde `~/dev/RIALabs/Proyectos/dataflow-jockey-acceso` · (cargado a mano: la sesión arrancó en una carpeta sin `docs/prompts-usuario/`, el hook no lo guardó)
+
+A todas las paginas de proyectos bajo el dominio rialabs.ar y una de ecoaceite.byt.ar que aparecen en la nueva home de RIA Labs corriendo en http://localhost:8890/ , tenemos que agregarle un selector de idioma que permita elegir entre Inglés y Español. Hoy nada mas tienen Español. Si alguna ya tiene ingles salteala. Pero tenemos que tener los dos idiomas elegibles en todas esas presentaciones.
+
+---
+
+**2026-11-02 10:53** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
+
+Hay que agregar en la parte de aplicaciones de Smartcity la nueva web  https://station.rialabs.ar.
+
+---
+
+**2026-11-02 10:54** · sesión `fcaddd61` · desde `~/dev/RIALabs/Proyectos` · (cargado a mano: el cwd de la sesión no tiene `docs/prompts-usuario/`; hora aproximada de carga)
+
+Hay que hacer tambien la traduccion al ingles de  https://station.rialabs.ar
