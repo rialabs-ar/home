@@ -151,3 +151,9 @@ bueno publicamos la nueva version de la web en rialabs.ar
 
 Agreguemos a la lista de productos de Smartcity el RIA Checkpoint :
  checkpoint.rialabs.ar
+
+---
+
+**2026-11-02 21:42** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
+
+Tenemos que asegurarnos que tanto esta pagina home de RIA Labs como todas las sub-paginas dentro de este sitio y tambien todas las paginas de las presentaciones que cuelgan desde los productos que se desprenden, todas sin excepcion tienen que tener buena visual y funcionamiento en dispositivos moviles. Se tienen que ver bien y funcionar en la computadora pero sus versiones en pantallas de tablet y telefono celular tienen que ser responsivas y funcionales. Principalmente en las presentaciones donde las pantallas no reaccionan bien al tap en lugar de al click, las peliculas no entran bien en pantallas chicas, no son responsivas, etc. Hay que revisar todo.
