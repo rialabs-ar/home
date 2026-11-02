@@ -102,3 +102,21 @@ Por ultimo, y esto si queda en la pagina principal, lo que hoy dice "El Equipo",
 **2026-11-01 23:53** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
 
 smartcity.rialabs.ar me olvide de mencionarla, tiene que estar, pero jockey no entra
+
+---
+
+**2026-11-02 01:27** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
+
+En la parte de los productos los links a las presentaciones no puede ser una lista diferente, los links tienen que estar en la misma lista en la que se listan los diferentes subproductos
+
+---
+
+**2026-11-02 02:02** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
+
+Para reemplazar los links que dicen `grit` tenemos los nuevos sitios publicados en  https://shopping.rialabs.ar/ y country.rialabs.ar
+
+---
+
+**2026-11-02 02:26** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
+
+Aca tengo una foto real de nuestro edificio en Rosario, en la esquina de Donado y Chassaing. En la sección de Equipo (donde hicimos el dibujo animado) me gustaria que, primero, podamos agregar un dibujo no tan grande del mapa de rosario en la ubicación donde se encuentra el edificio. Y segundo, que trabajemos con IA la foto que te estoy pasando para crear un concepto cercano a la imagen original que te pase antes para crear el dibujo del edificio. El dibujo que hiciste no me parece mal, pero me gustaría que probemos algo con video realista hecho con IA, partiendo desde la foto del edificio original, pero transformandolo para poder mostrar los distintos espacios que propuse.. le podemos agregar otro piso al edificio, le podemos sacar los carteles que dicen "Byte" y poner carteles de RIA Labs, queremos ver solo la esquina con el edificio y no las calles.. estaria bueno que este animado, que se vea la gente adentro, como si las paredes exteriores fueran vidriadas. Que mas se te ocurre?
