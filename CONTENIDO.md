@@ -49,7 +49,12 @@
   estar en la misma lista en la que se listan los diferentes subproductos»):** la lista aparte se fue (`.prod-pres*`). Cada
   sabor que tiene presentación termina, en su mismo ítem, con su dirección y ↗ (`.pi-link`): Ciudad, Centros comerciales,
   Country, Reciclaje, Integradores y Monitoreo. La presentación de todo el producto (analitico.rialabs.ar,
-  drivecore.rialabs.ar) volvió al pie como `prod-link`, al lado del estado; Bird Map sigue en su tarjeta destacada. La
+  drivecore.rialabs.ar) volvió al pie como `prod-link`, al lado del estado; Bird Map sigue en su tarjeta destacada. 
+  **Y el 02/11, más tarde:** Centros comerciales y Country dejaron de apuntar a Grit; ahora van a sus sitios nuevos,
+  **https://shopping.rialabs.ar/** («RIA Shopping — Lo que el centro comercial sabe de sí mismo») y
+  **https://country.rialabs.ar/** («RIA Country — Un día en el barrio»), en el ítem de la lista y en el satélite. Los dos
+  responden 200 desde el box (64.176.19.100); esa noche el DNS todavía se propagaba: algún resolver no encontraba
+  `shopping` y otro todavía mandaba `country` al Netlify viejo (`country-rialabs`, una página del Jockey). La
   tabla de abajo queda como registro de qué dice cada página:
 
   | Producto | Rótulo en la home | Enlace | Qué dice la página (el 01/11) |
