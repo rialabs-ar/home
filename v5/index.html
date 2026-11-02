@@ -755,6 +755,7 @@
   @media (hover: none), (pointer: coarse) {
     .pi-link, .c-email { position: relative; }
     .pi-link::before, .c-email::before { content: ''; position: absolute; inset: -12px -6px; }
+    .f-links a { padding: 13px 0; }   /* el pie en la tablet acostada: enlaces de 12 px */
     .ros-sala::after, .ros-sala:hover::after, .ros-sala:focus-visible::after { content: ''; position: absolute; inset: -12px -8px; margin: 0; opacity: 0; }
     /* la red abierta de la máquina sale a los costados de su banda: la recorta la banda, no sólo el body (en iOS el
        overflow-x del body no siempre impide arrastrar la página de costado) */

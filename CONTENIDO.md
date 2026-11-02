@@ -1901,7 +1901,7 @@ agarró un cuadro con el brazo girado).
   la letra que de verdad tiene y no la deja salirse de la pantalla (en desktop sobra margen y queda igual que antes).
 - **Home · toques y letra.** `.pi-link`, el correo y los rótulos de la oficina tocan a ~40–48 px (eran 17–21). La línea de
   arriba y la de la feria pasan de 9 / 8,5 px a 10 px (con `text-wrap: balance`), los rótulos de las salas de 9 a 10 px y
-  la bajada de Bird Map de 13,5 a 14 px. El anillo del separador (540 px) se recorta en su caja; la red abierta de la
+  la bajada de Bird Map de 13,5 a 14 px. En las cuatro páginas, el pie de la tablet acostada (enlaces de 12 px) toca a ~45 px. El anillo del separador (540 px) se recorta en su caja; la red abierta de la
   máquina, en su banda (`overflow-x: clip`): en iOS el `overflow-x` del body no siempre impide arrastrar de costado.
 - **Home · la oficina en horizontal**: el video vuelve a 16:9 sin recortar los costados y se achica al alto de la
   pantalla (en 3:2 medía casi pantalla y media). Los retratos del stand se clonan de un `<template>`: ahora se les pone
