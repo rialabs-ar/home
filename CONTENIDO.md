@@ -1005,6 +1005,10 @@ Dataflow tiene página propia desde el 01/11: `/dataflow/` (§0.7); la banda `#d
 | `scripts/generar-eclipse.py` | cómo se generaron y procesaron las tres (abajo): `corona`, `sol`, `luna`, `medir`, `post-*`, `hoja` |
 | `og-image.png` | tarjeta 1200×630: el eclipse con la flama ecuánime + RIA Labs + «Metaestructura» en M PLUS Rounded (regenerada el 13/10 con `OG=1 scripts/capturar-home.sh v5`; el modo OG esconde la cita y el control de audio) |
 | `scripts/generar-retratos.py` | cómo se hicieron los retratos (abajo) |
+| `assets/oficina-rosario.jpg` · `.mp4` · `.webm` | **la oficina en video, de noche** (2026-11-02, rama `oficina-video`, §0.8): la esquina real de Donado y Chassaing llevada con IA (un piso más, paredes de vidrio con las cuatro salas encendidas y gente, carteles de RIA Labs) y animada. 1440×810, 24 fps, loop de 19,17 s (460 cuadros, dos clips Kling encadenados), viñeta hacia `#0b0a14` en el asset; H.264 `yuv420p` sin audio crf 22 `+faststart` + VP9 crf 32. 110 KB / 946 KB / 353 KB. El jpg es el cuadro 0 del loop (póster y lo que queda con reduced-motion o Save-Data). Es lo que muestra `#oficina` por defecto |
+| `assets/oficina-rosario-dia.jpg` · `.mp4` · `.webm` | la misma oficina **de día** (`?oficina=dia`): la luz nublada de la foto. 1440×810, loop de 9,58 s (230 cuadros, un clip), 124 KB / 525 KB / 245 KB |
+| `assets/oficina-rosario-concepto-noche.jpg` · `assets/oficina-rosario-concepto-dia.jpg` | **las imágenes concepto** de las que salen los dos videos, enteras y sin viñeta (1920×1072, 274 KB y 404 KB): la de noche cerrada y la de día. La página no las usa; quedan para que Matías elija la luz y para mostrar la oficina fuera de la home (son un concepto, no una foto: hay que decirlo donde se usen) |
+| `scripts/generar-oficina-viva.py` | cómo se hizo la oficina en video (§0.8): `recorte`, `editar` (nano-banana / nano-banana-pro), `entrada`, `video` (Kling, `VIDEO=activo`), `post` (loop con fundidos, viñeta, exports, póster), `tira`, `vinetear`, `cuenta` y `recuperar` (cada predicción se anota con su id antes de esperarla: si la sesión se corta, se baja sin pagarla de nuevo). Importa los ayudantes de Replicate de `generar-retratos-vivos.py` |
 | `scripts/capturar-home.sh` | fotografía la home completa con Chrome headless (desktop 1440 y móvil 390 por iframe; `OG=1` también la tarjeta, con el eclipse a 320 px; `QUERY=tema=dia`, `QUERY=ciclo=4200`, `QUERY=t=43200000` o `QUERY=estrella=1000` / `estrella=no` fotografía el día, un instante del ciclo del eclipse, la página con el reloj adelantado (astros y banda Dataflow) o la estrella de luz del hero fija en su pico / apagada (sin QUERY sale apagándose: la primera asoma a los 4,5 s y Chrome fotografía a los ~6); la QUERY aplica también a la tarjeta OG; `NOMBRE=dia` nombra los PNG; `ALTO=16000` para la página entera, que mide ~11.300 px en desktop desde el 13/10). Desde el 14/10: `PANTALLA=1` fotografía una sola pantalla real de `ANCHO`×`ALTO` sin fijarle el alto al hero (≤500 de ancho va por el iframe del celular y se recorta al cuadro), `RM=1` con reduced-motion, y el modo OG apila eclipse · RIA LABS · la frase en cualquier encuadre. Levanta su propio `http.server` en 8895–8899 y lo mata por PID (con `exec`, para que no quede suelto) |
 
 **Retratos (2026-10-10).** Generados con `google/nano-banana` vía Replicate (token en
@@ -1674,6 +1678,95 @@ quedan en el repo **sin uso** (§0.3); la historia de los dos sigue en §7.
   EQUIPO · videos» (ya no encuentran nada; no rompen).
 - Ideas que no entraron: la vereda de enfrente de la otra calle con sus casas bajas fugando a la derecha (en ancho), un
   colectivo que pase cada tanto, y en celular un recorrido lento sala por sala en vez del edificio entero.
+
+#### La oficina en video (`#oficina`, rama `oficina-video`, 2026-11-02)
+
+> Prompt de giro, verbatim, en `docs/prompts-usuario/2026-11-02-oficina-real-mapa-y-video.md`, con la foto real al lado
+> (`2026-11-02-edificio-donado-y-chassaing.jpg`): «El dibujo que hiciste no me parece mal, pero me gustaría que probemos
+> algo con video realista hecho con IA, partiendo desde la foto del edificio original, pero transformandolo para poder
+> mostrar los distintos espacios que propuse.. le podemos agregar otro piso al edificio, le podemos sacar los carteles
+> que dicen "Byte" y poner carteles de RIA Labs, queremos ver solo la esquina con el edificio y no las calles.. estaria
+> bueno que este animado, que se vea la gente adentro, como si las paredes exteriores fueran vidriadas.» (El mapa de
+> Rosario del mismo prompt es de otra rama, `rosario-mapa`.)
+
+**Qué es.** La figura `#oficina` muestra por defecto un **video en loop** de la esquina real de Donado y Chassaing
+transformada con IA: la misma ochava con la puerta y el cartel chico encima, los pilares grises y los árboles de la
+vereda, con **un piso más**, **paredes de vidrio** y las **cuatro salas encendidas con gente**: arriba, programadores
+frente a sus pantallas y una reunión donde alguien presenta un gráfico de barras; abajo, el laboratorio (un brazo
+robótico amarillo, un técnico con su laptop, un banco de herramientas) y el showroom (cámaras sobre pedestales, dos
+pantallas grandes con una ciudad, visitantes que miran y señalan). Los carteles de Byte y los vinilos de la vidriera
+(«25 años», «Security 24») no están: en su lugar, el anillo y «RIA LABS · SOFTWARE E INTELIGENCIA ARTIFICIAL» arriba,
+coronando el piso nuevo, y uno más chico sobre la puerta. Sólo la esquina: una viñeta funde las calles, las casas
+vecinas y el cielo en el fondo de la página. **De noche** por defecto (el edificio oscuro, adentro más luz que afuera:
+la gente se lee tras el vidrio y la página es nocturna); `?oficina=dia` muestra la versión de día y `?oficina=dibujo`
+vuelve al corte dibujado de arriba, que **no se borró**.
+
+- Encima, los **rótulos de las salas** como enlaces (DM Mono, chip oscuro con un punto del color de la sala, flecha al
+  pasar): **Sala de programadores** → `/dataflow/` (donde el motor se escribe), **Sala de reuniones** → `#contacto`,
+  **Laboratorio** → `/laboratorio/`, **Showroom** → `#productos`. Ubicados en % sobre el techo de cada sala, arriba de la
+  gente. En celular, cortos (Programadores, Reuniones).
+- Pie (mono): *nuestra esquina de Rosario, imaginada con IA desde su foto*. Es un concepto, no una foto de la oficina
+  como está hoy: el pie lo dice. Con `?oficina=dibujo`, el pie de antes.
+
+**Cómo se hizo** (`scripts/generar-oficina-viva.py`, que importa los ayudantes de Replicate de los retratos vivos):
+
+1. **La imagen concepto.** Entrada: la foto recortada a 16:9 sobre el edificio y un cartel de referencia dibujado con
+   el anillo de `logos/ria-anillo-color.svg` y el wordmark. Una sola consigna con los cuatro cambios (piso, carteles,
+   vidrio con las salas y su gente, sólo la esquina), pidiendo conservar la ochava, las proporciones, los pilares y los
+   árboles; gente genérica, inventada, vista de lejos, **nunca el parecido de una persona real**. `google/nano-banana`
+   (US$ 0,039) cambió el encuadre y escribió la bajada del cartel ilegible; **`google/nano-banana-pro`** (US$ 0,15 a
+   1K/2K, 0,30 a 4K; salida 2752×1536) escribió el cartel bien y armó las cuatro salas legibles. No hizo falta ir por
+   pasos. Elegido `concepto-nbp-2` = **el de día**. De ahí, con «cambiá sólo la hora», la hora azul (cielo lavanda,
+   poco contraste con el edificio) y, sobre ésa, la **noche cerrada** (`noche-cerrada-nbp-1`) = **el de noche**: mismas
+   salas, misma gente en la misma pose, el anillo con su degradé, la bajada legible. 7 ediciones (2 nano-banana y 5 pro), US$ 0,83.
+2. **El video.** `kwaivgi/kling-v2.5-turbo-pro` con la imagen (16:9, 1920×1080) como **primer y último cuadro** (el
+   truco del loop de los retratos), cámara fija. La primera consigna (5 s, «movimientos chicos») dejó casi una foto: la
+   gente se movía lo que el ruido del códec. La que quedó (`CONSIGNA_VIDEO_ACTIVA`, 10 s) pide acciones que se lean
+   desde la vereda de enfrente y que vuelvan a su lugar: en el showroom un visitante camina hacia la pantalla, la señala
+   y vuelve; en reuniones el que presenta barre las barras con la mano y la mesa lo sigue con la cabeza; un programador
+   gira la silla hacia el de al lado y vuelve; el brazo robótico gira y vuelve; las hojas apenas. Negativo: movimiento
+   de cámara, edificio que se deforma, gente que se transforma, carteles que cambian. 4 clips, US$ 2,45. Revisados
+   cuadro a cuadro por sala (tiras a 1 fps al 100 %): edificio, carteles y letras quietos; nadie cambia de cara, cuerpo
+   ni ropa. El brazo, al girar sobre su base, se ve de canto unos segundos (fino y oscuro): es una pose, no se deforma.
+3. **El loop, en post.** Noche: `kling-noche-activo-2` → `kling-noche-activo-1` (los dos parten y terminan en la misma
+   imagen), juntas fundidas en 12 cuadros (0,5 s), nunca ping-pong: 19,17 s. Día: un clip, 9,58 s. Cada cuadro a
+   1440×810 y viñeteado hacia `#0b0a14` con una elipse «súper» (norma 2,6; plena hasta 0,70 del semieje, cielo en 1,04).
+   Cierre medido sobre el edificio: 0,54 en los PNG (paso medio 0,09, y el fundido arrastra un resto del gesto del que
+   presenta), 1,26 en el mp4 y 0,60 en el webm: lo que suma el mp4 es grano del I-frame contra el último P-frame, parejo
+   en toda la imagen y sin cambio de brillo (bajar el crf a 18 sólo lo lleva a 1,07 y duplica el peso). El póster es el
+   cuadro 0 del loop.
+
+**En la página.** HTML: dentro de `<figure id="oficina">`, `.ros-vid` › `.ros-vid-lienzo` (16:9) con la foto
+(`<img loading="lazy">`, con el `alt` que describe la escena), el `<video muted loop playsinline preload="none">`
+(`aria-hidden`: es la misma imagen animada) y los cuatro `<a class="ros-sala">` con su `--x`/`--y`; después, el `<svg>`
+del dibujo; el `figcaption` lleva los dos pies. CSS (bloque «ROSARIO», después de `.ros-pie`): `data-oficina` en la figura
+elige qué se ve; la máscara CSS termina de fundir la viñeta del asset (en el tema día cierra antes, sobre el papel); en
+celular (≤860 px) la caja pasa a 3:2 y el lienzo se agranda a 118,5 % del ancho, recortando los costados, que son viñeta,
+sin mover los rótulos de su sala; `scroll-margin-top` para que `#oficina` no quede bajo la nav. JS: un bloque nuevo al
+principio del script «ROSARIO · la oficina dibujada»: lee `?oficina=`, cambia las fuentes a `-dia` si hace falta, y con
+dos IntersectionObserver **empieza a bajar el clip a 400 px de la vista** y **lo corre con la figura a la vista y la
+pestaña visible** (lo pausa si no); el clip aparece sobre la foto recién cuando corre. Con **prefers-reduced-motion o
+Save-Data no se pide el clip**: queda la foto. El dibujo se arma sólo con `?oficina=dibujo` (antes de eso no hace nada).
+
+**Verificado (2026-11-02):** los cinco `<script>` pasan `node --check`. Capturas (`scripts/capturar-home.sh`, `PANTALLA=1
+ANCLA=oficina`) a 1440×900 y 390×844, de noche, de día (`?oficina=dia`), con el tema día, con reduced-motion y con el
+dibujo, en `_capturas/oficina-video/` (ignorado), sin `Uncaught`. En headless el clip corre (la captura con el tema día
+agarró un cuadro con el brazo girado).
+
+**Costo de Replicate:** US$ 3,28 de un tope de 8 (7 ediciones + 4 clips, 11 predicciones, ninguna fallida; el libro con los ids queda en
+`_capturas/oficina-video/costos.jsonl`).
+
+**Pendiente / para decidir (Matías):**
+
+- **¿Video o dibujo?** Por defecto queda el video; el dibujo sigue entero en `?oficina=dibujo`.
+- **¿Noche o día?** Por defecto, noche. Las dos imágenes concepto enteras están en `assets/oficina-rosario-concepto-{noche,dia}.jpg`.
+- **¿Los rótulos como enlaces?** Están; si distraen, se dejan como texto quitando los `href`.
+- **El segundo párrafo de la sección** habla todavía del dibujo («Esta es la oficina, sin la pared del frente… En la ochava,
+  una cámara mira la calle»): el video no tiene la cámara de la ochava. El texto nuevo lo aplica la madre (no es de esta
+  rama, que no toca `.ros-txt`).
+- Si se quiere que el tema día muestre el video de día solo (hoy el tema y la luz del video son independientes).
+- Lo que el concepto inventa y habría que confirmar: el piso de arriba con las paredes de vidrio, el showroom en la planta
+  baja hacia la ochava, el brazo robótico.
 
 ---
 

@@ -520,7 +520,7 @@
   .ros-txt .bdy { max-width: 540px; }
   .ros-txt .bdy + .bdy { margin-top: 0; }
   /* el dibujo va a lo ancho, más allá de la caja del texto: el barrio se pierde en el cielo a los costados */
-  .ros-fig { margin: 40px auto 0; max-width: 1480px; padding: 0 12px; }
+  .ros-fig { margin: 40px auto 0; max-width: 1480px; padding: 0 12px; scroll-margin-top: 72px; }
   .ros-svg { display: block; width: 100%; height: auto; overflow: visible;
     -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
             mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%); }
@@ -528,6 +528,35 @@
   .ros-svg .ros-luces { opacity: var(--ros-luces); transition: opacity var(--t-tema) ease; }
   .ros-svg text { font-family: 'DM Mono', monospace; font-weight: 400; text-transform: uppercase; paint-order: stroke; stroke: var(--ros-halo); stroke-linejoin: round; }
   .ros-pie { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); opacity: 0.6; text-align: center; margin-top: 14px; }
+  /* ── la oficina en video (2026-11-02): la foto real de la esquina llevada con IA (un piso más, paredes de vidrio, las
+     cuatro salas con gente) y animada en loop. Es lo que se ve por defecto; ?oficina=dibujo vuelve al corte dibujado y
+     ?oficina=dia muestra la versión de día. El script de abajo pone data-oficina en la figura. La foto (<img>, lazy) está
+     siempre debajo y el clip aparece encima recién cuando corre; con reduced-motion o Save-Data queda la foto. Los rótulos
+     son enlaces, ubicados en % sobre su sala en el lienzo (16:9): en celular el lienzo se agranda y recorta los costados,
+     que son viñeta, sin mover los rótulos de su sala. Encima del video los colores son los de noche siempre. */
+  .ros-fig:not([data-oficina="dibujo"]) .ros-svg, .ros-fig:not([data-oficina="dibujo"]) .ros-pie-dib,
+  .ros-fig[data-oficina="dibujo"] .ros-vid, .ros-fig[data-oficina="dibujo"] .ros-pie-vid { display: none; }
+  /* la viñeta hacia #0b0a14 ya viene en el asset; la máscara la termina de fundir con el fondo (en el tema día, el papel:
+     ahí cierra antes, donde el asset empieza a oscurecer). Radios en % del lienzo: en celular el lienzo es 118,5 % de la
+     caja, y el radio horizontal se achica para que la elipse se mida contra lo que se ve. */
+  .ros-vid { position: relative; max-width: 1280px; margin: 0 auto; aspect-ratio: 16 / 9; overflow: hidden;
+    --ros-mx: 54%; --ros-my: 56%; --ros-m0: 78%; --ros-m1: 100%; }
+  html[data-tema="dia"] .ros-vid { --ros-mx: 50%; --ros-my: 54%; --ros-m0: 58%; --ros-m1: 90%; }
+  .ros-vid-lienzo { position: absolute; inset: 0; }
+  .ros-vid-foto, .ros-vid-clip { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover;
+    -webkit-mask-image: radial-gradient(ellipse var(--ros-mx) var(--ros-my) at 50% 50%, #000 var(--ros-m0), transparent var(--ros-m1));
+            mask-image: radial-gradient(ellipse var(--ros-mx) var(--ros-my) at 50% 50%, #000 var(--ros-m0), transparent var(--ros-m1)); }
+  .ros-vid-clip { opacity: 0; transition: opacity 0.6s ease; }
+  .ros-vid-clip.corre { opacity: 1; }
+  .ros-sala { --sc: #f0ece0; position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); z-index: 2; display: inline-flex; align-items: center; gap: 7px;
+    font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 400; letter-spacing: 1.4px; text-transform: uppercase; white-space: nowrap;
+    color: #f0ece0; text-decoration: none; padding: 5px 10px 5px 8px; background: rgba(11,10,20,0.66); border: 1px solid color-mix(in srgb, var(--sc) 50%, transparent);
+    -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); transition: background-color 0.2s, border-color 0.2s; }
+  .ros-sala::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--sc); box-shadow: 0 0 6px var(--sc); flex: none; }
+  .ros-sala::after { content: '→'; opacity: 0; margin-left: -4px; transition: opacity 0.2s, margin 0.2s; }
+  .ros-sala:hover, .ros-sala:focus-visible { background: rgba(11,10,20,0.88); border-color: var(--sc); }
+  .ros-sala:hover::after, .ros-sala:focus-visible::after { opacity: 1; margin-left: 0; }
+  .ros-sala .corto { display: none; }
 
   /* CONTACT */
   .contact { text-align: center; padding: 0 48px 140px; position: relative; overflow: hidden; }
@@ -621,6 +650,12 @@
     .ros-txt{grid-template-columns:1fr;gap:16px;}
     .ros-fig{margin-top:28px;padding:0;}
     .ros-svg{-webkit-mask-image:none;mask-image:none;}
+    .ros-vid{aspect-ratio:3 / 2;--ros-mx:45.6%;}
+    html[data-tema="dia"] .ros-vid{--ros-mx:42.2%;}
+    .ros-vid-lienzo{left:-9.26%;right:-9.26%;}
+    .ros-sala{font-size:9px;letter-spacing:1px;gap:5px;padding:3px 6px 3px 5px;}
+    .ros-sala::before{width:5px;height:5px;}
+    .ros-sala .largo{display:none;} .ros-sala .corto{display:inline;}
     footer{flex-direction:column;gap:14px;text-align:center;padding:28px 24px;}
     .f-links{display:none;} .contact{padding:80px 24px 100px;}
   }
@@ -1273,8 +1308,20 @@
     </div>
   </div>
   <figure class="ros-fig rev d2" id="oficina">
+    <!-- la oficina en video (2026-11-02): la esquina real de Donado y Chassaing llevada con IA (CONTENIDO.md §0.8) -->
+    <div class="ros-vid"><div class="ros-vid-lienzo">
+      <img class="ros-vid-foto" src="/assets/oficina-rosario.jpg" width="1440" height="810" loading="lazy" decoding="async" alt="La oficina de RIA Labs en Rosario imaginada con IA a partir de la foto real de la esquina: un edificio blanco de dos pisos con ochava y paredes de vidrio, de noche, con las salas encendidas. Arriba, la sala de programadores frente a sus pantallas y la sala de reuniones, donde alguien presenta un gráfico; abajo, el laboratorio, con un brazo robótico amarillo, y el showroom, con cámaras sobre pedestales y gente mirando una pantalla grande.">
+      <video class="ros-vid-clip" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1">
+        <source src="/assets/oficina-rosario.webm" type="video/webm">
+        <source src="/assets/oficina-rosario.mp4" type="video/mp4">
+      </video>
+      <a class="ros-sala" href="/dataflow/" style="--x:21.5%;--y:35%;--sc:#2fd0c8"><span class="largo">Sala de programadores</span><span class="corto">Programadores</span></a>
+      <a class="ros-sala" href="#contacto" style="--x:74.7%;--y:33.3%;--sc:#f0ece0"><span class="largo">Sala de reuniones</span><span class="corto">Reuniones</span></a>
+      <a class="ros-sala" href="/laboratorio/" style="--x:22.9%;--y:65.4%;--sc:#EF9F27"><span class="largo">Laboratorio</span><span class="corto">Laboratorio</span></a>
+      <a class="ros-sala" href="#productos" style="--x:70.1%;--y:65.4%;--sc:#4a8fd4"><span class="largo">Showroom</span><span class="corto">Showroom</span></a>
+    </div></div>
     <svg id="ros-svg" class="ros-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dibujo animado de la oficina de RIA Labs en Rosario: un edificio de dos pisos en una esquina con ochava, sin la pared del frente. Arriba, la sala de programadores, con gente escribiendo frente a pantallas de código y alguien dibujando en una pizarra, y la sala de reuniones, donde alguien le presenta un gráfico a clientes sentados a la mesa. Abajo, el laboratorio, con un brazo robótico que se mueve y alguien probando una cámara, y el showroom, donde la gente mira una pantalla grande y alguien entra desde la vereda. En la ochava, una cámara mira la calle; por la vereda pasa gente y por la calle, un auto y una bici."></svg>
-    <figcaption class="ros-pie">corte de la oficina · una esquina de Rosario</figcaption>
+    <figcaption class="ros-pie"><span class="ros-pie-vid">nuestra esquina de Rosario, imaginada con IA desde su foto</span><span class="ros-pie-dib">corte de la oficina · una esquina de Rosario</span></figcaption>
   </figure>
 </section>
 
@@ -3408,10 +3455,43 @@
    colores (la transición del tema no se entera). Un rAF a ~30 cuadros por segundo, sólo con el dibujo a la vista y la
    pestaña visible; ?t=<ms> adelanta el reloj (la misma foto siempre); con prefers-reduced-motion, un cuadro quieto
    elegido (T_QUIETO).
+   Desde el 02/11 el dibujo es la variante: por defecto la figura muestra la oficina en video (abajo); el dibujo se arma
+   sólo con ?oficina=dibujo.
    ══════════════════════════════════════════ */
+/* ── la oficina en video (2026-11-02). Matías: «me gustaría que probemos algo con video realista hecho con IA, partiendo
+   desde la foto del edificio original… que se vea la gente adentro, como si las paredes exteriores fueran vidriadas».
+   ?oficina=dibujo → el corte dibujado · ?oficina=dia → el video de día · sin nada, el de noche. El clip (preload="none")
+   empieza a bajar a 400 px de la vista, corre con la figura a la vista y la pestaña visible, y se pausa si no; aparece
+   encima de la foto recién cuando corre. Con prefers-reduced-motion o Save-Data no se pide: queda la foto. ── */
+(function(){
+  var fig = document.getElementById('oficina');
+  if (!fig) return;
+  var m = /[?&]oficina=(dibujo|dia|noche)(&|$)/.exec(location.search), modo = m ? m[1] : 'noche';
+  fig.setAttribute('data-oficina', modo === 'dibujo' ? 'dibujo' : 'video');
+  if (modo === 'dibujo') return;
+  var v = fig.querySelector('.ros-vid-clip'), foto = fig.querySelector('.ros-vid-foto');
+  if (!v) return;
+  if (modo === 'dia') {
+    if (foto) { foto.src = '/assets/oficina-rosario-dia.jpg'; foto.alt = foto.alt.replace(', de noche, con las salas encendidas', ', de día'); }
+    Array.prototype.forEach.call(v.querySelectorAll('source'), function(s){ s.src = s.getAttribute('src').replace('oficina-rosario.', 'oficina-rosario-dia.'); });
+  }
+  var quieto = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) || !!(navigator.connection && navigator.connection.saveData);
+  if (quieto || !('IntersectionObserver' in window)) return;
+  var cerca = false, aLaVista = false;
+  function sincronizar(){
+    if (aLaVista && !document.hidden) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+    else if (!v.paused) v.pause();
+  }
+  v.addEventListener('playing', function(){ v.classList.add('corre'); });
+  new IntersectionObserver(function(es){
+    if (es[0].isIntersecting && !cerca) { cerca = true; v.preload = 'auto'; v.load(); }
+  }, { rootMargin: '400px 0px' }).observe(fig);
+  new IntersectionObserver(function(es){ aLaVista = es[0].isIntersecting; sincronizar(); }, { threshold: 0.15 }).observe(fig);
+  document.addEventListener('visibilitychange', sincronizar);
+})();
 (function(){
   var fig = document.getElementById('oficina'), svg = document.getElementById('ros-svg');
-  if (!fig || !svg) return;
+  if (!fig || !svg || fig.getAttribute('data-oficina') !== 'dibujo') return;
   var NS = 'http://www.w3.org/2000/svg', TAU = Math.PI * 2;
   var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var mq = window.matchMedia('(max-width: 860px)');
