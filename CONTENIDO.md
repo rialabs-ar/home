@@ -1920,6 +1920,43 @@ Fable:** el astro en celular sigue siendo chico para seis sabores con nombre (la
 en la tablet parada (820×1180) usa la composición de celular (retratos debajo de RIA / LABS), que entra pero queda
 despareja; el resto de las etiquetas mono decorativas siguen en 10 px.
 
+**Segunda vuelta (03/11, Fable, rama `fable-movil-0311`).** Lo que quedó «para Fable», decidido como diseño y no como parche
+(`BRIEF-FABLE.md` de la madre; el pedido sigue siendo el del 02/11):
+
+- **El astro en el celular es una CARTA.** En pantalla angosta (≤860 px, el mismo corte que pone las etiquetas a 13 px) los
+  satélites dejan de orbitar: cada uno se queda en su lugar —`data-carta="x y lado"` en el `<a class="sat">`, en unidades del
+  dibujo; lado = `start` · `end` · `middle` (debajo) · `above` (encima)— **respirando apenas** (una elipse de 7 × 4 con el
+  período, la fase y la inclinación de su órbita), siempre delante, a la luz y con el nombre entero a la vista; la umbra y la
+  estela se apagan (nada las cruza); lo que vive es la superficie del astro. Los seis de Smartcity van a radios distintos
+  (111–128), como lunas: Eco Aceite arriba, Bird Map (el destacado, con su anillo) y Country a la derecha, Ciudad y Entrypoint a
+  la izquierda, Centros comerciales —la más larga— centrada debajo. **Por qué:** con seis sabores en una viñeta de ~350 px
+  las etiquetas en órbita se pisaban a ratos aunque midieran 13 px, las de atrás (0,28) no se leían, y un blanco que se mueve
+  es difícil de tocar con el dedo. Se descartó esquivar colisiones en movimiento (las etiquetas saltarían de lado todo el
+  tiempo: a 13 px se pisan casi siempre) y sacar los nombres a una leyenda (se pierde el «cada nombre es una luna»). **Toque:**
+  además del círculo (43–50 px en el teléfono, 61–69 en la tablet), **la etiqueta misma es blanco** (un `rect` invisible de 40
+  unidades de alto, sólo en la carta): 27/27 toques reales al satélite correcto en 390×844, 375×667 y 820×1180 (centro, corrido
+  14 px y sobre el nombre). En la tablet parada la viñeta sube de 400 a 520 px. Sin `data-carta`, el lugar sale de un reparto en
+  círculo (radio 118). En escritorio (>860) nada corre: órbitas, oclusión y umbra siguen iguales; al girar la tablet la carta
+  entra y sale con el mismo `matchMedia` que remide las etiquetas.
+- **La tablet parada (600–860 px en vertical: iPad de 9,7" a 11").** El eclipse crece hasta **84vw** (disco de ~375 px a 820,
+  caja hasta 740) y **los dos retratos flanquean RIA / LABS** con las caras a la altura del nombre —la mecánica del 4: ancla de
+  alto cero en la fila del wordmark, foto colgada al 44 %—, el nombre de cada uno al pie de lo visible de su foto (0,47 fotos
+  bajo la línea de las caras, como en escritorio) y la expo debajo, a lo ancho; la foto mide 36vw (295 px a 820, 276 a 768),
+  RIA la fórmula de escritorio (86 px a 820), márgenes de 52, `--wm-sube` 5vh. Es el eco de la portada de escritorio —Matías,
+  la figura, Sebastián en una línea— con el wordmark en el lugar del eclipse, que acá no tiene costados libres. Se descartó
+  escalar la pila del celular (fotos debajo del nombre): entra, pero el afiche queda en tres pisos sueltos. La máscara de
+  escritorio se declara con especificidad baja para que la de día siga ganando. Verificado en 744×1133, 768×1024, 820×1180 y
+  834×1194, de noche y de día. El teléfono (<600) y el escritorio (>860) no cambian.
+- **Rótulos mono que se leen, a 11 px en ≤860** con el espaciado recortado para que midan lo mismo: `.lbl`, `.prod-n`, `.pd-k`,
+  `.prod-state`, `.ros-mapa-ir`. La línea de arriba y la de la feria quedan en 10 (a 11 no entran en una línea); MENÚ es del
+  bloque NAV; los rótulos del mapa son dibujo.
+
+**Cómo se verificó.** Banco común en 375×667, 390×844, 412×915, 820×1180 y 1440×900 contra lo publicado (antes) y la copia
+(después); `tap-sats.cjs` (toque real por `touchscreen.tap` sobre cada satélite, tres puntos); `firma.cjs` live vs copia:
+**0 diferencias** en las cajas HTML de las cuatro páginas a 1440×900 (home 230, dataflow 232, laboratorio 269, método 160) y 0
+en la home a 390×844; los `<script>` pasan `node --check`; el bloque NAV sigue idéntico en las cuatro (no se tocó).
+Capturas y tiras en el scratchpad de la madre (`moviles/fable/home-informe/`).
+
 ---
 
 ## 1. Identidad de marca
