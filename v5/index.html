@@ -808,6 +808,49 @@
     html[data-tema="dia"] .ros-vid { --ros-mx: 50%; }
     .ros-vid-lienzo { left: 0; right: 0; }
   }
+  /* ── MÓVILES, segunda vuelta (03/11, Fable) ───────────────────
+     La tablet parada (600–860 px de ancho en vertical: el iPad de 9,7" a 11", 744 a 834). La pila del celular entraba pero
+     quedaba despareja: eclipse de 420 px, RIA a 68 px y fotos de 180 en una pantalla de 820 × 1180, con medio cielo vacío
+     arriba. Acá el eclipse crece hasta 84vw (disco de ~375 px a 820) y los dos retratos FLANQUEAN RIA / LABS con las caras a
+     la altura del nombre —la mecánica del 4: un ancla de alto cero en la fila del wordmark y la foto colgada de ella al 44 %—,
+     el nombre de cada uno al pie de su foto y la expo debajo, a lo ancho. Es el eco de la portada de escritorio —Matías, la
+     figura, Sebastián en una línea— con el wordmark en el lugar del eclipse, que acá no tiene costados libres. La foto mide
+     36vw (295 px a 820, 276 a 768); el nombre va a 0,47 fotos de la línea de las caras, como en escritorio. El teléfono
+     (<600) y el escritorio (>860) no cambian. */
+  @media (min-width: 600px) and (max-width: 860px) and (orientation: portrait) {
+    html[data-hero="5"] .hero { --u: clamp(6px, 1.2vh, 12px); --ria: clamp(56px, min(10.5vw, 12svh), 128px); --wm-sube: clamp(24px, 5vh, 60px);
+      --h-abajo: calc(3 * var(--u)); padding-left: 52px; padding-right: 52px; }
+    html[data-hero="5"] .hero-escena { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto auto auto; row-gap: var(--u); }
+    html[data-hero="5"] #sistema-wrap { grid-area: 1 / 1 / 2 / -1; align-self: end; height: min(100%, 84vw, 740px); }
+    html[data-hero="5"] .wordmark { grid-area: 2 / 2; margin-top: calc(-1 * var(--wm-sube)); }
+    html[data-hero="5"] .hero-expo { grid-area: 4 / 1 / 5 / -1; margin-top: var(--u); font-size: 11px; letter-spacing: 1.6px; }
+    html[data-hero="5"] .stand { display: contents; }
+    html[data-hero="5"] .stand-ancla { --ret-h: clamp(200px, 36vw, 300px); grid-row: 2; grid-column: 1; height: 0; width: auto; align-self: center; justify-self: stretch; position: relative; top: auto; }
+    html[data-hero="5"] .stand-der .stand-ancla { grid-column: 3; }
+    html[data-hero="5"] .stand-media { left: 50%; top: 0; width: calc(var(--ret-h) * 0.8); height: var(--ret-h); transform: translate(-50%, -44%); }
+    /* la máscara de escritorio (la viñeta horneada de los clips), con la especificidad baja de la regla del celular que pisa:
+       la de día (html[data-tema="dia"] .stand-media) le sigue ganando */
+    .stand-media { -webkit-mask-image: radial-gradient(ellipse 52% 58% at 50% 44%, #000 30%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 82%, transparent 100%);
+                           mask-image: radial-gradient(ellipse 52% 58% at 50% 44%, #000 30%, rgba(0,0,0,0.75) 55%, rgba(0,0,0,0.25) 82%, transparent 100%); }
+    html[data-hero="5"] .stand-media video, html[data-hero="5"] .stand-media img { transform: none; }
+    /* el nombre, al pie de lo visible de la foto: 0,47 fotos bajo la línea de las caras (el centro de la fila del wordmark,
+       que mide ~1,29 RIA) menos el espacio entre filas */
+    html[data-hero="5"] .stand-rotulo { --ret-h: clamp(200px, 36vw, 300px); grid-row: 3; grid-column: 1; position: static; align-self: start; justify-self: center;
+      margin: calc(var(--ret-h) * 0.47 - var(--ria) * 0.645 - var(--u)) 0 0; font-size: 14px; line-height: 1.5; letter-spacing: 1px; }
+    html[data-hero="5"] .stand-der .stand-rotulo { grid-column: 3; }
+    /* y los astros: la viñeta de 400 px del celular queda chica en 820; hasta 520 */
+    .prod-vis, .prod.inv .prod-vis { max-width: 520px; }
+  }
+  /* los rótulos mono que se leen (no los decorativos) suben de 10 a 11 px en pantalla angosta, con el espaciado recortado
+     para que midan lo mismo de ancho: el rótulo de sección, el número de cada producto, el de la tarjeta de Bird Map, el
+     estado del producto y «abrir en el mapa». La línea de arriba y la de la feria quedan en 10: a 11 no entran en una línea. */
+  @media (max-width: 860px) {
+    .lbl { font-size: 11px; letter-spacing: 3.4px; }
+    .prod-n { font-size: 11px; letter-spacing: 2.4px; }
+    .pd-k { font-size: 11px; letter-spacing: 1.9px; }
+    .prod-state { font-size: 11px; letter-spacing: 1.4px; }
+    .ros-mapa-ir { font-size: 11px; letter-spacing: 1.4px; }
+  }
 </style>
 <script>if (/[?&]tema=dia(&|$)/.test(location.search)) document.documentElement.setAttribute('data-tema', 'dia');
 /* el hero en una pantalla tiene cinco encuadres (2026-10-14; el 4, 2026-10-31; el 5, 2026-11-01): ?hero=1 escalonado ·
@@ -1200,7 +1243,7 @@
           </g>
           <g class="pv-estela-f"></g>
           <g class="pv-front">
-            <a class="sat" href="https://smartcity.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Ciudad, la presentación de RIA Smartcity para municipios: abre smartcity.rialabs.ar" data-orb="96 64 -14 22000 1.0 1 7" transform="translate(176 256)">
+            <a class="sat" href="https://smartcity.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Ciudad, la presentación de RIA Smartcity para municipios: abre smartcity.rialabs.ar" data-orb="96 64 -14 22000 1.0 1 7" data-carta="148 138 end" transform="translate(176 256)">
               <circle class="sat-hit" r="18"/>
               <circle class="sat-halo" r="13"/>
               <circle class="sat-body" r="7" fill="url(#esp-sat)"/>
@@ -1208,35 +1251,35 @@
               <text class="sat-lab" y="3"><tspan class="sat-n">Ciudad</tspan><tspan class="sat-s" dy="11">municipios</tspan></text>
             </a>
             <!-- Bird Map, el destacado: el satélite más grande de Smartcity (el mismo radio que Drivecore) -->
-            <a class="sat sat-dest" href="https://birdmap.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Bird Map, el sensor de fauna urbana de RIA Smartcity: abre birdmap.rialabs.ar" data-orb="170 85 18 30000 5.5 1 8.5" transform="translate(386 274)">
+            <a class="sat sat-dest" href="https://birdmap.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Bird Map, el sensor de fauna urbana de RIA Smartcity: abre birdmap.rialabs.ar" data-orb="170 85 18 30000 5.5 1 8.5" data-carta="352 142 start" transform="translate(386 274)">
               <circle class="sat-hit" r="18"/>
               <circle class="sat-halo" r="13"/>
               <circle class="sat-body" r="8.5" fill="url(#esp-sat)"/>
               <circle class="sat-shd" r="8.5"/>
               <text class="sat-lab" y="3"><tspan class="sat-n">Bird Map</tspan><tspan class="sat-s" dy="11">fauna urbana</tspan></text>
             </a>
-            <a class="sat" href="https://shopping.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Centros comerciales, la presentación de RIA Smartcity para centros comerciales: abre shopping.rialabs.ar" data-orb="206 47 -35 38000 4.2 -1 6" transform="translate(69 308)">
+            <a class="sat" href="https://shopping.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Centros comerciales, la presentación de RIA Smartcity para centros comerciales: abre shopping.rialabs.ar" data-orb="206 47 -35 38000 4.2 -1 6" data-carta="258 322 middle" transform="translate(69 308)">
               <circle class="sat-hit" r="18"/>
               <circle class="sat-halo" r="13"/>
               <circle class="sat-body" r="6" fill="url(#esp-sat)"/>
               <circle class="sat-shd" r="6"/>
               <text class="sat-lab" y="3"><tspan class="sat-n">Centros comerciales</tspan><tspan class="sat-s" dy="11">la playa y los locales</tspan></text>
             </a>
-            <a class="sat" href="https://country.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Country, la presentación de RIA Smartcity para barrios: abre country.rialabs.ar" data-orb="174 93 31 24000 5.5 1 6.5" transform="translate(339 319)">
+            <a class="sat" href="https://country.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Country, la presentación de RIA Smartcity para barrios: abre country.rialabs.ar" data-orb="174 93 31 24000 5.5 1 6.5" data-carta="340 268 start" transform="translate(339 319)">
               <circle class="sat-hit" r="18"/>
               <circle class="sat-halo" r="13"/>
               <circle class="sat-body" r="6.5" fill="url(#esp-sat)"/>
               <circle class="sat-shd" r="6.5"/>
               <text class="sat-lab" y="3"><tspan class="sat-n">Country</tspan><tspan class="sat-s" dy="11">barrios</tspan></text>
             </a>
-            <a class="sat" href="https://ecoaceite.byt.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Eco Aceite, el caso de reciclaje de RIA Smartcity: abre ecoaceite.byt.ar" data-orb="159 85 -42 37000 0.8 -1 5.5" transform="translate(353 89)">
+            <a class="sat" href="https://ecoaceite.byt.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Eco Aceite, el caso de reciclaje de RIA Smartcity: abre ecoaceite.byt.ar" data-orb="159 85 -42 37000 0.8 -1 5.5" data-carta="214 76 above" transform="translate(353 89)">
               <circle class="sat-hit" r="18"/>
               <circle class="sat-halo" r="13"/>
               <circle class="sat-body" r="5.5" fill="url(#esp-sat)"/>
               <circle class="sat-shd" r="5.5"/>
               <text class="sat-lab" y="3"><tspan class="sat-n">Eco Aceite</tspan><tspan class="sat-s" dy="11">reciclaje</tspan></text>
             </a>
-            <g class="sat sat-mudo" aria-label="Entrypoint, la puerta de entrada a RIA Smartcity; todavía sin página pública" data-orb="163 35 14 18000 2.5 1 6.5" transform="translate(187 153)">
+            <g class="sat sat-mudo" aria-label="Entrypoint, la puerta de entrada a RIA Smartcity; todavía sin página pública" data-orb="163 35 14 18000 2.5 1 6.5" data-carta="132 256 end" transform="translate(187 153)">
               <circle class="sat-hit" r="18"/>
               <circle class="sat-halo" r="13"/>
               <circle class="sat-body" r="6.5" fill="url(#esp-sat)"/>
@@ -1342,14 +1385,14 @@
           </g>
           <g class="pv-estela-f"></g>
           <g class="pv-front">
-            <a class="sat" href="https://analitico.rialabs.ar/integradores/" target="_blank" rel="noopener" tabindex="0" aria-label="Integradores, el brazo de RIA Analítico para integradores: abre analitico.rialabs.ar/integradores" data-orb="186 50 -14 26000 0.9 -1 7.5" transform="translate(372 232)">
+            <a class="sat" href="https://analitico.rialabs.ar/integradores/" target="_blank" rel="noopener" tabindex="0" aria-label="Integradores, el brazo de RIA Analítico para integradores: abre analitico.rialabs.ar/integradores" data-orb="186 50 -14 26000 0.9 -1 7.5" data-carta="338 146 start" transform="translate(372 232)">
               <circle class="sat-hit" r="18"/>
               <circle class="sat-halo" r="13"/>
               <circle class="sat-body" r="7" fill="url(#ana-sat)"/>
               <circle class="sat-shd" r="7"/>
               <text class="sat-lab" y="3"><tspan class="sat-n">Integradores</tspan><tspan class="sat-s" dy="11">cualquier cámara</tspan></text>
             </a>
-            <a class="sat" href="https://analitico.rialabs.ar/monitoreo/" target="_blank" rel="noopener" tabindex="0" aria-label="Monitoreo, el brazo de RIA Analítico para centrales: abre analitico.rialabs.ar/monitoreo" data-orb="140 72 26 19000 3.9 1 6.5" transform="translate(150 150)">
+            <a class="sat" href="https://analitico.rialabs.ar/monitoreo/" target="_blank" rel="noopener" tabindex="0" aria-label="Monitoreo, el brazo de RIA Analítico para centrales: abre analitico.rialabs.ar/monitoreo" data-orb="140 72 26 19000 3.9 1 6.5" data-carta="144 254 end" transform="translate(150 150)">
               <circle class="sat-hit" r="18"/>
               <circle class="sat-halo" r="13"/>
               <circle class="sat-body" r="7" fill="url(#ana-sat)"/>
@@ -1414,7 +1457,7 @@
           </g>
           <g class="pv-estela-f"></g>
           <g class="pv-front">
-            <a class="sat" href="https://drivecore.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Drivecore, el sistema de la concesionaria de RIA Automotrices: abre drivecore.rialabs.ar" data-orb="186 54 -12 28000 0.7 -1 8.5" transform="translate(368 234)">
+            <a class="sat" href="https://drivecore.rialabs.ar/" target="_blank" rel="noopener" tabindex="0" aria-label="Drivecore, el sistema de la concesionaria de RIA Automotrices: abre drivecore.rialabs.ar" data-orb="186 54 -12 28000 0.7 -1 8.5" data-carta="340 148 start" transform="translate(368 234)">
               <circle class="sat-hit" r="18"/>
               <circle class="sat-halo" r="13"/>
               <circle class="sat-body" r="7" fill="url(#aut-sat)"/>
@@ -2986,6 +3029,14 @@
     // Móviles (02/11): con el dedo, el círculo que se toca de cada satélite crece (12 → 22 unidades más que el cuerpo: ~40 px
     // en un teléfono); con el mouse queda como estaba
     var TOQUE = !!(window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches), HIT = TOQUE ? 22 : 12;
+    // Móviles, segunda vuelta (03/11): en pantalla angosta (≤860 px, el mismo corte que pone las etiquetas a 13 px) el astro se
+    // lee como una CARTA. Con seis sabores en una viñeta de ~350 px las etiquetas en órbita se pisaban a ratos, las de atrás no
+    // se leían y el blanco de toque se movía bajo el dedo. En la carta cada satélite se queda en su lugar (data-carta="x y lado",
+    // en unidades del dibujo; lado = start · end · middle (debajo) · above (encima)) respirando apenas —una elipse de 7 × 4 con
+    // el período, la fase y la inclinación de su órbita—, con el nombre entero siempre a la vista y, además del círculo, la
+    // etiqueta misma como blanco de toque. Lo que vive es la superficie del astro. Sin data-carta, el lugar sale de un reparto
+    // en círculo. En escritorio (>860) nada de esto corre: las órbitas, la oclusión y la umbra siguen igual.
+    var mqCarta = window.matchMedia && window.matchMedia('(max-width: 860px)'), CARTA = !!(mqCarta && mqCarta.matches);
 
     /* ── OJO (Analítico) · párpados, humor, iris de fibras, pupila que respira, mirada que sigue algo ── */
     function armarOjo(svg){
@@ -3277,15 +3328,22 @@
       }
       var sats = [];
       Array.prototype.slice.call(svg.querySelectorAll('.sat')).forEach(function(a){
-        var p = a.getAttribute('data-orb').split(/\s+/).map(Number);
+        var p = a.getAttribute('data-orb').split(/\s+/).map(Number), c = (a.getAttribute('data-carta') || '').trim().split(/\s+/);
         var s = { a:a, rx:p[0], ry:p[1], tilt:p[2] * Math.PI / 180, period:p[3], a0:p[4], dir:p[5], r:p[6], front:null, hot:false, est:[],
                   body:a.querySelector('.sat-body'), shd:a.querySelector('.sat-shd'), halo:a.querySelector('.sat-halo'),
-                  hit:a.querySelector('.sat-hit'), lab:a.querySelector('.sat-lab') };
+                  hit:a.querySelector('.sat-hit'), lab:a.querySelector('.sat-lab'),
+                  carta: c.length >= 3 && !isNaN(+c[0]) ? { x: +c[0], y: +c[1], modo: c[2] } : null, labHit: null };
         for (var k = 0; k < 6; k++) { var seg = el('path', { class: 'estela', d: '', 'stroke-width': f2(1.5 - k * 0.2), opacity: 0 }); gEstB.appendChild(seg); s.est.push({ n: seg, front: false }); }
         function hot(){ s.hot = true; } function cold(){ s.hot = false; }
         a.addEventListener('mouseenter', hot); a.addEventListener('mouseleave', cold);
         a.addEventListener('focus', hot); a.addEventListener('blur', cold);
         sats.push(s);
+      });
+      // la carta de un satélite sin data-carta: un lugar en círculo (radio 118, desde arriba), rotulado hacia afuera
+      sats.forEach(function(s, i){
+        if (s.carta) return;
+        var ang = (-90 + i * 360 / sats.length) * Math.PI / 180, cx = Math.cos(ang), cy = Math.sin(ang);
+        s.carta = { x: CX + 118 * cx, y: CY + 118 * cy, modo: Math.abs(cx) < 0.35 ? (cy < 0 ? 'above' : 'middle') : (cx > 0 ? 'start' : 'end') };
       });
       var astro = svg.querySelector('.pv-astro'), tipo = astro && astro.getAttribute('data-astro'), sup = null;
       if (tipo === 'ojo') sup = armarOjo(svg); else if (tipo === 'red') sup = armarRed(svg); else if (tipo === 'maquina') sup = armarMaquina(svg);
@@ -3306,9 +3364,17 @@
     function pintar(sys, ms, quieto){
       sys.sats.forEach(function(s){
         var a  = s.a0 + s.dir * (ms / s.period) * TAU;
-        var o = orbita(s, a), x = o.x, y = o.y;
-        var depth = Math.max(-1, Math.min(1, o.dy / s.ry));
-        var front = o.dy >= 0;
+        var o, x, y, depth, front;
+        if (CARTA) {
+          // la carta: el satélite respira en su lugar (elipse de 7 × 4 girada como su órbita), siempre delante y a la luz
+          var bx = 7 * Math.cos(a), by = 4 * Math.sin(a);
+          x = s.carta.x + bx * Math.cos(s.tilt) - by * Math.sin(s.tilt); y = s.carta.y + bx * Math.sin(s.tilt) + by * Math.cos(s.tilt);
+          depth = 0.6; front = true;
+        } else {
+          o = orbita(s, a); x = o.x; y = o.y;
+          depth = Math.max(-1, Math.min(1, o.dy / s.ry));
+          front = o.dy >= 0;
+        }
         if (front !== s.front && document.activeElement !== s.a) { (front ? sys.front : sys.back).appendChild(s.a); s.front = front; }
         var k = 1 + 0.26 * depth, r = s.r * k;
         s.a.setAttribute('transform', 'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ')');
@@ -3319,12 +3385,15 @@
         var dxn = x - CX, dyn = y - CY;
         var along = -(dxn * SUN.x + dyn * SUN.y);
         var perp = Math.hypot(dxn + along * SUN.x, dyn + along * SUN.y);
-        var shade = along > 0 ? 0.8 * Math.max(0, 1 - perp / (R * 1.05)) * Math.min(1, along / (R * 0.5)) : 0;
+        var shade = along > 0 && !CARTA ? 0.8 * Math.max(0, 1 - perp / (R * 1.05)) * Math.min(1, along / (R * 0.5)) : 0;   // en la carta nada cruza la umbra
         s.shd.setAttribute('opacity', shade.toFixed(2));
-        // la estela: seis tramos cortos detrás del satélite, cada uno delante o detrás del astro según le toque
-        var paso = (s.hot ? 0.05 : 0.032), ini = a - s.dir * (r + 3) / s.rx, fuerza = (s.hot ? 0.75 : 0.32) * (0.45 + 0.55 * (depth + 1) / 2);
+        // la estela: seis tramos cortos detrás del satélite, cada uno delante o detrás del astro según le toque (en la carta no
+        // hay recorrido que dejar atrás: apagada)
+        var paso = (s.hot ? 0.05 : 0.032), ini = a - s.dir * (r + 3) / s.rx, fuerza = CARTA ? 0 : (s.hot ? 0.75 : 0.32) * (0.45 + 0.55 * (depth + 1) / 2);
         for (var q = 0; q < s.est.length; q++) {
-          var e = s.est[q], p0 = orbita(s, ini - s.dir * q * paso), p1 = orbita(s, ini - s.dir * (q + 1) * paso);
+          var e = s.est[q];
+          if (CARTA) { setOp(e.n, 0); continue; }
+          var p0 = orbita(s, ini - s.dir * q * paso), p1 = orbita(s, ini - s.dir * (q + 1) * paso);
           e.n.setAttribute('d', 'M ' + p0.x.toFixed(1) + ' ' + p0.y.toFixed(1) + ' L ' + p1.x.toFixed(1) + ' ' + p1.y.toFixed(1));
           setOp(e.n, fuerza * Math.pow(1 - q / s.est.length, 2));
           var ef = (p0.dy + p1.dy) >= 0;
@@ -3343,12 +3412,27 @@
         // etiqueta del cuadro sin cortarse —en desktop sobra y queda el margen de 20 de siempre— y la centrada debajo se
         // corre lo justo para no salirse)
         var lim = sys.lim == null ? (sys.lim = margenEtiquetas(sys)) : sys.lim, sale = Math.min(20, lim);
-        var mode = (x > 404 || x < 76) ? 'middle' : (x >= CX ? 'start' : 'end');
-        if ((mode === 'start' && x + r + 9 + s.w > 480 + sale) || (mode === 'end' && x - r - 9 - s.w < -sale)) mode = 'middle';
-        var lx2 = mode === 'start' ? (r + 9) : mode === 'end' ? -(r + 9) : 0;
-        if (mode === 'middle') lx2 = clamp(0, s.w / 2 - lim - x, 480 + lim - s.w / 2 - x);
-        s.lab.setAttribute('text-anchor', mode);
-        s.lab.setAttribute('x', lx2); s.lab.setAttribute('y', mode === 'middle' ? (r + 15) : 3);
+        var mode, lx2, ly2;
+        if (CARTA) {
+          // la carta: el lado lo dice data-carta; encima o debajo, centrada y sin salirse del cuadro
+          mode = s.carta.modo;
+          lx2 = mode === 'start' ? (r + 9) : mode === 'end' ? -(r + 9) : clamp(0, s.w / 2 - lim - x, 480 + lim - s.w / 2 - x);
+          ly2 = mode === 'middle' ? (r + 15) : mode === 'above' ? -(r + 9) : 3;
+          s.lab.setAttribute('text-anchor', mode === 'above' ? 'middle' : mode);
+          // el nombre también se toca: un rectángulo invisible del tamaño de la etiqueta con aire (40 unidades de alto)
+          if (!s.labHit) { s.labHit = el('rect', { class: 'sat-hit', rx: 4 }); s.a.insertBefore(s.labHit, s.a.firstChild); }
+          var hh = 40, hx = mode === 'start' ? lx2 - 6 : mode === 'end' ? lx2 - s.w - 6 : lx2 - s.w / 2 - 6, hy = mode === 'middle' ? r + 2 : mode === 'above' ? -(r + 2) - hh : -hh / 2;
+          s.labHit.setAttribute('x', f1(hx)); s.labHit.setAttribute('y', f1(hy)); s.labHit.setAttribute('width', f1(s.w + 12)); s.labHit.setAttribute('height', hh);
+        } else {
+          mode = (x > 404 || x < 76) ? 'middle' : (x >= CX ? 'start' : 'end');
+          if ((mode === 'start' && x + r + 9 + s.w > 480 + sale) || (mode === 'end' && x - r - 9 - s.w < -sale)) mode = 'middle';
+          lx2 = mode === 'start' ? (r + 9) : mode === 'end' ? -(r + 9) : 0;
+          if (mode === 'middle') lx2 = clamp(0, s.w / 2 - lim - x, 480 + lim - s.w / 2 - x);
+          ly2 = mode === 'middle' ? (r + 15) : 3;
+          s.lab.setAttribute('text-anchor', mode);
+          if (s.labHit) s.labHit.setAttribute('width', 0);   // al volver a las órbitas (girar la tablet) el blanco de la etiqueta se apaga
+        }
+        s.lab.setAttribute('x', lx2); s.lab.setAttribute('y', ly2);
         var ts = s.lab.childNodes;
         for (var w = 0; w < ts.length; w++) if (ts[w].setAttribute) ts[w].setAttribute('x', lx2);
       });
@@ -3382,9 +3466,10 @@
       systems.forEach(function(sys){ sys.vis.__sys = sys; io.observe(sys.vis); });
       window.addEventListener('scroll', parallax, { passive: true }); parallax();
     }
-    // al girar el equipo o cambiar de corte, el ancho de las etiquetas se vuelve a medir (la letra cambia en ≤860)
-    var mqEt = window.matchMedia && window.matchMedia('(max-width: 860px)');
-    function remedir(){ systems.forEach(function(sys){ sys.lim = null; sys.sats.forEach(function(s){ s.w = null; }); if (RM) pintar(sys, T_INI || 5200, true); }); }
+    // al girar el equipo o cambiar de corte, el ancho de las etiquetas se vuelve a medir (la letra cambia en ≤860) y la carta
+    // entra o sale (es el mismo corte)
+    var mqEt = mqCarta;
+    function remedir(){ CARTA = !!(mqCarta && mqCarta.matches); systems.forEach(function(sys){ sys.lim = null; sys.sats.forEach(function(s){ s.w = null; }); if (RM) pintar(sys, T_INI || 5200, true); }); }
     if (mqEt) mqEt.addEventListener ? mqEt.addEventListener('change', remedir) : mqEt.addListener(remedir);
     window.addEventListener('resize', function(){ systems.forEach(function(sys){ sys.lim = null; }); if (RM) remedir(); }, { passive: true });
   })();
