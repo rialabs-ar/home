@@ -163,3 +163,9 @@ Tenemos que asegurarnos que tanto esta pagina home de RIA Labs como todas las su
 **2026-11-03 00:54** · sesión `475d2bf1` · desde `~/dev/RIALabs/Proyectos/RIA`
 
 Si publica y decime con que seguimos
+
+---
+
+**2026-11-05 19:37** · sesión `77bc475a` · desde `~/dev/RIALabs/Proyectos/ria-smartcity-machine` (cargado a mano, el hook lo guardó en el registro de la Machine)
+
+Agrega la pagina https://expo.rialabs.ar/ a la home de rialabs.ar, en la primera pantalla donde esta el logo y los videos de los owners

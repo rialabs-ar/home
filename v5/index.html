@@ -336,6 +336,12 @@
   html[data-hero="5"] .ria { font-size: var(--ria); }
   html[data-hero="5"] .labs { font-size: calc(var(--ria) * 0.18); margin-top: calc(var(--ria) * 0.07); }
   html[data-hero="5"] .hero-expo { grid-area: 3 / 1; margin-top: var(--u); color: var(--gold-hi); animation-delay: 1.1s; }
+  /* el enlace a expo.rialabs.ar al final de la línea de la feria (5/11): el dominio en minúsculas, como se escribe, y
+     por encima de los retratos (que no toman clics) para que el toque llegue */
+  .hero-expo { position: relative; z-index: 4; }
+  .hero-expo-link { color: inherit; text-transform: none; letter-spacing: 1px; text-decoration: underline; text-decoration-color: rgba(239,159,39,0.45);
+    text-underline-offset: 3px; transition: text-decoration-color 0.2s, color 0.2s; white-space: nowrap; }
+  .hero-expo-link:hover, .hero-expo-link:focus-visible { text-decoration-color: currentColor; color: var(--gold-hi); }
   @media (min-width: 861px) {
     html[data-hero="5"] .wordmark { margin-top: calc(-1 * var(--wm-sube)); }
     html[data-hero="5"] .stand { display: block; grid-area: 1 / 1; justify-self: stretch; align-self: stretch; position: relative; z-index: 2; margin: 0; pointer-events: none;
@@ -1159,11 +1165,14 @@
   /* estampa el stand sólo en los encuadres 4 y 5, durante el parseo (antes del primer cuadro). Con reduced-motion o
      Save-Data cada <video> se cambia por su póster (el <img> de adentro, con su alt). EXPO: la línea de la feria,
      que cierra la escena mientras dure (vaciar el texto para apagarla): en el 4 debajo de la frase, en el 5 debajo de
-     RIA / LABS. */
+     RIA / LABS. EXPO_URL (Matías, 5/11: «Agrega la pagina https://expo.rialabs.ar/ a la home de rialabs.ar, en la
+     primera pantalla donde esta el logo y los videos de los owners»): la línea termina con el enlace a la página de
+     la expo, en pestaña nueva como las presentaciones de los productos (vaciarlo para sacarlo). */
   (function(){
     var hh = document.documentElement.getAttribute('data-hero');
     if (hh !== '4' && hh !== '5') return;
     var EXPO = 'Smart City Expo · Barcelona · 3–5 de noviembre';
+    var EXPO_URL = 'https://expo.rialabs.ar/';
     var tpl = document.getElementById('stand-tpl'), esc = tpl && tpl.parentNode;
     if (!tpl || !esc || !('content' in tpl)) return;
     var quieto = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) || !!(navigator.connection && navigator.connection.saveData);
@@ -1173,7 +1182,16 @@
     if (quieto) Array.prototype.forEach.call(frag.querySelectorAll('video'), function(v){
       var img = v.querySelector('img'); if (img) { img.setAttribute('decoding', 'async'); v.parentNode.replaceChild(img, v); }
     });
-    if (EXPO) { var p = document.createElement('p'); p.className = 'hero-eyebrow hero-expo'; p.textContent = EXPO; frag.insertBefore(p, frag.firstChild); }
+    if (EXPO) {
+      var p = document.createElement('p'); p.className = 'hero-eyebrow hero-expo'; p.textContent = EXPO;
+      if (EXPO_URL) {
+        var a = document.createElement('a'); a.className = 'hero-expo-link'; a.href = EXPO_URL; a.target = '_blank'; a.rel = 'noopener';
+        a.setAttribute('aria-label', 'La página de RIA Labs en la Smart City Expo: expo.rialabs.ar (se abre en una pestaña nueva)');
+        a.textContent = EXPO_URL.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗';
+        p.appendChild(document.createTextNode(' · ')); p.appendChild(a);
+      }
+      frag.insertBefore(p, frag.firstChild);
+    }
     esc.appendChild(frag);
   })();
   </script>

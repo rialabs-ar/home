@@ -337,6 +337,11 @@
     escena debajo de la frase**, centrada y a lo ancho (`.hero-expo`, fila 4 de la grilla). Se eligió abajo y no bajo
     el rótulo de arriba porque es lo que liga a los dos retratos —las dos personas, esta feria— y porque el rótulo de
     arriba sigue diciendo de dónde somos. Vaciar la constante la apaga.
+  - **El enlace a la expo (2026-11-05):** Matías: *«Agrega la pagina https://expo.rialabs.ar/ a la home de rialabs.ar, en
+    la primera pantalla donde esta el logo y los videos de los owners»*. La línea de la feria termina en
+    `· expo.rialabs.ar ↗` (constante `EXPO_URL` del mismo script; vaciarla lo saca): un enlace `.hero-expo-link` con el
+    dominio en minúsculas, subrayado tenue en dorado, en pestaña nueva como las presentaciones de los productos. La
+    línea sube sobre los retratos (`z-index: 4`) para que el toque llegue.
   - **La escena pasa a tres columnas** (franja · centro · franja), sólo en el 4: el eclipse y la máquina cruzan las
     tres; el wordmark (fila 2) y la frase (fila 3) van en la del centro; **cada retrato es un ancla de alto cero en la
     fila del wordmark** (`.stand-ancla`, `align-self: center`: no mide, no empuja ni la máquina ni el logo; sube la
